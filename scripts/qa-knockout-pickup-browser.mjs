@@ -21,6 +21,15 @@ try{
     assert.equal(await page.locator('.order-routing-note a[href*="doordash.com"]').count(),1,'DoorDash remains an independent delivery option');
     assert.equal(await page.locator('#km-pickup-action').count(),1,'Pickup CTA missing');
     assert.equal(await page.locator('.km-order-choice-delivery').count(),1,'Separate DoorDash CTA missing');
+    assert.equal(await page.locator('.km-choice-doordash-symbol svg').count(),1,'DoorDash brand mark should replace external arrow');
+    assert.equal(await page.locator('.km-choice-pickup-symbol svg').count(),1,'Pickup action should have its own icon');
+    assert.equal((await page.locator('.km-order-choice-delivery').innerText()).trim(),'ORDER ON DOORDASH');
+    const nestedSearchBorders=await page.locator('.menu-search-field input').evaluate(input=>({
+      outer:getComputedStyle(input.parentElement).borderTopWidth,
+      inner:getComputedStyle(input).borderTopWidth
+    }));
+    assert(nestedSearchBorders.outer!=='0px'&&nestedSearchBorders.inner==='0px','Search must render a single exterior border');
+
     assert.equal(await page.locator('#km-pickup-action').innerText(),'PICKUP AT THE TRUCK');
     assert((await page.locator('.km-order-choice-delivery').getAttribute('href')||'').includes('doordash.com'));
     await page.locator('#km-pickup-action').click();
