@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {refreshMenu} from './refresh-knockout-menu.mjs';
+import {upgradeKnockoutPickup} from './upgrade-knockout-pickup.mjs';
 
 // Works on the unpacked and approved Knockout Deli demo only. The original
 // interactive digital menu and its scripts remain intact on /menu.html.
@@ -54,4 +55,5 @@ for (const name of ['knockout-truck-event.webp','knockout-community.webp','knock
   fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
 }
 refreshMenu(destination,source);
+upgradeKnockoutPickup(destination);
 console.log('Knockout Deli: independent public landing and retained interactive digital menu');
