@@ -12,6 +12,8 @@ const browser=await chromium.launch({headless:true,args:['--allow-file-access-fr
 try{
   for(const width of [390,768,1024,1440]){
     const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1});
+    page.on('pageerror',error=>console.error('BROWSER JS ERROR',width,error.message));
+    page.on('console',msg=>{if(msg.type()==='error')console.error('BROWSER CONSOLE',width,msg.text());});
     await page.goto(url,{waitUntil:'domcontentloaded'});
     await page.locator('[data-menu-id="body"] .card-detail').first().waitFor();
     const choices=page.locator('.pickup-option-switch .pickup-mode');
@@ -35,6 +37,8 @@ try{
       await page.locator('#product-dialog input[value="no-pickles"]').check();
       await page.locator('#product-dialog input[name="km-side"][value="chips"]').check();
       await page.locator('#product-dialog .modal-add').click();
+      const debug=await page.evaluate(()=>({count:document.querySelector('#window-sticky-count')?.textContent,bag:document.querySelector('#window-cart-items')?.innerHTML,modalOpen:document.querySelector('#product-dialog')?.open,button:document.querySelector('#product-dialog .modal-add')?.outerHTML}));
+      console.log('KNOCKOUT POST-ADD',JSON.stringify(debug).slice(0,1200));
       assert.equal((await page.locator('#window-sticky-count').innerText()).trim(),'1','Cart should receive one customized item');
       await page.locator('#window-sticky-button').click();
       const bag=await page.locator('#window-cart-items').innerText();
