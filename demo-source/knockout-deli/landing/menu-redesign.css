@@ -929,3 +929,83 @@ body:has(.km-banner) #window-cart-dialog #pickup-edit:active{
     transition:none!important;
   }
 }
+
+
+/* KNOCKOUT MENU TACTILE CORNERS & TABLET ALIGNMENT — 2026-11-13
+   Menu route only. Rectangular controls get clearly rounded corners;
+   the photo-to-menu and menu-to-pickup sections layer like editorial sheets. */
+body:has(.km-banner) .menu-section{
+  border-radius:32px 32px 0 0!important;
+}
+body:has(.km-banner) .order-routing-note.km-order-choices{
+  width:min(100%,840px)!important;
+  margin:0 auto 18px!important;
+}
+body:has(.km-banner) .order-routing-note.km-order-choices .km-order-choice,
+body:has(.km-banner) .order-routing-note.km-order-choices a.km-order-choice{
+  border-radius:24px!important;
+}
+body:has(.km-banner) .menu-grid .menu-card{
+  border-radius:25px!important;
+  overflow:hidden!important;
+}
+body:has(.km-banner) .menu-tools .menu-search-field,
+body:has(.km-banner) .menu-order-hint,
+body:has(.km-banner) #product-dialog .modal-add,
+body:has(.km-banner) #window-cart-dialog :is(.checkout-form-actions .button,#window-review-button,#pickup-edit,#pickup-done){
+  border-radius:18px!important;
+}
+body:has(.km-banner) .site-header .km-header-back,
+body:has(.km-banner) .site-header .km-header-cart,
+body:has(.km-banner) .site-header button{
+  border-radius:17px!important;
+}
+body:has(.km-banner) .menu-filters .filter{
+  border-radius:999px!important;
+}
+@media(min-width:601px) and (max-width:1050px){
+  body:has(.km-banner) .order-routing-note.km-order-choices{
+    width:min(100%,840px)!important;
+    margin:0 auto 20px!important;
+    justify-content:center!important;
+  }
+  body:has(.km-banner) .menu-filters{
+    justify-content:safe center!important;
+    padding-inline:12px!important;
+    overflow-x:auto!important;
+    scroll-padding-inline:12px!important;
+  }
+  body:has(.km-banner) .menu-section{
+    margin-top:-30px!important;
+    border-radius:36px 36px 0 0!important;
+  }
+}
+@media(max-width:1050px){
+  body:has(.km-banner) .window-order-section{
+    position:relative!important;
+    z-index:15!important;
+    margin-top:-30px!important;
+    border-radius:36px 36px 0 0!important;
+    background:#191717!important;
+    overflow:hidden!important;
+    box-shadow:0 -10px 26px rgba(0,0,0,.12)!important;
+  }
+}
+@media(max-width:600px){
+  body:has(.km-banner) .menu-section{
+    border-radius:28px 28px 0 0!important;
+  }
+  body:has(.km-banner) .order-routing-note.km-order-choices{
+    width:100%!important;
+    margin:0 0 9px!important;
+  }
+  body:has(.km-banner) .order-routing-note.km-order-choices .km-order-choice,
+  body:has(.km-banner) .order-routing-note.km-order-choices a.km-order-choice{
+    border-radius:18px!important;
+  }
+  body:has(.km-banner) .menu-grid .menu-card{border-radius:20px!important}
+  body:has(.km-banner) .window-order-section{
+    margin-top:-22px!important;
+    border-radius:29px 29px 0 0!important;
+  }
+}
