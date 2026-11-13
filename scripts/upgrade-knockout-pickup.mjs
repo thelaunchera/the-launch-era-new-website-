@@ -24,7 +24,7 @@ function customizationMarkup(item, lang){
 function patchKnockoutPickup(app,windowOrder){
   const once=(input,needle,replacement,label)=>{
     if(!input.includes(needle)||input.indexOf(needle)!==input.lastIndexOf(needle))throw Error(`Knockout ${label} patch anchor missing or duplicated`);
-    return input.replace(needle,replacement);
+    return input.replace(needle,()=>replacement);
   };
   const func=customizationMarkup.toString();
   app=once(app,'  function showProduct(id){',`  ${func}\n  function showProduct(id){`,'product customization function');
