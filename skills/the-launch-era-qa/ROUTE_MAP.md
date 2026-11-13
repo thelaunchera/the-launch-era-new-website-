@@ -1,3 +1,10 @@
+## 2026-11-13 — Knockout Deli brand-word hero motion and rounded primary button press
+- Scope: existing standalone homepage `/demos/knockout-deli/` only, source `demo-source/knockout-deli/landing/landing.css`. No destination, label, form, booking or digital menu action changes.
+- `#hero-title > em` is precisely `KNOCKOUT DELI.` in both EN and ES: only this red phrase gets 4.8s gentle up-then-down motion (`top:-8px`); other hero lines stay still and the inline text may wrap on small screens.
+- Homepage CTA and header menu links (`.btn,.nav-menu-btn`) use 17px rounded corners and immediate `:active` scale 0.94, releasing to 1 in 330ms with a monotonic ease-out curve (no overshoot); all original hrefs, dialog buttons and press targets preserved.
+- Reduced-motion user preference disables brand animation and transitions. Browser checks added for 390/768/1024/1440 widths plus static safeguards.
+- Verify completed deployment and rendered iPhone/tablet/desktop behavior before claiming live visual success.
+
 ## 2026-11-13 — Knockout Deli event truck photo changeability note
 - Original homepage `/demos/knockout-deli/index.html` section "01 / THE TRUCK": user asked to indicate that the photo may be changed for each event. Keep the actual self-hosted truck photograph and all existing layout.
 - Add bilingual visible inset caption on the image: `EVENT PHOTO · UPDATED FOR EACH EVENT` and `FOTO DEL EVENTO · SE CAMBIA PARA CADA EVENTO`, alongside the original image label; responsive high-contrast white overlay and red rule.
