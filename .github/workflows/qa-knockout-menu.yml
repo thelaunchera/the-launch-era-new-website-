@@ -9,6 +9,7 @@ on:
       - 'scripts/upgrade-knockout-pickup.mjs'
       - 'scripts/qa-knockout-deli-preview.mjs'
       - 'scripts/qa-knockout-menu-redesign.mjs'
+      - 'scripts/qa-knockout-pickup-browser.mjs'
       - '.github/workflows/qa-knockout-menu.yml'
   workflow_dispatch:
 
@@ -39,3 +40,23 @@ jobs:
           grep -q 'pickup-option-switch' /tmp/knockout-demo-qa/menu-redesign.css
           grep -q 'km-customizer' /tmp/knockout-demo-qa/app.js
           grep -q 'km-preview-options' /tmp/knockout-demo-qa/window-order.js
+      - name: Install isolated Chromium for pickup visual QA
+        shell: bash
+        run: |
+          mkdir -p /tmp/tle-knockout-playwright
+          cd /tmp/tle-knockout-playwright
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund playwright@1.57.0
+          npx playwright install --with-deps chromium
+          mkdir -p "$GITHUB_WORKSPACE/node_modules"
+          ln -sfn /tmp/tle-knockout-playwright/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-knockout-playwright/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Browser-check product customization and bag in 4 viewport sizes
+        run: node scripts/qa-knockout-pickup-browser.mjs /tmp/knockout-demo-qa
+      - name: Save device QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: knockout-pickup-responsive-qa
+          path: qa-screenshots/knockout-*.png
+          if-no-files-found: warn
