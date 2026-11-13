@@ -3,8 +3,10 @@ import path from 'node:path';
 
 function customizationMarkup(item, lang){
   const eligible=new Set(['ribeye','body','egg-mcdeli','jab','knockout','tko','upper-cut','head-butt','combination','champ','ali-shuffle','heavy-weight','pound','underdog','chopped-cheese']);
-  if(!eligible.has(item.id)||item.price==null||!item.available)return '';
+  if(item.price==null||!item.available)return '';
   const es=lang==='es';
+  // Drinks and ready-made sides still get a clear second step, without inventing toppings.
+  if(!eligible.has(item.id))return `<section class="km-customizer" aria-label="${es?'Personalizar':'Customize'}"><p class="km-no-modifiers">${es?'Este producto no tiene toppings ni acompañamientos para elegir. Puedes continuar al carrito.':'This item has no available toppings or sides. Continue to the bag.'}</p></section>`;
   const choices=[
     ['no-onions',es?'Sin cebolla':'No onions'],
     ['no-pickles',es?'Sin pepinillos':'No pickles'],
@@ -27,6 +29,20 @@ function patchKnockoutPickup(app,windowOrder){
     return input.replace(needle,()=>replacement);
   };
   const func=customizationMarkup.toString();
+  // Step 1 -> 2: the menu + becomes a customization action, never a cart write.
+  app=once(app,'class="card-add" data-add-item=', 'class="card-add" data-configure-item=', 'menu plus must not add to cart');
+  app=once(app,'aria-label="Add ${esc(item.name)} to window list"', 'aria-label="${lang===\'es\'?\'Personalizar\':\'Customize\'} ${esc(item.name)}"', 'accessible customizable item label');
+  app=once(app,'+ <span class="add-label">ADD TO LIST</span>', '+ <span class="add-label">${lang===\'es\'?\'PERSONALIZAR\':\'CUSTOMIZE\'}</span>', 'menu plus call-to-action');
+  app=once(app,'<button type="button" class="card-detail" data-detail-item="${esc(item.id)}">${phrase(\'more\')}</button>', '', 'remove redundant View Details action');
+  app=once(app,"if(e.target.closest('[data-add-item]'))return;const card=e.target.closest('[data-menu-id]');",
+    "const customize=e.target.closest('[data-configure-item]');if(customize){showProduct(customize.dataset.configureItem);return;}if(e.target.closest('[data-add-item]'))return;const card=e.target.closest('[data-menu-id]');",
+    'menu plus must open customization');
+  app=once(app,'<div class="dialog-text"><span class="section-kicker">',
+    '<div class="dialog-text"><div class="km-order-progress" aria-label="${lang===\'es\'?\'Paso 2 de 3\':\'Step 2 of 3\'}"><span>${lang===\'es\'?\'01 · MENÚ\':\'01 · MENU\'}</span><strong>02 · TOPPINGS</strong><span>${lang===\'es\'?\'03 · CARRITO\':\'03 · BAG\'}</span></div><span class="section-kicker">',
+    'step 2 progress header');
+  app=once(app,'+ ADD TO PICKUP LIST','${lang===\'es\'?\'AÑADIR Y VER CARRITO\':\'ADD & VIEW BAG\'}','confirm customization button');
+  app=once(app,'<a class="modal-doordash-link" target="_blank" rel="noopener noreferrer" href="${DOORDASH_URL}">${phrase(\'orderButton\')}</a>','','modal should focus on pickup customization');
+
   app=once(app,'  function showProduct(id){',`  ${func}\n  function showProduct(id){`,'product customization function');
   app=once(app,'if(!item)return;const photo=',"if(!item)return;const optionMarkup=customizationMarkup(item,lang);const photo=",'product options call');
   app=once(app,'<p>${esc(item.description)}</p>${item.price!==null', '<p>${esc(item.description)}</p>${optionMarkup}${item.price!==null','product modal insertion');
@@ -46,6 +62,18 @@ function patchKnockoutPickup(app,windowOrder){
   const previewAnchor='clean(x.name)}</b></span>';
   const previewSegment='${x.options?.length ? `<small class="km-preview-options">${clean(x.options.join(" · "))}</small>` : ""}';
   windowOrder=once(windowOrder,previewAnchor,`clean(x.name)}</b>${previewSegment}</span>`,'preview options summary');
+  // Step 2 -> 3: only the modal's confirmed option selection adds a cart item.
+  // Preserve the existing 1.2-second fly-to-bag animation before opening the bag.
+  windowOrder=once(windowOrder,
+    "    if($('#product-dialog')?.open)$('#product-dialog').close();\n    if(dialog.open){renderBag();setStage('bag');}",
+    "    if($('#product-dialog')?.open){\n      $('#product-dialog').close();\n      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)openBag();\n      else window.setTimeout(()=>{if(!$('#product-dialog')?.open)openBag();},1250);\n    }else if(dialog.open){renderBag();setStage('bag');}",
+    'cart only after confirmed customization');
+  let step3LabelCount=0;
+  windowOrder=windowOrder.replace(/checkoutKicker:'[^']*'/g,()=>{
+    const title=step3LabelCount++===0?'03 / YOUR BAG':'03 / TU CARRITO';
+    return "checkoutKicker:'"+title+"'";
+  });
+  if(step3LabelCount!==2)throw Error('Missing bilingual bag step 3 labels');
   // Single pickup flow: no alternative 'I'm at the window' path.
   windowOrder=once(windowOrder,"mode=value==='at-truck'?'at-truck':'ahead';","mode='ahead';",'single pickup mode');
   windowOrder=once(windowOrder,"if(qrMode){setMode('at-truck');","if(qrMode){setMode('ahead');",'legacy deep link pickup mode');

@@ -347,3 +347,39 @@ body:has(.km-banner) #menu-grid{scroll-margin-top:115px}
     min-height:48px!important;padding:9px 8px!important;font-size:10px!important;
   }
 }
+
+/* KNOCKOUT CUSTOMIZATION STEPS: Step 1 menu -> Step 2 toppings -> Step 3 bag. */
+#product-dialog .km-order-progress{
+  display:flex;align-items:center;flex-wrap:wrap;gap:8px;
+  margin:0 0 17px;padding:8px 0 12px;
+  border-bottom:1px solid #e4d8d0;
+  font:750 10px/1.35 'DM Sans',Arial,sans-serif;
+  letter-spacing:.035em;color:#8a7a71
+}
+#product-dialog .km-order-progress span{white-space:nowrap}
+#product-dialog .km-order-progress strong{
+  color:#be232e;background:#fff0ef;border:1px solid #f0d2cd;
+  padding:6px 8px;border-radius:20px;white-space:nowrap;font-weight:900
+}
+#product-dialog .km-no-modifiers{
+  padding:17px!important;border:1px solid #e7d7ce;
+  background:#fff9f2;border-radius:10px;color:#5c534b;
+  font:500 13px/1.6 'DM Sans',Arial,sans-serif!important
+}
+#product-dialog .modal-add{
+  min-height:52px!important;display:inline-flex;align-items:center;
+  justify-content:center;box-shadow:0 6px 18px #ba25301a
+}
+#window-cart-dialog .window-cart-kicker{
+  color:#d44b53!important;letter-spacing:.075em!important
+}
+@media(max-width:820px){
+  #product-dialog .km-order-progress{margin-bottom:12px;gap:6px;font-size:9px}
+  #product-dialog .dialog-photo,#product-dialog .dialog-fallback{
+    height:clamp(145px,21vh,200px)!important;max-height:200px!important
+  }
+}
+@media(max-width:380px){
+  #product-dialog .km-order-progress{gap:4px;font-size:8px}
+  #product-dialog .km-order-progress strong{padding:5px 6px}
+}

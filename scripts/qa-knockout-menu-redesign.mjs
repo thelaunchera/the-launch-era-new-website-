@@ -46,6 +46,15 @@ assert(search.includes("matchMedia('(prefers-reduced-motion: reduce)')") && sear
 assert(search.includes("document.addEventListener('click'") && search.includes("},true);"), 'Fly-to-bag must launch on item addition');
 assert(css.includes('.km-header-cart') && css.includes('.km-cart-flight') && css.includes('#window-sticky{display:none!important}'), 'Top cart styles or hidden old sticky bar missing');
 assert(!search.includes('showModal('), 'Animation must not open bag automatically');
+assert(js.includes('data-configure-item=') && js.includes('showProduct(customize.dataset.configureItem)'),'Menu plus must open Step 2 customization');
+assert(!js.includes('class="card-add" data-add-item=') && !js.includes('class="card-detail" data-detail-item='),'No add-direct or View Details actions may remain in menu cards');
+assert(js.includes('km-order-progress') && js.includes('02 · TOPPINGS') && js.includes('03 · BAG'),'Step 2 progress missing');
+assert(js.includes('ADD & VIEW BAG') && js.includes('AÑADIR Y VER CARRITO'),'Step 2 confirm must be bilingual');
+assert(js.includes('km-no-modifiers'),'Unsupported products should not get invented toppings');
+assert(pickup.includes("else window.setTimeout(()=>{if(!$('#product-dialog')?.open)openBag();},1250)"),'Cart must open after selected toppings and existing animation');
+assert(pickup.includes("checkoutKicker:'03 / YOUR BAG'") && pickup.includes("checkoutKicker:'03 / TU CARRITO'"),'Step 3 bag labels must be bilingual');
+assert(css.includes('KNOCKOUT CUSTOMIZATION STEPS'),'Responsive stepper CSS missing');
+
 assert(html.includes('id="km-pickup-action"')&&html.includes('km-order-choice-delivery'),'Separate pickup and DoorDash controls missing');
 assert(html.includes('data-direct-copy="squareRequirement"'),'Square payment guidance missing');
 assert(!/\bStripe\b/i.test(html+pickup),'Legacy Stripe visible to customer');
