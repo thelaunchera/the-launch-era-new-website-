@@ -50,9 +50,10 @@ assert(!search.includes('showModal('), 'Animation must not open bag automaticall
 assert(js.includes('data-configure-item=') && js.includes('showProduct(customize.dataset.configureItem)'),'Menu plus must open Step 2 customization');
 assert(!js.includes('class="card-add" data-add-item=') && !js.includes('class="card-detail" data-detail-item='),'No add-direct or View Details actions may remain in menu cards');
 assert(js.includes('km-order-progress') && js.includes('02 · TOPPINGS') && js.includes('03 · BAG'),'Step 2 progress missing');
-assert(js.includes('ADD & VIEW BAG') && js.includes('AÑADIR Y VER CARRITO'),'Step 2 confirm must be bilingual');
+assert(js.includes('ADD TO BAG') && js.includes('AÑADIR AL CARRITO'),'Step 2 confirm must communicate adding without immediately opening bag');
 assert(js.includes('km-no-modifiers'),'Unsupported products should not get invented toppings');
-assert(pickup.includes("else window.setTimeout(()=>{if(!$('#product-dialog')?.open)openBag();},1250)"),'Cart must open after selected toppings and existing animation');
+assert(pickup.includes("if($('#product-dialog')?.open){\n      $('#product-dialog').close();\n    }else if(dialog.open){renderBag();setStage('bag');}"),'Confirming an item should close the customizer and leave the bag closed');
+assert(!pickup.includes('window.setTimeout(()=>{if(!') && !pickup.includes("matches)openBag()"),'No delayed or reduced-motion auto-open of the bag');
 assert(pickup.includes("checkoutKicker:'03 / YOUR BAG'") && pickup.includes("checkoutKicker:'03 / TU CARRITO'"),'Step 3 bag labels must be bilingual');
 assert(css.includes('KNOCKOUT CUSTOMIZATION STEPS'),'Responsive stepper CSS missing');
 const driveHero=path.join(root,'assets','knockout-menu-hero-drive-07.png');
