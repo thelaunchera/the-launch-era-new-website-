@@ -203,5 +203,34 @@ try{
     }
     await page.close();
   }
-  console.log('PASS: Knockout 1 menu plus -> 2 toppings -> 3 cart at 390/768/1024/1440, customization and pickup review');
+
+  // Independently check the original website: the former photo had large
+  // tanks in the background, so the hero must use the approved live-music
+  // shot and the smaller events image must not repeat that hero.
+  const originalWebsiteUrl=pathToFileURL(path.join(root,'index.html')).href;
+  for(const width of [390,768,1024,1440]){
+    const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1});
+    await page.goto(originalWebsiteUrl,{waitUntil:'domcontentloaded'});
+    await page.locator('.hero-photo img').waitFor({state:'visible'});
+    const hero=await page.locator('.hero-photo img').evaluate(async img=>{
+      if(!img.complete)await new Promise(resolve=>{
+        img.addEventListener('load',resolve,{once:true});
+        img.addEventListener('error',resolve,{once:true});
+      });
+      const imgRect=img.getBoundingClientRect();
+      return {src:img.getAttribute('src'),complete:img.complete,
+        naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight,
+        width:imgRect.width,height:imgRect.height,
+        fit:getComputedStyle(img).objectFit};
+    });
+    assert(hero.src==='./assets/knockout-live-music.webp' && hero.complete && hero.naturalWidth>400 && hero.naturalHeight>200,
+      'Original website hero did not load tank-free image at '+width+': '+JSON.stringify(hero));
+    assert(hero.width>width*.75 && hero.height>150 && hero.fit==='cover',
+      'Original website hero is not covering the layout at '+width+': '+JSON.stringify(hero));
+    const eventSmall=await page.locator('.events-photo-small').getAttribute('src');
+    assert.equal(eventSmall,'./assets/04-customer-experience.webp','Events photo must be distinct from the hero');
+    await page.screenshot({path:path.join(screenshots,'knockout-home-hero-'+width+'.png'),fullPage:false});
+    await page.close();
+  }
+  console.log('PASS: Knockout 1 menu plus -> 2 toppings -> 3 cart and original website tank-free hero at 390/768/1024/1440');
 } finally {await browser.close();}
