@@ -23,6 +23,7 @@ try{
     assert(first && second,'Pickup cards have no layout');
     const overlap=first.x < second.x+second.width-1 && first.x+first.width > second.x+1 &&
       first.y < second.y+second.height-1 && first.y+first.height > second.y+1;
+    if(overlap){const detail=await page.evaluate(()=>{const wrap=document.querySelector('.pickup-option-switch'),a=wrap?.querySelectorAll('.pickup-mode');return {wrap:wrap?.outerHTML.slice(0,550),wrapCSS:wrap?{display:getComputedStyle(wrap).display,columns:getComputedStyle(wrap).gridTemplateColumns,width:getComputedStyle(wrap).width}:null,btnCSS:a?.length?{display:getComputedStyle(a[0]).display,position:getComputedStyle(a[0]).position,width:getComputedStyle(a[0]).width,transform:getComputedStyle(a[0]).transform}:null,styles:[...document.styleSheets].map(x=>x.href).filter(Boolean).slice(-8)}});console.error('PICKUP OVERLAP',width,JSON.stringify({first,second,detail}).slice(0,1800));await page.screenshot({path:path.join(screenshots,'knockout-overlap-'+width+'.png')});}
     assert(!overlap,'Pickup method cards overlap at '+width+'px');
 
     await page.locator('[data-menu-id="body"] .card-detail').first().click();
