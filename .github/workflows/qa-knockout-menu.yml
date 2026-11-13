@@ -1,0 +1,41 @@
+name: Knockout Deli menu build and pickup QA
+
+on:
+  pull_request:
+    paths:
+      - 'demo-source/knockout-deli/**'
+      - 'scripts/build-knockout-deli-public.mjs'
+      - 'scripts/refresh-knockout-menu.mjs'
+      - 'scripts/upgrade-knockout-pickup.mjs'
+      - 'scripts/qa-knockout-deli-preview.mjs'
+      - 'scripts/qa-knockout-menu-redesign.mjs'
+      - '.github/workflows/qa-knockout-menu.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-menu-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Unpack approved Knockout Deli demo
+        run: |
+          mkdir -p /tmp/knockout-demo-qa
+          unzip -q demo-source/knockout-deli/Knockout-Deli-website-bundle.zip -d /tmp/knockout-demo-qa
+      - name: Build standalone branded website and digital menu
+        run: node scripts/build-knockout-deli-public.mjs /tmp/knockout-demo-qa
+      - name: Validate menu, client-safe pickup, and customization variants
+        run: |
+          node scripts/qa-knockout-deli-preview.mjs /tmp/knockout-demo-qa
+          node scripts/qa-knockout-menu-redesign.mjs /tmp/knockout-demo-qa
+      - name: Confirm compiled responsive CSS
+        run: |
+          grep -q 'pickup-option-switch' /tmp/knockout-demo-qa/menu-redesign.css
+          grep -q 'km-customizer' /tmp/knockout-demo-qa/app.js
+          grep -q 'km-preview-options' /tmp/knockout-demo-qa/window-order.js
