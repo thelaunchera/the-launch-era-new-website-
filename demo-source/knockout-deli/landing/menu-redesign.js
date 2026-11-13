@@ -3,6 +3,7 @@
   'use strict';
   const input=document.getElementById('menu-search');
   const grid=document.getElementById('menu-grid');
+  const catalogEs=/* KNOCKOUT_ES_PRODUCT_MAP */ {};
   if(!input||!grid)return;
   const header=document.querySelector('#site-header .nav-actions');
   const windowBag=document.getElementById('window-sticky-button');
@@ -46,6 +47,61 @@
   input.addEventListener('input',filterBySearch);
   new MutationObserver(filterBySearch).observe(grid,{childList:true});
   document.querySelectorAll('.filter').forEach(button=>button.addEventListener('click',filterBySearch));
+
+  // A visible-text safety net for content injected by the original menu and
+  // checkout templates. The generated catalog also supplies local translations,
+  // and this sync handles switching language with the cart already open.
+  const toSpanish=new Map(),toEnglish=new Map();
+  for(const item of Object.values(catalogEs)){
+    for(const [en,es] of [[item.name,item.nameEs],[item.description,item.descriptionEs],[item.category,item.categoryEs]]){
+      if(en&&es&&en!==es){toSpanish.set(en,es);toEnglish.set(es,en);}
+    }
+  }
+  const extraPairs=[
+    ['02 · TOPPINGS','02 · OPCIONES'],
+    ['Toppings · optional','Cambios · opcional'],
+    ['TAKE HOME','PARA LLEVAR'],
+    ['MAIN EVENT','ESPECIALES'],
+    ['BREAKFAST','DESAYUNOS'],
+    ['RINGSIDE FAVORITES','OTROS FAVORITOS'],
+    ['BEVERAGES','BEBIDAS'],
+    ['ALL ITEMS','TODOS'],
+    ['PICKUP OR DELIVERY','RECOGIDA O ENTREGA']
+  ];
+  for(const [en,es] of extraPairs){toSpanish.set(en,es);toEnglish.set(es,en);}
+  function localizeRenderedText(){
+    const dictionary=document.documentElement.lang==='es'?toSpanish:toEnglish;
+    for(const root of [grid,document.getElementById('product-dialog'),document.getElementById('window-cart-dialog')]){
+      if(!root)continue;
+      const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+      let node;
+      while((node=walker.nextNode())){
+        if(!node.parentElement||node.parentElement.closest('script,style,textarea,option'))continue;
+        const existing=node.nodeValue||'';
+        const current=existing.trim();
+        const translated=dictionary.get(current);
+        if(translated&&translated!==current){
+          node.nodeValue=existing.replace(current,translated);
+        }
+      }
+    }
+    const header=document.querySelector('.km-order-progress strong');
+    if(header){
+      const es=document.documentElement.lang==='es';
+      if(header.textContent.trim()=== (es?'02 · TOPPINGS':'02 · OPCIONES'))
+        header.textContent=es?'02 · OPCIONES':'02 · TOPPINGS';
+    }
+  }
+  let localeSyncQueued=false;
+  const scheduleMenuLocaleSync=()=>{
+    if(localeSyncQueued)return;
+    localeSyncQueued=true;
+    queueMicrotask(()=>{localeSyncQueued=false;localizeRenderedText();filterBySearch();});
+  };
+  for(const node of [grid,document.getElementById('product-dialog'),document.getElementById('window-cart-dialog')]){
+    if(node)new MutationObserver(scheduleMenuLocaleSync).observe(node,{subtree:true,childList:true});
+  }
+
   const translate=()=>{
     const es=document.documentElement.lang==='es';
     const back=document.querySelector('.km-header-back-label');
@@ -61,6 +117,7 @@
     input.placeholder=es?'Buscar sándwiches, desayunos y favoritos...':'Search sandwiches, breakfast, favorites...';
     const label=document.querySelector('.km-search label');if(label)label.textContent=es?'BUSCAR EN EL MENÚ':'SEARCH MENU';
     syncCount();
+    scheduleMenuLocaleSync();
   };
   new MutationObserver(translate).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
   // A deliberate 1.2-second arc from the tapped + to the bag. The existing
