@@ -45,20 +45,36 @@ try{
       assert.equal(await page.locator(selector).first().isVisible(),false,'Redundant text visible: '+selector+' at '+width);
     }
     const bannerHeight=await page.locator('.km-banner').evaluate(el=>el.getBoundingClientRect().height);
-    assert(bannerHeight <= 222, 'Menu photograph banner too tall at '+width+': '+bannerHeight);
-    const photoInfo=await page.locator('.km-banner').evaluate(async el=>{
-      const css=getComputedStyle(el);
-      const src=css.backgroundImage.match(/url\(["']?([^"')]+)["']?\)/)?.[1]||'';
-      const picture=new Image();
-      const loaded=await new Promise(resolve=>{picture.onload=()=>resolve(true);picture.onerror=()=>resolve(false);picture.src=src;});
-      return {src,loaded,width:picture.naturalWidth,height:picture.naturalHeight};
-    });
-    assert(photoInfo.src.includes('knockout-menu-hero-drive-07.png') && photoInfo.loaded && photoInfo.width>1000,'Drive hero background failed to load at '+width+': '+JSON.stringify(photoInfo));
+    assert(bannerHeight <= (width<=600?420:222), 'Menu photograph banner too tall at '+width+': '+bannerHeight);
+    if(width<=600){
+      const imageQA=await page.locator('.km-banner-photo').evaluate(img=>{
+        const rect=img.getBoundingClientRect(), parent=img.parentElement.getBoundingClientRect();
+        return {complete:img.complete,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight,
+          width:rect.width,height:rect.height,parentWidth:parent.width,
+          objectFit:getComputedStyle(img).objectFit,
+          headingAfter:!!(img.compareDocumentPosition(document.querySelector('.km-banner-inner')) & Node.DOCUMENT_POSITION_FOLLOWING)};
+      });
+      assert(imageQA.complete && imageQA.naturalWidth===1536 && imageQA.naturalHeight===1024,
+        'Mobile Drive hero image failed to load: '+JSON.stringify(imageQA));
+      assert(imageQA.objectFit==='contain' && Math.abs(imageQA.width/imageQA.height-1.5)<.015,
+        'Mobile hero must show entire 3:2 picture without cropping: '+JSON.stringify(imageQA));
+      assert(imageQA.headingAfter && Math.abs(imageQA.width-imageQA.parentWidth)<2,
+        'Image must use full width with separate headline below: '+JSON.stringify(imageQA));
+    }else{
+      const photoInfo=await page.locator('.km-banner').evaluate(async el=>{
+        const src=getComputedStyle(el).backgroundImage.match(/url\\(["']?([^"')]+)["']?\\)/)?.[1]||'';
+        const picture=new Image();
+        const loaded=await new Promise(resolve=>{picture.onload=()=>resolve(true);picture.onerror=()=>resolve(false);picture.src=src;});
+        return {src,loaded,width:picture.naturalWidth,height:picture.naturalHeight};
+      });
+      assert(photoInfo.src.includes('knockout-menu-hero-drive-07.png') && photoInfo.loaded && photoInfo.width>1000,
+        'Tablet/desktop Drive hero background failed: '+JSON.stringify(photoInfo));
+    }
     const ctas=await page.locator('.km-order-choices .km-order-choice').evaluateAll(els=>els.map(el=>el.getBoundingClientRect().toJSON()));
     assert(ctas.length===2 && Math.abs(ctas[0].top-ctas[1].top)<4 && ctas[0].width>=120 && ctas[1].width>=120,'Pickup/DoorDash CTA must remain side by side '+width);
 
     const firstCard=await page.locator('#menu-grid .menu-card:visible').first().boundingBox();
-    assert(firstCard && firstCard.y<830, 'First menu card still below the fold at '+width+': '+JSON.stringify(firstCard));
+    assert(firstCard && firstCard.y<(width<=600?1080:830), 'First menu card pushed too far below fold at '+width+': '+JSON.stringify(firstCard));
     await page.screenshot({path:path.join(screenshots,'knockout-menu-first-'+width+'.png'),fullPage:false});
 
     assert.equal(await page.locator('#menu-grid .card-detail').count(),0,'No View Details button on products');
