@@ -252,6 +252,39 @@ try{
       assert(parseFloat(card.radius)>=20&&parseFloat(card.margin)<0,
         'Homepage ivory hero card must overlap the photo with rounded top corners: '+JSON.stringify(card));
     }
+    // Only the two red brand words, not the other hero lines, have ongoing motion.
+    const heroAnimation=await page.locator('.hero h1').evaluate(h1=>{
+      const em=h1.querySelector(':scope > em');
+      return {
+        brandText:em?.textContent?.trim(),
+        brandAnimation:em?getComputedStyle(em).animationName:'',
+        headlineAnimation:getComputedStyle(h1).animationName
+      };
+    });
+    assert.equal(heroAnimation.brandText,'KNOCKOUT DELI.','Hero animation must stay on brand words at '+width);
+    assert.equal(heroAnimation.brandAnimation,'knockout-brand-lift','Brand words need visible motion at '+width);
+    assert.equal(heroAnimation.headlineAnimation,'none','Other hero words must stay still at '+width);
+    // Test the real CSS :active state, not just the existence of a declaration.
+    const primary=page.locator('.hero-actions .btn').first();
+    await primary.scrollIntoViewIfNeeded();
+    const pressStyle=await primary.evaluate(el=>{
+      const s=getComputedStyle(el);
+      return {radius:parseFloat(s.borderTopLeftRadius),before:new DOMMatrixReadOnly(s.transform).a};
+    });
+    assert(pressStyle.radius>=15&&Math.abs(pressStyle.before-1)<0.015,
+      'Primary corners and resting scale must be correct at '+width+': '+JSON.stringify(pressStyle));
+    const buttonBox=await primary.boundingBox();
+    assert(buttonBox,'Hero menu action missing at '+width);
+    await page.mouse.move(buttonBox.x+buttonBox.width/2,buttonBox.y+buttonBox.height/2);
+    await page.mouse.down();
+    const pressed=await primary.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    assert(Math.abs(pressed-.94)<.015,
+      'Primary button should immediately shrink to 0.94 at pointerdown '+width+': '+pressed);
+    await page.mouse.up();
+    await page.waitForTimeout(380);
+    const released=await primary.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    assert(Math.abs(released-1)<.015,
+      'Primary button should return to 1 without overshoot on pointerup '+width+': '+released);
     // The tablet's ivory story panel must sit over the photographic hero.
     // On phones the separate rounded .hero-content panel already owns that seam.
     if(width>760 && width<=1050){
