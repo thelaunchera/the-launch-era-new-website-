@@ -9,7 +9,7 @@ body:has(.km-banner){background:var(--km-bg);color:var(--km-black)}
 .site-header .brand-logo{max-height:62px!important;max-width:62px!important;object-fit:contain}
 .menu-section{background:var(--km-bg)!important;padding:clamp(27px,4vw,50px) clamp(18px,4vw,70px) 110px!important;max-width:1450px;margin:auto}
 .menu-section:before{display:none!important}
-.km-banner{position:relative;min-height:clamp(220px,29vw,370px);isolation:isolate;background:#301919 url('./assets/knockout-menu-hero-event.webp') center 54% / cover no-repeat;display:flex;align-items:center;padding:clamp(28px,5vw,64px) clamp(24px,7vw,110px);color:#fff}
+.km-banner{position:relative;min-height:clamp(220px,29vw,370px);isolation:isolate;background:#301919 url('./assets/knockout-menu-hero-drive-07.png') 62% 60% / cover no-repeat;display:flex;align-items:center;padding:clamp(28px,5vw,64px) clamp(24px,7vw,110px);color:#fff}
 .km-banner:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(18,15,15,.95),rgba(18,15,15,.70) 28%,rgba(18,15,15,.03) 72%)}
 .km-banner-inner{max-width:520px}.km-eyebrow{color:#ffd6d6;font:800 12px/1.2 'DM Sans',sans-serif;letter-spacing:.17em;margin-bottom:14px}.km-banner h1{font:900 clamp(50px,6.6vw,90px)/.92 'Barlow Condensed',Impact,sans-serif;letter-spacing:-.015em;margin:0 0 20px}.km-banner h1 em{font-style:normal;color:#ff565c}.km-banner p:last-child{font:500 clamp(13px,1.5vw,16px)/1.65 'DM Sans',sans-serif;max-width:410px;color:#f1eaea}
 .menu-section .menu-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:28px!important;padding:0 0 12px!important;margin:0 0 18px!important;max-width:100%!important;border:0!important}
@@ -478,5 +478,111 @@ body:has(.km-banner) .menu-tools .menu-result-count{
 @media(prefers-reduced-motion:reduce){
   body:has(.km-banner) .km-order-choices .km-order-choice{
     transition:none!important;transform:none!important
+  }
+}
+
+/* KNOCKOUT DRIVE HERO — 07-order-online.png from client's website-assets Drive folder.
+   Different from original website's 01-hero-pastrami photograph. */
+body:has(.km-banner) .km-banner{
+  background-image:url('./assets/knockout-menu-hero-drive-07.png')!important;
+  background-size:cover!important;
+  background-position:65% 59%!important;
+  background-color:#8d1318!important;
+  border-bottom:3px solid #d12a35!important;
+}
+body:has(.km-banner) .km-banner:before{
+  background:linear-gradient(90deg,rgba(14,12,12,.94) 0%,rgba(14,12,12,.86) 23%,rgba(14,12,12,.55) 45%,rgba(14,12,12,.06) 76%)!important;
+}
+body:has(.km-banner) .km-banner h1{
+  text-wrap:balance;
+  text-shadow:0 2px 14px rgba(0,0,0,.28);
+}
+/* Compact and balanced action cards: one clear route for pickup, one for delivery. */
+body:has(.km-banner) .menu-section .menu-head{margin-bottom:12px!important}
+body:has(.km-banner) .order-routing-note.km-order-choices{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  width:min(100%,650px)!important;
+  gap:10px!important;
+  margin:0 0 16px!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice,
+body:has(.km-banner) .km-order-choices a.km-order-choice{
+  min-height:58px!important;
+  border-radius:12px!important;
+  padding:10px 14px!important;
+  box-shadow:none!important;
+  gap:10px!important;
+}
+body:has(.km-banner) .km-order-choices .km-choice-symbol{
+  flex-basis:34px!important;
+  width:34px!important;height:34px!important;
+  border-radius:8px!important;
+}
+body:has(.km-banner) .km-order-choices .km-choice-text{
+  font-size:11px!important;
+  letter-spacing:.02em!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-preview-note{
+  font-size:10px!important;
+  color:#827872!important;
+  line-height:1.35!important;
+}
+body:has(.km-banner) .menu-tools{
+  margin-top:0!important;margin-bottom:9px!important;
+}
+@media(max-width:900px){
+  body:has(.km-banner) .km-banner{
+    background-position:64% 57%!important;
+  }
+}
+@media(max-width:600px){
+  body:has(.km-banner) .km-banner{
+    height:153px!important;
+    padding:10px 17px!important;
+    background-position:65% 58%!important;
+  }
+  body:has(.km-banner) .km-banner:before{
+    background:linear-gradient(90deg,rgba(14,12,12,.96) 0%,rgba(14,12,12,.82) 28%,rgba(14,12,12,.22) 77%)!important;
+  }
+  body:has(.km-banner) .km-banner h1{
+    font-size:clamp(32px,9.3vw,43px)!important;
+    max-width:300px!important;
+    letter-spacing:-.018em!important;
+  }
+  body:has(.km-banner) .menu-section{
+    padding-top:14px!important;
+  }
+  body:has(.km-banner) .menu-section .menu-head{
+    margin-bottom:11px!important;
+  }
+  body:has(.km-banner) .order-routing-note.km-order-choices{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:7px!important;
+    margin-bottom:10px!important;
+  }
+  body:has(.km-banner) .km-order-choices .km-order-choice,
+  body:has(.km-banner) .km-order-choices a.km-order-choice{
+    padding:9px 10px!important;
+    min-height:54px!important;
+    gap:7px!important;
+  }
+  body:has(.km-banner) .km-order-choices .km-choice-symbol{
+    flex-basis:28px!important;
+    width:28px!important;height:28px!important;
+    border-radius:7px!important;
+  }
+  body:has(.km-banner) .km-order-choices .km-choice-symbol svg{
+    width:19px!important;height:19px!important;
+  }
+  body:has(.km-banner) .km-order-choices .km-choice-text{
+    font-size:10px!important;
+    line-height:1.2!important;
+    letter-spacing:0!important;
+  }
+  body:has(.km-banner) .km-order-choices .km-order-preview-note{
+    font-size:10px!important;
+  }
+  body:has(.km-banner) .menu-tools .menu-search-field{
+    min-height:50px!important;
   }
 }

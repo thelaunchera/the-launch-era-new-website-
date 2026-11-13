@@ -36,7 +36,7 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   const file=path.join(destination,'menu.html');
   let html=fs.readFileSync(file,'utf8');
   if(!html.includes('id="menu-grid"')||!html.includes('id="menu-filters"'))throw Error('Menu DOM anchor missing');
-  if(!html.includes('menu-redesign.css'))html=html.replace('</head>','  <link rel="stylesheet" href="./menu-redesign.css?v=20261113" />\n  <script src="./menu-redesign.js?v=20261113" defer></script>\n</head>');
+  if(!html.includes('menu-redesign.css'))html=html.replace('</head>','  <link rel="stylesheet" href="./menu-redesign.css?v=20261113-drivehero07" />\n  <script src="./menu-redesign.js?v=20261113-drivehero07" defer></script>\n</head>');
   const banner=`<section class="km-banner" aria-label="Knockout Deli menu introduction"><div class="km-banner-inner"><p class="km-eyebrow">KNOCKOUT DELI · SOUTH FLORIDA</p><h1>NEW YORK DELI.<br><em>ON WHEELS.</em></h1><p>Browse the food, build a pickup list and check the options at the truck. Ordering here is a concept preview.</p></div></section>`;
   if(!html.includes('class="km-banner"'))html=html.replace('<main id="top">',`<main id="top">\n    ${banner}`);
   const h2Pattern=/(<h2 id="menu-heading"[^>]*>)[\s\S]*?(<\/h2>)/;
@@ -54,7 +54,7 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   fs.writeFileSync(file,html);
   fs.copyFileSync(path.join(source,'menu-redesign.css'),path.join(destination,'menu-redesign.css'));
   fs.copyFileSync(path.join(source,'menu-redesign.js'),path.join(destination,'menu-redesign.js'));
-  for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp','knockout-menu-knockout.webp','knockout-menu-tko.webp','knockout-menu-heavy-weight.webp','knockout-menu-pound-for-pound.webp','knockout-menu-round-knish.webp'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
+  for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp','knockout-menu-knockout.webp','knockout-menu-tko.webp','knockout-menu-heavy-weight.webp','knockout-menu-pound-for-pound.webp','knockout-menu-round-knish.webp','knockout-menu-hero-drive-07.png'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
   console.log('Knockout Deli: '+catalog.length+' real-menu items, '+withPhoto.length+' unique featured photos, separate editorial digital menu');
 }
 

@@ -55,6 +55,12 @@ assert(js.includes('km-no-modifiers'),'Unsupported products should not get inven
 assert(pickup.includes("else window.setTimeout(()=>{if(!$('#product-dialog')?.open)openBag();},1250)"),'Cart must open after selected toppings and existing animation');
 assert(pickup.includes("checkoutKicker:'03 / YOUR BAG'") && pickup.includes("checkoutKicker:'03 / TU CARRITO'"),'Step 3 bag labels must be bilingual');
 assert(css.includes('KNOCKOUT CUSTOMIZATION STEPS'),'Responsive stepper CSS missing');
+const driveHero=path.join(root,'assets','knockout-menu-hero-drive-07.png');
+assert(fs.existsSync(driveHero)&&fs.statSync(driveHero).size>100000,'Drive-sourced hero photo must be bundled locally');
+assert(css.includes('KNOCKOUT DRIVE HERO')&&css.includes("url('./assets/knockout-menu-hero-drive-07.png')"),'Menu hero must use new Drive photo, not original site hero');
+assert(!css.includes("background:#301919 url('./assets/knockout-menu-hero-event.webp')"),'Original hero photo cannot be used again');
+assert(html.includes('menu-redesign.css?v=20261113-drivehero07'),'Menu must bust cached old hero CSS');
+
 
 assert(html.includes('id="km-pickup-action"')&&html.includes('km-order-choice-delivery'),'Separate pickup and DoorDash controls missing');
 assert(html.includes('km-choice-doordash-symbol') && html.includes('km-choice-pickup-symbol'),'Branded delivery and pickup symbols missing');
