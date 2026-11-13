@@ -22,6 +22,17 @@ try{
     assert.equal(await page.locator('#pickup-preview-form input[type="hidden"][name="method"][value="ahead"]').count(),1,'Only direct pickup');
 
 
+    // Verify the actual issue in the supplied iPad photo: menu cards must
+    // appear in the first screen, not buried below multiple explanation banners.
+    for(const selector of ['.digital-menu-intro','.menu-head .head-aside','.menu-order-hint']){
+      assert.equal(await page.locator(selector).first().isVisible(),false,'Redundant text visible: '+selector+' at '+width);
+    }
+    const bannerHeight=await page.locator('.km-banner').evaluate(el=>el.getBoundingClientRect().height);
+    assert(bannerHeight <= 222, 'Menu photograph banner too tall at '+width+': '+bannerHeight);
+    const firstCard=await page.locator('#menu-grid .menu-card:visible').first().boundingBox();
+    assert(firstCard && firstCard.y<830, 'First menu card still below the fold at '+width+': '+JSON.stringify(firstCard));
+    await page.screenshot({path:path.join(screenshots,'knockout-menu-first-'+width+'.png'),fullPage:false});
+
     await page.locator('[data-menu-id="body"] .card-detail').first().click();
     await page.locator('#product-dialog .km-customizer').waitFor();
     assert.equal(await page.locator('#product-dialog input[name="km-topping"]').count(),3);
@@ -37,7 +48,7 @@ try{
       const debug=await page.evaluate(()=>({count:document.querySelector('#window-sticky-count')?.textContent,bag:document.querySelector('#window-cart-items')?.innerHTML,modalOpen:document.querySelector('#product-dialog')?.open,button:document.querySelector('#product-dialog .modal-add')?.outerHTML}));
       console.log('KNOCKOUT POST-ADD',JSON.stringify(debug).slice(0,1200));
       assert.equal((await page.locator('#window-sticky-count').innerText()).trim(),'1','Cart should receive one customized item');
-      await page.locator('#menu-view-list').click();
+      await page.locator('#knockout-header-cart').click();
       const bag=await page.locator('#window-cart-items').innerText();
       assert.match(bag,/No pickles/,'Topping request missing from bag');
       assert.match(bag,/Side: Potato chips/,'Side request missing from bag');
@@ -52,5 +63,5 @@ try{
     }
     await page.close();
   }
-  console.log('PASS: Knockout pickup layout at 390/768/1024/1440 and options through bag/review');
+  console.log('PASS: Knockout menu-first fold at 390/768/1024/1440, header bag, customization and pickup review');
 } finally {await browser.close();}
