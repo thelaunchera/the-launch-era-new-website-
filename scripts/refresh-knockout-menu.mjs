@@ -36,14 +36,14 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   const file=path.join(destination,'menu.html');
   let html=fs.readFileSync(file,'utf8');
   if(!html.includes('id="menu-grid"')||!html.includes('id="menu-filters"'))throw Error('Menu DOM anchor missing');
-  if(!html.includes('menu-redesign.css'))html=html.replace('</head>','  <link rel="stylesheet" href="./menu-redesign.css?v=20261113-rounded-back-v3" />\n  <script src="./menu-redesign.js?v=20261113-rounded-back-v3" defer></script>\n</head>');
+  if(!html.includes('menu-redesign.css'))html=html.replace('</head>','  <link rel="stylesheet" href="./menu-redesign.css?v=20261113-food-poster-v4" />\n  <script src="./menu-redesign.js?v=20261113-food-poster-v4" defer></script>\n</head>');
   // A dedicated BACK link belongs to the sticky header, not inside the logo link.
   if(!html.includes('km-header-back')){
     const brandAnchor=/(<a class="brand"[^>]*>[\s\S]*?<\/a>)/;
     if(!brandAnchor.test(html))throw Error('Knockout header brand link missing');
     html=html.replace(brandAnchor,'$1<a class="km-header-back" href="./index.html" aria-label="Back to Knockout Deli website"><svg aria-hidden="true" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 18-6-6 6-6"/></svg><span class="km-header-back-label">BACK</span></a>');
   }
-  const banner=`<section class="km-banner" aria-label="Knockout Deli menu introduction"><picture class="km-banner-image"><img class="km-banner-photo" src="./assets/knockout-menu-hero-drive-07.png" width="1536" height="1024" alt="Knockout Deli pastrami sandwich with deli sides" decoding="async" fetchpriority="high" /></picture><div class="km-banner-inner"><p class="km-eyebrow">SOUTH FLORIDA · FOOD TRUCK</p><h1>NEW YORK DELI.<br><em>ON WHEELS.</em></h1><p>Browse the food, build a pickup list and check the options at the truck. Ordering here is a concept preview.</p></div></section>`;
+  const banner=`<section class="km-banner" aria-label="Knockout Deli menu introduction"><picture class="km-banner-image"><img class="km-banner-photo" src="./assets/knockout-menu-food-poster-20261113.webp" width="1672" height="941" alt="Knockout Deli: New York deli on wheels poster with pastrami, cheesesteak, breakfast sandwich, hot dog, knish, fries and sides" decoding="async" fetchpriority="high" /></picture><div class="km-banner-inner"><p class="km-eyebrow">SOUTH FLORIDA · FOOD TRUCK</p><h1>NEW YORK DELI.<br><em>ON WHEELS.</em></h1><p>Browse the food, build a pickup list and check the options at the truck. Ordering here is a concept preview.</p></div></section>`;
   if(!html.includes('class="km-banner"'))html=html.replace('<main id="top">',`<main id="top">\n    ${banner}`);
   const h2Pattern=/(<h2 id="menu-heading"[^>]*>)[\s\S]*?(<\/h2>)/;
   if(!h2Pattern.test(html))throw Error('Menu heading changed');
@@ -60,7 +60,7 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   fs.writeFileSync(file,html);
   fs.copyFileSync(path.join(source,'menu-redesign.css'),path.join(destination,'menu-redesign.css'));
   fs.copyFileSync(path.join(source,'menu-redesign.js'),path.join(destination,'menu-redesign.js'));
-  for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp','knockout-menu-knockout.webp','knockout-menu-tko.webp','knockout-menu-heavy-weight.webp','knockout-menu-pound-for-pound.webp','knockout-menu-round-knish.webp','knockout-menu-hero-drive-07.png'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
+  for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp','knockout-menu-knockout.webp','knockout-menu-tko.webp','knockout-menu-heavy-weight.webp','knockout-menu-pound-for-pound.webp','knockout-menu-round-knish.webp','knockout-menu-hero-drive-07.png','knockout-menu-food-poster-20261113.webp','knockout-menu-food-collage-20261113.webp'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
   console.log('Knockout Deli: '+catalog.length+' real-menu items, '+withPhoto.length+' unique featured photos, separate editorial digital menu');
 }
 
