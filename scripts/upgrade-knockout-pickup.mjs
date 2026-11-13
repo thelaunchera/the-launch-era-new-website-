@@ -148,6 +148,16 @@ export function upgradeKnockoutPickup(destination){
   if(/\bStripe\b|data-direct-copy="noStripe"/.test(menu))throw Error('Legacy Stripe copy remains in demo HTML');
   if(menu.includes('class="checkout-pickup-cards"')||menu.includes('class="pickup-option-switch"'))
     throw Error('Redundant pickup choices remain visible');
+  // Apply receipt-specific styling after every legacy/menu stylesheet.
+  // The original ZIP has no detailed styling for review facts or action buttons.
+  const reviewCss='pickup-review.css';
+  const reviewCssSource=path.resolve('demo-source/knockout-deli/landing',reviewCss);
+  if(!fs.existsSync(reviewCssSource))throw Error('Knockout receipt styles missing');
+  fs.copyFileSync(reviewCssSource,path.join(destination,reviewCss));
+  if(!menu.includes('pickup-review.css')) {
+    if(!menu.includes('menu-redesign.css'))throw Error('Knockout menu stylesheet missing before receipt layout');
+    menu=menu.replace('</head>','  <link rel="stylesheet" href="./pickup-review.css?v=20261113-receipt-contrast-v1" />\n</head>');
+  }
   fs.writeFileSync(menuPath,menu);
   console.log('Knockout Deli: one pickup detail step, separate DoorDash checkout, and customized items');
 }

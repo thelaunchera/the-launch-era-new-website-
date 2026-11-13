@@ -93,11 +93,65 @@ try{
     assert(dialog && dialog.width<=width+1,'Product dialog exceeds viewport '+width);
     await page.screenshot({path:path.join(screenshots,'knockout-product-'+width+'.png'),fullPage:false});
 
+
+    // The old review slip had labels glued to values and a white-on-white
+    // Edit Pickup button. Measure computed styles in the real browser.
+    async function checkPickupReviewUi(){
+      const info=await page.locator('#window-review-slip').evaluate(el=>{
+        const facts=el.querySelector('.preview-facts');
+        const fact=facts?.querySelector('p');
+        const label=fact?.querySelector('span'),value=fact?.querySelector('strong');
+        const edit=el.querySelector('#pickup-edit'),done=el.querySelector('#pickup-done');
+        const dead=el.querySelector('.preview-submit-disabled');
+        const cs=e=>e?getComputedStyle(e):null;
+        const rect=e=>e?.getBoundingClientRect();
+        const editStyle=cs(edit),doneStyle=cs(done);
+        return {
+          factsCount:facts?.children.length||0,
+          labelDisplay:cs(label)?.display,
+          valueDisplay:cs(value)?.display,
+          factDirection:cs(fact)?.flexDirection,
+          editText:edit?.textContent?.trim(),
+          doneText:done?.textContent?.trim(),
+          editColor:editStyle?.color,
+          editBg:editStyle?.backgroundColor,
+          doneColor:doneStyle?.color,
+          doneBg:doneStyle?.backgroundColor,
+          editWidth:rect(edit)?.width||0,
+          doneWidth:rect(done)?.width||0,
+          disabled:dead?.disabled,
+          layout:cs(el)?.display
+        };
+      });
+      assert(info.factsCount>=3,'Pickup facts missing '+width+': '+JSON.stringify(info));
+      assert.equal(info.labelDisplay,'block','Pickup label must be separated from value '+width);
+      assert.equal(info.valueDisplay,'block','Pickup value must wrap under label '+width);
+      assert.equal(info.factDirection,'column','Pickup facts should stack their labels '+width);
+      assert(info.editText.length>4&&info.doneText.length>4,'Bottom actions have lost their visible labels '+width);
+      assert(info.editColor!==info.editBg&&info.doneColor!==info.doneBg,'Review action text must contrast with button surfaces '+width);
+      assert(info.editWidth>140&&info.doneWidth>140,'Review buttons should have comfortable tap sizes '+width);
+      assert(info.disabled,'Send to Truck must remain disabled in demo '+width);
+      assert.equal(info.layout,'grid','Review layout enhancement not loaded '+width);
+      return info;
+    }
+
     if(width===390){
       await page.locator('#dialog-close').click();
       assert.equal((await page.locator('#window-sticky-count').innerText()).trim(),'0','Canceling toppings must leave the cart untouched');
       await page.locator('[data-menu-id="body"] .card-add').first().click();
       assert.equal((await page.locator('#window-sticky-count').innerText()).trim(),'0','Re-opening Step 2 must not add item');
+      await page.locator('#product-dialog .modal-add').click();
+      await page.locator('#window-cart-dialog[open]').waitFor({timeout:5000});
+      await page.locator('#window-review-button').click();
+      await page.locator('#pickup-demo-name').fill('Demo Guest');
+      await page.locator('#pickup-preview-form button[type="submit"]').click();
+      await checkPickupReviewUi();
+      await page.screenshot({path:path.join(screenshots,'knockout-review-390.png'),fullPage:false});
+      await page.locator('#pickup-edit').click();
+      assert(await page.locator('#pickup-preview-form').isVisible(),'Edit Pickup must return to form on iPhone');
+      await page.locator('#pickup-preview-form button[type="submit"]').click();
+      await page.locator('#pickup-done').click();
+      assert.equal(await page.locator('#window-cart-dialog').evaluate(el=>el.open),false,'Back to Menu must close the receipt');
     }
     if(width===768){
       await page.locator('#product-dialog input[value="no-pickles"]').check();
@@ -118,6 +172,7 @@ try{
       assert.match(review,/No pickles/,'Topping request missing from preview');
       assert.match(review,/Side: Potato chips/,'Side request missing from preview');
       assert.match(review,/NO ORDER PLACED/,'Must identify non-live order');
+      await checkPickupReviewUi();
       await page.screenshot({path:path.join(screenshots,'knockout-review-768.png'),fullPage:false});
     }
     await page.close();

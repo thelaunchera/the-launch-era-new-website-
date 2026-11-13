@@ -228,6 +228,7 @@ jobs:
           node scripts/build-knockout-deli-public.mjs "$destination"
           node scripts/qa-knockout-deli-preview.mjs "$destination"
           node scripts/qa-knockout-menu-redesign.mjs "$destination"
+          node scripts/qa-knockout-pickup-review.mjs "$destination"
           echo "Knockout Deli preview packaged: /demos/knockout-deli/"
 
       - name: Upload Pages artifact
