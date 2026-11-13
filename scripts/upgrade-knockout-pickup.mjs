@@ -38,7 +38,7 @@ function patchKnockoutPickup(app,windowOrder){
     "const customize=e.target.closest('[data-configure-item]');if(customize){showProduct(customize.dataset.configureItem);return;}if(e.target.closest('[data-add-item]'))return;const card=e.target.closest('[data-menu-id]');",
     'menu plus must open customization');
   app=once(app,'<div class="dialog-text"><span class="section-kicker">',
-    '<div class="dialog-text"><div class="km-order-progress" aria-label="${lang===\'es\'?\'Paso 2 de 3\':\'Step 2 of 3\'}"><span>${lang===\'es\'?\'01 · MENÚ\':\'01 · MENU\'}</span><strong>${lang==='es'?'02 · OPCIONES':'02 · TOPPINGS'}</strong><span>${lang===\'es\'?\'03 · CARRITO\':\'03 · BAG\'}</span></div><span class="section-kicker">',
+    '<div class="dialog-text"><div class="km-order-progress" aria-label="${lang===\'es\'?\'Paso 2 de 3\':\'Step 2 of 3\'}"><span>${lang===\'es\'?\'01 · MENÚ\':\'01 · MENU\'}</span><strong>${lang===\'es\'?\'02 · OPCIONES\':\'02 · TOPPINGS\'}</strong><span>${lang===\'es\'?\'03 · CARRITO\':\'03 · BAG\'}</span></div><span class="section-kicker">',
     'step 2 progress header');
   app=once(app,'+ ADD TO PICKUP LIST','${lang===\'es\'?\'AÑADIR AL CARRITO\':\'ADD TO BAG\'}','confirm customization button');
   app=once(app,'<a class="modal-doordash-link" target="_blank" rel="noopener noreferrer" href="${DOORDASH_URL}">${phrase(\'orderButton\')}</a>','','modal should focus on pickup customization');
