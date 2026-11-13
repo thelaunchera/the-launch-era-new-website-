@@ -23,7 +23,7 @@ if(home.includes('id="menu-grid"')||home.includes('id="window-cart-dialog"'))fai
 for(const id of ['about','food','events','find'])if(!home.includes('id="'+id+'"'))fail('Missing business/story section '+id);
 if(!home.includes('href="./menu.html"')||!home.includes('VIEW MENU & ORDER'))fail('Independent digital menu CTA missing');
 for(const name of ['knockout-truck-event.webp','knockout-community.webp','knockout-live-music.webp'])if(!home.includes(name))fail('Missing event photograph '+name);
-if(!home.includes('window=1#window-order')||!home.includes('location.replace'))fail('Existing QR entry must redirect into digital menu');
+if(!home.includes('window=1#window-order')||!home.includes('location.replace'))fail('Legacy deep-link to digital menu missing');
 if(!home.includes('https://www.doordash.com/store/42538456'))fail('Existing external DoorDash link missing');
 if(!home.includes('https://linktr.ee/knockoutdeli'))fail('Official contact/location link missing');
 if(!style.includes('object-fit:cover')||!style.includes('@media(max-width:760px)')||!style.includes('prefers-reduced-motion:reduce'))fail('Responsive hero styling not verified');
@@ -35,7 +35,12 @@ if(!menu.includes('data-window-i18n')||!/\bes\s*:\s*\{[\s\S]{0,500}navWindow\s*:
 if(!qr.includes('previewAlert')||!qr.includes('activationHelp')||!qr.includes('preview-submit-disabled'))fail('Demo must not imply submitted order');
 if(!menu.includes('id="menu-search"')||!menu.includes('order-routing-note')||!menu.includes('pickup-demo-phone')||!menu.includes('direct-pay-truck'))fail('Current digital menu search / pickup-choice flows missing');
 if(!menu.includes('digital-menu.css')||!menu.includes('window-order.css'))fail('Existing digital menu styles missing');
-if(!menu.includes('https://linktr.ee/knockoutdeli'))fail('Existing physical QR Linktree route missing');
+
+// Ensure no visible QR instructions reappear when English/Spanish is switched.
+const forbiddenMenuCopy = /(?:PICKUP AT THE TRUCK\s*\/\s*QR MENU|AT THE SERVICE WINDOW\s*\/\s*QR MENU|MENÚ QR|SCAN THE QR|ESCANEA EL QR|QR CODE|CÓDIGO QR)/i;
+if(forbiddenMenuCopy.test(menu+'\n'+qr))fail('QR copy remains in the menu or its translations');
+if(!/DIGITAL MENU/i.test(menu)||!/OPEN THE MENU|OPEN\./i.test(menu+'\n'+qr))fail('Digital menu copy was not updated');
+if(!menu.includes('https://linktr.ee/knockoutdeli'))fail('Business contact link missing');
 if(/js\.stripe\.com|api\.stripe\.com/i.test(home+menu+qr+core))fail('Stripe must not be claimed as live in demo');
 if(!core.includes('events: []')||/\bfetch\s*\(|XMLHttpRequest|localStorage\s*\.|sessionStorage\s*\.|WebSocket/.test(core+'\n'+qr))fail('No network writes/persistence permitted in concept');
 for(const f of ['app.js','window-order.js','landing.js']){const c=spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});if(c.status!==0)fail(f+' invalid: '+c.stderr)}
