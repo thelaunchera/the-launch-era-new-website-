@@ -1,0 +1,16 @@
+/* The existing interactive demo menu is retained intact and given its own route.
+   Hide legacy marketing sections on the menu route without removing DOM nodes the
+   ordering and accessibility scripts may depend on. */
+.hero-section,.prep-section,.event-section,.location-section,.order-section,
+.catering-section,.social-section,.last-call,.today-strip,.reading-progress {display:none!important}
+.desktop-nav,.mobile-navigation,.nav-order {display:none!important}
+.site-header{position:sticky;top:0;z-index:100;min-height:60px}
+.menu-section{padding-top:clamp(36px,5vw,68px)!important}
+.menu-section:before{content:'DIGITAL MENU / KNOCKOUT DELI';display:block;color:#c33135;font:800 14px 'Barlow Condensed',sans-serif;letter-spacing:.15em;margin-bottom:15px}
+.menu-route-bar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px clamp(18px,5vw,72px);background:#191919;color:#faf8f3;font:700 12px 'DM Sans',sans-serif;letter-spacing:.06em}
+.menu-route-bar a{color:inherit;text-decoration:none;border-bottom:1px solid #faf8f3;padding-bottom:3px}
+.menu-route-bar span{color:#ddd}
+.mobile-menu-toggle{display:none!important}
+.site-footer .footer-links a[href='#events'],.site-footer .footer-links a[href='#catering']{display:none}
+.window-order-section{scroll-margin-top:90px}
+@media(max-width:600px){.menu-route-bar{font-size:11px}.menu-section{padding-top:34px!important}.menu-route-bar span{font-size:10px}}
