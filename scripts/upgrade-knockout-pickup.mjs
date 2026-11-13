@@ -122,11 +122,16 @@ function patchKnockoutPickup(app,windowOrder){
     ['esc(item.description)',"esc(lang==='es'&&item.descriptionEs?item.descriptionEs:item.description)",'product descriptions'],
     ['esc(item.category)',"esc(lang==='es'&&item.categoryEs?item.categoryEs:item.category)",'product categories']
   ]){
-    if(!app.includes(token))throw Error('Knockout locale: missing app template '+label);
+    // Older app builds do not escape the category heading with esc(...);
+    // the menu-specific live translation observer handles that element.
+    if(!app.includes(token)){
+      if(label==='product categories')continue;
+      throw Error('Knockout locale: missing app template '+label);
+    }
     app=app.replaceAll(token,translation);
   }
-  if(!app.includes('item.descriptionEs')||!app.includes('item.nameEs')||!app.includes('item.categoryEs'))
-    throw Error('Knockout Spanish menu fields were not integrated');
+  if(!app.includes('item.descriptionEs')||!app.includes('item.nameEs'))
+    throw Error('Knockout Spanish product fields were not integrated');
 
   if(!app.includes('km-customizer')||!windowOrder.includes('const cartId='))throw Error('Knockout customization patch incomplete');
   return {app,windowOrder};
