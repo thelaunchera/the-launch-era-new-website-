@@ -114,6 +114,43 @@ try{
     }
 
 
+
+    // iPad order actions must be centered rather than stuck to the left edge.
+    const buttonRoundness=await page.locator('.km-order-choices .km-order-choice').evaluateAll(els=>
+      els.map(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius)));
+    assert(buttonRoundness.length===2&&buttonRoundness.every(v=>v>=(width<=600?18:23)),
+      'Pickup and DoorDash need substantial rounded corners at '+width+': '+JSON.stringify(buttonRoundness));
+    if(width>600&&width<=1050){
+      const menuRect=await page.locator('.menu-section').boundingBox();
+      const actionRect=await page.locator('.order-routing-note.km-order-choices').boundingBox();
+      assert(menuRect&&actionRect&&
+        Math.abs((actionRect.x+actionRect.width/2)-(menuRect.x+menuRect.width/2))<20,
+        'Tablet order buttons must be centered below hero: '+JSON.stringify({width,menuRect,actionRect}));
+      const filtersAlignment=await page.locator('.menu-filters')
+        .evaluate(el=>getComputedStyle(el).justifyContent);
+      assert(filtersAlignment.includes('center'),'Tablet category pills should center safely: '+filtersAlignment);
+    }
+    // The black Open / Choose / Pick Up chapter should physically overlap the
+    // pale menu section with its upper corners rounded, not just have a border.
+    if(width<=1050){
+      const chapter=page.locator('.window-order-section');
+      assert.equal(await chapter.count(),1,'Knockout lower pickup section missing at '+width);
+      const shape=await chapter.evaluate(el=>{
+        const cs=getComputedStyle(el),r=el.getBoundingClientRect();
+        return {top:r.top,radius:parseFloat(cs.borderTopLeftRadius),
+          margin:parseFloat(cs.marginTop),visible:cs.display!=='none',background:cs.backgroundColor};
+      });
+      const previousBottom=await page.locator('.menu-section')
+        .evaluate(el=>el.getBoundingClientRect().bottom);
+      assert(shape.visible&&shape.radius>=28&&shape.margin<0&&shape.top<previousBottom,
+        'Lower black chapter must round and overlap the white menu at '+width+': '+
+          JSON.stringify({shape,previousBottom}));
+    }
+    const headerRoundness=await page.locator('.site-header .km-header-back, .site-header .km-header-cart')
+      .evaluateAll(els=>els.map(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius)));
+    assert(headerRoundness.length===2&&headerRoundness.every(v=>v>=16),
+      'Menu header buttons need visibly rounded corners at '+width);
+
     const menuCardRadius=await page.locator('#menu-grid .menu-card:visible').first()
       .evaluate(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius));
     assert(menuCardRadius>=17,'Digital menu cards must have visibly rounded corners at '+width);
