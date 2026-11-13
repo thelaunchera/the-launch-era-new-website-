@@ -765,3 +765,50 @@ body:has(.km-banner) .site-header .brand:focus-visible{
   body:has(.km-banner) .site-header .brand-logo{width:49px!important;height:49px!important}
   body:has(.km-banner) .km-order-choices .km-choice-text{font-size:9px!important}
 }
+
+/* KNOCKOUT ROUNDED MENU SHEET + VISIBLE BACK
+   Floating ivory panel above the menu hero; independent back control in dark topbar. */
+body:has(.km-banner) .site-header{
+  position:sticky!important;top:0!important;z-index:140!important;
+  isolation:isolate!important;background:#191717!important;
+}
+body:has(.km-banner) .site-header .km-header-back{
+  position:absolute!important;
+  top:50%!important;left:clamp(88px,9vw,111px)!important;
+  transform:translateY(-50%)!important;z-index:150!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:4px!important;min-height:38px!important;
+  padding:8px 10px!important;margin:0!important;
+  background:#302b2b!important;color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  border:1px solid rgba(255,255,255,.38)!important;
+  border-radius:9px!important;
+  font:800 11px/1.2 'DM Sans',Arial,sans-serif!important;
+  text-decoration:none!important;white-space:nowrap!important;
+  box-shadow:0 2px 7px rgba(0,0,0,.25)!important;
+}
+body:has(.km-banner) .site-header .km-header-back svg{
+  display:block!important;flex:0 0 14px!important;
+  width:14px!important;height:14px!important;
+  stroke:currentColor!important;fill:none!important;
+}
+body:has(.km-banner) .site-header .km-header-back:focus-visible{
+  outline:3px solid #f2d85b!important;outline-offset:3px!important;
+}
+@media(max-width:600px){
+  body:has(.km-banner) .site-header .brand{max-width:70px!important}
+  body:has(.km-banner) .site-header .km-header-back{
+    left:clamp(74px,21vw,92px)!important;
+    min-height:36px!important;padding:7px 8px!important;
+    font-size:10px!important;
+  }
+  body:has(.km-banner) .km-banner-inner{padding-bottom:38px!important}
+  body:has(.km-banner) .menu-section{
+    position:relative!important;z-index:12!important;
+    width:100%!important;margin:-22px auto 0!important;
+    border-radius:25px 25px 0 0!important;
+    padding-top:24px!important;
+    background:var(--km-bg)!important;
+    box-shadow:0 -8px 24px rgba(0,0,0,.10)!important;
+  }
+}
