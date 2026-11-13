@@ -1,3 +1,8 @@
+## 2026-11-13 — Knockout pickup/DoorDash fused, Stripe mentions and incorrect pay-at-truck preview
+- User screenshot showed pickup and DoorDash in a combined strip, while pickup checkout said "No Stripe" and green "PAY AT THE TRUCK". Requested two real buttons and planned Square payment BEFORE order acceptance.
+- Scoped frontend change: two bilingual buttons, pickup scroll to menu, DoorDash preserves official external destination; Square pre-order payment step is explanatory only, not a live payment or success status. Demo remains read-only, no order sent.
+- User said "no foto": no image generation or hero replacement performed. QA guards against new Stripe mentions and tests 390/768/1024/1440 viewport interactions and no-payment demo. Confirm CI/Pages/public page before claiming release.
+
 ## 2026-11-13 — Knockout Deli menu intro blocks crowd iPad viewport
 - Source screenshot: huge "New York Deli" hero, repeated Our Menu intro and disclaimer, no-PDF steps, verbose pickup/delivery instructions and second bag banner. Menu items not yet visible.
 - Root cause confirmed from public menu HTML and repo: `refresh-knockout-menu.mjs` renders the banner, legacy bundle renders additional intro/step/pickup text and bag hint. Together they dominate the first viewport.
