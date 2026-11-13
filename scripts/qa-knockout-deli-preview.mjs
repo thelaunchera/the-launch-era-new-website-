@@ -29,7 +29,7 @@ if(!home.includes('https://linktr.ee/knockoutdeli'))fail('Official contact/locat
 if(!home.includes('id="knockout-signup-demo"')||!home.includes('id="subscriber-language"')||!home.includes('id="subscriber-consent"'))fail('Subscription demo fields / language / consent missing');
 const findCard = home.match(/<div class="find-card">([\s\S]*?)<\/div>\s*<\/section>/)?.[1] || '';
 if(!findCard || findCard.includes('linktr.ee') || !findCard.includes('type="submit"'))fail('Find card must use a demo form, not Linktree');
-if(!findCard.includes('No information is saved')||!findCard.includes('no se guarda información'))fail('Bilingual disclosure of nonfunctional demo missing');
+if(!findCard.includes('No information is saved')||!findCard.toLowerCase().includes('no se guarda información'))fail('Bilingual disclosure of nonfunctional demo missing');
 if(!script.includes("event.preventDefault()")||!script.includes("subscriberForm.reportValidity()")||!script.includes("subscriberForm.reset()"))fail('Safe simulated subscribe handling missing');
 if(/fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|sendBeacon/i.test(script))fail('Subscription demo must have no network requests or persistence');
 if(!style.includes('.signup-fields')||!style.includes('@media(max-width:480px)'))fail('Subscription demo responsive styles missing');
