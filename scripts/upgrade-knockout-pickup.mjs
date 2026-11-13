@@ -92,6 +92,15 @@ function patchKnockoutPickup(app,windowOrder){
   windowOrder=windowOrder.replace(/orderRoutes:'[^']*'/g,()=> "orderRoutes:'"+routingTitles[routeTitleIndex++]+"'");
   windowOrder=windowOrder.replace(/orderRoutesHelp:'[^']*'/g,()=> "orderRoutesHelp:'"+routingHelp[routeHelpIndex++]+"'");
   if(routeTitleIndex!==2||routeHelpIndex!==2)throw Error('Pickup/delivery descriptions missing translations');
+  // Keep brand mark on the DoorDash link while translating its nested label.
+  const doordashText=[
+    ["orderDoorDash:'ORDER ON DOORDASH ↗'","orderDoorDash:'ORDER ON DOORDASH'"],
+    ["orderDoorDash:'PEDIR POR DOORDASH ↗'","orderDoorDash:'PEDIR POR DOORDASH'"]
+  ];
+  for(const [before,after] of doordashText){
+    if(!windowOrder.includes(before))throw Error('DoorDash localized label unavailable');
+    windowOrder=windowOrder.replace(before,after);
+  }
   const squareTitles=['SQUARE PAYMENT BEFORE ORDER','PAGO CON SQUARE ANTES DEL PEDIDO'];
   const squareDescriptions=[
     'Secure Square payment will be required before the pickup order is sent. Demo only — no charge or order is processed.',
@@ -125,7 +134,7 @@ export function upgradeKnockoutPickup(destination){
     '<input type="hidden" name="method" value="ahead" />',"redundant pickup radio choices");
   // Separate actual controls: pickup browses the food; delivery leaves for official DoorDash.
   replaceMenu(/<div class="order-routing-note" role="note">[\s\S]*?<\/div>/,
-    '<div class="order-routing-note km-order-choices" role="group" aria-label="Pickup or delivery"><button type="button" id="km-pickup-action" class="km-order-choice km-order-choice-pickup" data-direct-copy="orderRoutes">PICKUP AT THE TRUCK</button><a class="km-order-choice km-order-choice-delivery" href="https://www.doordash.com/store/42538456" target="_blank" rel="noopener noreferrer" data-direct-copy="orderDoorDash">ORDER ON DOORDASH ↗</a><small class="km-order-preview-note" data-direct-copy="orderRoutesHelp">Build your bag here. Demo only — no pickup order is sent.</small></div>',
+    '<div class="order-routing-note km-order-choices" role="group" aria-label="Pickup or delivery"><button type="button" id="km-pickup-action" class="km-order-choice km-order-choice-pickup"><span class="km-choice-symbol km-choice-pickup-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16l-1.2 11H5.2L4 9Z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg></span><span class="km-choice-text" data-direct-copy="orderRoutes">PICKUP AT THE TRUCK</span></button><a class="km-order-choice km-order-choice-delivery" href="https://www.doordash.com/store/42538456" target="_blank" rel="noopener noreferrer" aria-label="Order delivery on DoorDash"><span class="km-choice-symbol km-choice-doordash-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path d="M23.071 8.409a6.09 6.09 0 00-5.396-3.228H.584A.589.589 0 00.17 6.184L3.894 9.93a1.752 1.752 0 001.242.516h12.049a1.554 1.554 0 11.031 3.108H8.91a.589.589 0 00-.415 1.003l3.725 3.747a1.75 1.75 0 001.242.516h3.757c4.887 0 8.584-5.225 5.852-10.413"/></svg></span><span class="km-choice-text" data-direct-copy="orderDoorDash">ORDER ON DOORDASH</span></a><small class="km-order-preview-note" data-direct-copy="orderRoutesHelp">Build your bag here. Demo only — no pickup order is sent.</small></div>',
     'separate pickup / DoorDash controls');
   replaceMenu(/<h3 data-order-i18n="choosePickup">[^<]*<\/h3>/,
     '<h3 data-order-i18n="pickupDetails">PICKUP DETAILS</h3><p class="km-pickup-instruction" data-direct-copy="pickupFormHelp">Square payment will be required before a pickup order is sent. This demo does not process payments.</p>',
