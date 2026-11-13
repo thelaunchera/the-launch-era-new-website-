@@ -15,7 +15,7 @@ if(/<script[^>]+supabase|href=["'][^"']*admin|command-center|id=["']admin-/i.tes
 if(!core.includes('events: []'))fail('Events must not include invented dates');
 if(/\bfetch\s*\(|XMLHttpRequest|localStorage\s*\.|sessionStorage\s*\.|WebSocket/.test(core+'\n'+qr))fail('Unapproved network write or persistence');
 for(const id of ['window-order','menu','events','find-us','catering','order','follow','window-cart-dialog','window-sticky'])if(!html.includes('id="'+id+'"'))fail('Missing section '+id);
-if(!html.includes('data-window-i18n')||!qr.includes('es:{navWindow:'))fail('QR window ordering must support Spanish');
+if(!html.includes('data-window-i18n')||!/\bes\s*:\s*\{[\s\S]{0,500}navWindow\s*:/.test(qr))fail('QR window ordering must support Spanish');
 if(!html.includes('meta name="robots" content="noindex'))fail('Unlisted concept should not be indexed');
 if(!html.includes('NOT AN OFFICIAL BUSINESS WEBSITE') || !qr.includes('previewAlert') || !qr.includes('activationHelp'))fail('Missing demo/order disclosure');
 if(!html.includes('https://www.doordash.com/store/42538456'))fail('DoorDash option missing');
