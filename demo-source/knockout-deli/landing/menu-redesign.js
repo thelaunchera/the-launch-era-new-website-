@@ -32,6 +32,10 @@
   syncCount();
   if(existingCount)new MutationObserver(syncCount).observe(existingCount,{childList:true,characterData:true,subtree:true});
   headerBag.addEventListener('click',()=>{if(windowBag)windowBag.click();});
+  const pickupAction=document.getElementById('km-pickup-action');
+  pickupAction?.addEventListener('click',()=>{
+    grid.scrollIntoView({behavior:prefersLessMotion.matches?'auto':'smooth',block:'start'});
+  });
   const filterBySearch=()=>{
     const needle=input.value.trim().toLocaleLowerCase();
     grid.querySelectorAll('.menu-card').forEach(card=>{
