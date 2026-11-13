@@ -106,3 +106,26 @@
     border-radius:26px 26px 0 0;
   }
 }
+
+/* KNOCKOUT EVENT PHOTO ROTATION CAPTION
+   Editorial note tells prospects that the event photograph is refreshed for each event.
+   The picture in this concept demo is static; no automatic photo replacement is enabled. */
+.intro-photo .intro-photo-caption{
+  position:absolute;left:clamp(12px,2.5vw,20px);bottom:clamp(12px,2.5vw,20px);
+  display:flex;flex-direction:column;gap:5px;
+  max-width:calc(100% - 24px);width:max-content;
+  padding:11px 14px;background:rgba(250,248,243,.96);
+  border-left:3px solid var(--red);
+  box-shadow:0 8px 20px rgba(0,0,0,.11);color:var(--ink);
+}
+.intro-photo .intro-photo-caption strong{
+  font:800 11px/1.3 'DM Sans',Arial,sans-serif;letter-spacing:.06em;
+}
+.intro-photo .intro-photo-caption small{
+  font:700 10px/1.4 'DM Sans',Arial,sans-serif;letter-spacing:.045em;color:#ba2933;
+}
+@media(max-width:600px){
+  .intro-photo .intro-photo-caption{padding:9px 11px;gap:4px}
+  .intro-photo .intro-photo-caption strong{font-size:9px}
+  .intro-photo .intro-photo-caption small{font-size:9px}
+}
