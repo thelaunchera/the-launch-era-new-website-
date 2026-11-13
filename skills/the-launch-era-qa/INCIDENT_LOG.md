@@ -1,3 +1,8 @@
+## 2026-11-13 — Original website hero shows out-of-place industrial tanks
+- User supplied tablet photos of the Knockout Deli website homepage and closeup: several huge steel tanks are visible behind dining customers, harming visual credibility.
+- Replaced the homepage hero/preload asset with existing self-hosted, optimized truck-at-concert `knockout-live-music.webp` after inspecting alternatives from the user's Knockout Drive/event pack. No tanks in the selected scene. Replaced duplicate usage of live-music in event gallery with `04-customer-experience.webp`. The **digital menu hero remains unchanged**.
+- Browser QA added to verify correct hero load, cover presentation and distinct events image at 390/768/1024/1440px. Only declare public update after successful CI and Pages URL verification.
+
 ## 2026-11-13 — Knockout food-first hero: remove stacked chrome
 - User approved redesign direction after rejecting the overly separated mobile food image, oversized title, standalone back bar, second OUR MENU heading and excessive pre-order text.
 - Scoped implementation on existing Drive image with no image generation: food remains fully visible and uncropped, compact editorial dark title beneath, clear pickup/DoorDash CTA directly after, hidden visual duplicate h2 with accessible heading preserved, homepage back link integrated into logo topbar, bilingual BACK/VOLVER, no unnecessary whitespace. iPad/desktop preserve menu card and ordering behavior.

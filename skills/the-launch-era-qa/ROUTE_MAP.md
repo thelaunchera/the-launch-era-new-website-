@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli ORIGINAL website hero replacement (tank-free)
+- The user-provided tablet screenshot of the original homepage shows large industrial steel tanks immediately beside customers in the old food-truck event hero. User explicitly asked to replace **that website's original hero**, not the digital menu hero.
+- Replace `knockout-truck-event.webp` in `demo-source/knockout-deli/landing/home.html` and its preload with the existing approved, optimized `knockout-live-music.webp` from Knockout's event-photo pack. This alternate shows the red truck, dining guests, concert and palm trees; visually inspected and contains no industrial tank scene. Preserve hero copy, CTA, contrast, responsive CSS and real truck identity.
+- Avoid repeated image on homepage: replace the events-section small live-music image with existing Drive-sourced `04-customer-experience.webp` (customer enjoying deli sandwich by truck). Keep the main event/community image unchanged. No new generated imagery, downloads, QR flow or third-party network dependencies.
+- Tests: static guard in `scripts/qa-knockout-deli-preview.mjs`, full browser screenshot/readability checks at phone/tablet/desktop in `scripts/qa-knockout-pickup-browser.mjs`. Digital menu, toppings, bag, Square preview and no-send controls untouched.
+
 ## 2026-11-13 — Knockout Deli food-first hero and mobile ordering layout
 - Scope: only the standalone prospect digital menu `/demos/knockout-deli/menu.html`, not the original demo homepage or unrelated brands. Preserve the existing approved Knockout Deli Drive 07-order-online.png photo as an uncropped 3:2 full-width image on phones.
 - Combine the image and a compact dark title strip in one contiguous hero, with "South Florida · Food Truck" micro-label and punchy red/white New York Deli. On Wheels headline; no words overlay the food.
