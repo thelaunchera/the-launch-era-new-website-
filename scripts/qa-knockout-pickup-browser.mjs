@@ -293,6 +293,59 @@ try{
     await page.close();
   }
 
+  // Spanish must be truly complete in product cards, customization dialog
+  // and the top-bar bag. Use the real language switch on phone/iPad/desktop.
+  for(const width of [390,768,1024,1440]){
+    const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1});
+    page.on('pageerror',error=>console.error('SPANISH MENU JS ERROR',width,error.message));
+    await page.goto(url,{waitUntil:'domcontentloaded'});
+    await page.locator('[data-menu-id="pastrami-half"] .card-add').waitFor();
+    await page.locator('.language-toggle').click();
+    await page.waitForFunction(()=>document.documentElement.lang==='es');
+    await page.waitForFunction(()=>{
+      const card=document.querySelector('[data-menu-id="pastrami-half"]');
+      return card?.querySelector('h3')?.textContent?.includes('Pastrami recién cortado')&&
+        card?.querySelector('p')?.textContent?.includes('Media libra de pastrami recién cortado');
+    });
+    const pastrami=page.locator('[data-menu-id="pastrami-half"]');
+    assert.match(await pastrami.innerText(),/Pastrami recién cortado · ½ lb/,
+      'Spanish product title not visible at '+width);
+    assert.match(await pastrami.innerText(),/Media libra de pastrami recién cortado/,
+      'Spanish product description not visible at '+width);
+    assert.equal((await page.locator('.km-header-back-label').innerText()).trim(),'VOLVER');
+    assert.equal((await page.locator('.km-order-choice-delivery').innerText()).trim(),'PEDIR POR DOORDASH');
+    assert.equal((await page.locator('[data-menu-id="body"] h3').innerText()).trim(),'The Body Shot',
+      'The signature menu product name must not be renamed');
+    await pastrami.locator('.card-add').click();
+    await page.locator('#product-dialog[open]').waitFor();
+    const dialogText=await page.locator('#product-dialog').innerText();
+    for(const value of ['PARA LLEVAR','Pastrami recién cortado','Media libra de pastrami recién cortado',
+      '02 · OPCIONES','AÑADIR AL CARRITO']){
+      assert(dialogText.includes(value),
+        'Spanish customization text missing '+value+' at '+width+': '+dialogText.slice(0,450));
+    }
+    for(const forbidden of ['TAKE HOME','Freshly Sliced Pastrami','Half-pound of freshly sliced',
+      '02 · TOPPINGS']){
+      assert(!dialogText.includes(forbidden),
+        'English text leaked into Spanish customization '+forbidden+' at '+width);
+    }
+    await page.locator('#product-dialog .modal-add').click();
+    await page.locator('#knockout-header-cart').click();
+    await page.locator('#window-cart-dialog[open]').waitFor();
+    await page.waitForFunction(()=>document.querySelector('#window-cart-items')?.textContent?.includes('Pastrami recién cortado'));
+    const cartText=await page.locator('#window-cart-items').innerText();
+    assert(cartText.includes('Pastrami recién cortado')&&!cartText.includes('Freshly Sliced Pastrami'),
+      'Cart product title stays English after Spanish selection at '+width+': '+cartText);
+    await page.locator('#window-cart-dialog').evaluate(el=>el.close());
+    await page.locator('.language-toggle').click();
+    await page.waitForFunction(()=>document.documentElement.lang==='en');
+    await page.waitForFunction(()=>document.querySelector('[data-menu-id="pastrami-half"] h3')
+      ?.textContent?.includes('Freshly Sliced Pastrami'));
+    assert.match(await page.locator('[data-menu-id="pastrami-half"] h3').innerText(),
+      /Freshly Sliced Pastrami/,'English must restore when changing back at '+width);
+    await page.close();
+  }
+
   // Independently check the original website: the former photo had large
   // tanks in the background, so the hero must use the approved live-music
   // shot and the smaller events image must not repeat that hero.
