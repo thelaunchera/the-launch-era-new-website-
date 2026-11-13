@@ -46,6 +46,24 @@ function patchKnockoutPickup(app,windowOrder){
   const previewAnchor='clean(x.name)}</b></span>';
   const previewSegment='${x.options?.length ? `<small class="km-preview-options">${clean(x.options.join(" · "))}</small>` : ""}';
   windowOrder=once(windowOrder,previewAnchor,`clean(x.name)}</b>${previewSegment}</span>`,'preview options summary');
+  // Single pickup flow: no alternative 'I'm at the window' path.
+  windowOrder=once(windowOrder,"mode=value==='at-truck'?'at-truck':'ahead';","mode='ahead';",'single pickup mode');
+  windowOrder=once(windowOrder,"if(qrMode){setMode('at-truck');","if(qrMode){setMode('ahead');",'legacy deep link pickup mode');
+  const pickupHeaders=['PICKUP DETAILS','DATOS PARA RECOGER'];
+  let pickupHeaderIndex=0;
+  windowOrder=windowOrder.replace(/choosePickup:'[^']*'/g,match=>match+",pickupDetails:'"+pickupHeaders[pickupHeaderIndex++]+"'");
+  if(pickupHeaderIndex!==2)throw Error('Pickup detail titles missing in translations');
+  windowOrder=windowOrder.replace("en:{orderRoutes:","en:{pickupFormHelp:'Review pickup details and pay at the truck. No online payment.',orderRoutes:");
+  windowOrder=windowOrder.replace("es:{orderRoutes:","es:{pickupFormHelp:'Revisa los datos y paga en el truck. Sin pago online.',orderRoutes:");
+  const routingTitles=['PICKUP OR DELIVERY','RECOGIDA O DELIVERY'];
+  const routingHelp=[
+    'For pickup, build your bag and review the details here. For delivery, order directly on DoorDash. This demo does not send pickup requests.',
+    'Para recoger, prepara tu carrito y revisa los datos aquí. Para delivery, pide directamente en DoorDash. Esta demo no envía solicitudes.'
+  ];
+  let routeTitleIndex=0,routeHelpIndex=0;
+  windowOrder=windowOrder.replace(/orderRoutes:'[^']*'/g,()=> "orderRoutes:'"+routingTitles[routeTitleIndex++]+"'");
+  windowOrder=windowOrder.replace(/orderRoutesHelp:'[^']*'/g,()=> "orderRoutesHelp:'"+routingHelp[routeHelpIndex++]+"'");
+  if(routeTitleIndex!==2||routeHelpIndex!==2)throw Error('Pickup/delivery descriptions missing translations');
   if(!app.includes('km-customizer')||!windowOrder.includes('const cartId='))throw Error('Knockout customization patch incomplete');
   return {app,windowOrder};
 }
@@ -56,5 +74,21 @@ export function upgradeKnockoutPickup(destination){
   const updated=patchKnockoutPickup(fs.readFileSync(appPath,'utf8'),fs.readFileSync(windowPath,'utf8'));
   fs.writeFileSync(appPath,updated.app);
   fs.writeFileSync(windowPath,updated.windowOrder);
-  console.log('Knockout Deli: optional topping/side preview choices retained per bag item');
+  const menuPath=path.join(destination,'menu.html');
+  let menu=fs.readFileSync(menuPath,'utf8');
+  const replaceMenu=(pattern,replacement,label)=>{
+    if(!pattern.test(menu))throw Error('Knockout menu missing '+label);
+    menu=menu.replace(pattern,replacement);
+  };
+  replaceMenu(/<div class="pickup-option-switch"[^>]*>[\s\S]*?<\/div>/,
+    '',"redundant pickup method switch");
+  replaceMenu(/<div class="checkout-pickup-cards"[^>]*>[\s\S]*?<\/div>/,
+    '<input type="hidden" name="method" value="ahead" />',"redundant pickup radio choices");
+  replaceMenu(/<h3 data-order-i18n="choosePickup">[^<]*<\/h3>/,
+    '<h3 data-order-i18n="pickupDetails">PICKUP DETAILS</h3><p class="km-pickup-instruction" data-direct-copy="pickupFormHelp">Review pickup details and pay at the truck. No online payment.</p>',
+    "checkout pickup heading");
+  if(menu.includes('class="checkout-pickup-cards"')||menu.includes('class="pickup-option-switch"'))
+    throw Error('Redundant pickup choices remain visible');
+  fs.writeFileSync(menuPath,menu);
+  console.log('Knockout Deli: one pickup detail step, separate DoorDash checkout, and customized items');
 }

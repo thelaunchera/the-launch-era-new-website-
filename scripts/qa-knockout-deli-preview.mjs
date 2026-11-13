@@ -51,10 +51,12 @@ if(!menu.includes('href="./menu-only.css"')||!only.includes('.hero-section'))fai
 if(!menu.includes('BACK TO WEBSITE'))fail('Digital menu needs return path');
 // Checkout stages must remain readable on phones and tablets. The styles are
 // applied only to menu.html, after the unpacked legacy demo CSS.
-for(const marker of ['checkout-steps','checkout-pickup-cards','pickup-preview-form','ahead-pickup-fields','checkout-form-actions']){
+for(const marker of ['checkout-steps','pickup-preview-form','ahead-pickup-fields','checkout-form-actions']){
   if(!menu.includes('class="' + marker) && !menu.includes(' ' + marker + '"'))fail('Pickup checkout markup missing '+marker);
   if(!only.includes('#window-cart-dialog .' + marker))fail('Pickup checkout style missing '+marker);
 }
+if(menu.includes('class="checkout-pickup-cards"')||menu.includes('class="pickup-option-switch"'))fail('Pickup should have no redundant method choice');
+if(!menu.includes('type="hidden" name="method" value="ahead"'))fail('Single pickup method missing');
 if(!only.includes('#window-cart-dialog [hidden]') || !only.includes('@media (max-width: 700px)')){
   fail('Checkout responsive or hidden-state guard missing');
 }

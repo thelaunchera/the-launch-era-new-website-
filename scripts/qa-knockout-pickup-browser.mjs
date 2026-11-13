@@ -16,16 +16,11 @@ try{
     page.on('console',msg=>{if(msg.type()==='error')console.error('BROWSER CONSOLE',width,msg.text());});
     await page.goto(url,{waitUntil:'domcontentloaded'});
     await page.locator('[data-menu-id="body"] .card-detail').first().waitFor();
-    await page.waitForFunction(() => getComputedStyle(document.querySelector('#pickup-option-switch')).display==='grid',null,{timeout:10000});
-    const choices=page.locator('.pickup-option-switch .pickup-mode');
-    assert.equal(await choices.count(),2,'Must show two pickup methods');
-    const first=await choices.nth(0).boundingBox();
-    const second=await choices.nth(1).boundingBox();
-    assert(first && second,'Pickup cards have no layout');
-    const overlap=first.x < second.x+second.width-1 && first.x+first.width > second.x+1 &&
-      first.y < second.y+second.height-1 && first.y+first.height > second.y+1;
-    if(overlap){const detail=await page.evaluate(()=>{const wrap=document.querySelector('.pickup-option-switch'),a=wrap?.querySelectorAll('.pickup-mode');return {wrap:wrap?.outerHTML.slice(0,550),wrapCSS:wrap?{display:getComputedStyle(wrap).display,columns:getComputedStyle(wrap).gridTemplateColumns,width:getComputedStyle(wrap).width}:null,btnCSS:a?.length?{display:getComputedStyle(a[0]).display,position:getComputedStyle(a[0]).position,width:getComputedStyle(a[0]).width,transform:getComputedStyle(a[0]).transform}:null,styles:[...document.styleSheets].map(x=>x.href).filter(Boolean).slice(-8)}});console.error('PICKUP OVERLAP',width,JSON.stringify({first,second,detail}).slice(0,1800));await page.screenshot({path:path.join(screenshots,'knockout-overlap-'+width+'.png')});}
-    assert(!overlap,'Pickup method cards overlap at '+width+'px');
+    // One direct pickup flow; no window vs. ahead radio selection.
+    assert.equal(await page.locator('.pickup-option-switch,.checkout-pickup-cards').count(),0,'No redundant pickup choices');
+    assert.equal(await page.locator('.order-routing-note a[href*="doordash.com"]').count(),1,'DoorDash remains an independent delivery option');
+    assert.equal(await page.locator('#pickup-preview-form input[type="hidden"][name="method"][value="ahead"]').count(),1,'Only direct pickup');
+
 
     await page.locator('[data-menu-id="body"] .card-detail').first().click();
     await page.locator('#product-dialog .km-customizer').waitFor();
