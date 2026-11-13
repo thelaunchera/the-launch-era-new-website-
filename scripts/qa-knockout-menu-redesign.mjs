@@ -68,6 +68,7 @@ assert(html.includes('M23.071 8.409') && html.includes('km-choice-doordash-symbo
 assert(!html.includes('ORDER ON DOORDASH ↗') && !pickup.includes("orderDoorDash:'ORDER ON DOORDASH ↗'"),'Old external arrow must not return to DoorDash button');
 assert(pickup.includes("orderDoorDash:'ORDER ON DOORDASH'") && pickup.includes("orderDoorDash:'PEDIR POR DOORDASH'"),'Bilingual DoorDash label must remain arrow-free');
 assert(css.includes('KNOCKOUT VISUAL PICKUP AND DOORDASH BUTTONS') && css.includes('.menu-tools .menu-search-field input'),'One-border search refinement missing');
+assert(css.includes('KNOCKOUT HIGH-CONTRAST CTAS') && css.includes('.km-order-choice .km-choice-text{') && css.includes('color:#fff!important;') && css.includes('-webkit-text-fill-color:#fff!important;') && css.includes('.km-order-choice .km-choice-symbol{'),'CTA labels and symbols must remain legible on red and black buttons');
 
 assert(html.includes('data-direct-copy="squareRequirement"'),'Square payment guidance missing');
 assert(!/\bStripe\b/i.test(html+pickup),'Legacy Stripe visible to customer');
