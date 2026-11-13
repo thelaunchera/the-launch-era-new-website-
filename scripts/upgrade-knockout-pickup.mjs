@@ -20,7 +20,7 @@ function customizationMarkup(item, lang){
   ];
   const toppingHtml=choices.map(([value,label])=>`<label class="km-option"><input type="checkbox" name="km-topping" value="${value}"><span>${label}</span></label>`).join('');
   const sideHtml=sides.map(([value,label],i)=>`<label class="km-option"><input type="radio" name="km-side" value="${value}" ${i===0?'checked':''}><span>${label}</span></label>`).join('');
-  return `<section class="km-customizer" aria-label="${es?'Personalizar':'Customize'}"><fieldset class="km-option-group"><legend>${es?'Toppings · opcional':'Toppings · optional'}</legend><div class="km-option-grid">${toppingHtml}</div></fieldset><fieldset class="km-option-group"><legend>${es?'Acompañamiento · opcional':'Side request · optional'}</legend><div class="km-option-grid km-side-grid">${sideHtml}</div></fieldset><p class="km-options-note">${es?'Solo solicitudes de ejemplo. Disponibilidad y cargos adicionales sujetos a confirmación del negocio.':'Preview requests only. Availability and any extra charges must be confirmed by the truck.'}</p></section>`;
+  return `<section class="km-customizer" aria-label="${es?'Personalizar':'Customize'}"><fieldset class="km-option-group"><legend>${es?'Cambios · opcional':'Toppings · optional'}</legend><div class="km-option-grid">${toppingHtml}</div></fieldset><fieldset class="km-option-group"><legend>${es?'Acompañamiento · opcional':'Side request · optional'}</legend><div class="km-option-grid km-side-grid">${sideHtml}</div></fieldset><p class="km-options-note">${es?'Solo solicitudes de ejemplo. Disponibilidad y cargos adicionales sujetos a confirmación del negocio.':'Preview requests only. Availability and any extra charges must be confirmed by the truck.'}</p></section>`;
 }
 
 function patchKnockoutPickup(app,windowOrder){
@@ -38,7 +38,7 @@ function patchKnockoutPickup(app,windowOrder){
     "const customize=e.target.closest('[data-configure-item]');if(customize){showProduct(customize.dataset.configureItem);return;}if(e.target.closest('[data-add-item]'))return;const card=e.target.closest('[data-menu-id]');",
     'menu plus must open customization');
   app=once(app,'<div class="dialog-text"><span class="section-kicker">',
-    '<div class="dialog-text"><div class="km-order-progress" aria-label="${lang===\'es\'?\'Paso 2 de 3\':\'Step 2 of 3\'}"><span>${lang===\'es\'?\'01 · MENÚ\':\'01 · MENU\'}</span><strong>02 · TOPPINGS</strong><span>${lang===\'es\'?\'03 · CARRITO\':\'03 · BAG\'}</span></div><span class="section-kicker">',
+    '<div class="dialog-text"><div class="km-order-progress" aria-label="${lang===\'es\'?\'Paso 2 de 3\':\'Step 2 of 3\'}"><span>${lang===\'es\'?\'01 · MENÚ\':\'01 · MENU\'}</span><strong>${lang==='es'?'02 · OPCIONES':'02 · TOPPINGS'}</strong><span>${lang===\'es\'?\'03 · CARRITO\':\'03 · BAG\'}</span></div><span class="section-kicker">',
     'step 2 progress header');
   app=once(app,'+ ADD TO PICKUP LIST','${lang===\'es\'?\'AÑADIR AL CARRITO\':\'ADD TO BAG\'}','confirm customization button');
   app=once(app,'<a class="modal-doordash-link" target="_blank" rel="noopener noreferrer" href="${DOORDASH_URL}">${phrase(\'orderButton\')}</a>','','modal should focus on pickup customization');
@@ -113,6 +113,21 @@ function patchKnockoutPickup(app,windowOrder){
     return "payTruck:'"+squareTitles[i]+"',squareRequirement:'"+squareDescriptions[i]+"'";
   });
   if(squareCopyIndex!==2 || /noStripe:|\bStripe\b/.test(windowOrder))throw Error('Square payment labels not applied in both languages');
+
+  // The catalog now includes authoritative Spanish product fields. Render the
+  // localized display text in both cards and the modal, without changing item
+  // IDs, pricing, selected options, URLs or the underlying English source.
+  for(const [token,translation,label] of [
+    ['esc(item.name)',"esc(lang==='es'&&item.nameEs?item.nameEs:item.name)",'product names'],
+    ['esc(item.description)',"esc(lang==='es'&&item.descriptionEs?item.descriptionEs:item.description)",'product descriptions'],
+    ['esc(item.category)',"esc(lang==='es'&&item.categoryEs?item.categoryEs:item.category)",'product categories']
+  ]){
+    if(!app.includes(token))throw Error('Knockout locale: missing app template '+label);
+    app=app.replaceAll(token,translation);
+  }
+  if(!app.includes('item.descriptionEs')||!app.includes('item.nameEs')||!app.includes('item.categoryEs'))
+    throw Error('Knockout Spanish menu fields were not integrated');
+
   if(!app.includes('km-customizer')||!windowOrder.includes('const cartId='))throw Error('Knockout customization patch incomplete');
   return {app,windowOrder};
 }
