@@ -43,10 +43,16 @@ try{
     // Mobile food-first composition: no separate back strip or redundant heading.
     const backBarVisible=await page.locator('.menu-route-bar').isVisible();
     assert.equal(backBarVisible,false,'Back-to-website strip must not consume a second row');
-    const backNav=page.locator('.site-header .brand .km-brand-back');
-    assert.equal(await backNav.count(),1,'Back-to-website label must be integrated with the logo');
-    assert.equal((await backNav.innerText()).trim(),'BACK','Back label must be concise');
-    assert((await page.locator('.site-header .brand').getAttribute('href')||'').includes('index.html'),'Logo/back must preserve real homepage destination');
+    const backNav=page.locator('.site-header .km-header-back');
+    assert.equal(await backNav.count(),1,'Dedicated BACK anchor must be inside the sticky topbar');
+    assert.equal((await backNav.innerText()).trim(),'BACK','BACK must be readable in English');
+    assert((await backNav.getAttribute('href')||'').includes('index.html'),'BACK must return to the real Knockout homepage');
+    const backRect=await backNav.boundingBox(),headerRect=await page.locator('.site-header').boundingBox();
+    assert(backRect&&headerRect&&backRect.y>=headerRect.y-1&&backRect.y+backRect.height<=headerRect.y+headerRect.height+1,
+      'BACK must remain INSIDE the dark header: '+JSON.stringify({backRect,headerRect}));
+    const backStyles=await backNav.evaluate(el=>{const s=getComputedStyle(el);return {color:s.color,background:s.backgroundColor,position:s.position,z:s.zIndex}});
+    assert(backStyles.position==='absolute'&&backStyles.background!=='rgba(0, 0, 0, 0)'&&backStyles.color==='rgb(255, 255, 255)',
+      'BACK needs a permanent high-contrast dark surface: '+JSON.stringify(backStyles));
     if(width<=600){
       const displayedHeading=await page.locator('.menu-section .menu-head').evaluate(el=>{
         const s=getComputedStyle(el);const r=el.getBoundingClientRect();
@@ -59,8 +65,11 @@ try{
       assert.equal(await eyebrow.isVisible(),true,'The small editorial place label must be visible');
       const heroBox=await page.locator('.km-banner').boundingBox();
       const ctaBox=await page.locator('.km-order-choices').boundingBox();
-      assert(heroBox&&ctaBox&&ctaBox.y-heroBox.y-heroBox.height>=0 && ctaBox.y-heroBox.y-heroBox.height<28,
-        'Pickup and DoorDash must immediately follow the photo/title: '+JSON.stringify({heroBox,ctaBox}));
+      assert(heroBox&&ctaBox&&ctaBox.y-heroBox.y-heroBox.height>-30 && ctaBox.y-heroBox.y-heroBox.height<28,
+        'Rounded menu sheet must overlap hero without hiding pickup buttons: '+JSON.stringify({heroBox,ctaBox}));
+      const sheet=await page.locator('.menu-section').evaluate(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return {radius:s.borderTopLeftRadius,margin:s.marginTop,y:r.y}});
+      assert(parseFloat(sheet.radius)>=20 && parseFloat(sheet.margin)<0,
+        'Menu ivory section must round and float above hero: '+JSON.stringify(sheet));
     }
         // Verify the actual issue in the supplied iPad photo: menu cards must
     // appear in the first screen, not buried below multiple explanation banners.
@@ -238,6 +247,11 @@ try{
       'Original website hero did not load tank-free image at '+width+': '+JSON.stringify(hero));
     assert(hero.width>width*.75 && hero.height>150 && hero.fit==='cover',
       'Original website hero is not covering the layout at '+width+': '+JSON.stringify(hero));
+    if(width<=760){
+      const card=await page.locator('.hero-content').evaluate(el=>{const s=getComputedStyle(el);return {radius:s.borderTopLeftRadius,margin:s.marginTop,background:s.backgroundColor}});
+      assert(parseFloat(card.radius)>=20&&parseFloat(card.margin)<0,
+        'Homepage ivory hero card must overlap the photo with rounded top corners: '+JSON.stringify(card));
+    }
     const eventSmall=await page.locator('.events-photo-small').getAttribute('src');
     assert.equal(eventSmall,'./assets/04-customer-experience.webp','Events photo must be distinct from the hero');
     await page.screenshot({path:path.join(screenshots,'knockout-home-hero-'+width+'.png'),fullPage:false});
