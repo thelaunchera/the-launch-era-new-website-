@@ -113,6 +113,30 @@ try{
         'Tablet menu should overlap new food collage with rounded corners: '+JSON.stringify(sheet));
     }
 
+
+    const menuCardRadius=await page.locator('#menu-grid .menu-card:visible').first()
+      .evaluate(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius));
+    assert(menuCardRadius>=17,'Digital menu cards must have visibly rounded corners at '+width);
+    const pickup=page.locator('#km-pickup-action');
+    await pickup.scrollIntoViewIfNeeded();
+    const pickupRadius=await pickup.evaluate(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius));
+    assert(pickupRadius>=17,'Pickup CTA must have rounded corners at '+width);
+    const pickupBox=await pickup.boundingBox();
+    assert(pickupBox,'Pickup CTA must remain visible at '+width);
+    await page.mouse.move(pickupBox.x+pickupBox.width/2,pickupBox.y+pickupBox.height/2);
+    await page.mouse.down();
+    const pickupPress=await pickup.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    assert(Math.abs(pickupPress-.94)<.015,
+      'Menu CTA must instantly shrink to 0.94 on pointerdown at '+width+': '+pickupPress);
+    await page.mouse.move(1,1);
+    // Cancel link activation before mouseup; this is a style QA, not navigation.
+    await page.mouse.move(1,1);
+    await page.mouse.up();
+    await page.waitForTimeout(380);
+    const pickupRelease=await pickup.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    assert(Math.abs(pickupRelease-1)<.015,
+      'Menu CTA must release without overshoot at '+width+': '+pickupRelease);
+
     const firstCard=await page.locator('#menu-grid .menu-card:visible').first().boundingBox();
     assert(firstCard && firstCard.y<(width<=600?1080:830), 'First menu card pushed too far below fold at '+width+': '+JSON.stringify(firstCard));
     await page.screenshot({path:path.join(screenshots,'knockout-menu-first-'+width+'.png'),fullPage:false});
@@ -293,6 +317,28 @@ try{
     const released=await primary.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
     assert(Math.abs(released-1)<.015,
       'Primary button should return to 1 without overshoot on pointerup '+width+': '+released);
+
+    const cardMetrics=await page.locator('.food-card').first().evaluate(el=>({
+      radius:parseFloat(getComputedStyle(el).borderTopLeftRadius)
+    }));
+    const menuBridgeRadius=await page.locator('.menu-bridge')
+      .evaluate(el=>parseFloat(getComputedStyle(el).borderTopLeftRadius));
+    assert(cardMetrics.radius>=16&&menuBridgeRadius>=18,
+      'Homepage food cards and menu bridge must be rounded at '+width);
+    if(width<=1050){
+      const foodSheet=await page.locator('.food-section').evaluate(el=>{
+        const s=getComputedStyle(el);return {margin:s.marginTop,radius:parseFloat(s.borderTopLeftRadius)}
+      });
+      assert(parseFloat(foodSheet.margin)<0&&foodSheet.radius>=26,
+        'Food section must float over previous story on phone and tablet '+JSON.stringify(foodSheet));
+    }
+    if(width<=760){
+      const eventsButton=await page.locator('.hero-actions .btn-light').evaluate(el=>{
+        const s=getComputedStyle(el);return {border:s.borderTopWidth,color:s.borderTopColor,background:s.backgroundColor}
+      });
+      assert(parseFloat(eventsButton.border)>=2&&eventsButton.color!==eventsButton.background,
+        'Events & Catering must have a contrasting outline on ivory phone background '+JSON.stringify(eventsButton));
+    }
     // The tablet's ivory story panel must sit over the photographic hero.
     // On phones the separate rounded .hero-content panel already owns that seam.
     if(width>760 && width<=1050){
