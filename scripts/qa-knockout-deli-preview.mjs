@@ -26,6 +26,16 @@ for(const name of ['knockout-truck-event.webp','knockout-community.webp','knocko
 if(!home.includes('window=1#window-order')||!home.includes('location.replace'))fail('Legacy deep-link to digital menu missing');
 if(!home.includes('https://www.doordash.com/store/42538456'))fail('Existing external DoorDash link missing');
 if(!home.includes('https://linktr.ee/knockoutdeli'))fail('Official contact/location link missing');
+// Demo catering remains an accessible, local-only inquiry preview.
+const eventsSection = (home.split('<section class="events-section"')[1] || '').split('</section>')[0] || '';
+const cateringDialog = (home.split('<dialog id="catering-dialog"')[1] || '').split('</dialog>')[0] || '';
+if(!eventsSection.includes('id="open-catering-form"') || eventsSection.includes('href="https://linktr.ee/knockoutdeli"'))fail('Catering CTA must open the demo form');
+if(!cateringDialog.includes('id="knockout-catering-demo"') || !cateringDialog.includes('onsubmit="return false"'))fail('No-send catering form missing');
+for(const id of ['catering-name','catering-email','catering-phone','catering-type','catering-date','catering-guests','catering-location','catering-message','catering-preview-status'])if(!cateringDialog.includes('id="'+id+'"'))fail('Catering form field missing '+id);
+if(!cateringDialog.includes('not saved or sent') || !cateringDialog.includes('no se guarda ni se envía'))fail('Catering must disclose no data storage / no delivery in EN and ES');
+if(!script.includes('cateringDialog?.showModal()') || !script.includes('cateringForm.reportValidity()') || !script.includes('cateringForm.reset()'))fail('Catering form interaction or safe preview missing');
+if(!style.includes('.catering-dialog::backdrop') || !style.includes('@media(max-width:640px)'))fail('Catering modal responsive styles missing');
+
 if(!home.includes('id="knockout-signup-demo"')||!home.includes('id="subscriber-language"')||!home.includes('id="subscriber-consent"'))fail('Subscription demo fields / language / consent missing');
 const findCard = home.match(/<div class="find-card">([\s\S]*?)<\/div>\s*<\/section>/)?.[1] || '';
 if(!findCard || findCard.includes('linktr.ee') || !findCard.includes('type="submit"'))fail('Find card must use a demo form, not Linktree');

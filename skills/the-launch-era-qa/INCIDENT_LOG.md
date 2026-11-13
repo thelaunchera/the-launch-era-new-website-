@@ -1,3 +1,8 @@
+## 2026-11-13 — Catering CTA unexpectedly leaves Knockout concept
+- Confirmed the prospect site's `#events` button was an external Linktree anchor. User requests a dedicated form behind it.
+- Scoped repair replaces anchor with a bilingual accessible catering dialog and local-only preview, explicitly disclosing no data is stored or sent. It is not an actual inquiry or reservation.
+- No backend, Admin Panel, notifications, business communications, other demos or production email systems altered. QA guarded; live delivery to be confirmed through GitHub Pages and public HTML.
+
 ## 2026-11-13 — Knockout Deli location card navigates to Linktree instead of showing email list
 - User screenshot shows "Follow the next stop" card with external Linktree CTA; requested an email subscription area but explicitly prohibits sending, capturing or storing emails yet.
 - Verified source cause: demo-source/knockout-deli/landing/home.html find-card contains a Linktree anchor and no form.

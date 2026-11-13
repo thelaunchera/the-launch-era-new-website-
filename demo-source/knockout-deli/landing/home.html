@@ -79,9 +79,50 @@
       <div class="events-photos"><img class="events-photo-main" src="./assets/knockout-community.webp" alt="Promotional concept of the Knockout Deli truck serving a neighborhood event" loading="lazy" /><img class="events-photo-small" src="./assets/knockout-live-music.webp" alt="Promotional concept of food service at an evening community concert" loading="lazy" /></div>
       <div class="events-info"><p class="overline">03 / OUT IN THE COMMUNITY</p><h2 id="events-title" data-en="BRING THE<br>FOOD.<br><em>MAKE IT<br>AN EVENT.</em>" data-es="BUENA<br>COMIDA.<br><em>GRANDES<br>EVENTOS.</em>">BRING THE<br>FOOD.<br><em>MAKE IT<br>AN EVENT.</em></h2><p data-en="Knockout Deli is about more than the window. The truck also offers catering, deli platters, sandwich trays and private events." data-es="Knockout Deli es más que su ventanilla. También ofrece catering, bandejas de deli, bandejas de sándwiches y eventos privados.">Knockout Deli is about more than the window. The truck also offers catering, deli platters, sandwich trays and private events.</p>
       <div class="service-pills"><span>CATERING</span><span>DELI PLATTERS</span><span>SANDWICH TRAYS</span><span>PRIVATE EVENTS</span></div>
-      <a class="btn btn-red" href="https://linktr.ee/knockoutdeli" target="_blank" rel="noopener noreferrer" data-en="ASK ABOUT CATERING " data-es="PREGUNTA POR CATERING ">ASK ABOUT CATERING </a><small data-en="Contact opens the truck's official links; this concept does not send booking requests." data-es="El contacto abre los enlaces oficiales del negocio; este demo no envía reservaciones.">Contact opens the truck's official links; this concept does not send booking requests.</small></div>
+      <button type="button" class="btn btn-red catering-open" id="open-catering-form" aria-haspopup="dialog" aria-controls="catering-dialog" data-en="ASK ABOUT CATERING" data-es="PREGUNTA POR CATERING">ASK ABOUT CATERING</button><small data-en="Preview a catering inquiry — nothing is sent." data-es="Previsualiza una solicitud de catering — no se envía nada.">Preview a catering inquiry — nothing is sent.</small></div>
     </div>
   </section>
+
+
+  <!-- Demo only: deliberately disconnected from email, CRM and merchant reservations. -->
+  <dialog id="catering-dialog" class="catering-dialog" aria-labelledby="catering-dialog-title" aria-describedby="catering-dialog-description">
+    <div class="catering-dialog-shell">
+      <header class="catering-dialog-head">
+        <div>
+          <span class="catering-eyebrow" data-en="KNOCKOUT DELI · EVENTS & CATERING" data-es="KNOCKOUT DELI · EVENTOS Y CATERING">KNOCKOUT DELI · EVENTS & CATERING</span>
+          <h2 id="catering-dialog-title" data-en="BRING THE FOOD.<br><em>MAKE IT AN EVENT.</em>" data-es="PON LA FECHA.<br><em>LLEVAMOS LA COMIDA.</em>">BRING THE FOOD.<br><em>MAKE IT AN EVENT.</em></h2>
+          <p id="catering-dialog-description" data-en="Tell us a little about your gathering. This is a preview of the future inquiry experience." data-es="Cuéntanos un poco sobre tu evento. Esta es una muestra de la futura experiencia de consultas.">Tell us a little about your gathering. This is a preview of the future inquiry experience.</p>
+        </div>
+        <button id="catering-close" class="catering-dialog-close" type="button" aria-label="Close catering form"><span aria-hidden="true">×</span></button>
+      </header>
+      <form id="knockout-catering-demo" class="catering-demo-form" onsubmit="return false" novalidate>
+        <div class="catering-fields">
+          <label for="catering-name"><span data-en="YOUR NAME *" data-es="TU NOMBRE *">YOUR NAME *</span><input id="catering-name" type="text" name="name" autocomplete="name" maxlength="100" required /></label>
+          <label for="catering-email"><span data-en="EMAIL ADDRESS *" data-es="CORREO ELECTRÓNICO *">EMAIL ADDRESS *</span><input id="catering-email" type="email" name="email" autocomplete="email" maxlength="254" required /></label>
+          <label for="catering-phone"><span data-en="PHONE (OPTIONAL)" data-es="TELÉFONO (OPCIONAL)">PHONE (OPTIONAL)</span><input id="catering-phone" type="tel" name="phone" autocomplete="tel" maxlength="30" /></label>
+          <label for="catering-type"><span data-en="EVENT TYPE *" data-es="TIPO DE EVENTO *">EVENT TYPE *</span>
+            <select id="catering-type" name="event-type" required>
+              <option value="" selected disabled data-en="Choose an option" data-es="Elige una opción">Choose an option</option>
+              <option value="private-event" data-en="Private event" data-es="Evento privado">Private event</option>
+              <option value="corporate" data-en="Corporate / office event" data-es="Evento corporativo / de oficina">Corporate / office event</option>
+              <option value="community" data-en="Community gathering" data-es="Evento comunitario">Community gathering</option>
+              <option value="platters" data-en="Sandwich or deli platters" data-es="Bandejas de sándwiches o deli">Sandwich or deli platters</option>
+              <option value="other" data-en="Something else" data-es="Otro">Something else</option>
+            </select>
+          </label>
+          <label for="catering-date"><span data-en="EVENT DATE *" data-es="FECHA DEL EVENTO *">EVENT DATE *</span><input id="catering-date" type="date" name="event-date" required /></label>
+          <label for="catering-guests"><span data-en="ESTIMATED GUESTS *" data-es="INVITADOS ESTIMADOS *">ESTIMATED GUESTS *</span><input id="catering-guests" type="number" name="guests" min="1" max="10000" inputmode="numeric" required /></label>
+          <label class="catering-field-wide" for="catering-location"><span data-en="EVENT LOCATION *" data-es="UBICACIÓN DEL EVENTO *">EVENT LOCATION *</span><input id="catering-location" type="text" name="location" maxlength="180" data-placeholder-en="City or venue in South Florida" data-placeholder-es="Ciudad o lugar en el sur de Florida" placeholder="City or venue in South Florida" required /></label>
+          <label class="catering-field-wide" for="catering-message"><span data-en="TELL US ABOUT YOUR EVENT (OPTIONAL)" data-es="CUÉNTANOS SOBRE TU EVENTO (OPCIONAL)">TELL US ABOUT YOUR EVENT (OPTIONAL)</span><textarea id="catering-message" name="message" maxlength="1200" rows="3" data-placeholder-en="Food preferences, service needs, or details..." data-placeholder-es="Comida preferida, servicio o detalles..." placeholder="Food preferences, service needs, or details..."></textarea></label>
+        </div>
+        <div class="catering-form-footer">
+          <p class="catering-demo-disclaimer" data-en="CONCEPT PREVIEW ONLY — Your information is not saved or sent to Knockout Deli. This is not a booking request." data-es="SOLO VISTA PREVIA — Tu información no se guarda ni se envía a Knockout Deli. Esto no es una reservación.">CONCEPT PREVIEW ONLY — Your information is not saved or sent to Knockout Deli. This is not a booking request.</p>
+          <button class="btn catering-preview-btn" type="submit" data-en="PREVIEW REQUEST" data-es="PREVISUALIZAR SOLICITUD">PREVIEW REQUEST</button>
+          <p class="catering-preview-status" id="catering-preview-status" role="status" aria-live="polite" hidden></p>
+        </div>
+      </form>
+    </div>
+  </dialog>
 
   <section class="find-section editorial-wrap" id="find" aria-labelledby="find-title">
     <div class="find-intro">

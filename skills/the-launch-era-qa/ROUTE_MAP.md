@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli catering inquiry dialog (preview only)
+- `/demos/knockout-deli/#events`: "Ask About Catering" opens a native bilingual EN/ES modal dialog rather than redirecting to Linktree. Fields: name, email, optional phone, event type, date, guests, venue/city, and notes.
+- Submit only performs local form validation, displays an explicit preview-only notice and clears inputs. NO request, client CRM write, email, quote, booking, analytics storage or automation. Close via button, Escape, or backdrop; focus returns to triggering button.
+- Source is `demo-source/knockout-deli/landing/{home.html,landing.js,landing.css}`, built by the existing Pages flow. The email-club preview, menu, DoorDash and footer official Linktree remain independent.
+- Check `scripts/qa-knockout-deli-preview.mjs` and deployed `#events` before marking live.
+
 ## 2026-11-13 — Knockout Deli email-club subscription preview (non-operational)
 - Within the independent prospect website /demos/knockout-deli/#find the previous "See official updates" Linktree button is replaced with a clearly labeled subscription mockup: email field, explicit opt-in, independently chosen EN/ES email language and topics (locations, events, offers).
 - Client-only proof of concept. Submit prevents navigation and form transport, displays a preview-only notice, and clears input. No subscriber data is saved (not even localStorage), no CRM/Admin Panel connection, no welcome emails, no event or discount campaigns, and no automation is activated.
