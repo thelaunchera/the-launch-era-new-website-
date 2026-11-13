@@ -14,3 +14,207 @@
 .site-footer .footer-links a[href='#events'],.site-footer .footer-links a[href='#catering']{display:none}
 .window-order-section{scroll-margin-top:90px}
 @media(max-width:600px){.menu-route-bar{font-size:11px}.menu-section{padding-top:34px!important}.menu-route-bar span{font-size:10px}}
+
+
+/* Pickup checkout layout repair.
+   These checkout components are part of the original demo bundle; the bundle
+   has no matching component CSS. Scope everything to the menu dialog so the
+   website, menu cards and other demo checkouts cannot be affected. */
+#window-cart-dialog.digital-checkout {
+  width: min(720px, calc(100vw - 24px));
+  max-width: 720px;
+  max-height: min(90dvh, 900px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  scrollbar-gutter: stable;
+}
+#window-cart-dialog.digital-checkout *,
+#window-cart-dialog.digital-checkout *::before,
+#window-cart-dialog.digital-checkout *::after { box-sizing: border-box; }
+#window-cart-dialog [hidden] { display: none !important; }
+#window-cart-dialog .checkout-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 17px 26px;
+  background: #fffdfa;
+  border-bottom: 1px solid #dfd4c8;
+}
+#window-cart-dialog .checkout-steps > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: #746962;
+  font: 800 11px/1.3 'DM Sans', Arial, sans-serif;
+  letter-spacing: .035em;
+  white-space: nowrap;
+}
+#window-cart-dialog .checkout-steps > span b {
+  display: grid;
+  place-items: center;
+  flex: 0 0 27px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #ece4dc;
+  color: #62544b;
+  font: 800 12px/1 'DM Sans', Arial, sans-serif;
+}
+#window-cart-dialog .checkout-steps > span.current { color: #b51f28; }
+#window-cart-dialog .checkout-steps > span.current b {
+  background: #c32129;
+  color: #fff;
+}
+#window-cart-dialog .pickup-preview-form {
+  display: grid;
+  gap: 18px;
+  padding: 24px 26px 26px;
+  min-width: 0;
+}
+#window-cart-dialog .pickup-preview-form > h3 {
+  margin: 0;
+  color: #211c19;
+  font: 900 24px/1.08 'Barlow Condensed', Impact, sans-serif;
+  letter-spacing: .01em;
+}
+#window-cart-dialog .checkout-pickup-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+#window-cart-dialog .checkout-radio {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  min-width: 0;
+  padding: 17px 15px;
+  margin: 0;
+  background: #fffdfa;
+  border: 1px solid #d7cbc0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+#window-cart-dialog .checkout-radio:has(input:checked) {
+  background: #fff0ee;
+  border-color: #c3222d;
+}
+#window-cart-dialog .checkout-radio:focus-within {
+  outline: 2px solid #c3222d;
+  outline-offset: 2px;
+}
+#window-cart-dialog .checkout-radio input {
+  flex: 0 0 19px;
+  width: 19px;
+  height: 19px;
+  margin: 1px 0 0;
+  accent-color: #c3222d;
+  cursor: pointer;
+}
+#window-cart-dialog .checkout-radio > span {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+#window-cart-dialog .checkout-radio strong {
+  color: #231e1c;
+  font: 800 13px/1.3 'DM Sans', Arial, sans-serif;
+  overflow-wrap: anywhere;
+}
+#window-cart-dialog .checkout-radio small {
+  color: #6a5e57;
+  font: 500 12px/1.45 'DM Sans', Arial, sans-serif;
+  overflow-wrap: anywhere;
+}
+#window-cart-dialog .ahead-pickup-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 13px;
+  min-width: 0;
+}
+#window-cart-dialog .checkout-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+}
+#window-cart-dialog .checkout-field > span {
+  color: #403630;
+  font: 800 11px/1.4 'DM Sans', Arial, sans-serif;
+  letter-spacing: .025em;
+}
+#window-cart-dialog .checkout-field input,
+#window-cart-dialog .checkout-field select,
+#window-cart-dialog .checkout-field textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 49px;
+  margin: 0;
+  padding: 12px 13px;
+  border: 1px solid #cdbfb2;
+  border-radius: 9px;
+  background: #fff;
+  color: #241e1a;
+  font: 500 16px/1.45 'DM Sans', Arial, sans-serif;
+  letter-spacing: normal;
+  box-shadow: none;
+}
+#window-cart-dialog .checkout-field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+#window-cart-dialog .checkout-field :is(input, select, textarea):focus-visible {
+  outline: 2px solid #c3222d;
+  outline-offset: 2px;
+}
+#window-cart-dialog .checkout-privacy {
+  margin: 0;
+  color: #6e625b;
+  font: 500 12px/1.6 'DM Sans', Arial, sans-serif;
+}
+#window-cart-dialog .direct-pay-truck { margin: 0; align-items: flex-start; }
+#window-cart-dialog .direct-pay-truck > div { min-width: 0; }
+#window-cart-dialog .direct-pay-truck :is(strong, small) { overflow-wrap: anywhere; }
+#window-cart-dialog .checkout-form-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 17px;
+  border-top: 1px solid #dfd4c8;
+}
+#window-cart-dialog .checkout-form-actions .button {
+  width: 100%;
+  min-width: 0;
+  min-height: 49px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  font: 800 12px/1.3 'DM Sans', Arial, sans-serif;
+  text-align: center;
+  white-space: normal;
+}
+@media (max-width: 700px) {
+  #window-cart-dialog.digital-checkout {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+    scrollbar-gutter: auto;
+  }
+  #window-cart-dialog .checkout-steps { gap: 6px; padding: 14px 15px; }
+  #window-cart-dialog .checkout-steps > span { gap: 5px; font-size: 10px; }
+  #window-cart-dialog .checkout-steps > span b { width: 24px; height: 24px; flex-basis: 24px; }
+  #window-cart-dialog .pickup-preview-form { padding: 20px 16px 24px; gap: 16px; }
+  #window-cart-dialog .checkout-pickup-cards,
+  #window-cart-dialog .ahead-pickup-fields { grid-template-columns: minmax(0, 1fr); }
+  #window-cart-dialog .checkout-radio { padding: 14px; }
+  #window-cart-dialog .checkout-form-actions { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #window-cart-dialog .checkout-radio { transition: none; }
+}
