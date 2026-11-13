@@ -3,7 +3,7 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 const root=path.resolve(process.argv[2] || '.output/public/demos/knockout-deli');
 const required=['index.html','menu.html','landing.css','landing.js','menu-only.css','styles.css','visual-polish.css','digital-menu.css','app.js','window-order.js','window-order.css',
- ...['01-hero-pastrami','02-menu-spread','03-pastrami-prep','04-customer-experience','05-breakfast-sandwich','06-cheesesteak-grill','07-order-online','08-real-truck-location','logo-knockout-deli-transparent','knockout-truck-event','knockout-community','knockout-live-music'].map(x=>'assets/'+x+'.webp')];
+ ...['01-hero-pastrami','02-menu-spread','03-pastrami-prep','04-customer-experience','05-breakfast-sandwich','06-cheesesteak-grill','07-order-online','08-real-truck-location','logo-knockout-deli-transparent','knockout-truck-event','knockout-community','knockout-live-music'].map(x=>'assets/'+x+'.webp'),'assets/knockout-menu-food-poster-20261113.webp','assets/knockout-menu-food-collage-20261113.webp'];
 const fail = msg => { console.error('Knockout Deli QA: '+msg); process.exitCode=1 };
 for(const rel of required){const f=path.join(root,rel);if(!fs.existsSync(f)||fs.statSync(f).size===0)fail('Missing or empty '+rel)}
 if(process.exitCode)process.exit();
@@ -57,6 +57,7 @@ if(!script.includes("event.preventDefault()")||!script.includes("subscriberForm.
 if(/fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|sendBeacon/i.test(script))fail('Subscription demo must have no network requests or persistence');
 if(!style.includes('.signup-fields')||!style.includes('@media(max-width:480px)'))fail('Subscription demo responsive styles missing');
 
+if(!style.includes('KNOCKOUT ROUND ORDER PHOTO TRANSITION 20261113')||!style.includes('border-radius:32px 32px 0 0!important;'))fail('Tablet order image/text rounded overlap missing');
 if(!style.includes('object-fit:cover')||!style.includes('@media(max-width:760px)')||!style.includes('prefers-reduced-motion:reduce'))fail('Responsive hero styling not verified');
 
 // Homepage kinetic brand is isolated from the rest of the headline and obeys reduced-motion.
