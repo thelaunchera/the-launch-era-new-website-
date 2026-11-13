@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 const root=path.resolve(process.argv[2] || '.output/public/demos/knockout-deli');
-const required=['index.html','menu.html','landing.css','landing.js','menu-only.css','styles.css','visual-polish.css','app.js','window-order.js','window-order.css',
+const required=['index.html','menu.html','landing.css','landing.js','menu-only.css','styles.css','visual-polish.css','digital-menu.css','app.js','window-order.js','window-order.css',
  ...['01-hero-pastrami','02-menu-spread','03-pastrami-prep','04-customer-experience','05-breakfast-sandwich','06-cheesesteak-grill','07-order-online','08-real-truck-location','logo-knockout-deli-transparent','knockout-truck-event','knockout-community','knockout-live-music'].map(x=>'assets/'+x+'.webp')];
 const fail = msg => { console.error('Knockout Deli QA: '+msg); process.exitCode=1 };
 for(const rel of required){const f=path.join(root,rel);if(!fs.existsSync(f)||fs.statSync(f).size===0)fail('Missing or empty '+rel)}
@@ -31,8 +31,12 @@ if(!script.includes('aria-expanded')||!script.includes("'Escape'"))fail('Accessi
 for(const id of ['window-order','menu','events','find-us','catering','order','follow','window-cart-dialog','window-sticky','menu-grid']) if(!menu.includes('id="'+id+'"'))fail('Original digital menu capability missing '+id);
 if(!menu.includes('href="./menu-only.css"')||!only.includes('.hero-section'))fail('Digital menu must not show legacy landing above products');
 if(!menu.includes('BACK TO WEBSITE'))fail('Digital menu needs return path');
-if(!menu.includes('data-window-i18n')||!qr.includes('es:{navWindow:'))fail('Existing menu language switch missing');
-if(!qr.includes('not a submitted order'))fail('Demo must not imply submitted order');
+if(!menu.includes('data-window-i18n')||!/\bes\s*:\s*\{[\s\S]{0,500}navWindow\s*:/.test(qr))fail('Existing menu language switch missing');
+if(!qr.includes('previewAlert')||!qr.includes('activationHelp')||!qr.includes('preview-submit-disabled'))fail('Demo must not imply submitted order');
+if(!menu.includes('id="menu-search"')||!menu.includes('order-routing-note')||!menu.includes('pickup-demo-phone')||!menu.includes('direct-pay-truck'))fail('Current digital menu search / pickup-choice flows missing');
+if(!menu.includes('digital-menu.css')||!menu.includes('window-order.css'))fail('Existing digital menu styles missing');
+if(!menu.includes('https://linktr.ee/knockoutdeli'))fail('Existing physical QR Linktree route missing');
+if(/js\.stripe\.com|api\.stripe\.com/i.test(home+menu+qr+core))fail('Stripe must not be claimed as live in demo');
 if(!core.includes('events: []')||/\bfetch\s*\(|XMLHttpRequest|localStorage\s*\.|sessionStorage\s*\.|WebSocket/.test(core+'\n'+qr))fail('No network writes/persistence permitted in concept');
 for(const f of ['app.js','window-order.js','landing.js']){const c=spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});if(c.status!==0)fail(f+' invalid: '+c.stderr)}
 for(const rel of required.filter(x=>x.endsWith('.webp')))if(fs.statSync(path.join(root,rel)).size>400000)fail('Unoptimized image '+rel);

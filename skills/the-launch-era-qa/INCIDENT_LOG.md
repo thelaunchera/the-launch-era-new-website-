@@ -1,3 +1,10 @@
+## 2026-11-13 — Knockout Deli direct pickup prospect demo (no payments or live submissions)
+- User revised strategy: retain DoorDash's official ordering link as separate external option. The standalone website displays a digital menu, allows customers to build a list with quantities, name, optional phone, pickup time and notes, and previews a future "send to truck / pay at truck" request.
+- Current prospect demo MUST NOT send or store actual orders, collect payment, create fake receipts, expose the owner/Admin Panel or impersonate a confirmed business integration. The send-to-truck control is disabled with an explicit owner-activation message. A real order receiver and secure notification channel require owner approval and onboarding; customer waits for merchant confirmation before pickup.
+- Physical truck QR currently goes to Knockout Deli's Linktree. It remains unchanged; only later, with permission, an additional website link could be added to their Linktree. DoorDash stays independent; no Stripe, no DoorDash API or POS sync.
+- Added digital-menu.css for a mobile search and two-route order UI. CI validates asset inclusion, no admin, no network/persistence, disabled send CTA and external DoorDash/Linktree endpoints. No unrelated app modified.
+- Product names and sample prices remain provisional and need owner confirmation before any real commerce deployment.
+
 ## 2026-11-13 — Knockout Deli hero text overlays and ticker obscure food on iPhone
 - **Observed owner evidence:** iPhone screenshot from the public `/demos/knockout-deli/` preview: black navigation, large cropped pastrami photograph with oversized “THE REAL DELI DEAL.” printed across food, internal “01 / HERO / WEBSITE CONCEPT PHOTOGRAPHY” labels, bright red HOT PASTRAMI moving ticker, and a seemingly empty dark section below.
 - **Verified cause in source:** the client demo HTML includes the photo-caption/hero-photo-headline/ticker overlays; existing mobile CSS positions them on top of a 380px-tall heavily cropped hero image. The black area is the beginning of the QR tutorial placed before the actual food menu.
