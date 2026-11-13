@@ -11,8 +11,9 @@ const items=JSON.parse(m[1]);
 assert(items.length>=25 && items.length<=40,'Expected complete official screenshot menu');
 assert.equal(new Set(items.map(i=>i.id)).size,items.length,'Duplicate product IDs');
 const photos=items.filter(i=>i.image).map(i=>i.image);
-assert.equal(photos.length,4,'Only four main items should have photographs');
+assert.equal(photos.length,9,'Exactly nine menu items should have unique photographs');
 assert.equal(new Set(photos).size,photos.length,'No photos may be repeated');
+for(const id of ["knockout","tko","heavy-weight","pound","round-knish"])assert(items.find(i=>i.id===id)?.image?.includes('knockout-menu-'),'Missing cropped menu photograph: '+id);
 assert(items.every(i=>!(i.image||'').includes('instagram')&&!(i.image||'').includes('post')),'No Instagram assets in menu');
 for(const item of items){
   assert(item.name && item.category && Object.hasOwn(item,'price'),'Incomplete item');
@@ -76,4 +77,4 @@ assert(pickupText.includes('PICKUP AT THE TRUCK') && pickupText.includes('RECOGI
 assert(pickupText.includes('no pickup order is sent') && pickupText.includes('no se envían pedidos'), 'Demo no-send warning must remain');
 
 for(const file of ['app.js','menu-redesign.js','window-order.js']){const r=spawnSync(process.execPath,['--check',path.join(root,file)],{encoding:'utf8'});assert.equal(r.status,0,file+' syntax error: '+r.stderr)}
-console.log('PASS: Knockout Deli curated '+items.length+'-item menu; 4 unique photos, category search, EN/ES, cart-safe layout');
+console.log('PASS: Knockout Deli curated '+items.length+'-item menu; 9 unique photos, category search, EN/ES, cart-safe layout');
