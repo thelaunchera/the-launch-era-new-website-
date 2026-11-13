@@ -1,3 +1,10 @@
+## 2026-11-13 — Knockout Deli visual pickup / DoorDash CTAs and clean search bar
+- User mobile screenshot: two order options are already side by side but the DoorDash external-link arrow resembles a UI glitch and the search field appears double-bordered. Preserve the compact menu, 3-step + -> toppings -> cart, EN/ES, and all order restrictions.
+- Use DoorDash's recognizable red brand symbol (simple-icons open source SVG path) in a white inset box within the **DoorDash** black button; remove the ↗ from the EN and ES labels. Add a small pickup bag icon within the red **Pickup at the truck** button, with responsive padding, keyboard focus and reduced motion.
+- Move `data-direct-copy` from the button/link to its inner text span so `window-order.js` bilingual translation doesn't wipe the SVG or other markup. Maintain the existing DoorDash URL and pickup scroll functionality.
+- Remove doubled borders in the legacy search wrapper/input with scoped `menu-redesign.css` rules. No new network, checkout, payments, real orders, photos, or modifications to other demos.
+- Source: `scripts/upgrade-knockout-pickup.mjs`, `demo-source/knockout-deli/landing/menu-redesign.css`, QA scripts. Confirm successful build/Playwright and GitHub Pages deployment + public HTML/CSS before marking complete.
+
 ## 2026-11-13 — Knockout Deli two independent CTAs + Square before-order concept
 - At /demos/knockout-deli/menu.html, pickup is a red button that scrolls to the menu grid and DoorDash is an independent dark external link to the existing merchant store; bilingual via data-direct-copy. Existing header bag, customization, checkout preview and photos remain intact.
 - Checkout currently **cannot charge or send orders**. Future flow represented in English/Spanish: secure Square payment must happen BEFORE placing/sending the pickup order. Removed legacy customer-facing Stripe, pay-at-truck and green success-colored note; replaced with a neutral, explicitly demo-only description. There is no activated Square merchant link, authorization, webhook or order system.

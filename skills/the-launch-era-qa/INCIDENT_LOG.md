@@ -1,3 +1,8 @@
+## 2026-11-13 — DoorDash arrow and double-border search make Knockout Deli mobile menu less polished
+- User-provided iPhone screenshot shows 'ORDER ON DOORDASH ↗' alongside pickup and a nested search field border. Asked for more visual controls and DoorDash button/brand mark in place of the arrow.
+- Scoped update: retain side-by-side choice buttons and real DoorDash destination; add pickup SVG and DoorDash logo-shaped SVG, keep translation targeting text spans, remove ↗ in both languages, and eliminate redundant search input border. No functional cart/topper/menu flow changes.
+- QA: static + responsive browser checks for icons, no arrows, single search outline, and existing menu/cart/Square demo behavior. Only publish after verified CI and Pages.
+
 ## 2026-11-13 — Knockout pickup/DoorDash fused, Stripe mentions and incorrect pay-at-truck preview
 - User screenshot showed pickup and DoorDash in a combined strip, while pickup checkout said "No Stripe" and green "PAY AT THE TRUCK". Requested two real buttons and planned Square payment BEFORE order acceptance.
 - Scoped frontend change: two bilingual buttons, pickup scroll to menu, DoorDash preserves official external destination; Square pre-order payment step is explanatory only, not a live payment or success status. Demo remains read-only, no order sent.
