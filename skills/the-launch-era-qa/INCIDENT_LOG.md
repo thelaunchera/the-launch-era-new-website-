@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli location card navigates to Linktree instead of showing email list
+- User screenshot shows "Follow the next stop" card with external Linktree CTA; requested an email subscription area but explicitly prohibits sending, capturing or storing emails yet.
+- Verified source cause: demo-source/knockout-deli/landing/home.html find-card contains a Linktree anchor and no form.
+- Scoped fix: replace only that CTA with responsive bilingual email/choice/consent mockup, JS-only simulated confirmation, explicit no-delivery/no-storage copy. No database, Make, Resend or Admin Panel changes; no live customer data affected.
+- Verification gate: new assertions in scripts/qa-knockout-deli-preview.mjs; pending CI and production Pages/browser check before marking released.
+
 ## 2026-11-13 — Knockout Deli direct pickup prospect demo (no payments or live submissions)
 - User revised strategy: retain DoorDash's official ordering link as separate external option. The standalone website displays a digital menu, allows customers to build a list with quantities, name, optional phone, pickup time and notes, and previews a future "send to truck / pay at truck" request.
 - Current prospect demo MUST NOT send or store actual orders, collect payment, create fake receipts, expose the owner/Admin Panel or impersonate a confirmed business integration. The send-to-truck control is disabled with an explicit owner-activation message. A real order receiver and secure notification channel require owner approval and onboarding; customer waits for merchant confirmation before pickup.

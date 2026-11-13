@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli email-club subscription preview (non-operational)
+- Within the independent prospect website /demos/knockout-deli/#find the previous "See official updates" Linktree button is replaced with a clearly labeled subscription mockup: email field, explicit opt-in, independently chosen EN/ES email language and topics (locations, events, offers).
+- Client-only proof of concept. Submit prevents navigation and form transport, displays a preview-only notice, and clears input. No subscriber data is saved (not even localStorage), no CRM/Admin Panel connection, no welcome emails, no event or discount campaigns, and no automation is activated.
+- All other official Linktree and DoorDash links remain independent; menu and catering actions do not change. Do not use a real merchant recipient without merchant onboarding and permission.
+- Validate source and built demo with scripts/qa-knockout-deli-preview.mjs and verify production only after successful Pages deployment and browser checks.
+
 ## 2026-11-13 — Knockout Deli QR window ordering / editorial motion update
 - Public concept `/demos/knockout-deli/` is the same isolated route; the owner may preview proposed QR entry `/demos/knockout-deli/?window=1#window-order`. This is NOT an existing QR installed on the truck.
 - The QR landing adds an "Order at Window" browsing mode, priced-menu add buttons, quantity stepper, estimated demo total, a cashier-facing on-device list, and a sticky mobile access button. It does NOT submit an order, reserve stock, generate an order number, connect a POS/kitchen/payment provider, or send a message to staff. The request must be spoken/shown at the window.
