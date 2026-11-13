@@ -59,7 +59,9 @@ const driveHero=path.join(root,'assets','knockout-menu-hero-drive-07.png');
 assert(fs.existsSync(driveHero)&&fs.statSync(driveHero).size>100000,'Drive-sourced hero photo must be bundled locally');
 assert(css.includes('KNOCKOUT DRIVE HERO')&&css.includes("url('./assets/knockout-menu-hero-drive-07.png')"),'Menu hero must use new Drive photo, not original site hero');
 assert(!css.includes("background:#301919 url('./assets/knockout-menu-hero-event.webp')"),'Original hero photo cannot be used again');
-assert(html.includes('menu-redesign.css?v=20261113-drivehero07'),'Menu must bust cached old hero CSS');
+assert(html.includes('menu-redesign.css?v=20261113-mobile-fullphoto'),'Menu must bust cached old hero CSS');
+assert(html.includes('class="km-banner-image"')&&html.includes('class="km-banner-photo"'),'Mobile hero must have separate full image');
+assert(css.includes('KNOCKOUT MOBILE HERO FULL PHOTO')&&css.includes('object-fit:contain!important;')&&css.includes('aspect-ratio:3 / 2!important;'),'Uncropped 3:2 mobile image styles missing');
 
 
 assert(html.includes('id="km-pickup-action"')&&html.includes('km-order-choice-delivery'),'Separate pickup and DoorDash controls missing');

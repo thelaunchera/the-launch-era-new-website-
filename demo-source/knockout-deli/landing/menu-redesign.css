@@ -629,3 +629,43 @@ body:has(.km-banner) .order-routing-note.km-order-choices .km-choice-symbol svg{
     flex-basis:32px!important;width:32px!important;max-width:32px!important;height:32px!important;
   }
 }
+
+/* KNOCKOUT MOBILE HERO FULL PHOTO: show complete landscape Drive image on phones.
+   Keep the desktop/tablet photographic background; move iPhone heading BELOW the food. */
+body:has(.km-banner) .km-banner-image{display:none}
+@media(max-width:600px){
+  body:has(.km-banner) .km-banner{
+    display:flex!important;flex-direction:column!important;
+    height:auto!important;min-height:0!important;width:100%!important;
+    padding:0!important;overflow:visible!important;
+    background:#171515!important;border-bottom:0!important;
+  }
+  body:has(.km-banner) .km-banner:before{content:none!important;display:none!important}
+  body:has(.km-banner) .km-banner-image{
+    display:block!important;order:0!important;
+    width:100%!important;max-width:100%!important;height:auto!important;
+    aspect-ratio:3 / 2!important;line-height:0!important;
+    margin:0!important;padding:0!important;overflow:visible!important;
+    background:#501919!important;
+  }
+  body:has(.km-banner) .km-banner-image .km-banner-photo{
+    display:block!important;width:100%!important;max-width:100%!important;
+    height:auto!important;aspect-ratio:3 / 2!important;
+    object-fit:contain!important;object-position:center center!important;
+    margin:0!important;border:0!important;
+  }
+  body:has(.km-banner) .km-banner-inner{
+    position:relative!important;order:1!important;display:block!important;
+    width:100%!important;max-width:none!important;
+    margin:0!important;padding:14px 20px 15px!important;
+    background:#171515!important;color:#fff!important;
+    border-bottom:3px solid #cf2c35!important;
+  }
+  body:has(.km-banner) .km-banner h1{
+    margin:0!important;padding:0!important;max-width:none!important;
+    font-size:clamp(36px,9.4vw,44px)!important;
+    line-height:.89!important;letter-spacing:-.012em!important;
+    text-shadow:none!important;text-wrap:balance!important;
+  }
+  body:has(.km-banner) .km-banner h1 em{color:#ff525b!important}
+}
