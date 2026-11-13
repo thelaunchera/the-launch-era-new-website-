@@ -58,6 +58,16 @@ if(/fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|sendBeacon/i.test(scri
 if(!style.includes('.signup-fields')||!style.includes('@media(max-width:480px)'))fail('Subscription demo responsive styles missing');
 
 if(!style.includes('object-fit:cover')||!style.includes('@media(max-width:760px)')||!style.includes('prefers-reduced-motion:reduce'))fail('Responsive hero styling not verified');
+
+// Homepage kinetic brand is isolated from the rest of the headline and obeys reduced-motion.
+// Press feedback is a visual-only effect: no CTA href, order state, or form logic changes.
+if(!home.includes('<em>KNOCKOUT DELI.</em>'))fail('Knockout brand-only title anchor missing');
+for(const selector of ['.hero h1 > em','knockout-brand-lift','45%{top:-8px}',
+  '.btn,.nav-menu-btn','border-radius:17px','transform:scale(.94)',
+  'transition-duration:0s','.hero h1 > em{animation:none}']){
+  if(!style.includes(selector))fail('Knockout title/button motion style missing '+selector);
+}
+
 if(!script.includes('aria-expanded')||!script.includes("'Escape'"))fail('Accessible mobile navigation missing');
 for(const id of ['window-order','menu','events','find-us','catering','order','follow','window-cart-dialog','window-sticky','menu-grid']) if(!menu.includes('id="'+id+'"'))fail('Original digital menu capability missing '+id);
 if(!menu.includes('href="./menu-only.css"')||!only.includes('.hero-section'))fail('Digital menu must not show legacy landing above products');
