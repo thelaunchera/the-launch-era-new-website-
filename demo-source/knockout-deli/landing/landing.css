@@ -186,3 +186,64 @@
     padding:55px 24px 70px!important;
   }
 }
+
+
+/* KNOCKOUT EDITORIAL CARDS — touch-friendly rounded edges and clear mobile contrast.
+   Keep the same photography, headings and CTA targets. */
+.food-card{
+  border-radius:21px!important;
+  overflow:hidden!important;
+  box-shadow:0 9px 24px rgba(25,23,23,.065);
+}
+.menu-bridge{
+  border-radius:22px!important;
+  overflow:hidden;
+  box-shadow:0 12px 28px rgba(25,23,23,.055);
+}
+.intro-photo{
+  border-radius:19px!important;
+  overflow:hidden!important;
+}
+.intro-photo .intro-photo-caption{
+  width:max-content!important;
+  max-width:min(340px,calc(100% - 24px))!important;
+  border-radius:11px!important;
+  padding:10px 13px!important;
+  gap:5px!important;
+  background:rgba(250,248,243,.97)!important;
+}
+.intro-photo .intro-photo-caption strong,
+.intro-photo .intro-photo-caption small{
+  display:block!important;
+  width:auto!important;
+  overflow-wrap:anywhere!important;
+}
+@media(max-width:1050px){
+  .food-section{
+    position:relative!important;
+    z-index:3!important;
+    margin-top:-25px!important;
+    border-radius:31px 31px 0 0!important;
+  }
+  .events-section{z-index:4!important}
+}
+@media(max-width:760px){
+  .food-section{margin-top:-20px!important;border-radius:27px 27px 0 0!important}
+  .food-card{border-radius:17px!important}
+  .menu-bridge{border-radius:19px!important;padding:25px!important}
+  .hero-actions .btn-light{
+    background:#fff!important;
+    color:#191717!important;
+    border:2px solid #292321!important;
+    box-shadow:0 6px 17px rgba(25,23,23,.12)!important;
+  }
+  .hero-actions .btn-red{border:2px solid transparent}
+  .hero-actions .btn{min-height:53px}
+  .intro-photo .intro-photo-caption{
+    left:12px!important;bottom:12px!important;
+    max-width:calc(100% - 24px)!important;
+    padding:10px 11px!important;
+  }
+  .intro-photo .intro-photo-caption strong{font-size:10px!important;line-height:1.35!important}
+  .intro-photo .intro-photo-caption small{font-size:9px!important;line-height:1.4!important}
+}
