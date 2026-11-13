@@ -62,7 +62,7 @@ try{
         'OUR MENU is still visibly duplicating the hero: '+JSON.stringify(displayedHeading));
       const eyebrow=page.locator('.km-banner .km-eyebrow');
       assert.equal((await eyebrow.innerText()).trim(),'SOUTH FLORIDA · FOOD TRUCK');
-      assert.equal(await eyebrow.isVisible(),true,'The small editorial place label must be visible');
+      assert.equal(await eyebrow.isVisible(),false,'Phone poster contains headline already, so duplicate DOM copy must be visually hidden');
       const heroBox=await page.locator('.km-banner').boundingBox();
       const ctaBox=await page.locator('.km-order-choices').boundingBox();
       assert(heroBox&&ctaBox&&ctaBox.y-heroBox.y-heroBox.height>-30 && ctaBox.y-heroBox.y-heroBox.height<28,
@@ -77,7 +77,7 @@ try{
       assert.equal(await page.locator(selector).first().isVisible(),false,'Redundant text visible: '+selector+' at '+width);
     }
     const bannerHeight=await page.locator('.km-banner').evaluate(el=>el.getBoundingClientRect().height);
-    assert(bannerHeight <= (width<=600?420:222), 'Menu photograph banner too tall at '+width+': '+bannerHeight);
+    assert(bannerHeight <= (width<=600?360:365), 'Menu photograph banner too tall at '+width+': '+bannerHeight);
     if(width<=600){
       const imageQA=await page.locator('.km-banner-photo').evaluate(img=>{
         const rect=img.getBoundingClientRect(), parent=img.parentElement.getBoundingClientRect();
@@ -86,9 +86,9 @@ try{
           objectFit:getComputedStyle(img).objectFit,
           headingAfter:!!(img.compareDocumentPosition(document.querySelector('.km-banner-inner')) & Node.DOCUMENT_POSITION_FOLLOWING)};
       });
-      assert(imageQA.complete && imageQA.naturalWidth===1536 && imageQA.naturalHeight===1024,
+      assert(imageQA.complete && imageQA.naturalWidth===1672 && imageQA.naturalHeight===941,
         'Mobile Drive hero image failed to load: '+JSON.stringify(imageQA));
-      assert(imageQA.objectFit==='contain' && Math.abs(imageQA.width/imageQA.height-1.5)<.015,
+      assert(imageQA.objectFit==='contain' && Math.abs(imageQA.width/imageQA.height-1672/941)<.015,
         'Mobile hero must show entire 3:2 picture without cropping: '+JSON.stringify(imageQA));
       assert(imageQA.headingAfter && Math.abs(imageQA.width-imageQA.parentWidth)<2,
         'Image must use full width with separate headline below: '+JSON.stringify(imageQA));
@@ -99,11 +99,19 @@ try{
         const loaded=await new Promise(resolve=>{picture.onload=()=>resolve(true);picture.onerror=()=>resolve(false);picture.src=src;});
         return {src,loaded,width:picture.naturalWidth,height:picture.naturalHeight};
       });
-      assert(photoInfo.src.includes('knockout-menu-hero-drive-07.png') && photoInfo.loaded && photoInfo.width>1000,
+      assert(photoInfo.src.includes('knockout-menu-food-collage-20261113.webp') && photoInfo.loaded && photoInfo.width>1000,
         'Tablet/desktop Drive hero background failed: '+JSON.stringify(photoInfo));
     }
     const ctas=await page.locator('.km-order-choices .km-order-choice').evaluateAll(els=>els.map(el=>el.getBoundingClientRect().toJSON()));
     assert(ctas.length===2 && Math.abs(ctas[0].top-ctas[1].top)<4 && ctas[0].width>=120 && ctas[1].width>=120,'Pickup/DoorDash CTA must remain side by side '+width);
+
+    if(width>600 && width<=1050){
+      const sheet=await page.locator('.menu-section').evaluate(el=>{
+        const style=getComputedStyle(el);return {radius:style.borderTopLeftRadius,margin:style.marginTop};
+      });
+      assert(parseFloat(sheet.radius)>=27&&parseFloat(sheet.margin)<0,
+        'Tablet menu should overlap new food collage with rounded corners: '+JSON.stringify(sheet));
+    }
 
     const firstCard=await page.locator('#menu-grid .menu-card:visible').first().boundingBox();
     assert(firstCard && firstCard.y<(width<=600?1080:830), 'First menu card pushed too far below fold at '+width+': '+JSON.stringify(firstCard));
@@ -329,6 +337,15 @@ try{
     });
     assert(captionPlacement.visible&&captionPlacement.within,
       'Event photo caption must stay over the photo on mobile and desktop '+width+': '+JSON.stringify(captionPlacement));
+    if(width<=1050){
+      const order=await page.locator('.order-text').evaluate(el=>{
+        const style=getComputedStyle(el),rect=el.getBoundingClientRect();
+        return {radius:style.borderTopLeftRadius,margin:style.marginTop,top:rect.top,background:style.backgroundColor};
+      });
+      const imageBottom=await page.locator('.order-image').evaluate(el=>el.getBoundingClientRect().bottom);
+      assert(parseFloat(order.radius)>=27&&parseFloat(order.margin)<0&&order.top<imageBottom&&order.background!=='rgba(0, 0, 0, 0)',
+        'Order text should round over its photo on phone/tablet: '+JSON.stringify({width,order,imageBottom}));
+    }
     const eventSmall=await page.locator('.events-photo-small').getAttribute('src');
     assert.equal(eventSmall,'./assets/04-customer-experience.webp','Events photo must be distinct from the hero');
     await page.screenshot({path:path.join(screenshots,'knockout-home-hero-'+width+'.png'),fullPage:false});
