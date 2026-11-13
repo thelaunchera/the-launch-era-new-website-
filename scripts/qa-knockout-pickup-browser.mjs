@@ -280,6 +280,22 @@ try{
       const eventsMargin=await page.locator('.events-section').evaluate(el=>getComputedStyle(el).marginTop);
       assert(parseFloat(introMargin)>=0 && parseFloat(eventsMargin)>=0,'Desktop spacing should remain unchanged');
     }
+
+    // The truck section must visibly explain that the photo can be updated per event.
+    const eventCaption=page.locator('.intro-photo-caption');
+    assert.equal(await eventCaption.count(),1,'Event photo caption should appear once at '+width);
+    const captionText=(await eventCaption.innerText()).toUpperCase();
+    assert(captionText.includes('EVENT PHOTO')&&captionText.includes('UPDATED FOR EACH EVENT'),
+      'Photo refresh promise must be visible at '+width+': '+captionText);
+    const captionPlacement=await eventCaption.evaluate(el=>{
+      const r=el.getBoundingClientRect(),p=el.closest('.intro-photo').getBoundingClientRect();
+      const style=getComputedStyle(el);
+      return {within:r.left>=p.left&&r.right<=p.right+1&&r.bottom<=p.bottom+1,
+        visible:style.display!=='none'&&r.width>0&&r.height>0,
+        color:style.color,background:style.backgroundColor};
+    });
+    assert(captionPlacement.visible&&captionPlacement.within,
+      'Event photo caption must stay over the photo on mobile and desktop '+width+': '+JSON.stringify(captionPlacement));
     const eventSmall=await page.locator('.events-photo-small').getAttribute('src');
     assert.equal(eventSmall,'./assets/04-customer-experience.webp','Events photo must be distinct from the hero');
     await page.screenshot({path:path.join(screenshots,'knockout-home-hero-'+width+'.png'),fullPage:false});

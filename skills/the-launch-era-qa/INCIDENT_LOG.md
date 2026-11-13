@@ -1,3 +1,8 @@
+## 2026-11-13 — User asks to mark photo in homepage truck section as replaceable for every event
+- Screenshot shows `01 / THE TRUCK` photo of red Knockout Deli trailer and old "THE REAL KNOCKOUT DELI TRUCK" label.
+- Implement an elegant caption over that photo to communicate event-by-event photo updates in English/Spanish. Preserve old label. No backend or automatic photo swapping built/claimed; site remains a public concept demo.
+- Test footer label visibility across phones and tablets, static bilingual copy, and existing menu order behaviour. Deploy only after checks.
+
 ## 2026-11-13 — Knockout homepage tablet/phone section seams after mobile hero rounding
 - Evidence: user provided iPad screenshots of `NOT YOUR AVERAGE LUNCH STOP` beginning with a straight edge beneath the hero, and `BRING THE FOOD. MAKE IT AN EVENT.` beginning with a straight dark edge after the menu's ivory bridge.
 - Verified root cause: `landing.css` already rounded only `.hero-content` at <=760px; the separate `.intro` (tablet) and `.events-section` (tablet/phone) had no overlapping upper corners.

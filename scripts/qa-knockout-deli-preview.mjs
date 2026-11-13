@@ -22,6 +22,13 @@ for(const [label,html] of [['home',home],['menu',menu]]){
 if(home.includes('id="menu-grid"')||home.includes('id="window-cart-dialog"'))fail('Landing must not put order items above business story');
 for(const id of ['about','food','events','find'])if(!home.includes('id="'+id+'"'))fail('Missing business/story section '+id);
 if(!home.includes('href="./menu.html"')||!home.includes('VIEW MENU & ORDER'))fail('Independent digital menu CTA missing');
+if(!home.includes('class="intro-photo-caption"') || !home.includes('EVENT PHOTO · UPDATED FOR EACH EVENT'))
+  fail('Event truck photograph must explain that its image changes for every event');
+if(!home.includes('FOTO DEL EVENTO · SE CAMBIA PARA CADA EVENTO'))
+  fail('Event photo update message must be available in Spanish');
+if(!fs.readFileSync(path.join(root,'landing.css'),'utf8').includes('KNOCKOUT EVENT PHOTO ROTATION CAPTION'))
+  fail('Event photo label must have visible responsive editorial styling');
+
 for(const name of ['knockout-community.webp','04-customer-experience.webp'])if(!home.includes(name))fail('Missing unique events photograph '+name);
 const heroMarkup=(home.split('<div class="hero-photo">')[1]||'').split('</div>')[0];
 const eventsMarkup=(home.split('<div class="events-photos">')[1]||'').split('</div>')[0];
