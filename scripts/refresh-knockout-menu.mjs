@@ -6,7 +6,7 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   const catalog = JSON.parse(fs.readFileSync(path.join(source, 'menu-catalog.json'), 'utf8'));
   if(catalog.length < 20 || new Set(catalog.map(i=>i.id)).size!==catalog.length)throw Error('Menu catalog incomplete or contains duplicate IDs');
   const withPhoto=catalog.filter(i=>i.image).map(i=>i.image);
-  if(withPhoto.length>5 || withPhoto.length!==new Set(withPhoto).size)throw Error('Menu must show only unique featured food photos');
+  if(withPhoto.length>10 || withPhoto.length!==new Set(withPhoto).size)throw Error('Menu must show only unique featured food photos');
   if(catalog.some(i => /(?:post|instagram)/i.test(i.image||'')))throw Error('Social-media images cannot appear in the menu');
   if(!catalog.every(i=>['Main Event','Breakfast','Ringside Favorites','Take Home','Beverages'].includes(i.category)))throw Error('Unexpected menu category');
 
@@ -54,7 +54,7 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   fs.writeFileSync(file,html);
   fs.copyFileSync(path.join(source,'menu-redesign.css'),path.join(destination,'menu-redesign.css'));
   fs.copyFileSync(path.join(source,'menu-redesign.js'),path.join(destination,'menu-redesign.js'));
-  for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
+  for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp','knockout-menu-knockout.webp','knockout-menu-tko.webp','knockout-menu-heavy-weight.webp','knockout-menu-pound-for-pound.webp','knockout-menu-round-knish.webp'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
   console.log('Knockout Deli: '+catalog.length+' real-menu items, '+withPhoto.length+' unique featured photos, separate editorial digital menu');
 }
 
