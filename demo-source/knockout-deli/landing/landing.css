@@ -129,3 +129,35 @@
   .intro-photo .intro-photo-caption strong{font-size:9px}
   .intro-photo .intro-photo-caption small{font-size:9px}
 }
+
+
+/* KNOCKOUT HERO WORD MOTION & PRIMARY BUTTON PRESS
+   Only the red brand words move; translations retain the same <em> element.
+   Responsive inline positioning keeps the headline free to wrap at narrow widths. */
+.hero h1 > em{
+  position:relative;
+  animation:knockout-brand-lift 4.8s ease-in-out infinite;
+}
+@keyframes knockout-brand-lift{
+  0%,12%,88%,100%{top:0}
+  45%{top:-8px}
+  68%{top:0}
+}
+
+/* Immediate 0.94 touch / pointer press; release eases back to 1 without bounce. */
+.btn,.nav-menu-btn{
+  border-radius:17px;
+  transform:scale(1);
+  transform-origin:center;
+  transition:transform 330ms cubic-bezier(.22,1,.36,1),background-color 180ms ease;
+  touch-action:manipulation;
+}
+.btn:hover,.nav-menu-btn:hover{transform:scale(1)}
+.btn:active,.nav-menu-btn:active{
+  transform:scale(.94);
+  transition-duration:0s;
+}
+@media(prefers-reduced-motion:reduce){
+  .hero h1 > em{animation:none}
+  .btn,.nav-menu-btn{transition:none!important}
+}
