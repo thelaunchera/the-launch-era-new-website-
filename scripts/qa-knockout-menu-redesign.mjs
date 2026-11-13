@@ -48,7 +48,7 @@ assert(css.includes('.km-header-cart') && css.includes('.km-cart-flight') && css
 assert(!search.includes('showModal('), 'Animation must not open bag automatically');
 assert(html.includes('id="km-pickup-action"')&&html.includes('km-order-choice-delivery'),'Separate pickup and DoorDash controls missing');
 assert(html.includes('data-direct-copy="squareRequirement"'),'Square payment guidance missing');
-assert(!/\\bStripe\\b/i.test(html+pickup),'Legacy Stripe visible to customer');
+assert(!/\bStripe\b/i.test(html+pickup),'Legacy Stripe visible to customer');
 assert(pickup.includes("payTruck:'SQUARE PAYMENT BEFORE ORDER'")&&pickup.includes("payTruck:'PAGO CON SQUARE ANTES DEL PEDIDO'"),'Bilingual Square pre-order heading missing');
 assert(pickup.includes('before the pickup order is sent')&&pickup.includes('antes de enviar el pedido'),'Square must precede order transmission');
 assert(search.includes("getElementById('km-pickup-action')")&&search.includes('grid.scrollIntoView('),'Pickup button must browse the menu');
