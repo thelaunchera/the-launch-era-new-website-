@@ -1,3 +1,8 @@
+## 2026-11-13 — Knockout homepage hard hero seam and menu BACK lost beneath ivory area
+- Evidence: two user photos show ivory block starting with a hard straight border beneath hero photo on original website; menu BACK drops below the brand/logo and disappears near white content.
+- Fix: mobile homepage ivory title panel 22px overlap with 26px top radius; menu ivory content sheet 22px overlap with 25px radius; rebuild menu header BACK as a standalone link anchored to dark sticky header with background and contrast independent of white page.
+- Tests: enforce back placement inside header at each breakpoint, mobile round overlap on both pages, links and EN/ES, plus existing product/menu/cart tests. Publish only after green CI and live checks; avoid affecting unrelated demos.
+
 ## 2026-11-13 — Original website hero shows out-of-place industrial tanks
 - User supplied tablet photos of the Knockout Deli website homepage and closeup: several huge steel tanks are visible behind dining customers, harming visual credibility.
 - Replaced the homepage hero/preload asset with existing self-hosted, optimized truck-at-concert `knockout-live-music.webp` after inspecting alternatives from the user's Knockout Drive/event pack. No tanks in the selected scene. Replaced duplicate usage of live-music in event gallery with `04-customer-experience.webp`. The **digital menu hero remains unchanged**.
