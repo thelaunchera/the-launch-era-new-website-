@@ -82,50 +82,11 @@ body:has(.km-banner) .site-header{position:sticky!important;top:0!important;z-in
 
 /* Knockout digital menu: pickup controls, readable steps and compact item choices.
    Menu route only. The existing bag placement and animation are untouched. */
-.menu-section .pickup-option-switch{
-  display:grid!important;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-  margin:0 0 22px;
-  min-width:0;
-}
-.menu-section .pickup-option-switch .pickup-mode{
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:flex-start!important;
-  justify-content:center!important;
-  gap:7px!important;
-  min-width:0;
-  min-height:78px;
-  padding:15px 17px!important;
-  border:1px solid #d6cbc4!important;
-  border-radius:13px!important;
-  background:#fff!important;
-  color:#272120!important;
-  box-shadow:none!important;
-  text-align:left!important;
-  white-space:normal!important;
-  cursor:pointer;
-}
-.menu-section .pickup-option-switch .pickup-mode.active{
-  border-color:#b91f2a!important;
-  background:#fff2f0!important;
-  box-shadow:inset 4px 0 #d8242e!important;
-}
-.menu-section .pickup-mode > span{
-  display:block;
-  color:#201c1b;
-  font:800 clamp(12px,1.15vw,14px)/1.35 'DM Sans',Arial,sans-serif!important;
-  letter-spacing:0!important;
-  overflow-wrap:anywhere;
-}
-.menu-section .pickup-mode > small{
-  display:block;
-  color:#766b64;
-  font:500 12px/1.45 'DM Sans',Arial,sans-serif!important;
-  letter-spacing:0!important;
-  white-space:normal;
-  overflow-wrap:anywhere;
+.km-pickup-instruction{
+  margin:-5px 0 0!important;
+  color:#665c54;
+  font:500 13px/1.55 'DM Sans',Arial,sans-serif;
+  max-width:55ch;
 }
 /* The menu journey labels wrap rather than running together at tablet widths. */
 .menu-section .menu-journey,
