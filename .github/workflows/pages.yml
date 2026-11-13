@@ -227,6 +227,7 @@ jobs:
           unzip -q demo-source/knockout-deli/Knockout-Deli-website-bundle.zip             index.html styles.css visual-polish.css digital-menu.css app.js window-order.js window-order.css 'assets/*.webp' -d "$destination"
           node scripts/build-knockout-deli-public.mjs "$destination"
           node scripts/qa-knockout-deli-preview.mjs "$destination"
+          node scripts/qa-knockout-menu-redesign.mjs "$destination"
           echo "Knockout Deli preview packaged: /demos/knockout-deli/"
 
       - name: Upload Pages artifact
