@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli event truck photo changeability note
+- Original homepage `/demos/knockout-deli/index.html` section "01 / THE TRUCK": user asked to indicate that the photo may be changed for each event. Keep the actual self-hosted truck photograph and all existing layout.
+- Add bilingual visible inset caption on the image: `EVENT PHOTO · UPDATED FOR EACH EVENT` and `FOTO DEL EVENTO · SE CAMBIA PARA CADA EVENTO`, alongside the original image label; responsive high-contrast white overlay and red rule.
+- This is a **presentation of the intended event-photo content workflow**, not a working auto-rotation mechanism. Do not schedule, rotate or post photos, email customers, or modify the Admin Panel or digital-menu ordering flow. Preserve all existing assets, hero, menu, forms and Square demo.
+- Static QA checks bilingual wording and CSS; Playwright checks visible caption and bounds at 390, 768, 1024, 1440 px before publication.
+
 ## 2026-11-13 — Rounded hero transition and high-contrast sticky BACK (Knockout Deli)
 - User showed the original homepage mobile hero ending abruptly where the photo meets ivory content; they requested overlapping rounded top corners, and showed the separate digital-menu BACK label displaced below the dark header and lost against the white page.
 - Original homepage: at <=760px, shift ivory .hero-content 22px OVER the hero photo, with 26px rounded upper corners, shadow and readable text. Hero photo, CTA and accessibility remain unchanged.
