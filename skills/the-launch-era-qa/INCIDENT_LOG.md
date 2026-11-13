@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli menu intro blocks crowd iPad viewport
+- Source screenshot: huge "New York Deli" hero, repeated Our Menu intro and disclaimer, no-PDF steps, verbose pickup/delivery instructions and second bag banner. Menu items not yet visible.
+- Root cause confirmed from public menu HTML and repo: `refresh-knockout-menu.mjs` renders the banner, legacy bundle renders additional intro/step/pickup text and bag hint. Together they dominate the first viewport.
+- Scoped change: compact mobile/tablet/desktop banner; hide redundant nonfunctional instruction areas while retaining accessible functions; keep one shorter pickup strip with DoorDash option and clear "demo only / no order sent" text. No data/network changes.
+- Release QA: built-menu regression, responsive testing, Pages deploy and public browser confirmation; no live result claim without those checks.
+
 ## 2026-11-13 — Catering CTA unexpectedly leaves Knockout concept
 - Confirmed the prospect site's `#events` button was an external Linktree anchor. User requests a dedicated form behind it.
 - Scoped repair replaces anchor with a bilingual accessible catering dialog and local-only preview, explicitly disclosing no data is stored or sent. It is not an actual inquiry or reservation.

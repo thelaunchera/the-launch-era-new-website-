@@ -46,5 +46,12 @@ assert(search.includes("matchMedia('(prefers-reduced-motion: reduce)')") && sear
 assert(search.includes("document.addEventListener('click'") && search.includes("},true);"), 'Fly-to-bag must launch on item addition');
 assert(css.includes('.km-header-cart') && css.includes('.km-cart-flight') && css.includes('#window-sticky{display:none!important}'), 'Top cart styles or hidden old sticky bar missing');
 assert(!search.includes('showModal('), 'Animation must not open bag automatically');
+const compactMarkers=['KNOCKOUT MENU-FIRST COMPACT LAYOUT','.menu-head .head-aside,','.digital-menu-intro,','.menu-order-hint{display:none!important}','.order-routing-note{','@media(max-width:900px)','@media(max-width:600px)'];
+for(const marker of compactMarkers)assert(css.includes(marker),'Compact menu layout missing '+marker);
+assert(html.includes('class="km-banner"') && html.includes('id="menu-search"') && html.includes('id="menu-filters"') && html.includes('id="menu-grid"'), 'Functional menu DOM must be kept');
+const pickupText=read('window-order.js');
+assert(pickupText.includes('PICKUP AT THE TRUCK') && pickupText.includes('RECOGIDA EN EL TRUCK'), 'Short bilingual pickup labels missing');
+assert(pickupText.includes('no pickup order is sent') && pickupText.includes('no se envían pedidos'), 'Demo no-send warning must remain');
+
 for(const file of ['app.js','menu-redesign.js','window-order.js']){const r=spawnSync(process.execPath,['--check',path.join(root,file)],{encoding:'utf8'});assert.equal(r.status,0,file+' syntax error: '+r.stderr)}
 console.log('PASS: Knockout Deli curated '+items.length+'-item menu; 4 unique photos, category search, EN/ES, cart-safe layout');
