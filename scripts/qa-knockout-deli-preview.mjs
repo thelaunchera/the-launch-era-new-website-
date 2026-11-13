@@ -31,6 +31,16 @@ if(!script.includes('aria-expanded')||!script.includes("'Escape'"))fail('Accessi
 for(const id of ['window-order','menu','events','find-us','catering','order','follow','window-cart-dialog','window-sticky','menu-grid']) if(!menu.includes('id="'+id+'"'))fail('Original digital menu capability missing '+id);
 if(!menu.includes('href="./menu-only.css"')||!only.includes('.hero-section'))fail('Digital menu must not show legacy landing above products');
 if(!menu.includes('BACK TO WEBSITE'))fail('Digital menu needs return path');
+// Checkout stages must remain readable on phones and tablets. The styles are
+// applied only to menu.html, after the unpacked legacy demo CSS.
+for(const marker of ['checkout-steps','checkout-pickup-cards','pickup-preview-form','ahead-pickup-fields','checkout-form-actions']){
+  if(!menu.includes('class="' + marker) && !menu.includes(' ' + marker + '"'))fail('Pickup checkout markup missing '+marker);
+  if(!only.includes('#window-cart-dialog .' + marker))fail('Pickup checkout style missing '+marker);
+}
+if(!only.includes('#window-cart-dialog [hidden]') || !only.includes('@media (max-width: 700px)')){
+  fail('Checkout responsive or hidden-state guard missing');
+}
+
 if(!menu.includes('data-window-i18n')||!/\bes\s*:\s*\{[\s\S]{0,500}navWindow\s*:/.test(qr))fail('Existing menu language switch missing');
 if(!qr.includes('previewAlert')||!qr.includes('activationHelp')||!qr.includes('preview-submit-disabled'))fail('Demo must not imply submitted order');
 if(!menu.includes('id="menu-search"')||!menu.includes('order-routing-note')||!menu.includes('pickup-demo-phone')||!menu.includes('direct-pay-truck'))fail('Current digital menu search / pickup-choice flows missing');
