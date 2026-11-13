@@ -877,3 +877,55 @@ body:has(.km-banner) .km-order-choices .km-order-choice:active{transform:scale(.
 @media(prefers-reduced-motion:reduce){
   body:has(.km-banner) .km-order-choices .km-order-choice{transition:none!important}
 }
+
+
+/* KNOCKOUT MENU CARDS & PRIMARY PRESS — matches website editorial card corners.
+   User intent: rounded cards and 0.94 instantaneous press/release with no overshoot.
+   Ordering handlers, category selection and link destinations remain unchanged. */
+body:has(.km-banner) .menu-card{
+  border-radius:21px!important;
+  overflow:hidden!important;
+  box-shadow:0 7px 23px rgba(26,20,19,.07)!important;
+}
+body:has(.km-banner) .menu-card .menu-card-visual,
+body:has(.km-banner) .menu-card .menu-card-visual img{
+  overflow:hidden;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice,
+body:has(.km-banner) .menu-card .card-add,
+body:has(.km-banner) #product-dialog .modal-add,
+body:has(.km-banner) #window-cart-dialog #window-review-button,
+body:has(.km-banner) #window-cart-dialog #pickup-done,
+body:has(.km-banner) #window-cart-dialog #pickup-edit{
+  transform:scale(1)!important;
+  transform-origin:center!important;
+  transition:transform 330ms cubic-bezier(.22,1,.36,1),background-color 180ms ease!important;
+  touch-action:manipulation;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice:hover,
+body:has(.km-banner) .menu-card .card-add:hover,
+body:has(.km-banner) #product-dialog .modal-add:hover{
+  transform:scale(1)!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice:active,
+body:has(.km-banner) .menu-card .card-add:active,
+body:has(.km-banner) #product-dialog .modal-add:active,
+body:has(.km-banner) #window-cart-dialog #window-review-button:active,
+body:has(.km-banner) #window-cart-dialog #pickup-done:active,
+body:has(.km-banner) #window-cart-dialog #pickup-edit:active{
+  transform:scale(.94)!important;
+  transition-duration:0s!important;
+}
+@media(max-width:760px){
+  body:has(.km-banner) .menu-card{border-radius:18px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  body:has(.km-banner) .km-order-choices .km-order-choice,
+  body:has(.km-banner) .menu-card .card-add,
+  body:has(.km-banner) #product-dialog .modal-add,
+  body:has(.km-banner) #window-cart-dialog #window-review-button,
+  body:has(.km-banner) #window-cart-dialog #pickup-done,
+  body:has(.km-banner) #window-cart-dialog #pickup-edit{
+    transition:none!important;
+  }
+}
