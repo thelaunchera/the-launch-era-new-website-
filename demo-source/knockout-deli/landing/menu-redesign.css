@@ -814,14 +814,14 @@ body:has(.km-banner) .site-header .km-header-back:focus-visible{
 }
 
 
-/* KNOCKOUT POSTER HERO 20261113 — full food poster on phone;
+/* KNOCKOUT POSTER HERO 20261113 — phone poster untouched; clean tablet/desktop photograph.
    food-only crop and accessible live headline on tablet/desktop. */
 body:has(.km-banner) .km-banner{
   height:clamp(245px,26vw,350px)!important;min-height:0!important;
   padding:clamp(20px,3vw,42px) clamp(20px,5vw,82px)!important;
   background-color:#191515!important;
-  background-image:linear-gradient(90deg,#191515 0%,rgba(25,21,21,.97) 28%,rgba(25,21,21,.36) 55%,transparent 82%),url('./assets/knockout-menu-food-collage-20261113.webp')!important;
-  background-size:100% 100%,68% auto!important;
+  background-image:linear-gradient(90deg,#191515 0%,rgba(25,21,21,.97) 28%,rgba(25,21,21,.36) 55%,transparent 82%),url('./assets/knockout-menu-food-only-tablet-desktop-20261113.webp')!important;
+  background-size:100% 100%,76% auto!important;
   background-position:center,right center!important;
   background-repeat:no-repeat!important;border-bottom:0!important;overflow:hidden!important;
 }

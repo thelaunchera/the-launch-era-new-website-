@@ -36,7 +36,7 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   const file=path.join(destination,'menu.html');
   let html=fs.readFileSync(file,'utf8');
   if(!html.includes('id="menu-grid"')||!html.includes('id="menu-filters"'))throw Error('Menu DOM anchor missing');
-  if(!html.includes('menu-redesign.css'))html=html.replace('</head>','  <link rel="stylesheet" href="./menu-redesign.css?v=20261113-food-poster-v4" />\n  <script src="./menu-redesign.js?v=20261113-food-poster-v4" defer></script>\n</head>');
+  if(!html.includes('menu-redesign.css'))html=html.replace('</head>','  <link rel="stylesheet" href="./menu-redesign.css?v=20261113-food-photo-v5" />\n  <script src="./menu-redesign.js?v=20261113-food-photo-v5" defer></script>\n</head>');
   // A dedicated BACK link belongs to the sticky header, not inside the logo link.
   if(!html.includes('km-header-back')){
     const brandAnchor=/(<a class="brand"[^>]*>[\s\S]*?<\/a>)/;
@@ -60,7 +60,7 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   fs.writeFileSync(file,html);
   fs.copyFileSync(path.join(source,'menu-redesign.css'),path.join(destination,'menu-redesign.css'));
   fs.copyFileSync(path.join(source,'menu-redesign.js'),path.join(destination,'menu-redesign.js'));
-  for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp','knockout-menu-knockout.webp','knockout-menu-tko.webp','knockout-menu-heavy-weight.webp','knockout-menu-pound-for-pound.webp','knockout-menu-round-knish.webp','knockout-menu-hero-drive-07.png','knockout-menu-food-poster-20261113.webp','knockout-menu-food-collage-20261113.webp'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
+  for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp','knockout-menu-knockout.webp','knockout-menu-tko.webp','knockout-menu-heavy-weight.webp','knockout-menu-pound-for-pound.webp','knockout-menu-round-knish.webp','knockout-menu-hero-drive-07.png','knockout-menu-food-poster-20261113.webp','knockout-menu-food-collage-20261113.webp','knockout-menu-food-only-tablet-desktop-20261113.webp'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
   console.log('Knockout Deli: '+catalog.length+' real-menu items, '+withPhoto.length+' unique featured photos, separate editorial digital menu');
 }
 

@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout tablet menu: baked-in poster letters behind live title
+- User supplied landscape-tablet screenshot showing food and stray letters from the cropped original poster behind real "NEW YORK DELI. ON WHEELS." text; said phone poster looks excellent and must stay unchanged.
+- Root cause verified in source: tablet/desktop `.km-banner` background used `knockout-menu-food-collage-20261113.webp` (derived crop of poster with letter remnants), while a separate actual HTML `h1` painted over it. Phone separately displays the full approved poster in its `<picture>`.
+- Solution: generate one new genuine food-only photo, optimize as `knockout-menu-food-only-tablet-desktop-20261113.webp` (1774×887, WebP <300 KB), use exclusively as tablet/desktop background, retain live bilingual title, keep phone picture and its styling entirely untouched. Add generator asset copying and query version bump, static asset and browser checks.
+- No menu pricing, checkout, food cards, header navigation, DoorDash or client data changed. Full Pages build and real Safari QA needed before calling live device validated.
+
 ## 2026-11-13 — Knockout Deli round food cards, layered panels and iPhone catering CTA contrast
 - User iPhone screenshots showed square-edged homepage food-gallery cards and "CRAVING SOMETHING?" bridge, straight boundary after truck story, and an Events & Catering button disappearing into the equally pale background. Requested same 0.94 no-overshoot press feedback in the digital menu.
 - Verified source: `landing.css` had `.food-card` and `.menu-bridge` without border radius, hero `.btn-light` nearly white on the ivory mobile hero without a border. `menu-redesign.css` retained 15px menu cards and several old hover transforms that compete with instant touch pressure.

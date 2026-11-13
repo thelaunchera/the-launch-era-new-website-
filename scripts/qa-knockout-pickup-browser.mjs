@@ -99,7 +99,7 @@ try{
         const loaded=await new Promise(resolve=>{picture.onload=()=>resolve(true);picture.onerror=()=>resolve(false);picture.src=src;});
         return {src,loaded,width:picture.naturalWidth,height:picture.naturalHeight};
       });
-      assert(photoInfo.src.includes('knockout-menu-food-collage-20261113.webp') && photoInfo.loaded && photoInfo.width>1000,
+      assert(photoInfo.src.includes('knockout-menu-food-only-tablet-desktop-20261113.webp') && photoInfo.loaded && photoInfo.width>1000,
         'Tablet/desktop Drive hero background failed: '+JSON.stringify(photoInfo));
     }
     const ctas=await page.locator('.km-order-choices .km-order-choice').evaluateAll(els=>els.map(el=>el.getBoundingClientRect().toJSON()));
