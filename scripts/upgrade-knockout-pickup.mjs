@@ -53,8 +53,8 @@ function patchKnockoutPickup(app,windowOrder){
   let pickupHeaderIndex=0;
   windowOrder=windowOrder.replace(/choosePickup:'[^']*'/g,match=>match+",pickupDetails:'"+pickupHeaders[pickupHeaderIndex++]+"'");
   if(pickupHeaderIndex!==2)throw Error('Pickup detail titles missing in translations');
-  windowOrder=windowOrder.replace("en:{orderRoutes:","en:{pickupFormHelp:'Review pickup details and pay at the truck. No online payment.',orderRoutes:");
-  windowOrder=windowOrder.replace("es:{orderRoutes:","es:{pickupFormHelp:'Revisa los datos y paga en el truck. Sin pago online.',orderRoutes:");
+  windowOrder=windowOrder.replace("en:{orderRoutes:","en:{pickupFormHelp:'Square payment will be required before a pickup order is sent. This demo does not process payments.',orderRoutes:");
+  windowOrder=windowOrder.replace("es:{orderRoutes:","es:{pickupFormHelp:'Se requerirá el pago con Square antes de enviar el pedido para recoger. Este demo no procesa pagos.',orderRoutes:");
   const routingTitles=['PICKUP AT THE TRUCK','RECOGIDA EN EL TRUCK'];
   const routingHelp=[
     'Build your bag here. Demo only — no pickup order is sent.',
@@ -64,6 +64,17 @@ function patchKnockoutPickup(app,windowOrder){
   windowOrder=windowOrder.replace(/orderRoutes:'[^']*'/g,()=> "orderRoutes:'"+routingTitles[routeTitleIndex++]+"'");
   windowOrder=windowOrder.replace(/orderRoutesHelp:'[^']*'/g,()=> "orderRoutesHelp:'"+routingHelp[routeHelpIndex++]+"'");
   if(routeTitleIndex!==2||routeHelpIndex!==2)throw Error('Pickup/delivery descriptions missing translations');
+  const squareTitles=['SQUARE PAYMENT BEFORE ORDER','PAGO CON SQUARE ANTES DEL PEDIDO'];
+  const squareDescriptions=[
+    'Secure Square payment will be required before the pickup order is sent. Demo only — no charge or order is processed.',
+    'Se requerirá el pago seguro con Square antes de enviar el pedido. Solo demo: no se cobra ni se envía ninguna orden.'
+  ];
+  let squareCopyIndex=0;
+  windowOrder=windowOrder.replace(/payTruck:'[^']*',noStripe:'[^']*'/g,()=>{
+    const i=squareCopyIndex++;
+    return "payTruck:'"+squareTitles[i]+"',squareRequirement:'"+squareDescriptions[i]+"'";
+  });
+  if(squareCopyIndex!==2 || /noStripe:|\bStripe\b/.test(windowOrder))throw Error('Square payment labels not applied in both languages');
   if(!app.includes('km-customizer')||!windowOrder.includes('const cartId='))throw Error('Knockout customization patch incomplete');
   return {app,windowOrder};
 }
@@ -84,9 +95,20 @@ export function upgradeKnockoutPickup(destination){
     '',"redundant pickup method switch");
   replaceMenu(/<div class="checkout-pickup-cards"[^>]*>[\s\S]*?<\/div>/,
     '<input type="hidden" name="method" value="ahead" />',"redundant pickup radio choices");
+  // Separate actual controls: pickup browses the food; delivery leaves for official DoorDash.
+  replaceMenu(/<div class="order-routing-note" role="note">[\s\S]*?<\/div>/,
+    '<div class="order-routing-note km-order-choices" role="group" aria-label="Pickup or delivery"><button type="button" id="km-pickup-action" class="km-order-choice km-order-choice-pickup" data-direct-copy="orderRoutes">PICKUP AT THE TRUCK</button><a class="km-order-choice km-order-choice-delivery" href="https://www.doordash.com/store/42538456" target="_blank" rel="noopener noreferrer" data-direct-copy="orderDoorDash">ORDER ON DOORDASH ↗</a><small class="km-order-preview-note" data-direct-copy="orderRoutesHelp">Build your bag here. Demo only — no pickup order is sent.</small></div>',
+    'separate pickup / DoorDash controls');
   replaceMenu(/<h3 data-order-i18n="choosePickup">[^<]*<\/h3>/,
-    '<h3 data-order-i18n="pickupDetails">PICKUP DETAILS</h3><p class="km-pickup-instruction" data-direct-copy="pickupFormHelp">Review pickup details and pay at the truck. No online payment.</p>',
+    '<h3 data-order-i18n="pickupDetails">PICKUP DETAILS</h3><p class="km-pickup-instruction" data-direct-copy="pickupFormHelp">Square payment will be required before a pickup order is sent. This demo does not process payments.</p>',
     "checkout pickup heading");
+  replaceMenu(/<strong data-direct-copy="payTruck">[^<]*<\/strong>/,
+    '<strong data-direct-copy="payTruck">SQUARE PAYMENT BEFORE ORDER</strong>', 'Square payment heading');
+  replaceMenu(/<small data-direct-copy="noStripe">[^<]*<\/small>/,
+    '<small data-direct-copy="squareRequirement">Secure Square payment will be required before the pickup order is sent. Demo only — no charge or order is processed.</small>', 'Square payment note');
+  replaceMenu(/(<div class="direct-pay-truck" role="note"><span aria-hidden="true">)✓(<\/span>)/,
+    '$1●$2', 'neutral payment-step icon');
+  if(/\bStripe\b|data-direct-copy="noStripe"/.test(menu))throw Error('Legacy Stripe copy remains in demo HTML');
   if(menu.includes('class="checkout-pickup-cards"')||menu.includes('class="pickup-option-switch"'))
     throw Error('Redundant pickup choices remain visible');
   fs.writeFileSync(menuPath,menu);

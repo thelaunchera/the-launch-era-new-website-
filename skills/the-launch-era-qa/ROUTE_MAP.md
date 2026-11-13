@@ -1,3 +1,8 @@
+## 2026-11-13 — Knockout Deli two independent CTAs + Square before-order concept
+- At /demos/knockout-deli/menu.html, pickup is a red button that scrolls to the menu grid and DoorDash is an independent dark external link to the existing merchant store; bilingual via data-direct-copy. Existing header bag, customization, checkout preview and photos remain intact.
+- Checkout currently **cannot charge or send orders**. Future flow represented in English/Spanish: secure Square payment must happen BEFORE placing/sending the pickup order. Removed legacy customer-facing Stripe, pay-at-truck and green success-colored note; replaced with a neutral, explicitly demo-only description. There is no activated Square merchant link, authorization, webhook or order system.
+- Scoped to isolated Knockout builder/CSS/JS and QA. No hero photo generation per latest user request, no other brand, checkout, CRM, subscriber or catering integration changes. Requires passing CI, Pages and public review.
+
 ## 2026-11-13 — Knockout Deli menu-first responsive cleanup
 - Route: `/demos/knockout-deli/menu.html` only. User-supplied iPad photo showed a tall food hero plus three repeating instruction blocks and duplicate bag hint hiding the first menu products below the fold.
 - Reduce hero height but retain original brand food imagery/headline; hide extra explainer aside, no-PDF/numbered tutorial, duplicate bag hint, and repeated topbar label visually via menu-only CSS while keeping existing handlers and DOM.

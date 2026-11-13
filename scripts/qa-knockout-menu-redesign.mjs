@@ -46,6 +46,13 @@ assert(search.includes("matchMedia('(prefers-reduced-motion: reduce)')") && sear
 assert(search.includes("document.addEventListener('click'") && search.includes("},true);"), 'Fly-to-bag must launch on item addition');
 assert(css.includes('.km-header-cart') && css.includes('.km-cart-flight') && css.includes('#window-sticky{display:none!important}'), 'Top cart styles or hidden old sticky bar missing');
 assert(!search.includes('showModal('), 'Animation must not open bag automatically');
+assert(html.includes('id="km-pickup-action"')&&html.includes('km-order-choice-delivery'),'Separate pickup and DoorDash controls missing');
+assert(html.includes('data-direct-copy="squareRequirement"'),'Square payment guidance missing');
+assert(!/\bStripe\b/i.test(html+pickup),'Legacy Stripe visible to customer');
+assert(pickup.includes("payTruck:'SQUARE PAYMENT BEFORE ORDER'")&&pickup.includes("payTruck:'PAGO CON SQUARE ANTES DEL PEDIDO'"),'Bilingual Square pre-order heading missing');
+assert(pickup.includes('before the pickup order is sent')&&pickup.includes('antes de enviar el pedido'),'Square must precede order transmission');
+assert(search.includes("getElementById('km-pickup-action')")&&search.includes('grid.scrollIntoView('),'Pickup button must browse the menu');
+assert(css.includes('.km-order-choice-delivery')&&css.includes('.km-order-choice-pickup'),'Two button styles missing');
 const compactMarkers=['KNOCKOUT MENU-FIRST COMPACT LAYOUT','.menu-head .head-aside,','.digital-menu-intro,','.menu-order-hint{display:none!important}','.order-routing-note{','@media(max-width:900px)','@media(max-width:600px)'];
 for(const marker of compactMarkers)assert(css.includes(marker),'Compact menu layout missing '+marker);
 assert(html.includes('class="km-banner"') && html.includes('id="menu-search"') && html.includes('id="menu-filters"') && html.includes('id="menu-grid"'), 'Functional menu DOM must be kept');

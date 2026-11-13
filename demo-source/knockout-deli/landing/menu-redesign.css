@@ -303,3 +303,47 @@ body:has(.km-banner) .menu-filters .filter{padding:11px 16px!important}
   body:has(.km-banner) .order-routing-note a{grid-column:2!important;grid-row:1 / span 2!important;max-width:145px!important;min-height:44px!important;font-size:10px!important;padding:8px!important;text-align:center!important}
   body:has(.km-banner) .menu-filters{margin-bottom:8px!important}
 }
+
+/* KNOCKOUT TWO-CTA SQUARE PREVIEW. Never claims to accept payments. */
+body:has(.km-banner) .order-routing-note.km-order-choices{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,220px))!important;
+  justify-content:start!important;gap:9px!important;border:0!important;
+  background:transparent!important;box-shadow:none!important;margin:0 0 11px!important;padding:0!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice,
+body:has(.km-banner) .km-order-choices a.km-order-choice{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;min-height:48px!important;max-width:none!important;margin:0!important;
+  padding:10px 12px!important;border-radius:10px!important;
+  color:#fff!important;font:800 12px/1.25 'DM Sans',Arial,sans-serif!important;
+  letter-spacing:.015em!important;text-align:center!important;text-decoration:none!important;
+  white-space:normal!important;cursor:pointer!important;touch-action:manipulation;
+  grid-column:auto!important;grid-row:auto!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice-pickup{
+  background:#cf2c35!important;border:1px solid #cf2c35!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice-delivery{
+  background:#242222!important;border:1px solid #242222!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-choice:focus-visible{
+  outline:3px solid #d84851!important;outline-offset:3px!important;
+}
+body:has(.km-banner) .km-order-choices .km-order-preview-note{
+  grid-column:1/-1!important;grid-row:auto!important;color:#68605b!important;
+  font:500 11px/1.45 'DM Sans',Arial,sans-serif!important;text-align:left!important;
+}
+body:has(.km-banner) #menu-grid{scroll-margin-top:115px}
+#window-cart-dialog .direct-pay-truck{background:#f6f1e9!important;border:1px solid #d5c6b9!important;box-shadow:none!important}
+#window-cart-dialog .direct-pay-truck>span{background:#292525!important;color:#fff!important;border-radius:50%!important}
+#window-cart-dialog .direct-pay-truck strong{color:#262221!important}
+#window-cart-dialog .direct-pay-truck small{color:#655c54!important}
+@media(max-width:600px){
+  body:has(.km-banner) .order-routing-note.km-order-choices{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;
+  }
+  body:has(.km-banner) .km-order-choices .km-order-choice,
+  body:has(.km-banner) .km-order-choices a.km-order-choice{
+    min-height:48px!important;padding:9px 8px!important;font-size:10px!important;
+  }
+}

@@ -19,6 +19,13 @@ try{
     // One direct pickup flow; no window vs. ahead radio selection.
     assert.equal(await page.locator('.pickup-option-switch,.checkout-pickup-cards').count(),0,'No redundant pickup choices');
     assert.equal(await page.locator('.order-routing-note a[href*="doordash.com"]').count(),1,'DoorDash remains an independent delivery option');
+    assert.equal(await page.locator('#km-pickup-action').count(),1,'Pickup CTA missing');
+    assert.equal(await page.locator('.km-order-choice-delivery').count(),1,'Separate DoorDash CTA missing');
+    assert.equal(await page.locator('#km-pickup-action').innerText(),'PICKUP AT THE TRUCK');
+    assert((await page.locator('.km-order-choice-delivery').getAttribute('href')||'').includes('doordash.com'));
+    await page.locator('#km-pickup-action').click();
+    const afterPickup=await page.locator('#menu-grid').boundingBox();
+    assert(afterPickup&&afterPickup.y<900,'Pickup action must reveal menu');
     assert.equal(await page.locator('#pickup-preview-form input[type="hidden"][name="method"][value="ahead"]').count(),1,'Only direct pickup');
 
 
@@ -34,6 +41,8 @@ try{
     await page.screenshot({path:path.join(screenshots,'knockout-menu-first-'+width+'.png'),fullPage:false});
 
     await page.locator('[data-menu-id="body"] .card-detail').first().click();
+    const paymentNote=await page.locator('.direct-pay-truck').textContent();
+    assert(paymentNote.includes('SQUARE PAYMENT BEFORE ORDER')&&paymentNote.includes('Demo only'),'Square note must not imply completed payment');
     await page.locator('#product-dialog .km-customizer').waitFor();
     assert.equal(await page.locator('#product-dialog input[name="km-topping"]').count(),3);
     assert.equal(await page.locator('#product-dialog input[name="km-side"]').count(),4);
