@@ -56,6 +56,12 @@ assert(pickup.includes("checkoutKicker:'03 / YOUR BAG'") && pickup.includes("che
 assert(css.includes('KNOCKOUT CUSTOMIZATION STEPS'),'Responsive stepper CSS missing');
 
 assert(html.includes('id="km-pickup-action"')&&html.includes('km-order-choice-delivery'),'Separate pickup and DoorDash controls missing');
+assert(html.includes('km-choice-doordash-symbol') && html.includes('km-choice-pickup-symbol'),'Branded delivery and pickup symbols missing');
+assert(html.includes('M23.071 8.409') && html.includes('km-choice-doordash-symbol'),'DoorDash brand mark missing');
+assert(!html.includes('ORDER ON DOORDASH ↗') && !pickup.includes("orderDoorDash:'ORDER ON DOORDASH ↗'"),'Old external arrow must not return to DoorDash button');
+assert(pickup.includes("orderDoorDash:'ORDER ON DOORDASH'") && pickup.includes("orderDoorDash:'PEDIR POR DOORDASH'"),'Bilingual DoorDash label must remain arrow-free');
+assert(css.includes('KNOCKOUT VISUAL PICKUP AND DOORDASH BUTTONS') && css.includes('.menu-tools .menu-search-field input'),'One-border search refinement missing');
+
 assert(html.includes('data-direct-copy="squareRequirement"'),'Square payment guidance missing');
 assert(!/\bStripe\b/i.test(html+pickup),'Legacy Stripe visible to customer');
 assert(pickup.includes("payTruck:'SQUARE PAYMENT BEFORE ORDER'")&&pickup.includes("payTruck:'PAGO CON SQUARE ANTES DEL PEDIDO'"),'Bilingual Square pre-order heading missing');
