@@ -16,6 +16,33 @@ let menu = legacy.replace('</head>', '  <link rel="stylesheet" href="./menu-only
 menu = menu.replace('<main id="top">', `<div class="menu-route-bar"><a href="./index.html">BACK TO WEBSITE</a><span>EXPLORE THE DIGITAL MENU</span></div>\n  <main id="top">`);
 menu = menu.replace(/<title>[^<]*<\/title>/, '<title>Knockout Deli — Digital Menu | Concept Preview</title>');
 menu = menu.replace('href="#top" aria-label="Knockout Deli — home"','href="./index.html" aria-label="Knockout Deli — website home"');
+
+// The public site opens this menu via a button; do not promote QR scanning.
+// Preserve legacy deep links and the existing cart/pickup demo behavior.
+const withoutQrCopy = text => {
+  const labels = [
+    [/PICKUP AT THE TRUCK\s*\/\s*QR MENU/gi, 'PICKUP AT THE TRUCK / DIGITAL MENU'],
+    [/AT THE SERVICE WINDOW\s*\/\s*QR MENU/gi, 'PICKUP AT THE TRUCK / DIGITAL MENU'],
+    [/EN LA VENTANILLA\s*\/\s*MENÚ QR/gi, 'EN LA VENTANILLA / MENÚ DIGITAL'],
+    [/QR MENU/gi, 'DIGITAL MENU'],
+    [/MENÚ QR/gi, 'MENÚ DIGITAL'],
+    [/SCAN THE QR/gi, 'OPEN THE MENU'],
+    [/ESCANEA EL QR/gi, 'ABRE EL MENÚ'],
+    [/SCAN THE CODE/gi, 'OPEN THE MENU'],
+    [/ESCANEA EL CÓDIGO/gi, 'ABRE EL MENÚ'],
+    [/OPEN THE QR/gi, 'OPEN THE MENU'],
+    [/ABRE EL QR/gi, 'ABRE EL MENÚ'],
+    [/QR CODE/gi, 'DIGITAL MENU'],
+    [/CÓDIGO QR/gi, 'MENÚ DIGITAL'],
+    [/\bSCAN\./g, 'OPEN.'],
+    [/\bESCANEA\./g, 'ABRE.']
+  ];
+  return labels.reduce((value, [pattern, replacement]) => value.replace(pattern, replacement), text);
+};
+menu = withoutQrCopy(menu);
+const windowOrderFile = path.join(destination, 'window-order.js');
+fs.writeFileSync(windowOrderFile, withoutQrCopy(fs.readFileSync(windowOrderFile, 'utf8')));
+
 fs.writeFileSync(path.join(destination, 'menu.html'), menu);
 const textFiles = [['home.html','index.html'],['landing.css','landing.css'],['landing.js','landing.js'],['menu-only.css','menu-only.css']];
 for (const [sourceName,destinationName] of textFiles) {
