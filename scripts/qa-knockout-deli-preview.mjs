@@ -32,7 +32,7 @@ for(const obsolete of ['class="photo-caption"','class="hero-photo-headline"','cl
 }
 if(html.indexOf('id="menu"')>html.indexOf('id="window-order"'))fail('The real menu must follow the hero before the QR tutorial');
 if(!html.includes('href="./visual-polish.css"'))fail('New editorial style not referenced');
-if(!html.includes('class="hero-menu-cta"'))fail('Primary menu CTA must be available in hero');
+if(!html.includes('class="button button-red hero-menu-cta"'))fail('Primary menu CTA must be available in hero');
 if(!polish.includes('.hero-visual')||!polish.includes('object-fit:cover'))fail('Hero photo treatment missing');
 if(!polish.includes('prefers-reduced-motion:reduce'))fail('Hero interactions lack reduced-motion support');
 if(!process.exitCode)console.log('Knockout Deli QR-window demo QA passed ('+needed.length+' files)');
