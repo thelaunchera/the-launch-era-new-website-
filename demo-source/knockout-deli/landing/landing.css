@@ -161,3 +161,28 @@
   .hero h1 > em{animation:none}
   .btn,.nav-menu-btn{transition:none!important}
 }
+
+
+/* KNOCKOUT ROUND ORDER PHOTO TRANSITION 20261113
+   The dark Ready for a Knockout panel rounds over its photo on tablet/phone. */
+@media(max-width:1050px){
+  .order-band{display:grid!important;grid-template-columns:minmax(0,1fr)!important;min-height:0!important}
+  .order-image{height:clamp(320px,43vw,455px)!important;min-height:0!important}
+  .order-image img{
+    width:100%!important;height:100%!important;min-height:0!important;
+    object-fit:cover!important;object-position:center 50%!important;
+  }
+  .order-text{
+    position:relative!important;z-index:2!important;margin-top:-30px!important;
+    border-radius:32px 32px 0 0!important;
+    padding:clamp(54px,6vw,80px) clamp(24px,6vw,90px) 80px!important;
+    background:#191515!important;box-shadow:0 -9px 24px rgba(0,0,0,.11)!important;
+  }
+}
+@media(max-width:760px){
+  .order-image{height:clamp(270px,63vw,360px)!important}
+  .order-text{
+    margin-top:-24px!important;border-radius:28px 28px 0 0!important;
+    padding:55px 24px 70px!important;
+  }
+}
