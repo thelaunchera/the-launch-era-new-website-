@@ -1,3 +1,10 @@
+## 2026-11-13 — Knockout Deli round food cards, layered panels and iPhone catering CTA contrast
+- User iPhone screenshots showed square-edged homepage food-gallery cards and "CRAVING SOMETHING?" bridge, straight boundary after truck story, and an Events & Catering button disappearing into the equally pale background. Requested same 0.94 no-overshoot press feedback in the digital menu.
+- Verified source: `landing.css` had `.food-card` and `.menu-bridge` without border radius, hero `.btn-light` nearly white on the ivory mobile hero without a border. `menu-redesign.css` retained 15px menu cards and several old hover transforms that compete with instant touch pressure.
+- Repair scoped to Knockout only: food cards now 21px corners (17px on phone), menu bridge 22/19px, truck photo 19px with separated event caption; food chapter rounds and overlaps previous story by 25px tablet / 20px phone. Mobile Events & Catering white CTA receives a clear dark 2px border and shadow, preserving its existing `#events` anchor. Digital menu cards round to 21/18px and pickup, DoorDash, Add to Bag, item-plus and review actions press instantly to 0.94, releasing with monotonic 330ms easing; reduced motion has no transition.
+- The approved food poster, menu search, filters, bag, customization, pickup/DoorDash links, Square preview, demo-only form, and customer brand are unaffected. Static assertions and 390/768/1024/1440 Playwright style/press checks added.
+- GitHub source change is not proof of published browser behavior; require Pages successful deployment, build checks and actual device/screenshot verification for closure.
+
 ## 2026-11-13 — Knockout Deli approved food poster hero and two rounded photo transitions
 - User provided phone and tablet screenshots, then approved a newly generated multi-dish food poster and requested completion: slightly bigger digital-menu hero, poster imagery, rounded ivory menu sheet on tablet/phone, and rounded black "Ready for a Knockout?" section over its food photograph on tablet/phone.
 - Verified code cause: menu CSS had competing 158px tablet and legacy 3:2 mobile photo rules; `.order-band` had no photo-to-text overlap.
