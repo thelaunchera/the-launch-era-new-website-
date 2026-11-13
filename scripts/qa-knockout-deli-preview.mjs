@@ -82,3 +82,6 @@ if(!core.includes('events: []')||/\bfetch\s*\(|XMLHttpRequest|localStorage\s*\.|
 for(const f of ['app.js','window-order.js','landing.js']){const c=spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});if(c.status!==0)fail(f+' invalid: '+c.stderr)}
 for(const rel of required.filter(x=>x.endsWith('.webp')))if(fs.statSync(path.join(root,rel)).size>400000)fail('Unoptimized image '+rel);
 if(!process.exitCode)console.log('Knockout Deli: business-led homepage and separate digital menu passed static QA ('+required.length+' files)');
+
+const originalLandingStyle=fs.readFileSync(path.join(root,'landing.css'),'utf8');
+if(!originalLandingStyle.includes('KNOCKOUT ROUNDED HERO OVERLAP')||!originalLandingStyle.includes('border-radius:26px 26px 0 0!important;'))fail('Homepage mobile hero must overlap photo with rounded corners');
