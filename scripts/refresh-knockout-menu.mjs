@@ -8,6 +8,8 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   const withPhoto=catalog.filter(i=>i.image).map(i=>i.image);
   if(withPhoto.length>10 || withPhoto.length!==new Set(withPhoto).size)throw Error('Menu must show only unique featured food photos');
   if(catalog.some(i => /(?:post|instagram)/i.test(i.image||'')))throw Error('Social-media images cannot appear in the menu');
+  if(!catalog.every(item=>item.nameEs && item.descriptionEs && item.categoryEs))
+    throw Error('All Knockout products must include the Spanish translations');
   if(!catalog.every(i=>['Main Event','Breakfast','Ringside Favorites','Take Home','Beverages'].includes(i.category)))throw Error('Unexpected menu category');
 
   const appPath=path.join(destination,'app.js');
@@ -36,7 +38,7 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   const file=path.join(destination,'menu.html');
   let html=fs.readFileSync(file,'utf8');
   if(!html.includes('id="menu-grid"')||!html.includes('id="menu-filters"'))throw Error('Menu DOM anchor missing');
-  if(!html.includes('menu-redesign.css'))html=html.replace('</head>','  <link rel="stylesheet" href="./menu-redesign.css?v=20261113-rounded-ipad-cta-v6" />\n  <script src="./menu-redesign.js?v=20261113-rounded-ipad-cta-v6" defer></script>\n</head>');
+  if(!html.includes('menu-redesign.css'))html=html.replace('</head>','  <link rel="stylesheet" href="./menu-redesign.css?v=20261113-spanish-menu-v7" />\n  <script src="./menu-redesign.js?v=20261113-spanish-menu-v7" defer></script>\n</head>');
   // A dedicated BACK link belongs to the sticky header, not inside the logo link.
   if(!html.includes('km-header-back')){
     const brandAnchor=/(<a class="brand"[^>]*>[\s\S]*?<\/a>)/;
@@ -59,7 +61,17 @@ export function refreshMenu(destination, source = 'demo-source/knockout-deli/lan
   if(!html.includes('id="menu-search"'))html=html.replace('<div class="menu-filters"','<div class="km-search"><label for="menu-search">SEARCH MENU</label><input type="search" id="menu-search" placeholder="Search sandwiches, breakfast, favorites..." autocomplete="off" /></div>\n      <div class="menu-filters"');
   fs.writeFileSync(file,html);
   fs.copyFileSync(path.join(source,'menu-redesign.css'),path.join(destination,'menu-redesign.css'));
-  fs.copyFileSync(path.join(source,'menu-redesign.js'),path.join(destination,'menu-redesign.js'));
+  // Embed the approved bilingual menu data directly in the frontend script so
+  // mobile file previews and offline demos do not depend on a fetch request.
+  const menuLocales=Object.fromEntries(catalog.map(item=>[item.id,{
+    name:item.name,nameEs:item.nameEs,description:item.description,
+    descriptionEs:item.descriptionEs,category:item.category,categoryEs:item.categoryEs
+  }]));
+  const localePlaceholder='/* KNOCKOUT_ES_PRODUCT_MAP */ {}';
+  const localeSource=fs.readFileSync(path.join(source,'menu-redesign.js'),'utf8');
+  if(!localeSource.includes(localePlaceholder))throw Error('Menu locale script insertion point missing');
+  fs.writeFileSync(path.join(destination,'menu-redesign.js'),
+    localeSource.replace(localePlaceholder,JSON.stringify(menuLocales)));
   for(const name of ['knockout-fries-event.webp','knockout-menu-hero-event.webp','knockout-menu-knockout.webp','knockout-menu-tko.webp','knockout-menu-heavy-weight.webp','knockout-menu-pound-for-pound.webp','knockout-menu-round-knish.webp','knockout-menu-hero-drive-07.png','knockout-menu-food-poster-20261113.webp','knockout-menu-food-collage-20261113.webp','knockout-menu-food-only-tablet-desktop-20261113.webp'])fs.copyFileSync(path.join(source,'assets',name),path.join(destination,'assets',name));
   console.log('Knockout Deli: '+catalog.length+' real-menu items, '+withPhoto.length+' unique featured photos, separate editorial digital menu');
 }
