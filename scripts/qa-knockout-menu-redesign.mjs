@@ -31,9 +31,12 @@ for(const anchor of ['function customizationMarkup','km-customizer','km-topping'
 for(const anchor of ['const cartId=','km-cart-options','km-preview-options','quantity:1,options']){
   assert(pickup.includes(anchor),'Pickup list must preserve selections: '+anchor);
 }
-for(const anchor of ['.pickup-option-switch','.pickup-mode > small','#product-dialog .km-option-grid','@media(max-width:820px)']){
+for(const anchor of ['.km-pickup-instruction','#product-dialog .km-option-grid','@media(max-width:820px)']){
   assert(css.includes(anchor),'Missing tablet/desktop pickup layout: '+anchor);
 }
+assert(!html.includes('class="checkout-pickup-cards"') && !html.includes('class="pickup-option-switch"'), 'No redundant window pickup method cards');
+assert(html.includes('data-order-i18n="pickupDetails"') && html.includes('type="hidden" name="method" value="ahead"'), 'Single direct pickup flow required');
+assert(pickup.includes("mode='ahead'") && pickup.includes('pickupDetails:'), 'Bilingual direct pickup labels missing');
 assert(!pickup.includes('fetch(')&&!pickup.includes('localStorage.'),'Demo must not send/store orders');
 
 // The bag must be in the header, use the existing cart, and move more slowly than the old demos.
