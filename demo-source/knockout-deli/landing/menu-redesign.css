@@ -445,6 +445,15 @@ body:has(.km-banner) .menu-tools .menu-search-field input{
   outline:0!important;margin:0!important;padding:12px 0!important;
   font:500 14px/1.45 'DM Sans',Arial,sans-serif!important;
 }
+/* The legacy menu styles give #menu-search its own border; override by ID
+   so only the parent search capsule draws a visible outline. */
+body:has(.km-banner) .menu-tools input#menu-search{
+  appearance:none!important;-webkit-appearance:none!important;
+  border:0!important;border-width:0!important;border-style:none!important;
+  border-color:transparent!important;border-image:none!important;
+  outline:0!important;box-shadow:none!important;
+  background:transparent!important;
+}
 body:has(.km-banner) .menu-tools .menu-result-count{
   flex-shrink:0!important;color:#77706a!important;
   font:700 11px/1.4 'DM Sans',Arial,sans-serif!important;
