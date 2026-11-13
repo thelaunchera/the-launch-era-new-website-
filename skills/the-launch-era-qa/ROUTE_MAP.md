@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli menu-first responsive cleanup
+- Route: `/demos/knockout-deli/menu.html` only. User-supplied iPad photo showed a tall food hero plus three repeating instruction blocks and duplicate bag hint hiding the first menu products below the fold.
+- Reduce hero height but retain original brand food imagery/headline; hide extra explainer aside, no-PDF/numbered tutorial, duplicate bag hint, and repeated topbar label visually via menu-only CSS while keeping existing handlers and DOM.
+- Keep "Our Menu" immediately followed by one compact pickup/DoorDash strip, search, category filters and food cards. English/Spanish pickup copy shortened in `scripts/upgrade-knockout-pickup.mjs`, with explicit demo/no-send disclosure. Existing bag in header, 1.2s fly animation, customization, DoorDash and no-real-order rules remain unchanged.
+- Gate: `scripts/qa-knockout-menu-redesign.mjs` and Pages build, then live visual QA at phone, tablet and desktop. No changes to other brands, newsletter, catering, CRM, prices or payments.
+
 ## 2026-11-13 — Knockout Deli catering inquiry dialog (preview only)
 - `/demos/knockout-deli/#events`: "Ask About Catering" opens a native bilingual EN/ES modal dialog rather than redirecting to Linktree. Fields: name, email, optional phone, event type, date, guests, venue/city, and notes.
 - Submit only performs local form validation, displays an explicit preview-only notice and clears inputs. NO request, client CRM write, email, quote, booking, analytics storage or automation. Close via button, Escape, or backdrop; focus returns to triggering button.
