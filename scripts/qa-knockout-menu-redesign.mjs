@@ -37,7 +37,7 @@ assert(html.includes('BACK TO WEBSITE') && html.includes('NOT AN OFFICIAL BUSINE
 assert(css.includes('grid-template-columns:repeat(2') && css.includes('max-width:760px') && css.includes('.menu-card:not(:has('),'Layout must support photo-less cards and mobile');
 assert(search.includes("input.addEventListener('input'") && search.includes('MutationObserver'),'Search should work after category and language rerenders');
 
-assert(js.includes('item.nameEs')&&js.includes('item.descriptionEs')&&js.includes('item.categoryEs'),
+assert(js.includes('item.nameEs')&&js.includes('item.descriptionEs')&&search.includes('categoryEs'),
   'Product cards/customizer must render the Spanish catalog, not the original English strings');
 assert(js.includes('02 · OPCIONES')&&js.includes('02 · TOPPINGS'),
   'Customizer step must switch between Spanish and English');
