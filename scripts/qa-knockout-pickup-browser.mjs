@@ -46,6 +46,17 @@ try{
     }
     const bannerHeight=await page.locator('.km-banner').evaluate(el=>el.getBoundingClientRect().height);
     assert(bannerHeight <= 222, 'Menu photograph banner too tall at '+width+': '+bannerHeight);
+    const photoInfo=await page.locator('.km-banner').evaluate(async el=>{
+      const css=getComputedStyle(el);
+      const src=css.backgroundImage.match(/url\(["']?([^"')]+)["']?\)/)?.[1]||'';
+      const picture=new Image();
+      const loaded=await new Promise(resolve=>{picture.onload=()=>resolve(true);picture.onerror=()=>resolve(false);picture.src=src;});
+      return {src,loaded,width:picture.naturalWidth,height:picture.naturalHeight};
+    });
+    assert(photoInfo.src.includes('knockout-menu-hero-drive-07.png') && photoInfo.loaded && photoInfo.width>1000,'Drive hero background failed to load at '+width+': '+JSON.stringify(photoInfo));
+    const ctas=await page.locator('.km-order-choices .km-order-choice').evaluateAll(els=>els.map(el=>el.getBoundingClientRect().toJSON()));
+    assert(ctas.length===2 && Math.abs(ctas[0].top-ctas[1].top)<4 && ctas[0].width>=120 && ctas[1].width>=120,'Pickup/DoorDash CTA must remain side by side '+width);
+
     const firstCard=await page.locator('#menu-grid .menu-card:visible').first().boundingBox();
     assert(firstCard && firstCard.y<830, 'First menu card still below the fold at '+width+': '+JSON.stringify(firstCard));
     await page.screenshot({path:path.join(screenshots,'knockout-menu-first-'+width+'.png'),fullPage:false});

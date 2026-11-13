@@ -1,3 +1,7 @@
+## 2026-11-13 — Knockout menu hero reused photo; still crowded on iPhone
+- User said current menu 'todavía no se ve bien' and demanded a stronger hero image from Knockout's Drive folder, not the original website hero. Verified Drive target and visual content: `07-order-online.png`, horizontal pastrami/pickles next to red truck; unlike existing standalone site's main sandwich hero.
+- Fix only menu-specific asset/CSS layout and responsive QA; optimize headline contrast and two equal route controls without changing stepwise cart, real order state, payment or other demos. Cache-bust stylesheet to avoid stale UI.
+- Deployment gate: package exact Drive file locally, do not hotlink Drive; static validation and Playwright images, Pages deploy, then public asset fetch. No claim of launch before those checks.
 ## 2026-11-13 — DoorDash arrow and double-border search make Knockout Deli mobile menu less polished
 - User-provided iPhone screenshot shows 'ORDER ON DOORDASH ↗' alongside pickup and a nested search field border. Asked for more visual controls and DoorDash button/brand mark in place of the arrow.
 - Scoped update: retain side-by-side choice buttons and real DoorDash destination; add pickup SVG and DoorDash logo-shaped SVG, keep translation targeting text spans, remove ↗ in both languages, and eliminate redundant search input border. No functional cart/topper/menu flow changes.
