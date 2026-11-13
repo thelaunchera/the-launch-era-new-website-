@@ -103,3 +103,14 @@ if(!process.exitCode)console.log('Knockout Deli: business-led homepage and separ
 
 const originalLandingStyle=fs.readFileSync(path.join(root,'landing.css'),'utf8');
 if(!originalLandingStyle.includes('KNOCKOUT ROUNDED HERO OVERLAP')||!originalLandingStyle.includes('border-radius:26px 26px 0 0!important;'))fail('Homepage mobile hero must overlap photo with rounded corners');
+
+
+if(!style.includes('KNOCKOUT EDITORIAL CARDS') ||
+   !style.includes('.hero-actions .btn-light{') ||
+   !style.includes('border:2px solid #292321!important;') ||
+   !style.includes('.food-section{margin-top:-20px!important;border-radius:27px 27px 0 0!important}')){
+  fail('Homepage missing rounded cards, mobile food overlap, or visible Events & Catering outline');
+}
+if(!style.includes('.intro-photo .intro-photo-caption strong{font-size:10px!important')){
+  fail('Truck event-photo caption must remain readable and separated on phones');
+}
