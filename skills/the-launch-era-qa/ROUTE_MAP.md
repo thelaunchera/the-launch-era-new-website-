@@ -1,3 +1,11 @@
+## 2026-11-13 — Knockout Deli QR window ordering / editorial motion update
+- Public concept `/demos/knockout-deli/` is the same isolated route; the owner may preview proposed QR entry `/demos/knockout-deli/?window=1#window-order`. This is NOT an existing QR installed on the truck.
+- The QR landing adds an "Order at Window" browsing mode, priced-menu add buttons, quantity stepper, estimated demo total, a cashier-facing on-device list, and a sticky mobile access button. It does NOT submit an order, reserve stock, generate an order number, connect a POS/kitchen/payment provider, or send a message to staff. The request must be spoken/shown at the window.
+- External DoorDash link continues to work separately. Unsupported categories have ASK THE CREW, not invented prices. Featured prices remain demo figures subject to confirmation.
+- Added `window-order.js` and `window-order.css` to existing self-hosted website bundle; cinematic depth/hover/press interaction modeled on food-truck QR menu UI and Motion examples, without the Motion library dependency. Reduced motion and mobile layout are considered.
+- No Admin Panel is shipped publicly; its benefits are described only verbally in the owner sales pitch. Keep source materials, events, other client demos, and sales data unchanged.
+- QA gate `scripts/qa-knockout-deli-preview.mjs` checks new files, safety disclosures, no network writes, QR mode, and asset syntax. Live browser QR/cart iPhone testing remains separate and must not be claimed without proof.
+
 ## 2026-11-13 — Knockout Deli prospect-only preview route
 - Public unlisted concept route: `/demos/knockout-deli/`. Source ZIP stored at `demo-source/knockout-deli/Knockout-Deli-website-bundle.zip`; GitHub Pages build extracts its `index.html`, `styles.css`, `app.js`, and nine optimized self-hosted WebP assets to `.output/public/demos/knockout-deli/`.
 - This is a DESIGN CONCEPT for a prospect, NOT an official restaurant website; do not add a library card or publish it as an approved client without owner instruction. No Admin Panel, auth, ordering checkout or real event submissions. DoorDash link points externally to the business store; event dates and truck location remain unannounced until verified.

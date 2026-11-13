@@ -1,3 +1,10 @@
+## 2026-11-13 — Knockout Deli QR-order prototype / constrained local browser QA
+- Customer-facing request: QR at the food truck should offer a window-order mode and premium depth/button interactions; private owner Admin Panel must NOT be accessible or sent to prospect.
+- Local code delivered a customer-facing in-browser list and sample-price total that can be shown to staff in person. No ticket is sent, no real checkout or order confirmation, and QR deployment to the physical truck has not occurred.
+- Static tests of HTML, JS syntax, CSS parsing, bilingual strings, privacy and static assets passed. Local Chromium navigation and even inlined set_content are blocked/timed out by environment policy; therefore no local interactive browser QA claim. GitHub workflow and remote user-facing checks must verify release before presenting as complete.
+- Inspiration: Figma QR restaurant UI kit; motion.dev add-to-basket and sheet modal interaction patterns, implemented independently as lightweight CSS and JS with reduced motion.
+- Implementation scoped to demo-source/knockout-deli bundle, its Pages extraction step, and QA; all other websites, existing tenant apps, backend, photos, and email deliveries remain untouched.
+
 ## 2026-11-13 — Knockout Deli preview publication (no active incident)
 - Owner requested a directly viewable URL for the isolated, prospect-only Knockout Deli website previously prepared with nine assets (8 brand food/truck scenes + transparent logo) from its Drive kit.
 - Source is a static client-only site with no owner Admin Panel, no checkout, no data persistence and no live catering submission. Its event/location placeholders are intentionally unannounced.
