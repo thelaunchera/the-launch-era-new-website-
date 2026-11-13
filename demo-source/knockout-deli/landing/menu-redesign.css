@@ -1009,3 +1009,37 @@ body:has(.km-banner) .menu-filters .filter{
     border-radius:29px 29px 0 0!important;
   }
 }
+
+
+/* KNOCKOUT PICKUP BACK-TO-BAG CONTRAST 20261113
+   On iPhone the legacy outlined button inherited white text on ivory.
+   Scope the repair to the existing pickup form, not the receipt or menu. */
+body:has(.km-banner) #window-cart-dialog.digital-checkout
+#pickup-preview-form .checkout-form-actions :is(button,a).button-outline{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:#fffdfa!important;
+  background-image:none!important;
+  border:2px solid #3b3430!important;
+  border-radius:18px!important;
+  color:#211d1b!important;
+  -webkit-text-fill-color:#211d1b!important;
+  opacity:1!important;
+  visibility:visible!important;
+  font-weight:800!important;
+  text-align:center!important;
+  text-shadow:none!important;
+}
+body:has(.km-banner) #window-cart-dialog.digital-checkout
+#pickup-preview-form .checkout-form-actions :is(button,a).button-outline:is(:hover,:focus-visible){
+  background:#f2eae1!important;
+  border-color:#b72f37!important;
+  color:#211d1b!important;
+  -webkit-text-fill-color:#211d1b!important;
+}
+body:has(.km-banner) #window-cart-dialog.digital-checkout
+#pickup-preview-form .checkout-form-actions :is(button,a).button-outline:focus-visible{
+  outline:3px solid #b72f37!important;
+  outline-offset:3px;
+}
