@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli preview publication (no active incident)
+- Owner requested a directly viewable URL for the isolated, prospect-only Knockout Deli website previously prepared with nine assets (8 brand food/truck scenes + transparent logo) from its Drive kit.
+- Source is a static client-only site with no owner Admin Panel, no checkout, no data persistence and no live catering submission. Its event/location placeholders are intentionally unannounced.
+- Only additive source ZIP, preview QA script, route-map and Pages extraction changes; no changes to existing demo pages, customers, payments, Supabase or CRM.
+- Static source QA was previously run locally and passed. Build deployment, live URL and browser validation must be checked after merge; never claim successful public availability solely from commit or PR.
+
 ## 2026-11-12 — Dailin Vault: iPhone library section appears clipped when scrolling
 - **Owner evidence:** two iPhone screenshots on `/es/guias/`: after the topic ticker, the free-guides introduction can appear oversized and horizontally cut; a horizontal scrollbar/pan is visible in the second image. The earlier founder portrait correction is unrelated.
 - **Code review:** the mobile `#guias .library-intro` is sticky but uses negative inline margins, an unconstrained width, `overflow:visible` on the parent, and several competing font-size rules. Suspected mobile layout/text-inflation interaction; browser cause not yet reproduced in physical Safari.
