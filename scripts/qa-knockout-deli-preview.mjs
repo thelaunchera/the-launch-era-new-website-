@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 const root=path.resolve(process.argv[2] || '.output/public/demos/knockout-deli');
-const needed=['index.html','styles.css','visual-polish.css','app.js','window-order.js','window-order.css',
+const needed=['index.html','styles.css','visual-polish.css','digital-menu.css','app.js','window-order.js','window-order.css',
  ...['01-hero-pastrami','02-menu-spread','03-pastrami-prep','04-customer-experience','05-breakfast-sandwich','06-cheesesteak-grill','07-order-online','08-real-truck-location','logo-knockout-deli-transparent'].map(x=>'assets/'+x+'.webp')];
 const fail=m=>{console.error('Knockout QA: '+m);process.exitCode=1};
 for(const rel of needed){const f=path.join(root,rel);if(!fs.existsSync(f)||fs.statSync(f).size===0)fail('Missing '+rel)}
@@ -17,9 +17,13 @@ if(/\bfetch\s*\(|XMLHttpRequest|localStorage\s*\.|sessionStorage\s*\.|WebSocket/
 for(const id of ['window-order','menu','events','find-us','catering','order','follow','window-cart-dialog','window-sticky'])if(!html.includes('id="'+id+'"'))fail('Missing section '+id);
 if(!html.includes('data-window-i18n')||!qr.includes('es:{navWindow:'))fail('QR window ordering must support Spanish');
 if(!html.includes('meta name="robots" content="noindex'))fail('Unlisted concept should not be indexed');
-if(!html.includes('NOT AN OFFICIAL BUSINESS WEBSITE') || !qr.includes('not a submitted order'))fail('Missing demo/order disclosure');
+if(!html.includes('NOT AN OFFICIAL BUSINESS WEBSITE') || !qr.includes('previewAlert') || !qr.includes('activationHelp'))fail('Missing demo/order disclosure');
 if(!html.includes('https://www.doordash.com/store/42538456'))fail('DoorDash option missing');
-if(!html.includes('window-order.js') || !html.includes('window-order.css'))fail('QR new scripts not loaded');
+if(!html.includes('window-order.js') || !html.includes('window-order.css') || !html.includes('digital-menu.css'))fail('Menu or QR scripts not loaded');
+if(!html.includes('id="menu-search"') || !html.includes('order-routing-note') || !html.includes('pickup-demo-phone') || !html.includes('direct-pay-truck'))fail('Pickup form or two ordering paths missing');
+if(!qr.includes('preview-submit-disabled') || !qr.includes('submitInactive') || !qr.includes('activationHelp'))fail('Demo send-to-truck action must be disabled and clearly labeled');
+if(!html.includes('https://linktr.ee/knockoutdeli'))fail('Existing physical QR destination must remain Linktree');
+if(/js\.stripe\.com|api\.stripe\.com/i.test(html+qr+core))fail('Stripe must not be integrated in this proposal');
 if(!qr.includes("new URLSearchParams(location.search).get('window')==='1'"))fail('QR entry URL missing');
 if(!core.includes('data-add-item') || !qr.includes('data-qty-plus') || !qr.includes('data-qty-minus'))fail('Window basket interactions missing');
 if(!css.includes('prefers-reduced-motion:reduce'))fail('Reduced-motion support missing');
