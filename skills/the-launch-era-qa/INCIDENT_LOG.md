@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout homepage tablet/phone section seams after mobile hero rounding
+- Evidence: user provided iPad screenshots of `NOT YOUR AVERAGE LUNCH STOP` beginning with a straight edge beneath the hero, and `BRING THE FOOD. MAKE IT AN EVENT.` beginning with a straight dark edge after the menu's ivory bridge.
+- Verified root cause: `landing.css` already rounded only `.hero-content` at <=760px; the separate `.intro` (tablet) and `.events-section` (tablet/phone) had no overlapping upper corners.
+- Scoped repair: `demo-source/knockout-deli/landing/landing.css` gives the tablet `.intro` a 30px ivory overlap with 32px top corners and raises hero caption clear of the seam; `.events-section` overlaps the prior food section with dark 32px corners on tablet and 26px corners on phone. Existing phone hero rounding, CTA targets, menu, catering form and desktop layout unchanged.
+- Regression assertions added to `scripts/qa-knockout-pickup-browser.mjs` for 390/768/1024/1440, including overlap, color and desktop exclusion. GitHub code commits are NOT proof of a deployed visual fix; CI, Pages and live viewport verification still required.
+
 ## 2026-11-13 — Knockout homepage hard hero seam and menu BACK lost beneath ivory area
 - Evidence: two user photos show ivory block starting with a hard straight border beneath hero photo on original website; menu BACK drops below the brand/logo and disappears near white content.
 - Fix: mobile homepage ivory title panel 22px overlap with 26px top radius; menu ivory content sheet 22px overlap with 25px radius; rebuild menu header BACK as a standalone link anchored to dark sticky header with background and contrast independent of white page.
