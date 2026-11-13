@@ -45,6 +45,18 @@ assert(search.includes('catalogEs=')&&!search.includes('/* KNOCKOUT_ES_PRODUCT_M
   search.includes('Pastrami recién cortado')&&search.includes('localizeRenderedText'),
   'Locale safety net must embed Spanish catalog and support open cart + rerenders');
 
+
+const backToBagCss=[
+  'KNOCKOUT PICKUP BACK-TO-BAG CONTRAST 20261113',
+  '#pickup-preview-form .checkout-form-actions :is(button,a):first-child',
+  'background:#fffdfa!important',
+  'color:#211d1b!important',
+  '-webkit-text-fill-color:#211d1b!important',
+  'opacity:1!important',
+  'visibility:visible!important'
+];
+for(const rule of backToBagCss)assert(css.includes(rule),'Back to Bag iPhone high-contrast rule missing: '+rule);
+
 const pickup=read('window-order.js');
 for(const anchor of ['function customizationMarkup','km-customizer','km-topping','km-side']){
   assert(js.includes(anchor),'Missing optional item customization: '+anchor);
@@ -108,11 +120,11 @@ const driveHero=path.join(root,'assets','knockout-menu-hero-drive-07.png');
 assert(fs.existsSync(driveHero)&&fs.statSync(driveHero).size>100000,'Drive-sourced hero photo must be bundled locally');
 assert(css.includes('KNOCKOUT DRIVE HERO')&&css.includes("url('./assets/knockout-menu-hero-drive-07.png')"),'Menu hero must use new Drive photo, not original site hero');
 assert(!css.includes("background:#301919 url('./assets/knockout-menu-hero-event.webp')"),'Original hero photo cannot be used again');
-assert(html.includes('menu-redesign.css?v=20261113-spanish-menu-v7'),'Menu must use refreshed rounded-back CSS');
+assert(html.includes('menu-redesign.css?v=20261113-back-to-bag-contrast-v8'),'Menu must use refreshed rounded-back CSS');
 assert(html.includes('class="km-banner-image"')&&html.includes('class="km-banner-photo"'),'Mobile hero must have separate full image');
 assert(html.includes('class="km-header-back"') && html.includes('class="km-header-back-label"'),'Header must include an independent visible BACK link');
 assert(html.includes('SOUTH FLORIDA · FOOD TRUCK'),'Hero must use editorial food-truck overline');
-assert(html.includes('menu-redesign.css?v=20261113-spanish-menu-v7'),'Rounded hero styles must bust cached CSS');
+assert(html.includes('menu-redesign.css?v=20261113-back-to-bag-contrast-v8'),'Rounded hero styles must bust cached CSS');
 assert(css.includes('KNOCKOUT FOOD-FIRST HERO V2') && css.includes('.menu-route-bar{display:none!important}'),'Redundant back strip must disappear');
 assert(css.includes('.menu-section .menu-head{') && css.includes('clip-path:inset(50%)'),'Redundant OUR MENU heading must be visually hidden, not removed');
 assert(search.includes("back.textContent=es?'VOLVER':'BACK'"),'Back link text must translate to Spanish');
