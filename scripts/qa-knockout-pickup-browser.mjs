@@ -119,6 +119,8 @@ try{
           doneBg:doneStyle?.backgroundColor,
           editWidth:rect(edit)?.width||0,
           doneWidth:rect(done)?.width||0,
+          editTop:rect(edit)?.top||0,
+          doneTop:rect(done)?.top||0,
           disabled:dead?.disabled,
           layout:cs(el)?.display
         };
@@ -130,6 +132,7 @@ try{
       assert(info.editText.length>4&&info.doneText.length>4,'Bottom actions have lost their visible labels '+width);
       assert(info.editColor!==info.editBg&&info.doneColor!==info.doneBg,'Review action text must contrast with button surfaces '+width);
       assert(info.editWidth>140&&info.doneWidth>140,'Review buttons should have comfortable tap sizes '+width);
+      if(width===390)assert(Math.abs(info.editTop-info.doneTop)<3,'Both review buttons must share one row on iPhone '+JSON.stringify(info));
       assert(info.disabled,'Send to Truck must remain disabled in demo '+width);
       assert.equal(info.layout,'grid','Review layout enhancement not loaded '+width);
       return info;

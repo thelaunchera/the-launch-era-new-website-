@@ -256,12 +256,13 @@
     padding:13px 14px;
   }
   #window-cart-dialog #window-review-slip .preview-actions {
-    grid-template-columns:minmax(0,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:10px;
   }
   #window-cart-dialog #window-review-slip .preview-actions > button {
     min-height:52px;
-    font-size:14px;
+    padding:11px 8px;
+    font-size:12px;
   }
 }
 @media(prefers-reduced-motion:reduce) {
