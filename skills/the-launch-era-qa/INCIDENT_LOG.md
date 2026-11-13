@@ -1,3 +1,10 @@
+## 2026-11-13 — Knockout Deli approved food poster hero and two rounded photo transitions
+- User provided phone and tablet screenshots, then approved a newly generated multi-dish food poster and requested completion: slightly bigger digital-menu hero, poster imagery, rounded ivory menu sheet on tablet/phone, and rounded black "Ready for a Knockout?" section over its food photograph on tablet/phone.
+- Verified code cause: menu CSS had competing 158px tablet and legacy 3:2 mobile photo rules; `.order-band` had no photo-to-text overlap.
+- Narrow repair: optimize and self-host the 1672x941 poster plus a food-only crop, used in the existing `km-banner`. Phone displays full uncropped poster with duplicate text visually hidden, preserving semantic headline and translation; tablet/desktop use food crop at right with real EN/ES heading at left. On tablet/phone `.menu-section` has overlapping rounded top corners. Homepage `.order-text` overlaps `.order-image` with rounded dark corners <=1050px. Rounded pickup/DoorDash press feedback also preserved.
+- Image files are Knockout-only; no changes to product names/prices, cart, pickup, DoorDash links, forms, real payments, other brands, or private Studio. Static+Chromium QA updated for 390/768/1024/1440.
+- Code and assets in GitHub are not proof of live behavior; require successful page build, public deployment and real mobile/tablet inspection before claiming device visual success.
+
 ## 2026-11-13 — Knockout Deli hero phrase animation and button press polish
 - User supplied a phone screenshot of the Knockout homepage and requested motion confined to the two red brand words plus rounder primary buttons that instantly press to 0.94 and return without overshoot.
 - Verified source: `demo-source/knockout-deli/landing/home.html` already isolates brand words as `<em>KNOCKOUT DELI.</em>`; prior `landing.css` used 5px corners and hover translateY on CTAs, with no brand-word animation.
