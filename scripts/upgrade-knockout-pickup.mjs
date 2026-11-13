@@ -55,10 +55,10 @@ function patchKnockoutPickup(app,windowOrder){
   if(pickupHeaderIndex!==2)throw Error('Pickup detail titles missing in translations');
   windowOrder=windowOrder.replace("en:{orderRoutes:","en:{pickupFormHelp:'Review pickup details and pay at the truck. No online payment.',orderRoutes:");
   windowOrder=windowOrder.replace("es:{orderRoutes:","es:{pickupFormHelp:'Revisa los datos y paga en el truck. Sin pago online.',orderRoutes:");
-  const routingTitles=['PICKUP OR DELIVERY','RECOGIDA O DELIVERY'];
+  const routingTitles=['PICKUP AT THE TRUCK','RECOGIDA EN EL TRUCK'];
   const routingHelp=[
-    'For pickup, build your bag and review the details here. For delivery, order directly on DoorDash. This demo does not send pickup requests.',
-    'Para recoger, prepara tu carrito y revisa los datos aquí. Para delivery, pide directamente en DoorDash. Esta demo no envía solicitudes.'
+    'Build your bag here. Demo only — no pickup order is sent.',
+    'Prepara tu bolsa aquí. Solo demo: no se envían pedidos.'
   ];
   let routeTitleIndex=0,routeHelpIndex=0;
   windowOrder=windowOrder.replace(/orderRoutes:'[^']*'/g,()=> "orderRoutes:'"+routingTitles[routeTitleIndex++]+"'");
