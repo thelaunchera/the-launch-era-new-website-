@@ -75,3 +75,34 @@
 @media(max-width:390px){
   .hero-content{padding-left:22px!important;padding-right:22px!important}
 }
+
+
+/* KNOCKOUT RESPONSIVE SECTION SHEETS
+   Tablet intro floats over the hero; catering floats over the menu on tablet and phone.
+   Keep the existing small-phone hero-content sheet and do not clip gallery photos. */
+@media (min-width:761px) and (max-width:1050px){
+  .intro{
+    position:relative;
+    z-index:2;
+    margin-top:-30px;
+    border-radius:32px 32px 0 0;
+    background:var(--paper);
+    box-shadow:0 -10px 28px rgba(0,0,0,.08);
+  }
+  .hero-caption{bottom:52px}
+}
+@media (max-width:1050px){
+  .events-section{
+    position:relative;
+    z-index:3;
+    margin-top:-30px;
+    border-radius:32px 32px 0 0;
+    box-shadow:0 -10px 26px rgba(0,0,0,.08);
+  }
+}
+@media (max-width:760px){
+  .events-section{
+    margin-top:-24px;
+    border-radius:26px 26px 0 0;
+  }
+}
