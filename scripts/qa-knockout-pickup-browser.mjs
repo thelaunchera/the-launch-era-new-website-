@@ -28,7 +28,8 @@ try{
       outer:getComputedStyle(input.parentElement).borderTopWidth,
       inner:getComputedStyle(input).borderTopWidth
     }));
-    assert(nestedSearchBorders.outer!=='0px'&&nestedSearchBorders.inner==='0px','Search must render a single exterior border');
+    console.log('KNOCKOUT SEARCH BORDER QA',width,JSON.stringify(nestedSearchBorders));
+    assert(nestedSearchBorders.outer!=='0px'&&nestedSearchBorders.inner==='0px','Search must render a single exterior border: '+JSON.stringify(nestedSearchBorders));
 
     assert.equal(await page.locator('#km-pickup-action').innerText(),'PICKUP AT THE TRUCK');
     assert((await page.locator('.km-order-choice-delivery').getAttribute('href')||'').includes('doordash.com'));
