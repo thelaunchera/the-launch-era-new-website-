@@ -38,7 +38,7 @@ for(const [lang,path] of pages){
  assert.equal((html.match(/class="plan" id="website-(?:basic|plus)"/g)||[]).length,2,'Only the two approved plans');
  assert.equal((html.match(/class="step"/g)||[]).length,4,'Four genuine service steps');
  assert.match(html,/id="owner-experience"/,'Interactive showcase preserved');
- assert.ok(html.includes('$15')&&html.includes('$25')&&html.includes('$10'),'Current $15/$25 one-time website offers and separately priced $10 agent stay visible');
+ assert.ok(html.includes('$29')&&html.includes('$59')&&html.includes('$10'),'Current $29/$59 one-time website offers and separately priced $10 agent stay visible');
  assert.ok(html.includes('class="website-agent-addon"')&&html.includes('+$10'),'Optional AI agent must appear in its own priced add-on');
  assert.doesNotMatch(html,/offer=website-ai-crm/,'Retired bundled AI subscription must not return to public checkout');
  assert.match(html,/href="\/website-checkout\/\?offer=website-basic&lang=/);
@@ -49,7 +49,7 @@ for(const [lang,path] of pages){
  assert.equal((faq.match(/<details>/g)||[]).length,8,'Eight focused FAQ answers '+lang);
  assert.equal((faq.match(/<\/details>/g)||[]).length,8,'All FAQ details closed '+lang);
  for(let i=1;i<=8;i++)assert.ok(faq.includes('data-key="q'+i+'"')&&faq.includes('data-key="r'+i+'"'),'Accessible FAQ question/answer pair '+lang+' '+i);
- assert.ok(faq.includes('$15')&&faq.includes('$25')&&faq.includes('$10'),'FAQ pricing matches approved offers '+lang);
+ assert.ok(faq.includes('$29')&&faq.includes('$59')&&faq.includes('$10'),'FAQ pricing matches approved offers '+lang);
  assert.ok(lang==='es'?faq.includes('negocios de limpieza'):faq.includes('cleaning businesses'),'FAQ clarifies multi-industry services '+lang);
  assert.ok(lang==='es'?faq.includes('no confirma una cita'):faq.includes('not a confirmed appointment'),'FAQ must not misrepresent booking requests '+lang);
  const subject=lang==='es'?'Consulta%20de%20website':'Website%20Consultation';
@@ -71,7 +71,7 @@ const messageContract={
   hero:'A better customer experience.',
   payoff:'A simpler business day.',
   pain:'BUILD NEW. IMPROVE WHAT YOU HAVE.',
-  system:'private Command Center',
+  system:'private Admin Panel',
   cta:'See My Options',
   owner:'Easier for you.',
   demo:'Try an Interactive Demo',
@@ -82,7 +82,7 @@ const messageContract={
   hero:'Mejores experiencias para tus clientes.',
   payoff:'Menos tareas para ti.',
   pain:'CREA UNO NUEVO O MEJORA EL QUE YA TIENES.',
-  system:'Command Center privado',
+  system:'Admin Panel privado',
   cta:'Ver mis opciones',
   owner:'Fácil para ti.',
   demo:'Probar un demo interactivo',
