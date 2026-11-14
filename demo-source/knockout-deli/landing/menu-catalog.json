@@ -53,7 +53,7 @@
     "category": "Ringside Favorites",
     "price": 10,
     "description": "Fries with bacon and cheese.",
-    "image": "./assets/knockout-fries-event.webp",
+    "image": null,
     "available": true,
     "nameEs": "Papas fritas cargadas",
     "descriptionEs": "Papas fritas con bacon y queso.",
