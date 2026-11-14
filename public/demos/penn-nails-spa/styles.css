@@ -130,6 +130,9 @@ form input, form select { width: 100%; min-height: 44px; border: 1px solid var(-
 
 .hero { grid-template-columns: minmax(0, .78fr) minmax(0, 1.42fr); }
 .hero-copy { grid-column: 1; grid-row: 1; }
+@media (min-width: 651px) {
+  .hero h1 { font-size: clamp(52px, 7.2vw, 94px); }
+}
 .hero-image { grid-column: 2; grid-row: 1; min-width: 0; }
 .hero-menu-link { display: block; width: fit-content; padding-block: 12px; margin-top: 5px; color: var(--plum); }
 .service-grid { grid-template-columns: minmax(0, 1.38fr) minmax(0, .82fr); }
