@@ -101,6 +101,73 @@ function section(title,subtitle,action){
 function quick(viewName,title,desc){
  return '<button class="quick" type="button" data-view="'+viewName+'"><span class="label">MANAGE</span><strong>'+esc(title)+'</strong><small>'+esc(desc)+'</small></button>';
 }
+
+function greetingText(){const h=new Date().getHours();return h<12?"Good morning":h<17?"Good afternoon":"Good evening";}
+function timeLabel(value){if(!value)return "Sample";const d=new Date(value);return Number.isNaN(+d)?"Sample":d.toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});}
+function unreadCount(){return(state.ownerNotifications||[]).filter(x=>!x.read).length;}
+function refreshNotificationCounter(){const b=$("#notification-count");if(b){b.textContent=String(unreadCount());b.setAttribute("aria-label",unreadCount()+" unread preview notifications");}}
+function orderCards(limit){
+ const orders=state.orders.slice().reverse().slice(0,limit||100);
+ if(!orders.length)return '<div class="empty"><h3>All caught up.</h3>Simulate an order to try the workflow.</div>';
+ return '<div class="grid cols-2">'+orders.map(o=>
+ '<article class="order-card '+(o.status==="New"?"is-new":"")+'"><div class="action-row" style="justify-content:space-between"><span class="label">'+esc(o.id)+'</span><span class="order-status '+(o.status==="New"?"new":o.status==="Ready"?"ready":"")+'">'+esc(o.status)+'</span></div>'+
+ '<h3>'+esc(o.customer||"Sample customer")+'</h3><p>'+esc(o.items||"Example order")+'</p>'+
+ (Number.isFinite(Number(o.total))?'<strong class="order-price">'+fmt(o.total)+'</strong>':'')+
+ '<p class="order-date">'+esc(timeLabel(o.receivedAt))+' · '+esc(o.paid||"Sample order · no charge")+'</p>'+
+ '<div class="action-row">'+(o.status==="New"?'<button type="button" class="btn secondary sm" data-order-preparing="'+esc(o.id)+'">Start preparing</button>':'')+
+ (o.status==="Ready"?'<span class="muted-chip">Ready preview prepared</span>':'<button type="button" class="btn primary sm" data-order-ready="'+esc(o.id)+'">Order Ready · Notify Customer</button>')+
+ '</div><p class="soft-text">'+esc(o.notification||"No actual message sent")+'</p></article>').join("")+'</div>';
+}
+function ownerNotificationCards(limit){
+ const notes=(state.ownerNotifications||[]).slice(0,limit||100);
+ if(!notes.length)return '<div class="empty"><h3>No notifications.</h3>Simulate an order to see an example alert.</div>';
+ return '<div class="notification-list">'+notes.map(n=>'<article class="notification-card '+(!n.read?"unread":"")+'"><div class="notification-icon">'+esc(n.channel||"APP")+'</div><div style="min-width:0;flex:1"><strong>'+esc(n.title)+'</strong><p>'+esc(n.body||"")+'</p><small>'+esc(n.target||"Demo inbox")+' · '+esc(n.status||"DEMO · NOT SENT")+' · '+esc(timeLabel(n.at))+'</small>'+
+ (!n.read?'<div style="margin-top:9px"><button type="button" class="btn secondary sm" data-mark-read="'+esc(n.id)+'">Mark as read</button></div>':'')+'</div></article>').join("")+'</div>';
+}
+function ownerSettingsForm(){
+ const a=state.ownerAlerts||{};
+ return '<form id="owner-settings-form" class="form-grid" novalidate>'+
+ '<div class="field full"><label for="owner-email">Order notification email</label><input id="owner-email" type="email" autocomplete="off" name="email" placeholder="orders@yourbusiness.com" value="'+esc(a.email||"")+'"><small class="soft-text">Where incoming order emails would go.</small></div>'+
+ '<div class="field full"><label for="owner-phone">Phone number for order SMS</label><input id="owner-phone" type="tel" inputmode="tel" autocomplete="off" name="phone" placeholder="+1 (561) 555-0100" value="'+esc(a.phone||"")+'"><small class="soft-text">SMS can work without installing this as an app.</small></div>'+
+ '<div class="field full"><label class="switch-row"><input type="checkbox" name="emailEnabled" '+(a.emailEnabled?"checked":"")+'> <span>Email alerts enabled (demo)</span></label></div>'+
+ '<div class="field full"><label class="switch-row"><input type="checkbox" name="smsEnabled" '+(a.smsEnabled?"checked":"")+'> <span>Text message alerts enabled (demo)</span></label></div>'+
+ '<div class="field full"><button type="submit" class="btn primary">Save notification settings</button></div></form>'+
+ '<p class="status">Only this browser stores these settings. No real email, SMS or push notification is sent; production requires a secure messaging service.</p>';
+}
+function renderOwnerNotifications(){
+ return '<div class="app-demo-banner"><strong>OWNER ALERTS · DEMO ONLY.</strong> Notification cards below are local previews, not a delivery log. Email and SMS channels can be enabled independently.</div>'+
+ '<div class="order-toolbar"><div><h2 class="display-title">Notification center</h2><p class="panel-subtitle">'+unreadCount()+' unread sample alerts</p></div><div class="action-row"><button type="button" class="btn secondary sm" data-mark-all-read>Mark all read</button><button type="button" class="btn primary sm" data-simulate-order>Simulate new order</button></div></div>'+
+ ownerNotificationCards(60)+section("Where should we alert you?","Add a phone number or email. Installing the web app is optional.")+
+ '<div class="panel">'+ownerSettingsForm()+'</div>';
+}
+function renderOwnerSettings(){
+ return '<div class="grid cols-2"><section class="panel"><p class="label">OWNER NOTIFICATION SETTINGS</p><h2 class="display-title">Email + SMS.</h2><p class="soft-text">When a new demo order arrives, preview email and text notices for the destinations you choose.</p>'+ownerSettingsForm()+'</section>'+
+ '<section class="panel">'+img("../assets/knockout-live-music.webp","Knockout food truck photo","card-photo")+'<h2 class="display-title">App installation is optional.</h2><p class="soft-text">Open your Admin Panel in a browser or from a Home Screen shortcut. In a future connected system, SMS will go to the number above regardless of installation.</p><button class="btn secondary" data-view="install">How to install</button></section></div>';
+}
+function renderAppInstall(){
+ const installed=!!((window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone);
+ return '<div class="split"><section class="panel"><span class="label">HOME SCREEN APPLICATION</span><h2 class="display-title">Knockout on your phone.</h2><p class="soft-text">Install this web app for a full-screen, app-like experience. Or use the normal website.</p>'+
+ '<button type="button" class="btn primary" id="install-action" data-install-app '+(installed?"disabled":"")+'>'+(installed?"Opened as an app":"Install app on this device")+'</button>'+
+ '<ol class="install-steps"><li><strong>iPhone / Safari</strong>Open the panel in Safari, choose Share, then Add to Home Screen and Add.</li><li><strong>Android / Chrome</strong>Use the Chrome menu and select Install app or Add to Home Screen; some browsers also display the Install button here.</li><li><strong>Without installing</strong>Phone SMS and email alerts would still work when the production provider is connected. This demo only previews those alerts.</li></ol>'+
+ '<p class="status">This is an installable web-app preview, not an App Store app. No real SMS, push or email sending is active.</p></section>'+
+ '<section class="panel"><span class="label">OFFICIAL BRAND</span>'+img("../assets/logo-knockout-deli-transparent.webp","Knockout official logo","card-photo")+'<h2 class="display-title">Your business. Your control.</h2><p class="soft-text">Orders, notifications, menu, locations and events in one workspace.</p></section></div>';
+}
+function recordOwnerNotice(channel,to,title,body){
+ state.ownerNotifications.unshift({id:newId("owner-note"),channel,target:to,title,body,at:new Date().toISOString(),read:false,status:"SIMULATED · NOT SENT"});
+ state.ownerNotifications=state.ownerNotifications.slice(0,80);
+}
+function simulateIncomingOrder(){
+ const products=state.products.filter(p=>p.available&&Number(p.price)>0);
+ const p=products[state.orders.length%products.length]||{name:"The Jab",price:18};
+ const o={id:"DEMO-KO-"+(1001+state.orders.length),customer:"Sample customer "+(state.orders.length+1),
+  items:"1 × "+p.name,status:"New",paid:"Example payment · no charge",total:Number(p.price)||0,
+  notification:"Owner alert previews only. Nothing sent.",receivedAt:new Date().toISOString()};
+ state.orders.push(o);recordOwnerNotice("APP","Admin Panel","New sample order "+o.id,o.items+" · "+fmt(o.total));
+ if(state.ownerAlerts.emailEnabled&&state.ownerAlerts.email)recordOwnerNotice("EMAIL",state.ownerAlerts.email,"New Knockout order "+o.id,"Order received: "+o.items+". Open the Admin Panel to review.");
+ if(state.ownerAlerts.smsEnabled&&state.ownerAlerts.phone)recordOwnerNotice("SMS",state.ownerAlerts.phone,"New Knockout order "+o.id,"New order received. Check your Admin Panel.");
+ persist();setView("dashboard");toast("New demo order added. Email and SMS previews only — NOT SENT.");
+}
+
 function renderDashboard(){
  const next=state.events.filter(x=>x.published).sort((a,b)=>(a.date||"").localeCompare(b.date||""))[0];
  return '<div class="grid cols-4">'+
