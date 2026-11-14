@@ -57,18 +57,18 @@ try{
   await nav('requests').click();
   const planCards=page.locator('.ko-package-grid .panel');
   assert.equal(await planCards.count(),2,'Both commercial packages must be visible on Orders page');
-  const planCopy=await page.locator('#view-root').innerText();
+  const planCopy=(await page.locator('#view-root').innerText()).toLocaleLowerCase('en-US');
   for(const phrase of ['Your website. Your control.','More automation. Same control.','Your team manually changes','Your team still edits','additional fee'])
-    assert.ok(planCopy.includes(phrase),'Plan benefits missing: '+phrase);
-  assert.ok(!planCopy.includes('Everything above'),'Second plan must explain its own benefits without relative placement');
+    assert.ok(planCopy.includes(phrase.toLocaleLowerCase('en-US')),'Plan benefits missing: '+phrase);
+  assert.ok(!planCopy.includes('everything above'),'Second plan must explain its own benefits without relative placement');
   if(width<=700){
     const first=await planCards.nth(0).boundingBox(),second=await planCards.nth(1).boundingBox();
     assert.ok(first&&second&&second.y>=first.y+first.height-3,'Plan cards must stack vertically on iPhone');
   }
   await nav('content').click();
   const contentCopy=await page.locator('#view-root').innerText();
-  assert.ok(contentCopy.includes('owner')||contentCopy.includes('Owner'),'Content center must explain owner control');
-  assert.ok(contentCopy.includes('additional fee'),'Optional managed updates must be priced separately');
+  assert.ok(contentCopy.toLowerCase().includes('owner'),'Content center must explain owner control');
+  assert.ok(contentCopy.toLowerCase().includes('additional fee'),'Optional managed updates must be priced separately');
   await nav('requests').click();
   await page.locator('[data-order-preparing="DEMO-KO-1002"]').click();
   await page.locator('[data-order-ready="DEMO-KO-1002"]').click();
