@@ -1,0 +1,55 @@
+{
+  "checkedOn": "2026-11-13",
+  "channel": "DoorDash delivery",
+  "scope": "South Florida marketplace listing excerpts, location-specific figures (not merchant export)",
+  "disclaimer": "Delivery/menu prices shown by DoorDash can vary by delivery address and date. These references must not override the approved direct-pickup price list. Verify any changes with the owner before publishing.",
+  "referenceUrls": [
+    "https://www.doordash.com/food-delivery/lake-worth-fl-restaurants/affordable/",
+    "https://www.doordash.com/en-NZ/food-delivery/boynton-beach-fl-restaurants/delivery",
+    "https://www.doordash.com/food-delivery/lake-worth-beach-fl-restaurants/affordable/"
+  ],
+  "items": [
+    {
+      "id": "ribeye",
+      "name": "Rib-Eye Cheesesteak",
+      "pickupPrice": 15,
+      "observedDoorDashPrices": [
+        18.2,
+        18.75
+      ]
+    },
+    {
+      "id": "body",
+      "name": "The Body Shot",
+      "pickupPrice": 20,
+      "observedDoorDashPrices": [
+        27,
+        27.75
+      ]
+    },
+    {
+      "id": "egg-mcdeli",
+      "name": "Egg McDeli",
+      "pickupPrice": 10,
+      "observedDoorDashPrices": [
+        12
+      ]
+    },
+    {
+      "id": "heavy-weight",
+      "name": "Heavy Weight",
+      "pickupPrice": 15,
+      "observedDoorDashPrices": [
+        19
+      ]
+    },
+    {
+      "id": "pound",
+      "name": "Pound For Pound",
+      "pickupPrice": 18,
+      "observedDoorDashPrices": [
+        21.25
+      ]
+    }
+  ]
+}
