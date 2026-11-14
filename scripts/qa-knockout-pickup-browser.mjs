@@ -357,7 +357,7 @@ try{
     await page.locator('#window-cart-dialog[open]').waitFor();
     await page.waitForFunction(()=>document.querySelector('#window-cart-items')?.textContent?.includes('Pastrami recién cortado'));
     const cartText=await page.locator('#window-cart-items').innerText();
-    assert(cartText.includes('Pastrami recién cortado')&&!cartText.includes('Freshly Sliced Pastrami'),
+    assert(cartText.toLocaleLowerCase('es').includes('pastrami recién cortado')&&!cartText.toLowerCase().includes('freshly sliced pastrami'),
       'Cart product title stays English after Spanish selection at '+width+': '+cartText);
     await page.locator('#window-cart-dialog').evaluate(el=>el.close());
     await page.locator('.language-toggle').click();
