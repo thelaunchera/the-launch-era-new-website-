@@ -17,11 +17,15 @@ const urlImage=(v)=>{
 const price=(p)=>Math.max(0,Number(p.price)||0);
 let source=[],state={},view="dashboard",editPhoto=null,searchTerm="",filterCategory="";
 const navLabels=[
- ["dashboard","01","Overview"],["menu","02","Menu"],["locations","03","Location"],["events","04","Events"],
- ["offers","05","Offers"],["alerts","06","Alerts"],["requests","07","Requests"],["content","08","Content"],["preview","09","Preview"]
+ ["dashboard","01","Home"],["requests","02","Orders"],["notifications","03","Notifications"],["settings","04","Settings"],
+ ["menu","05","Menu"],["locations","06","Location"],["events","07","Events"],["offers","08","Offers"],
+ ["alerts","09","Messages"],["content","10","Content"],["preview","11","Preview"],["install","12","Install"]
 ];
 const headings={
- dashboard:["THE KNOCKOUT WORKSPACE","THE TRUCK, ALL IN ONE PLACE.","Everything you need to keep your menu, locations, events and customers up to date."],
+ dashboard:["KNOCKOUT DAILY HQ","ORDERS & NOTIFICATIONS.","Your orders, new-request alerts and next actions — right when you open the app."],
+ notifications:["INBOX / OWNER ALERTS","NOTIFICATION CENTER.","See sample incoming order alerts and choose where future order notices should go."],
+ settings:["ORDER ALERT DELIVERY","YOUR EMAIL. YOUR PHONE.","Set a notification email or phone number. SMS does not depend on installing the app."],
+ install:["INSTALLABLE WEB APP","TAKE KNOCKOUT WITH YOU.","Add your Admin Panel to your phone's Home Screen. Email and SMS options work independently."],
  menu:["MENU MANAGEMENT","EVERY ITEM. EVERY PRICE.","Edit real menu items, product photos, availability and discounts. Changes remain in this interactive preview."],
  locations:["WHERE TO FIND US","NEXT STOP? UPDATE IT HERE.","Choose your truck's location, hours and featured photo. Prepare a subscriber alert when plans change."],
  events:["EVENTS & CATERING","MAKE THE NEXT EVENT COUNT.","Create a new appearance, choose its website photo and decide when it appears in the preview."],
@@ -35,6 +39,8 @@ function defaults(items){return {
  products:items.map(p=>Object.assign({},p,{discount:0})),
  location:{name:"Next stop to be announced",address:"",date:"",hours:"",photo:"../assets/knockout-live-music.webp",published:false},
  events:[],offer:{enabled:false,title:"",description:"",discount:0,productId:"all"},alerts:[],social:[],orders:[{id:"DEMO-KO-1001",customer:"Alex (example)",items:"1 × The Jab, 1 × Loaded Fries",status:"Preparing",paid:"Example payment confirmed",notification:"Not sent"}],
+ ownerAlerts:{email:"",phone:"",emailEnabled:true,smsEnabled:true},
+ ownerNotifications:[{id:"demo-welcome",channel:"APP",title:"Welcome to your order center",body:"Incoming demo orders and preview notifications will appear here. Add an email or phone to see how alerts are prepared.",target:"Inside this demo",read:false,at:new Date().toISOString(),status:"DEMO · NOT SENT"}],
  managedBy:"owner",updatedAt:null
 };}
 function load(items){
@@ -47,13 +53,15 @@ function load(items){
      const base=new Map(items.map(x=>[x.id,x]));
      fresh.products=saved.products.filter(x=>valid.has(x.id)||x.id.startsWith("custom-")).map(x=>Object.assign({},base.get(x.id)||{},x));
      for(const p of items)if(!fresh.products.some(x=>x.id===p.id))fresh.products.push(Object.assign({},p,{discount:0}));
-     for(const key of ["location","events","offer","alerts","social","orders","managedBy","updatedAt"])if(saved[key]!==undefined)fresh[key]=saved[key];
+     for(const key of ["location","events","offer","alerts","social","orders","ownerAlerts","ownerNotifications","managedBy","updatedAt"])if(saved[key]!==undefined)fresh[key]=saved[key];
    }
  }catch(error){console.warn("Knockout preview storage unavailable",error);}
  if(!Array.isArray(fresh.events))fresh.events=[];
  if(!Array.isArray(fresh.alerts))fresh.alerts=[];
  if(!Array.isArray(fresh.social))fresh.social=[];
  if(!Array.isArray(fresh.orders))fresh.orders=[];
+ if(!Array.isArray(fresh.ownerNotifications))fresh.ownerNotifications=[];
+ if(!fresh.ownerAlerts||typeof fresh.ownerAlerts!=="object")fresh.ownerAlerts={email:"",phone:"",emailEnabled:true,smsEnabled:true};
  state=fresh;
 }
 function persist(){
