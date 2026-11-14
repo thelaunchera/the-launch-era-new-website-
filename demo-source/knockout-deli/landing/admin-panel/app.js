@@ -169,23 +169,29 @@ function simulateIncomingOrder(){
 }
 
 function renderDashboard(){
- const next=state.events.filter(x=>x.published).sort((a,b)=>(a.date||"").localeCompare(b.date||""))[0];
- return '<div class="grid cols-4">'+
- '<div class="panel metric"><small>Menu items</small><strong>'+state.products.length+'</strong></div>'+
- '<div class="panel metric"><small>Available now</small><strong>'+countAvailable()+'</strong></div>'+
- '<div class="panel metric"><small>Active offers</small><strong>'+(state.products.filter(x=>Number(x.discount)>0).length+(state.offer.enabled?1:0))+'</strong></div>'+
- '<div class="panel metric"><small>Subscriber alerts sent</small><strong>0</strong></div></div>'+
- section("Quick updates","Change the parts of your website that need attention most.")+
- '<div class="grid cols-3">'+quick("menu","Change menu prices","Edit items, photo and availability.")+quick("locations","Update truck stop","Location, time and website photo.")+quick("events","Create an event","Image, date, details and visibility.")+'</div>'+
- section("One-tap pickup readiness","Mark an order Ready to prepare a customer update. Included in both plans.")+
- '<div class="panel action-row"><button class="btn primary" data-view="requests">Open pickup orders · Mark ready</button><button class="btn secondary" data-view="alerts">Preview photo-rich emails</button></div>'+
- section("Today\'s snapshot","Everything here is for demonstration only.")+
- '<div class="split"><article class="panel">'+img(state.location.photo,"Featured truck stop","card-photo feature-photo")+
- '<p class="label" style="margin-top:17px">CURRENT LOCATION</p><h3 class="display-title">'+esc(state.location.name)+'</h3><p class="soft-text">'+esc(state.location.address||"Add a location address")+'</p><span class="'+(state.location.published?"red-chip":"muted-chip")+'">'+(state.location.published?"Visible in preview":"Hidden on website preview")+'</span>'+
- '<div class="action-row" style="margin-top:17px"><button class="btn primary" data-view="locations">Edit location</button><button class="btn secondary" data-view="alerts">Prepare an alert</button></div></article>'+
- '<article class="panel">'+img(next?next.photo:"../assets/knockout-community.webp","Upcoming event concept","card-photo feature-photo")+
- '<p class="label" style="margin-top:17px">NEXT EVENT</p><h3 class="display-title">'+esc(next?next.title:"Your next event goes here")+'</h3><p class="soft-text">'+esc(next?([next.date,next.venue].filter(Boolean).join(" · ")):"Choose a location, event photo and date when ready.")+'</p><button class="btn secondary" data-view="events">Manage event photos</button></article></div>'+
- '<p class="status">Saved locally in this browser. No live website, subscriber list or checkout integration.</p>';
+ const n=state.orders.length;
+ return '<section class="app-home-hero"><img class="hero-image" src="../assets/knockout-live-music.webp" alt="Knockout Deli truck scene"><div class="app-home-content">'+
+ '<img src="../assets/logo-knockout-deli-transparent.webp" alt="Knockout Deli official logo">'+
+ '<div><span class="app-kicker">LET’S GET THE DAY STARTED.</span><h2>'+esc(greetingText())+', Knockout team.</h2>'+
+ '<p>Start your day with new orders, quick updates and notifications in one place.</p></div></div></section>'+
+ '<div class="app-demo-banner"><strong>INTERACTIVE DEMO · NOT LIVE.</strong> Sample orders, email previews and SMS previews only. No real charges or messages.</div>'+
+ '<div class="grid cols-4">'+
+ '<article class="panel metric"><small>Sample orders</small><strong>'+n+'</strong></article>'+
+ '<article class="panel metric"><small>New orders</small><strong>'+state.orders.filter(o=>o.status==="New").length+'</strong></article>'+
+ '<article class="panel metric"><small>Unread notices</small><strong>'+unreadCount()+'</strong></article>'+
+ '<article class="panel metric"><small>Menu items</small><strong>'+state.products.length+'</strong></article></div>'+
+ '<div class="order-toolbar"><div><span class="label">ORDER CENTER</span><h2 class="display-title">Incoming orders</h2></div><div class="action-row">'+
+ '<button class="btn primary" type="button" data-simulate-order>Simulate new order</button><button class="btn secondary" data-view="requests">All orders</button></div></div>'+
+ '<div class="order-and-notification-grid"><div>'+orderCards(4)+'</div>'+
+ '<aside class="panel"><div class="action-row" style="justify-content:space-between"><h2 class="display-title">Notification center</h2>'+
+ '<button type="button" class="btn secondary sm" data-view="notifications">View all</button></div>'+
+ '<p class="soft-text">Incoming orders show owner email and SMS previews for the destinations configured below.</p>'+
+ ownerNotificationCards(4)+
+ '<div style="margin-top:15px"><button type="button" class="btn secondary sm" data-view="settings">Set phone and email</button></div></aside></div>'+
+ section("Quick controls","Manage the rest of your truck directly from the sidebar.")+
+ '<div class="grid cols-3">'+quick("menu","Menu & pricing","Products, prices, availability and photos.")+
+ quick("locations","Truck location","Update your next stop and its photo.")+
+ quick("install","Install the app","Optional Home Screen access.")+'</div>';
 }
 function productCard(p){
  const d=effectiveDiscount(p);
@@ -275,17 +281,14 @@ function renderAlerts(){
  (state.alerts.length?state.alerts.map(a=>'<div class="list-row"><div><strong>'+esc(a.subject)+'</strong><small>'+esc(a.type)+" · "+esc(a.createdAt||"")+'</small></div><span class="muted-chip">NOT SENT</span></div>').join(""):'<div class="empty">No preview alerts saved yet.</div>');
 }
 function renderRequests(){
- const orders=state.orders||[];
- const orderList=orders.map(o=>'<article class="panel"><div class="action-row" style="justify-content:space-between"><span class="label">'+esc(o.id)+'</span><span class="'+(o.status==="Ready"?"red-chip":"muted-chip")+'">'+esc(o.status)+'</span></div><h3 class="display-title">'+esc(o.customer)+'</h3><p class="soft-text">'+esc(o.items)+'</p><p class="soft-text">'+esc(o.paid)+'</p><p class="soft-text">Customer notification: '+esc(o.notification||"Not sent")+'</p>'+(o.status==="Ready"?'<button type="button" class="btn secondary" disabled>Marked ready</button>':'<button type="button" class="btn primary" data-order-ready="'+esc(o.id)+'">Order Ready · Notify Customer</button>')+'</article>').join("");
- return '<div class="grid cols-3">'+
- '<div class="panel metric"><small>Real orders</small><strong>—</strong></div>'+
- '<div class="panel metric"><small>Live inquiries</small><strong>—</strong></div>'+
- '<div class="panel metric"><small>Square payments</small><strong>—</strong></div></div>'+
- section("One-tap order readiness","Both packages include a ready-for-pickup button. This sample order is fictional; pressing it changes the sample status and prepares a branded email preview, but sends nothing.")+
- '<div class="grid cols-2">'+orderList+'</div>'+
- section("Request management","Where customer orders and event inquiries would appear once activated.")+
- '<div class="grid cols-2"><div class="panel"><span class="label">PICKUP ORDERS</span><h3 class="display-title">Review incoming pickup orders.</h3><p class="soft-text">A future connected panel will show item details, payment status and owner approval. No order is created here and no payment is collected.</p><span class="muted-chip">Demo · no orders</span></div>'+
- '<div class="panel"><span class="label">EVENT & CATERING INQUIRIES</span><h3 class="display-title">Follow up with every inquiry.</h3><p class="soft-text">The $120 plan would automatically acknowledge receipt only. Knockout handles the reply. The $200 plan adds approved follow-ups managed through the agreed automation.</p><span class="muted-chip">Demo · no live inquiries</span></div></div>';
+ return '<div class="app-demo-banner"><strong>SAMPLE ORDERS ONLY.</strong> Order statuses and branded pickup-ready emails are previews; nothing is sent.</div>'+
+ '<div class="order-toolbar"><div><span class="label">PICKUP ORDERS</span><h2 class="display-title">All orders</h2>'+
+ '<p class="panel-subtitle">Mark orders Preparing and then Ready. Both commercial packages include this workflow.</p></div>'+
+ '<div class="action-row"><button class="btn primary" data-simulate-order>Simulate new order</button><button class="btn secondary" data-view="notifications">Notifications</button></div></div>'+
+ orderCards(100)+
+ section("Inquiries and catering","Customer inquiries will be managed separately when the production system is connected.")+
+ '<div class="grid cols-2"><article class="panel"><span class="label">ONE-TIME PACKAGE</span><h3 class="display-title">Receipt confirmations</h3><p class="soft-text">Automatic inquiry acknowledgment; the Knockout team replies manually. The owner also controls Order Ready.</p></article>'+
+ '<article class="panel"><span class="label">MANAGED PACKAGE</span><h3 class="display-title">Full management</h3><p class="soft-text">Everything above, plus managed website and menu updates, owner-approved follow-up automation and Instagram content.</p></article></div>';
 }
 function renderContent(){
  return '<div class="notice"><strong>Included with the managed monthly plan</strong>The Launch Era can maintain this Admin Panel, the menu and website, and prepare up to 20 scheduled Instagram posts per month, subject to approval. No social posts are published from this demo.</div>'+
@@ -305,7 +308,7 @@ function renderPreview(){
  phone+='<div class="phone-footer">KNOCKOUT DELI · WEBSITE MOCKUP / PREVIEW ONLY</div></div>';
  return '<div class="grid preview-grid"><section class="panel"><p class="label">THE CUSTOMER VIEW</p><h2 class="display-title">Changes, without guessing.</h2><p class="soft-text">The mock website on the right reflects changes you made in the Admin Panel. Nothing has been pushed to the real Knockout website.</p><div class="action-row" style="margin:19px 0"><button class="btn secondary" data-view="menu">Edit menu</button><button class="btn secondary" data-view="locations">Edit location</button><button class="btn secondary" data-view="events">Edit event</button></div><div class="notice"><strong>Integration needed for live publishing</strong>Customer-facing updates and real subscriber emails require secure backend, authorization and approved publishing workflows.</div></section><section class="panel">'+phone+'</section></div>';
 }
-const renderers={dashboard:renderDashboard,menu:renderMenu,locations:renderLocation,events:renderEvents,offers:renderOffers,alerts:renderAlerts,requests:renderRequests,content:renderContent,preview:renderPreview};
+const renderers={dashboard:renderDashboard,requests:renderRequests,notifications:renderOwnerNotifications,settings:renderOwnerSettings,menu:renderMenu,locations:renderLocation,events:renderEvents,offers:renderOffers,alerts:renderAlerts,content:renderContent,preview:renderPreview,install:renderAppInstall};
 function setView(next){
  if(!renderers[next])return;
  view=next;
