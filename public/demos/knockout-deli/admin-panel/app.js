@@ -139,7 +139,7 @@ function filterMenu(){
 function renderLocation(){
  const l=state.location;
  return '<div class="split"><section class="panel"><p class="label">LIVE LOCATION EDITOR</p><h2 class="display-title">Where is the truck?</h2>'+
- '<form id="location-form" class="form-grid">'+
+ '<form id="location-form" class="form-grid" onsubmit="return false">'+
  field("Stop / venue name","name",l.name,true)+field("Address / map description","address",l.address,true)+
  field("Date","date",l.date,false,"date")+field("Hours (e.g. 11 AM – 3 PM)","hours",l.hours,false)+
  '<div class="field full"><label for="loc-photo">Website location / event photo URL</label><input id="loc-photo" name="photo" type="text" value="'+esc(l.photo||"")+'" placeholder="https://... or upload below"></div>'+
@@ -167,7 +167,7 @@ function renderEvents(){
 function renderOffers(){
  const o=state.offer;
  return '<div class="split"><section class="panel"><p class="label">PROMOTIONAL BANNER</p><h2 class="display-title">A reason to stop by.</h2>'+
- '<form id="offer-form" class="form-grid">'+
+ '<form id="offer-form" class="form-grid" onsubmit="return false">'+
  field("Promo headline","title",o.title,true)+
  '<div class="field full"><label for="offer-description">Short offer details</label><textarea id="offer-description" name="description">'+esc(o.description||"")+'</textarea></div>'+
  '<div class="field"><label for="offer-discount">Discount (%)</label><input id="offer-discount" type="number" name="discount" min="0" max="90" step="1" value="'+(Number(o.discount)||0)+'"></div>'+
@@ -190,7 +190,7 @@ function renderAlerts(){
  const draft=state.alertDraft||{type:"location",subject:defaultAlert("location").subject,body:defaultAlert("location").body};
  return '<div class="notice"><strong>Preview mode, no messages are sent.</strong>Actual email or SMS announcements would require subscriber consent, a secure sending provider, and owner approval. Saving below only adds an example to the demo history.</div>'+
  '<div class="split"><section class="panel"><p class="label">MESSAGE COMPOSER</p><h2 class="display-title">Tell them where to go.</h2>'+
- '<form id="alert-form" class="form-grid"><div class="field full"><label for="alert-kind">Alert type</label><select id="alert-kind" name="type"><option value="location" '+(draft.type==="location"?"selected":"")+'>New location</option><option value="event" '+(draft.type==="event"?"selected":"")+'>Upcoming event</option><option value="offer" '+(draft.type==="offer"?"selected":"")+'>New promotion</option><option value="receipt" '+(draft.type==="receipt"?"selected":"")+'>Inquiry receipt</option><option value="order-ready" '+(draft.type==="order-ready"?"selected":"")+'>Order ready for pickup</option></select></div>'+
+ '<form id="alert-form" class="form-grid" onsubmit="return false"><div class="field full"><label for="alert-kind">Alert type</label><select id="alert-kind" name="type"><option value="location" '+(draft.type==="location"?"selected":"")+'>New location</option><option value="event" '+(draft.type==="event"?"selected":"")+'>Upcoming event</option><option value="offer" '+(draft.type==="offer"?"selected":"")+'>New promotion</option><option value="receipt" '+(draft.type==="receipt"?"selected":"")+'>Inquiry receipt</option><option value="order-ready" '+(draft.type==="order-ready"?"selected":"")+'>Order ready for pickup</option></select></div>'+
  field("Email subject","subject",draft.subject,true)+
  '<div class="field full"><label for="alert-body">Message preview</label><textarea id="alert-body" name="body" maxlength="700" required>'+esc(draft.body||"")+'</textarea></div>'+
  '<div class="field full"><label for="alert-target">Audience</label><select id="alert-target" name="audience"><option value="opt-in">Customers who opted in (future integration)</option></select></div>'+
@@ -254,7 +254,7 @@ function productEditor(id){
  const cats=[...new Set(state.products.map(x=>x.category)), "Breakfast","Main Event","Ringside Favorites","Take Home","Beverages"];
  const unique=[...new Set(cats)];
  modal(id?"Edit "+p.name:"Add menu item",
- '<form id="product-form" class="form-grid"><input type="hidden" name="id" value="'+esc(p.id)+'">'+
+ '<form id="product-form" class="form-grid" onsubmit="return false"><input type="hidden" name="id" value="'+esc(p.id)+'">'+
  field("Product name","name",p.name,true)+
  '<div class="field"><label>Price ($)<input type="number" name="price" required min="0" max="500" step=".01" value="'+esc(p.price??"")+'"></label></div>'+
  '<div class="field"><label>Discount (%)<input type="number" name="discount" min="0" max="90" step="1" value="'+(Number(p.discount)||0)+'"></label></div>'+
@@ -270,7 +270,7 @@ function eventEditor(id){
  const p=state.events.find(x=>x.id===id)||{id:"",title:"",venue:"",address:"",date:"",time:"",description:"",photo:"../assets/knockout-community.webp",published:false};
  editPhoto=null;
  modal(id?"Edit event":"Add an event",
- '<form id="event-form" class="form-grid"><input type="hidden" name="id" value="'+esc(p.id)+'">'+
+ '<form id="event-form" class="form-grid" onsubmit="return false"><input type="hidden" name="id" value="'+esc(p.id)+'">'+
  field("Event name","title",p.title,true)+field("Venue / location","venue",p.venue,true)+
  field("Street address","address",p.address,true)+field("Date","date",p.date,false,"date")+field("Hours","time",p.time,false)+
  '<div class="field full"><label>Event details<textarea name="description">'+esc(p.description||"")+'</textarea></label></div>'+
@@ -282,7 +282,7 @@ function eventEditor(id){
 }
 function socialEditor(){
  modal("Create content draft",
- '<form id="social-form" class="form-grid">'+field("Post title","title","",true)+field("Planned date","date","",true,"date")+
+ '<form id="social-form" class="form-grid" onsubmit="return false">'+field("Post title","title","",true)+field("Planned date","date","",true,"date")+
  '<div class="field full"><label>Caption draft<textarea name="caption" maxlength="1200"></textarea></label></div>'+
  '<div class="field full action-row"><button type="submit" class="btn primary">Save content draft</button><button type="button" data-close-modal class="btn secondary">Cancel</button></div></form>');
 }
@@ -394,7 +394,7 @@ function handleInput(event){
  }
 }
 document.addEventListener("click",handleClick);
-document.addEventListener("submit",(e)=>{if(e.target.id&&["product-form","event-form","location-form","offer-form","alert-form","social-form"].includes(e.target.id)){e.preventDefault();submitForm(e.target);}});
+document.addEventListener("submit",(e)=>{if(e.target.id&&["product-form","event-form","location-form","offer-form","alert-form","social-form"].includes(e.target.id)){e.preventDefault();submitForm(e.target);}},true);
 document.addEventListener("change",(e)=>{if(e.target.matches("[data-photo-upload]"))void uploadImage(e.target);else handleInput(e);});
 document.addEventListener("input",handleInput);
 document.addEventListener("keydown",(e)=>{if(e.key==="Escape"&&!$("#modal-backdrop").hidden)closeModal();});
