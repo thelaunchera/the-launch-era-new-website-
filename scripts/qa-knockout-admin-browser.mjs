@@ -30,7 +30,8 @@ try{
    return route.abort();
   });
   await page.goto(origin+'/admin-panel/',{waitUntil:'networkidle'});
-  await page.getByText('30', {exact:true}).first().waitFor();
+  console.log('KNOCKOUT APP INITIAL',width,JSON.stringify({url:page.url(),pageErrors:errors,visibleText:(await page.locator('#view-root').innerText()).slice(0,700),head:(await page.locator('#page-title').innerText()).slice(0,120),hasScript:await page.evaluate(()=>!!document.querySelector('script[src="./app.js"]')),hasSettings:await page.evaluate(()=>!!localStorage.getItem("tle-knockout-admin-demo-v1"))}));
+  await page.getByText('30', {exact:true}).first().waitFor({timeout:9000});
   assert.match(await page.locator('#page-title').innerText(),/ORDERS & NOTIFICATIONS/i,'Orders and alerts must open first');
   assert.match(await page.locator('.app-home-hero').innerText(),/GET THE DAY STARTED/i,'Branded welcome message missing');
   const expectedGreeting=await page.evaluate(()=>{const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening';});
