@@ -38,7 +38,8 @@ try{
   await page.locator('[data-edit-product="jab"]').click();
   await page.locator('#product-form [name="price"]').fill('19');
   await page.locator('#product-form button[type="submit"]').click();
-  await page.locator('[data-edit-product="jab"]').waitFor();
+  console.log('ADMIN DEBUG after save '+width,JSON.stringify({heading:await page.locator('#page-title').textContent(),modalHidden:await page.locator('#modal-backdrop').evaluate(e=>e.hidden),cards:await page.locator('[data-product-card]').count(),errors,excerpt:(await page.locator('#view-root').innerText()).slice(0,400)}));
+  await page.locator('[data-edit-product="jab"]').waitFor({timeout:9000});
   assert.ok((await page.locator('[data-product-card][data-search*="the jab"]').innerText()).includes('$19'),'Price edit failed');
   await nav('locations').click();
   await page.locator('#location-form [name="name"]').fill('QA sample market');
