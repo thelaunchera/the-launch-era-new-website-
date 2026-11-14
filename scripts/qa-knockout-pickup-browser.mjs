@@ -357,7 +357,7 @@ try{
     await page.locator('#window-cart-dialog[open]').waitFor();
     await page.waitForFunction(()=>document.querySelector('#window-cart-items')?.textContent?.includes('Pastrami recién cortado'));
     const cartText=await page.locator('#window-cart-items').innerText();
-    assert(cartText.includes('Pastrami recién cortado')&&!cartText.includes('Freshly Sliced Pastrami'),
+    assert(cartText.toLocaleLowerCase('es').includes('pastrami recién cortado')&&!cartText.toLowerCase().includes('freshly sliced pastrami'),
       'Cart product title stays English after Spanish selection at '+width+': '+cartText);
     await page.locator('#window-cart-dialog').evaluate(el=>el.close());
     await page.locator('.language-toggle').click();
@@ -375,7 +375,11 @@ try{
   const originalWebsiteUrl=pathToFileURL(path.join(root,'index.html')).href;
   for(const width of [390,768,1024,1440]){
     const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1});
+    page.on('framenavigated',frame=>{if(frame===page.mainFrame())console.log('KNOCKOUT HERO NAV',width,frame.url())});
     await page.goto(originalWebsiteUrl,{waitUntil:'domcontentloaded'});
+    // This section tests press feedback, not link activation. Suppress anchor
+    // navigation while testing pointerdown/pointerup; href integrity is checked separately.
+    await page.evaluate(()=>document.querySelectorAll('.hero-actions a.btn').forEach(a=>a.addEventListener('click',event=>event.preventDefault(),true)));
     await page.locator('.hero-photo img').waitFor({state:'visible'});
     const hero=await page.locator('.hero-photo img').evaluate(async img=>{
       if(!img.complete)await new Promise(resolve=>{
@@ -411,23 +415,31 @@ try{
     assert.equal(heroAnimation.headlineAnimation,'none','Other hero words must stay still at '+width);
     // Test the real CSS :active state, not just the existence of a declaration.
     const primary=page.locator('.hero-actions .btn').first();
-    await primary.scrollIntoViewIfNeeded();
-    const pressStyle=await primary.evaluate(el=>{
+    const primaryHandle=await primary.elementHandle();
+    assert(primaryHandle,'Hero action element should resolve before scroll at '+width);
+    await primaryHandle.scrollIntoViewIfNeeded();
+    const primaryInfo={url:page.url(),count:await primary.count(),bodyActions:await page.locator('.hero-actions').count(),width};
+    console.log('KNOCKOUT PRIMARY DEBUG',JSON.stringify(primaryInfo));
+    const pressStyle=await primaryHandle.evaluate(el=>{
       const s=getComputedStyle(el);
       return {radius:parseFloat(s.borderTopLeftRadius),before:new DOMMatrixReadOnly(s.transform).a};
     });
     assert(pressStyle.radius>=15&&Math.abs(pressStyle.before-1)<0.015,
       'Primary corners and resting scale must be correct at '+width+': '+JSON.stringify(pressStyle));
-    const buttonBox=await primary.boundingBox();
+    const buttonBox=await primaryHandle.boundingBox();
     assert(buttonBox,'Hero menu action missing at '+width);
+    // This is a press animation check, not a navigation check. Cancel only the
+    // next actual click inside this isolated Playwright page so its anchor
+    // cannot navigate away before the release animation has been measured.
+    await primaryHandle.evaluate(el=>el.addEventListener('click',event=>event.preventDefault(),{capture:true,once:true}));
     await page.mouse.move(buttonBox.x+buttonBox.width/2,buttonBox.y+buttonBox.height/2);
     await page.mouse.down();
-    const pressed=await primary.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    const pressed=await primaryHandle.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
     assert(Math.abs(pressed-.94)<.015,
       'Primary button should immediately shrink to 0.94 at pointerdown '+width+': '+pressed);
     await page.mouse.up();
     await page.waitForTimeout(380);
-    const released=await primary.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    const released=await primaryHandle.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
     assert(Math.abs(released-1)<.015,
       'Primary button should return to 1 without overshoot on pointerup '+width+': '+released);
 

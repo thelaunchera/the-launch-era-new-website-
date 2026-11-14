@@ -10,6 +10,9 @@ on:
       - 'scripts/qa-knockout-deli-preview.mjs'
       - 'scripts/qa-knockout-menu-redesign.mjs'
       - 'scripts/qa-knockout-pickup-browser.mjs'
+      - 'public/demos/knockout-deli/admin-panel/**'
+      - 'scripts/qa-knockout-admin-panel.mjs'
+      - 'scripts/qa-knockout-admin-browser.mjs'
       - '.github/workflows/qa-knockout-menu.yml'
   workflow_dispatch:
 
@@ -35,6 +38,8 @@ jobs:
         run: |
           node scripts/qa-knockout-deli-preview.mjs /tmp/knockout-demo-qa
           node scripts/qa-knockout-menu-redesign.mjs /tmp/knockout-demo-qa
+      - name: Check branded Admin Panel, official menu prices and safe demo scope
+        run: node scripts/qa-knockout-admin-panel.mjs /tmp/knockout-demo-qa
       - name: Confirm compiled responsive CSS
         run: |
           grep -q 'pickup-option-switch' /tmp/knockout-demo-qa/menu-redesign.css
@@ -51,6 +56,8 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/node_modules"
           ln -sfn /tmp/tle-knockout-playwright/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
           ln -sfn /tmp/tle-knockout-playwright/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Browser-check Admin Panel product edits, events, alerts and responsive UI
+        run: node scripts/qa-knockout-admin-browser.mjs /tmp/knockout-demo-qa
       - name: Browser-check product customization and bag in 4 viewport sizes
         run: node scripts/qa-knockout-pickup-browser.mjs /tmp/knockout-demo-qa
       - name: Save device QA screenshots

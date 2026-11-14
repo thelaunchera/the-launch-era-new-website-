@@ -984,7 +984,9 @@ body:has(.km-banner) .menu-filters .filter{
   body:has(.km-banner) .window-order-section{
     position:relative!important;
     z-index:15!important;
-    margin-top:-30px!important;
+    /* The legacy menu wrapper introduces a 75px vertical gap; pull the dark
+       pickup chapter past it so its rounded upper corners truly overlap. */
+    margin-top:-95px!important;
     border-radius:36px 36px 0 0!important;
     background:#191717!important;
     overflow:hidden!important;
@@ -1005,7 +1007,7 @@ body:has(.km-banner) .menu-filters .filter{
   }
   body:has(.km-banner) .menu-grid .menu-card{border-radius:20px!important}
   body:has(.km-banner) .window-order-section{
-    margin-top:-22px!important;
+    margin-top:-90px!important;
     border-radius:29px 29px 0 0!important;
   }
 }
@@ -1042,4 +1044,35 @@ body:has(.km-banner) #window-cart-dialog.digital-checkout
 #pickup-preview-form .checkout-form-actions :is(button,a):first-child:focus-visible{
   outline:3px solid #b72f37!important;
   outline-offset:3px;
+}
+
+/* KNOCKOUT MOBILE POSTER TEXT DEDUPLICATION — 2026-11-13
+   The approved mobile poster already includes its title. Preserve HTML
+   heading for assistive technology while avoiding a second visible headline. */
+@media(max-width:600px){
+  body:has(.km-banner) .km-banner-inner{
+    position:absolute!important;
+    top:0!important;left:0!important;
+    width:1px!important;height:1px!important;
+    overflow:hidden!important;clip-path:inset(50%)!important;
+    white-space:nowrap!important;padding:0!important;margin:-1px!important;
+    background:transparent!important;
+  }
+  body:has(.km-banner) .km-banner .km-eyebrow{display:none!important}
+}
+
+/* KNOCKOUT PICKUP CHAPTER EDITORIAL SEAM — 2026-11-13
+   The original menu flow reserves ~75px after the menu. A small negative
+   margin left the dark chapter floating below rather than crossing the ivory.
+   Pull the dark chapter over the last 24px of the menu sheet at phone/tablet.
+   Scope only to the separate menu route; leave cart/footer/sale flows intact. */
+@media(max-width:1050px){
+ body:has(.km-banner) .window-order-section{
+   margin-top:-102px!important;
+ }
+}
+@media(max-width:600px){
+ body:has(.km-banner) .window-order-section{
+   margin-top:-100px!important;
+ }
 }
