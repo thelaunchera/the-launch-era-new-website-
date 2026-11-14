@@ -1,3 +1,9 @@
+## 2026-11-14 — Penn Nails & Spa demo
+
+- **Source branch:** `demos`, `public/demos/penn-nails-spa/`. Intended Pages route `/demos/penn-nails-spa/`; the Pages push workflow targets `main`.
+- **Navigation:** Services, The gallery and Visit us link to sections on the same page. The original price sign opens in the photo viewer. Directions and the phone link use the salon details in the demo.
+- **Appointment:** The request form opens a local preview and keeps its data in browser memory.
+
 ## 2026-11-09 — Lavanda Boutique interactive demo bag (no new route)
 - **Public route:** `/demos/lavender-edit/` remains unchanged, with the 15 approved photographs, original boutique editorial sections and `#film` muted lower-page video.
 - **Shop navigation:** the existing header now links to `#tle-demo-sample-prices`. The existing shared three-item sample-price catalog remains the *single* source for product names and totals. The header **Bag / Bolsa** opens `#lb-cart-drawer` in the same page.

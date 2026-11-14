@@ -1,3 +1,9 @@
+## 2026-11-14 — Penn Nails & Spa draft assets
+
+- **Observed:** The Penn Nails draft referenced missing photo, stylesheet and script files.
+- **Change:** Added the nine selected retouched photos as individual WebP files, kept the storefront, salon interior and swatch photos from the draft, and supplied the stylesheet and browser-only menu, gallery and appointment interactions.
+- **Verification:** Branch publication and public Pages deployment are tracked independently.
+
 ## 2026-11-09 — Lavanda Boutique demo had sample prices but no usable shopping journey
 - **Owner request:** allow visitors to add boutique items to a bag and complete a simulated purchase without entering card details.
 - **Verified source:** `public/demos/lavender-edit/index.html` displayed boutique images and reused three fixed illustrative prices from `public/assets/tle-demo-original-prices-20261108.js` but did not offer a bag or demo checkout. Existing live commerce infrastructure was not authorized for this concept demo.

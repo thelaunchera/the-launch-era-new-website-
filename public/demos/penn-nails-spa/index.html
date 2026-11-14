@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f7efe9">
+  <meta name="description" content="Penn Nails &amp; Spa in Boynton Beach. Explore nail services, pedicures and waxing.">
+  <title>Penn Nails &amp; Spa | Boynton Beach</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header">
+    <div class="frame header-row">
+      <a class="wordmark" href="#top" aria-label="Penn Nails and Spa home"><span>Penn</span><small>NAILS &amp; SPA</small></a>
+      <nav aria-label="Main navigation">
+        <a href="#services">Services</a><a href="#gallery">The gallery</a><a href="#visit">Visit us</a>
+      </nav>
+      <button class="button button-dark nav-book" type="button" data-book>Request a visit</button>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero frame" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Boynton Beach, Florida</p>
+        <h1 id="hero-title">Good nails.<br><em>Better days.</em></h1>
+        <p class="hero-summary">Fresh manicures, relaxing pedicures and a little time to yourself on Ocean Avenue.</p>
+        <button class="button button-dark" type="button" data-book>Request an appointment</button>
+      </div>
+      <figure class="hero-image">
+        <img src="assets/chrome.webp" width="709" height="399" fetchpriority="high" alt="Pearlescent lavender chrome manicure on almond-shaped nails">
+        <figcaption>Lavender chrome</figcaption>
+      </figure>
+    </section>
+    <div class="service-line" aria-label="Featured services"><span>Manicures</span><span>Pedicures</span><span>Nail enhancements</span><span>Waxing</span></div>
+
+    <section class="section frame services" id="services" aria-labelledby="service-title">
+      <div class="section-heading">
+        <p class="eyebrow"><span></span> Service menu</p>
+        <h2 id="service-title">Find your <em>next set.</em></h2>
+      </div>
+      <div class="service-grid">
+        <figure class="service-image">
+          <img src="assets/french.webp" width="636" height="938" loading="lazy" alt="Pink nails with glossy white French tips">
+          <figcaption>Classic French tips</figcaption>
+        </figure>
+        <div class="menu">
+          <div class="menu-tabs" role="tablist" aria-label="Service categories">
+            <button id="tab-hands" type="button" role="tab" aria-controls="service-panel" aria-selected="true" data-menu="hands">Manicure</button>
+            <button id="tab-feet" type="button" role="tab" aria-controls="service-panel" aria-selected="false" tabindex="-1" data-menu="feet">Pedicure</button>
+            <button id="tab-sets" type="button" role="tab" aria-controls="service-panel" aria-selected="false" tabindex="-1" data-menu="sets">Enhancements</button>
+            <button id="tab-wax" type="button" role="tab" aria-controls="service-panel" aria-selected="false" tabindex="-1" data-menu="wax">Waxing</button>
+          </div>
+          <div id="service-panel" role="tabpanel" aria-labelledby="tab-hands" tabindex="0">
+            <ul id="menu-rows" class="menu-rows">
+              <li><div><b>Classic Manicure</b><span>A clean shape and a fresh polish.</span></div><button type="button" class="service-price" data-book="Classic Manicure" aria-label="Request Classic Manicure, 20 dollars">$20</button></li>
+              <li><div><b>Deluxe Ocean Manicure</b><span>Includes hot wax paraffin.</span></div><button type="button" class="service-price" data-book="Deluxe Ocean Manicure" aria-label="Request Deluxe Ocean Manicure, 39 dollars">$39</button></li>
+            </ul>
+          </div>
+          <p><button type="button" class="text-button" data-menu-photo>View the original price list</button></p>
+          <p class="menu-note">Prices from the salon’s posted menu. Please confirm current pricing with the salon.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-section section" id="gallery" aria-labelledby="gallery-title">
+      <div class="frame">
+        <div class="section-heading gallery-heading">
+          <div><p class="eyebrow"><span></span> The gallery</p><h2 id="gallery-title">Pick your <em>inspiration.</em></h2></div>
+          <div class="gallery-controls" aria-label="Gallery controls">
+            <button type="button" class="round" id="gallery-prev" aria-label="Previous photos">Previous</button>
+            <button type="button" class="round" id="gallery-next" aria-label="Next photos">Next</button>
+          </div>
+        </div>
+        <div class="gallery-track" id="gallery-track" tabindex="0" aria-label="Nail inspiration photos">
+          <button class="gallery-card" type="button" data-photo="0"><img src="assets/neon.webp" alt="White manicure with hot pink and orange waves" width="709" height="541" loading="lazy"><span>Neon waves</span></button>
+          <button class="gallery-card" type="button" data-photo="1"><img src="assets/blush.webp" alt="Short glossy light-pink manicure" width="660" height="819" loading="lazy"><span>Soft pink</span></button>
+          <button class="gallery-card" type="button" data-photo="2"><img src="assets/blue.webp" alt="Blue and white manicure with yin-yang nail art" width="709" height="399" loading="lazy"><span>Blue yin-yang</span></button>
+          <button class="gallery-card" type="button" data-photo="3"><img src="assets/pink.webp" alt="Pink ombré manicure with swirl nail art" width="709" height="514" loading="lazy"><span>Pink swirls</span></button>
+          <button class="gallery-card" type="button" data-photo="4"><img src="assets/pedicure.webp" alt="White pedicure with navy heels and blue ombré nails" width="707" height="707" loading="lazy"><span>A fresh pedi</span></button>
+          <button class="gallery-card" type="button" data-photo="5"><img src="assets/swatches.webp" alt="Fan of brightly colored polish swatches" width="709" height="529" loading="lazy"><span>Find your shade</span></button>
+        </div>
+      </div>
+    </section>
+    <section class="section frame visit" id="visit" aria-labelledby="visit-title">
+      <div class="visit-copy">
+        <p class="eyebrow"><span></span> Visit Penn</p>
+        <h2 id="visit-title">On Ocean <em>Avenue.</em></h2>
+        <address>640 E Ocean Ave, Suite 17<br>Boynton Beach, FL 33435</address>
+        <dl class="hours"><div><dt>Monday–Saturday</dt><dd>9 AM–7:30 PM</dd></div><div><dt>Sunday</dt><dd>10 AM–5 PM</dd></div></dl>
+        <p class="menu-note">Hours from the salon’s card. Call ahead to confirm.</p>
+        <div class="visit-actions">
+          <a class="button button-dark" href="https://www.google.com/maps/search/?api=1&amp;query=640+E+Ocean+Ave+Suite+17+Boynton+Beach+FL+33435" target="_blank" rel="noopener">Get directions</a>
+          <a class="phone" href="tel:+15615722282">(561) 572-2282</a>
+        </div>
+      </div>
+      <figure class="reception">
+        <img src="assets/reception.webp" alt="Receptionist at the Penn Nails &amp; Spa front desk" width="1448" height="1086" loading="lazy">
+        <figcaption>At the front desk</figcaption>
+      </figure>
+      <figure class="interior">
+        <img src="assets/interior.webp" alt="Inside Penn Nails &amp; Spa with the coastal mural and nail stations" width="709" height="409" loading="lazy">
+        <figcaption>Inside the salon</figcaption>
+      </figure>
+      <figure class="storefront">
+        <img src="assets/storefront.webp" alt="Penn Nails &amp; Spa storefront on Ocean Avenue" width="709" height="529" loading="lazy">
+        <figcaption>The entrance on Ocean Avenue</figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="frame footer-row">
+      <a class="wordmark" href="#top" aria-label="Penn Nails and Spa home"><span>Penn</span><small>NAILS &amp; SPA</small></a>
+      <p>Website preview · Powered by The Launch Era</p>
+      <a class="credits" href="https://www.loc8nearme.com/florida/boynton-beach/nail-know-how-nail-and-waxing-salon/3910612/gallery/" target="_blank" rel="noopener">Original photo credits</a>
+    </div>
+  </footer>
+
+  <dialog id="booking" class="booking" aria-labelledby="booking-title">
+    <div class="dialog-inner">
+      <button class="close round" type="button" data-close="booking" aria-label="Close appointment form">&times;</button>
+      <h2 id="booking-title">Request an <em>appointment.</em></h2>
+      <p class="dialog-note">Preview only. This form doesn’t send a request to the salon.</p>
+      <form id="booking-form">
+        <label>Service<select name="service" required><option value="">Choose a service</option></select></label>
+        <div class="form-grid">
+          <label>Preferred date<input type="date" name="date" required></label>
+          <label>Preferred time<select name="time" required><option value="">Select a time</option><option>Morning</option><option>Afternoon</option><option>Evening</option></select></label>
+        </div>
+        <label>Preferred nail tech <small>(optional)</small><input type="text" name="tech" maxlength="70" placeholder="Any available nail tech"></label>
+        <label>Name<input name="name" autocomplete="name" required maxlength="100"></label>
+        <label>Email<input type="email" name="email" autocomplete="email" required maxlength="150"></label>
+        <button type="submit" class="button button-dark">Preview my request</button>
+      </form>
+      <div class="confirmation" id="confirmation" hidden>
+        <strong>Your appointment request preview</strong>
+        <p id="request-summary" role="status" tabindex="-1"></p>
+        <button type="button" class="button button-dark" data-close="booking">Done</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-caption">
+    <button class="close round" type="button" data-close="lightbox" aria-label="Close image">&times;</button>
+    <figure><img id="lightbox-image" alt=""><figcaption id="lightbox-caption"></figcaption></figure>
+    <div class="lightbox-controls"><button class="round" id="photo-prev" type="button" aria-label="Previous photo">Previous</button><button class="round" id="photo-next" type="button" aria-label="Next photo">Next</button></div>
+  </dialog>
+</body>
+</html>
