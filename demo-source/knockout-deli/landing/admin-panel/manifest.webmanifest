@@ -1,0 +1,35 @@
+{
+  "id": "/demos/knockout-deli/admin-panel/",
+  "name": "Knockout Deli Admin Panel",
+  "short_name": "Knockout Admin",
+  "description": "Knockout Deli owner order and menu management preview",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "lang": "en-US",
+  "background_color": "#F7F4EE",
+  "theme_color": "#191717",
+  "categories": [
+    "business",
+    "food"
+  ],
+  "icons": [
+    {
+      "src": "../assets/logo-knockout-deli-transparent.webp",
+      "sizes": "any",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

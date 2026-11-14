@@ -61,7 +61,7 @@ upgradeKnockoutPickup(destination);
 const adminPreviewDir = path.join(destination,'admin-panel');
 const adminPreviewSource = path.join(source,'admin-panel');
 fs.mkdirSync(adminPreviewDir,{recursive:true});
-for (const name of ['index.html','app.js']) {
+for (const name of ['index.html','app.js','manifest.webmanifest','sw.js','icon.svg']) {
   const from=path.join(adminPreviewSource,name);
   if (!fs.existsSync(from)) throw new Error('Knockout Admin Panel source missing: '+name);
   fs.copyFileSync(from,path.join(adminPreviewDir,name));

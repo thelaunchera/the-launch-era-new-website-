@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 
 const root=path.resolve(process.argv[2]||'.output/public/demos/knockout-deli');
-const types={'.html':'text/html','.js':'text/javascript','.json':'application/json','.css':'text/css','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml'};
+const types={'.html':'text/html','.js':'text/javascript','.json':'application/json','.css':'text/css','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
 const server=http.createServer((req,res)=>{
  let file;
  try{const url=new URL(req.url||'/', 'http://127.0.0.1');file=path.resolve(root,'.'+decodeURIComponent(url.pathname));}
@@ -30,8 +30,41 @@ try{
    return route.abort();
   });
   await page.goto(origin+'/admin-panel/',{waitUntil:'networkidle'});
-  await page.getByText('30', {exact:true}).first().waitFor();
+  console.log('KNOCKOUT APP INITIAL',width,JSON.stringify({url:page.url(),pageErrors:errors,visibleText:(await page.locator('#view-root').innerText()).slice(0,700),head:(await page.locator('#page-title').innerText()).slice(0,120),hasScript:await page.evaluate(()=>!!document.querySelector('script[src="./app.js"]')),hasSettings:await page.evaluate(()=>!!localStorage.getItem("tle-knockout-admin-demo-v1"))}));
+  await page.getByText('30', {exact:true}).first().waitFor({timeout:9000});
+  assert.match(await page.locator('#page-title').innerText(),/ORDERS & NOTIFICATIONS/i,'Orders and alerts must open first');
+  assert.match(await page.locator('.app-home-hero').innerText(),/GET THE DAY STARTED/i,'Branded welcome message missing');
+  const expectedGreeting=await page.evaluate(()=>{const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening';});
+  assert.ok((await page.locator('.app-home-hero h2').innerText()).toLowerCase().includes(expectedGreeting.toLowerCase()),'Time-aware greeting is wrong');
+  assert.equal(await page.locator('.app-home-content img').evaluate(el=>el.complete&&el.naturalWidth>0),true,'Knockout logo did not load');
+  if(width<=700){
+    await page.locator('#menu-toggle').click();
+    assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('sidebar-open')),true,'App sidebar must open on phone');
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('sidebar-open')),false,'Sidebar must close with Escape');
+  }
   const nav=code=>page.locator('.nav-btn[data-view="'+code+'"]:visible').first();
+  await nav('notifications').click();
+  await page.locator('#owner-settings-form [name="email"]').fill('demo-orders@example.com');
+  await page.locator('#owner-settings-form [name="phone"]').fill('+15615550101');
+  await page.locator('#owner-settings-form button[type="submit"]').click();
+  await nav('dashboard').click();
+  await page.locator('[data-simulate-order]').first().click();
+  await page.locator('[data-order-preparing="DEMO-KO-1002"]').first().waitFor();
+  const notices=await page.evaluate(()=>JSON.parse(localStorage.getItem('tle-knockout-admin-demo-v1')).ownerNotifications);
+  assert.ok(notices.some(n=>n.channel==='EMAIL'&&n.target==='demo-orders@example.com'&&n.status.includes('NOT SENT')),'Email preview must be recorded without sending');
+  assert.ok(notices.some(n=>n.channel==='SMS'&&n.target==='+15615550101'&&n.status.includes('NOT SENT')),'SMS preview must be recorded independently of PWA installation');
+  await nav('requests').click();
+  await page.locator('[data-order-preparing="DEMO-KO-1002"]').click();
+  await page.locator('[data-order-ready="DEMO-KO-1002"]').click();
+  const orderStatus=await page.evaluate(()=>JSON.parse(localStorage.getItem('tle-knockout-admin-demo-v1')).orders.find(o=>o.id==='DEMO-KO-1002').status);
+  assert.equal(orderStatus,'Ready','New sample orders should move through Preparing to Ready');
+  await nav('notifications').click();
+  assert.equal(await page.locator('#owner-settings-form [name="phone"]').inputValue(),'+15615550101','Owner phone must stay configured without installing app');
+  await nav('install').click();
+  assert.match(await page.locator('#view-root').innerText(),/Add to Home Screen/i,'Install instructions missing');
+  const manifest=await page.evaluate(async()=>{const r=await fetch('./manifest.webmanifest');return r.json();});
+  assert.equal(manifest.display,'standalone','PWA manifest must offer standalone app mode');
   await nav('menu').click();
   await page.locator('[data-product-card]').first().waitFor();
   assert.equal(await page.locator('[data-product-card]').count(),30,'Full official menu loaded on '+width);
