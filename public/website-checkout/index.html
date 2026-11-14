@@ -13,7 +13,7 @@ p{color:#585652}.spinner{width:40px;height:40px;border-radius:50%;border:4px sol
 <p id="description" role="status" aria-live="polite">Your payment is processed securely by Stripe.</p>
 <button id="retry" class="button" type="button" hidden>Try again</button>
 <p><a id="back" href="/website-for-your-business/#paquetes">Back to packages</a></p></main>
-<footer>Powered by The Launch Era</footer>
+<footer><p id="price-disclosure" style="font-size:13px;color:#555"></p><nav aria-label="Policies" style="display:flex;justify-content:center;gap:15px;flex-wrap:wrap"><a id="legal-terms" href="/terms.html">Terms</a><a id="legal-privacy" href="/privacy.html">Privacy</a><a id="legal-refunds" href="/refunds.html">Refunds</a></nav><p>Powered by The Launch Era</p></footer>
 <script>
 (()=>{'use strict';
  const params=new URLSearchParams(location.search),offer=params.get('offer'),lang=params.get('lang')==='es'?'es':'en';
@@ -21,6 +21,8 @@ p{color:#585652}.spinner{width:40px;height:40px;border-radius:50%;border:4px sol
  document.documentElement.lang=lang;
  const lines=lang==='es'?{title:'Conectando con el checkout seguro',loading:'El pago se procesa de forma segura con Stripe.',error:'No pudimos abrir el pago seguro. Inténtalo nuevamente.',invalid:'Selecciona un paquete antes de pagar.',retry:'Volver a intentar',back:'Volver a paquetes'}:{title:'Connecting to secure checkout',loading:'Your payment is processed securely by Stripe.',error:'We could not open secure checkout. Please try again.',invalid:'Choose a package before paying.',retry:'Try again',back:'Back to packages'};
  const back=lang==='es'?'/es/website-for-your-business/#paquetes':'/website-for-your-business/#paquetes';
+ const amount=offer==='website-basic'?'$29':offer==='website-plus'?'$59':'';document.getElementById('price-disclosure').textContent=amount?(lang==='es'?amount+' USD · pago único · sin mensualidad obligatoria':amount+' USD · one-time payment · no required monthly fee'):'';
+ for(const rule of [{id:'legal-terms',page:'terms.html',en:'Terms',es:'Términos'},{id:'legal-privacy',page:'privacy.html',en:'Privacy',es:'Privacidad'},{id:'legal-refunds',page:'refunds.html',en:'Refunds',es:'Reembolsos'}]){const el=document.getElementById(rule.id);el.href=(lang==='es'?'/es/':'/')+rule.page;el.textContent=rule[lang]}
  document.querySelector('#back').href=back;document.querySelector('#brand').href=back;document.querySelector('#heading').textContent=lines.title;document.querySelector('#description').textContent=lines.loading;document.querySelector('#retry').textContent=lines.retry;document.querySelector('#back').textContent=lines.back;
  let running=false;
  const retry=document.querySelector('#retry'),desc=document.querySelector('#description'),spinner=document.querySelector('#spinner');
