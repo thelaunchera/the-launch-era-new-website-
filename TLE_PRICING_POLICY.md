@@ -29,7 +29,7 @@ This is the **current public Booking Bundle offer** displayed in `/booking-bundl
 
 **Important:** these are special combined-package prices, not standalone AI Assistant prices. A customer buying an AI Assistant separately still sees the standalone prices in the approved public-offers table above. Do not advertise a standalone price as if it were a bundle discount or vice versa. The 40% legacy `booking_ai_activation` toggle remains controlled separately; do not compound or activate the promotion on the newer special bundle tier without a reconciled, owner-approved price contract.
 
-Current technical contract: website `public/assets/tle-booking-bundle.js` sends `bundle-20261029` to Supabase `tle-booking-bundle-checkout`, which validates current published prices and routes a Stripe LIVE Checkout Session through Make. Standalone Booking/AI/Website Automation/VA purchases use `create-tle-service-checkout` and distinct offer IDs. Website-for-Your-Business $15/$25 purchases are separate and must not be recalculated using cleaning bundle pricing. The Content Lab $10 price is also independent.
+Current technical contract: website `public/assets/tle-booking-bundle.js` sends `bundle-20261029` to Supabase `tle-booking-bundle-checkout`, which validates current published prices and routes a Stripe LIVE Checkout Session through Make. Standalone Booking/AI/Website Automation/VA purchases use `create-tle-service-checkout` and distinct offer IDs. Website-for-Your-Business $29/$59 purchases are separate and must not be recalculated using cleaning bundle pricing. The Content Lab $10 price is also independent.
 
 ## Promotions and contracts — do not remove or change automatically
 
@@ -42,3 +42,16 @@ Current technical contract: website `public/assets/tle-booking-bundle.js` sends 
 ## Change control
 
 All future price or promotion updates require new **explicit owner approval** and a coordinated QA release. Do not silently “optimize” or arbitrarily round amounts again. Changes to unrelated website design or the app must not rewrite this price policy.
+
+## Website for Your Business — new owner approval (November 14, 2026)
+
+The owner explicitly superseded the prior $15/$25 prices for the **two one-time website packages**, effective November 14, 2026:
+
+- `website-basic`: **$29.00 USD one-time** — Website + Admin Panel.
+- `website-plus`: **$59.00 USD one-time** — Website Plus + Advanced Admin Panel and agreed email workflows.
+- The optional AI Agent remains a separate optional monthly add-on; this price approval does **not** alter its fee or make it included.
+- The cleaning booking bundles, standalone AI assistants, VA, Content Lab and existing customers are unrelated and unchanged.
+- Preserve verification of paid Stripe checkout sessions generated at the old $15/$25 website prices before the switch; do not reprice settled orders.
+- Keep EN/ES public pages, Stripe/Make checkout line-item amounts, checkout metadata, payment verification, order records and buyer emails aligned.
+
+The class **“Tu primera web con IA”** is paused. Archive its public sales landing and remove the class from public sales navigation and promotional catalog surfaces without deleting instructional materials or existing student entitlements.
