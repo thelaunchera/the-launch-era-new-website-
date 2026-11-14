@@ -56,4 +56,10 @@ for (const name of ['knockout-truck-event.webp','knockout-community.webp','knock
 }
 refreshMenu(destination,source);
 upgradeKnockoutPickup(destination);
+// Both the public menu and the browser-only Admin Panel preview read the same
+// approved Knockout catalog. The exported copy is generated, not maintained twice.
+const adminPreviewDir = path.join(destination,'admin-panel');
+if (!fs.existsSync(path.join(adminPreviewDir,'app.js')))
+  throw new Error('Knockout Admin Panel preview source missing');
+fs.copyFileSync(path.join(source,'menu-catalog.json'),path.join(adminPreviewDir,'menu-catalog.json'));
 console.log('Knockout Deli: independent public landing and retained interactive digital menu');
