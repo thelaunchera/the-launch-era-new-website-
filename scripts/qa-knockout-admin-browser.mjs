@@ -38,7 +38,8 @@ try{
   await page.locator('[data-edit-product="jab"]').click();
   await page.locator('#product-form [name="price"]').fill('19');
   await page.locator('#product-form button[type="submit"]').click();
-  console.log('ADMIN DEBUG after save '+width,JSON.stringify({heading:await page.locator('#page-title').textContent(),modalHidden:await page.locator('#modal-backdrop').evaluate(e=>e.hidden),cards:await page.locator('[data-product-card]').count(),errors,excerpt:(await page.locator('#view-root').innerText()).slice(0,400)}));
+  console.log('ADMIN DEBUG after save '+width,JSON.stringify({url:page.url(),heading:await page.locator('#page-title').textContent(),modalHidden:await page.locator('#modal-backdrop').evaluate(e=>e.hidden),cards:await page.locator('[data-product-card]').count(),savedJab:await page.evaluate(()=>{try{return JSON.parse(localStorage.getItem("tle-knockout-admin-demo-v1")).products.find(p=>p.id==="jab").price}catch(e){return String(e)}}),errors,excerpt:(await page.locator('#view-root').innerText()).slice(0,400)}));
+  if ((await page.locator('[data-edit-product="jab"]').count())===0) await nav('menu').click();
   await page.locator('[data-edit-product="jab"]').waitFor({timeout:9000});
   assert.ok((await page.locator('[data-product-card][data-search*="the jab"]').innerText()).includes('$19'),'Price edit failed');
   await nav('locations').click();
