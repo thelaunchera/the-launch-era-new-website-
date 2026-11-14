@@ -173,7 +173,7 @@ function renderOffers(){
  '<div class="field full action-row"><button class="btn primary">Save promotion</button><button type="button" data-view="alerts" class="btn secondary">Prepare promo alert</button></div></form></section>'+
  '<section class="panel"><p class="label">BANNER PREVIEW</p><div style="background:#C7262D;color:#fff;padding:25px;border-radius:13px;margin:10px 0">'+
  '<p style="font-size:10px;letter-spacing:.14em">KNOCKOUT DELI / OFFERS</p><h3 style="font:800 37px/1 Barlow Condensed,sans-serif;margin:10px 0">'+esc(o.title||"YOUR NEXT SPECIAL.")+'</h3><p style="font-size:13px">'+esc(o.description||"Add an offer to preview it here.")+'</p>'+
- (o.discount?'<strong>'+esc(o.discount)+'% OFF</strong>':'')+'</div><span class="'+(o.enabled?"red-chip":"muted-chip")+'">'+(o.enabled?"Visible in preview":"Draft / hidden")+'</span><p class="soft-text">An item's own discount and the promotion do not stack. The larger discount is shown.</p></section></div>';
+ (o.discount?'<strong>'+esc(o.discount)+'% OFF</strong>':'')+'</div><span class="'+(o.enabled?"red-chip":"muted-chip")+'">'+(o.enabled?"Visible in preview":"Draft / hidden")+'</span><p class="soft-text">An individual item discount and the promotion do not stack. The larger discount is shown.</p></section></div>';
 }
 function defaultAlert(type){
  const e=state.events.filter(x=>x.published)[0],l=state.location,o=state.offer;
