@@ -108,6 +108,23 @@ body{background:var(--paper)}
 }
 @media(prefers-reduced-motion:reduce){.sidebar{transition:none}}
 </style>
+
+<style>
+/* Self-contained plan comparison cards: readable on mobile without
+   assuming one card appears above the other. */
+.ko-package-grid .panel{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.ko-package-grid .label{line-height:1.45;letter-spacing:.09em}
+.ko-package-grid .display-title{font-size:clamp(25px,2.5vw,33px);line-height:1.05;margin:8px 0}
+.ko-package-grid .soft-text{font-size:13px;line-height:1.7;margin:0}
+.ko-management-addon{margin-top:14px;padding:17px 20px;border:1px solid #e8d4ce;border-left:4px solid var(--red);border-radius:13px;background:#fffaf7;color:#62524d;font-size:13px;line-height:1.65}
+.ko-management-addon strong{display:block;color:#8f2528;margin-bottom:3px}
+@media(max-width:700px){
+  .ko-package-grid{grid-template-columns:minmax(0,1fr)!important;gap:12px}
+  .ko-package-grid .panel{padding:20px}
+  .ko-package-grid .display-title{font-size:30px}
+  .ko-management-addon{padding:16px}
+}
+</style>
 </head>
 <body>
 <div class="shell">
