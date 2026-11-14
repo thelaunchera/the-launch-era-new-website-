@@ -34,7 +34,7 @@ assert.match(websiteScript,/preferred_email:get\(f,'preferred_email'\)\|\|get\(f
 assert.match(websiteScript,/note\('Preferred website languages',get\(f,'website_language'\)/,'send language preference with verified intake');
 assert.match(websiteScript,/tle-studio-website-confirm-payment/,'keep verified paid gate');
 assert.doesNotMatch(websiteScript,/custom domain \(extra cost\)|dominio propio \(costo adicional\)/i,'no obsolete domain charge in shared copy');
-assert.match(websiteScript,/Command Center access/,'never issue access before delivery');
+assert.match(websiteScript,/Admin Panel access/,'never issue access before delivery');
 assert.match(websiteBrief,/refreshProjectType/,'new/existing website choice must be reviewed');
 assert.match(plus,/name="website_project_type"/,'current plus intake must ask about existing website');
 for(const key of ['setupExtrasSummary','inboxOptional','publicPhoneOptional','siteLangLabel','siteLangBoth','domainHelpNote']){
