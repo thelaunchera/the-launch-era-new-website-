@@ -3,7 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#191919">
+<meta name="theme-color" content="#191717">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Knockout Admin">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/logo-knockout-deli-transparent.webp">
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="description" content="Interactive, browser-only Knockout Deli Admin Panel concept. Menu, prices, location, photos, events, offers and alerts. No live business actions.">
 <title>Knockout Deli | Admin Panel Preview</title>
@@ -25,6 +30,84 @@
   .mobile-nav .nav-btn{flex:0 0 76px;min-width:76px;scroll-snap-align:start;white-space:normal}
 }
 </style>
+<style>
+/* Knockout app-shell upgrade — scoped to the admin demo only */
+:root{--focus-ring:#6c91d1}
+body{background:var(--paper)}
+.sidebar{z-index:65}
+.app-kicker{font:800 10px/1.3 "DM Sans",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#e9b8b1}
+.menu-toggle{display:none;flex:0 0 auto}
+.notification-bell{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:white;border-radius:12px;padding:9px 12px;min-height:42px;font-weight:800;font-size:11px;color:var(--ink)}
+.notification-bell .bell-glyph{font-size:18px;line-height:1}
+.notification-counter{min-width:21px;min-height:21px;border-radius:999px;background:var(--red);color:white;display:inline-grid;place-items:center;padding:2px 5px;font-size:10px}
+.app-home-hero{position:relative;min-height:244px;overflow:hidden;border-radius:24px;background:#191717;color:white;display:grid;align-items:end;isolation:isolate;margin-bottom:18px}
+.app-home-hero .hero-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 47%;z-index:-2;opacity:.8}
+.app-home-hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,11,11,.96),rgba(13,11,11,.81) 48%,rgba(13,11,11,.18));z-index:-1}
+.app-home-content{padding:27px;display:flex;align-items:center;gap:21px}
+.app-home-content img{width:101px;height:101px;object-fit:contain;flex:none;filter:drop-shadow(0 5px 9px #0005)}
+.app-home-hero h2{font:800 clamp(32px,4.6vw,58px)/.95 "Barlow Condensed",sans-serif;margin:8px 0 10px;text-transform:uppercase;letter-spacing:.005em}
+.app-home-hero p{margin:0;color:#e6d6d3;font-size:12px;max-width:475px}
+.panel-subtitle{font-size:11px;color:var(--muted);margin:5px 0 0}
+.order-toolbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin:15px 0}
+.order-card{position:relative;background:white;border:1px solid var(--line);border-radius:18px;padding:20px;min-width:0}
+.order-card.is-new{border-color:#ec9795;box-shadow:0 0 0 1px #eec5c1}
+.order-card h3{font:800 26px/1.05 "Barlow Condensed",sans-serif;margin:9px 0}
+.order-card .order-price{font:800 23px "Barlow Condensed",sans-serif}
+.order-card .order-date{font-size:10px;color:var(--muted)}
+.order-card .order-status{border-radius:999px;padding:6px 10px;font-size:10px;font-weight:800;background:#f3eee8;color:#504943}
+.order-card .order-status.new{background:#ffebe9;color:#a81a22}
+.order-card .order-status.ready{background:#eae7e2;color:#31302d}
+.order-card p{font-size:12px;line-height:1.6;color:#635c56}
+.notification-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;display:flex;gap:13px;align-items:flex-start;min-width:0}
+.notification-card.unread{border-color:#db9b92;background:#fffaf8}
+.notification-card .notification-icon{width:38px;height:38px;border-radius:12px;background:#f9e8e5;color:#a32629;display:grid;place-items:center;flex:none;font:800 11px "DM Sans",sans-serif}
+.notification-card strong{font-size:12px;display:block}
+.notification-card p{font-size:11px;margin:5px 0;color:var(--muted)}
+.notification-card small{font-size:10px;color:#7c736d}
+.notification-list{display:grid;gap:10px}
+.order-and-notification-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr);gap:16px;align-items:start}
+.switch-row{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
+.switch-row span{font-size:11px}
+.settings-icon{font:800 13px "DM Sans",sans-serif;color:var(--red)}
+.install-steps{list-style:none;margin:13px 0;padding:0;display:grid;gap:12px}
+.install-steps li{padding:15px;background:#f7f2ed;border-radius:12px;font-size:12px}
+.install-steps strong{display:block;margin-bottom:5px}
+.sidebar-backdrop{display:none}
+.sidebar .nav-btn[data-view="dashboard"]{font-weight:800}
+.app-demo-banner{padding:10px 14px;border-radius:12px;border:1px solid #e8d3c8;background:#fffbf7;color:#8c544b;font-size:11px;margin:0 0 17px}
+#install-action[hidden]{display:none!important}
+@media(max-width:900px){
+ .order-and-notification-grid{grid-template-columns:1fr}
+ .app-home-hero{min-height:215px}
+}
+@media(max-width:700px){
+ .sidebar{display:flex;position:fixed;top:0;bottom:0;left:0;width:min(312px,86vw);height:100dvh;min-height:0;transform:translateX(-105%);transition:transform .24s ease;box-shadow:10px 0 36px #0003;z-index:74;visibility:hidden;padding:23px 15px}
+ body.sidebar-open .sidebar{transform:translateX(0);visibility:visible}
+ .sidebar-backdrop{display:block;position:fixed;inset:0;background:#141010a8;z-index:70}
+ .menu-toggle{display:inline-flex;border:1px solid #ddd3ca;background:#fff;color:#1d1b1a;min-height:44px;min-width:44px;align-items:center;justify-content:center;border-radius:12px;font-size:21px}
+ .topbar{gap:9px}
+ .crumb{font-size:9px;letter-spacing:.08em;flex:1}
+ .notification-bell{padding:9px}
+ .notification-bell .bell-label{display:none}
+ .top-link{display:none}
+ .app-home-content{padding:20px;gap:13px;align-items:flex-start}
+ .app-home-content img{width:69px;height:69px}
+ .app-home-hero{min-height:210px}
+ .app-home-hero h2{font-size:37px}
+ .app-home-hero p{font-size:11px}
+ .heading h1{font-size:39px}
+ .main{padding-bottom:145px}
+}
+@media(max-width:410px){
+ .app-home-content{flex-direction:column;gap:2px;padding:17px}
+ .app-home-content img{height:58px;width:58px}
+ .app-home-hero h2{font-size:32px}
+ .app-home-hero{min-height:260px}
+ .notification-card{padding:11px}
+ .order-card{padding:15px}
+}
+@media(prefers-reduced-motion:reduce){.sidebar{transition:none}}
+</style>
 </head>
 <body>
 <div class="shell">
@@ -32,20 +115,24 @@
 <a class="brand" href="../index.html"><img src="../assets/logo-knockout-deli-transparent.webp" alt="Knockout Deli logo"><span>KNOCKOUT<br>DELI<small>ADMIN PANEL</small></span></a>
 <div class="subbrand">YOUR BUSINESS, YOUR CONTROL</div>
 <nav class="nav" id="desktop-nav" aria-label="Admin Panel sections">
-<button type="button" class="nav-btn" data-view="dashboard"><span>01</span>Overview</button>
-<button type="button" class="nav-btn" data-view="menu"><span>02</span>Menu &amp; pricing</button>
-<button type="button" class="nav-btn" data-view="locations"><span>03</span>Truck location</button>
-<button type="button" class="nav-btn" data-view="events"><span>04</span>Events &amp; photos</button>
-<button type="button" class="nav-btn" data-view="offers"><span>05</span>Discounts &amp; offers</button>
-<button type="button" class="nav-btn" data-view="alerts"><span>06</span>Subscriber alerts</button>
-<button type="button" class="nav-btn" data-view="requests"><span>07</span>Orders &amp; inquiries</button>
-<button type="button" class="nav-btn" data-view="content"><span>08</span>Social content</button>
-<button type="button" class="nav-btn" data-view="preview"><span>09</span>Website preview</button>
+<button type="button" class="nav-btn" data-view="dashboard"><span>01</span>Orders &amp; notifications</button>
+<button type="button" class="nav-btn" data-view="requests"><span>02</span>All orders</button>
+<button type="button" class="nav-btn" data-view="notifications"><span>03</span>Notification center</button>
+<button type="button" class="nav-btn" data-view="settings"><span>04</span>Notification settings</button>
+<button type="button" class="nav-btn" data-view="menu"><span>05</span>Menu &amp; pricing</button>
+<button type="button" class="nav-btn" data-view="locations"><span>06</span>Truck location</button>
+<button type="button" class="nav-btn" data-view="events"><span>07</span>Events &amp; photos</button>
+<button type="button" class="nav-btn" data-view="offers"><span>08</span>Discounts &amp; offers</button>
+<button type="button" class="nav-btn" data-view="alerts"><span>09</span>Subscriber messages</button>
+<button type="button" class="nav-btn" data-view="content"><span>10</span>Social content</button>
+<button type="button" class="nav-btn" data-view="preview"><span>11</span>Website preview</button>
+<button type="button" class="nav-btn" data-view="install"><span>12</span>Install app</button>
 </nav>
 <div class="sidebar-foot">Interactive concept only.<br>Changes stay in your browser and never update the public website or notify customers.<br><a href="../index.html">Back to Knockout website</a></div>
 </aside>
+<div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
 <main class="main">
-<header class="topbar"><span class="crumb" id="crumb">KNOCKOUT DELI / ADMIN PANEL</span><div class="top-actions"><span class="preview-pill">INTERACTIVE DEMO · NOT LIVE</span><a class="top-link" href="../index.html">Back to website</a></div></header>
+<header class="topbar"><button type="button" class="menu-toggle" id="menu-toggle" aria-label="Open sidebar" aria-controls="desktop-nav" aria-expanded="false">☰</button><span class="crumb" id="crumb">KNOCKOUT DELI / ADMIN PANEL</span><div class="top-actions"><span class="preview-pill">DEMO · NOT LIVE</span><button type="button" class="notification-bell" id="bell-button" data-view="notifications" aria-label="Open notification center"><span class="bell-glyph" aria-hidden="true">♧</span><span class="bell-label">Notifications</span><span class="notification-counter" id="notification-count" aria-label="Unread notifications">0</span></button><a class="top-link" href="../index.html">Back to website</a></div></header>
 <div class="heading"><p class="eyebrow" id="eyebrow">THE KNOCKOUT WORKSPACE</p><h1 id="page-title">THE TRUCK, ALL IN ONE PLACE.</h1><p id="page-description">Update your menu, prices, photos, next stop, events, promotions and subscriber messages — all from one place. Preview only; your edits are saved in this browser.</p></div>
 <div id="view-root" aria-live="polite"><div class="empty"><h3>Preparing your menu</h3>Loading the original Knockout Deli items and prices...</div></div>
 <p class="powered">Powered by <a href="https://thelaunchera.com/">The Launch Era</a> · Admin Panel concept, not connected to real orders or subscriber data.</p>
