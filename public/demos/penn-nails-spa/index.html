@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="app.js"></script>
+  <link rel="stylesheet" href="styles.css?v=20261114-menu">
+  <script defer src="app.js?v=20261114-menu"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -22,17 +22,11 @@
       <nav aria-label="Main navigation">
         <a href="#services">Services</a><a href="#gallery">The gallery</a><a href="#visit">Visit us</a>
       </nav>
-      <button class="button button-dark nav-book" type="button" data-book>Request a visit</button>
+      <a class="button button-dark nav-book" href="tel:+15615722282">Call for a visit</a>
     </div>
   </header>
   <main id="main">
     <section class="hero frame" id="top" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow"><span></span> Boynton Beach, Florida</p>
-        <h1 id="hero-title">Good nails.<br><em>Better days.</em></h1>
-        <p class="hero-summary">Fresh manicures, relaxing pedicures and a little time to yourself on Ocean Avenue.</p>
-        <button class="button button-dark" type="button" data-book>Request an appointment</button>
-      </div>
       <figure class="hero-image">
         <div class="hero-art">
           <svg class="hero-defs" aria-hidden="true" width="0" height="0" focusable="false">
@@ -44,35 +38,47 @@
         </div>
         <figcaption>Lavender chrome</figcaption>
       </figure>
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Boynton Beach, Florida</p>
+        <h1 id="hero-title">Good nails.<br><em>Better days.</em></h1>
+        <p class="hero-summary">Fresh manicures, relaxing pedicures and a little time to yourself on Ocean Avenue.</p>
+        <a class="button button-dark" href="tel:+15615722282">Call to book</a>
+        <a class="hero-menu-link" href="#services">Browse services &amp; prices</a>
+      </div>
     </section>
     <div class="service-line" aria-label="Featured services"><span>Manicures</span><span>Pedicures</span><span>Nail enhancements</span><span>Waxing</span></div>
 
     <section class="section frame services" id="services" aria-labelledby="service-title">
       <div class="section-heading">
         <p class="eyebrow"><span></span> Service menu</p>
-        <h2 id="service-title">Find your <em>next set.</em></h2>
+        <h2 id="service-title">Services <em>&amp; prices.</em></h2>
       </div>
       <div class="service-grid">
-        <figure class="service-image">
-          <img src="assets/french.webp" width="636" height="938" loading="lazy" alt="Pink nails with glossy white French tips">
-          <figcaption>Classic French tips</figcaption>
-        </figure>
         <div class="menu">
           <div class="menu-tabs" role="tablist" aria-label="Service categories">
             <button id="tab-hands" type="button" role="tab" aria-controls="service-panel" aria-selected="true" data-menu="hands">Manicure</button>
             <button id="tab-feet" type="button" role="tab" aria-controls="service-panel" aria-selected="false" tabindex="-1" data-menu="feet">Pedicure</button>
             <button id="tab-sets" type="button" role="tab" aria-controls="service-panel" aria-selected="false" tabindex="-1" data-menu="sets">Enhancements</button>
+            <button id="tab-extras" type="button" role="tab" aria-controls="service-panel" aria-selected="false" tabindex="-1" data-menu="extras">Extras</button>
+            <button id="tab-kids" type="button" role="tab" aria-controls="service-panel" aria-selected="false" tabindex="-1" data-menu="kids">Kids</button>
             <button id="tab-wax" type="button" role="tab" aria-controls="service-panel" aria-selected="false" tabindex="-1" data-menu="wax">Waxing</button>
           </div>
           <div id="service-panel" role="tabpanel" aria-labelledby="tab-hands" tabindex="0">
-            <ul id="menu-rows" class="menu-rows">
-              <li><div><b>Classic Manicure</b><span>A clean shape and a fresh polish.</span></div><button type="button" class="service-price" data-book="Classic Manicure" aria-label="Request Classic Manicure, 20 dollars">$20</button></li>
-              <li><div><b>Deluxe Ocean Manicure</b><span>Includes hot wax paraffin.</span></div><button type="button" class="service-price" data-book="Deluxe Ocean Manicure" aria-label="Request Deluxe Ocean Manicure, 39 dollars">$39</button></li>
-            </ul>
+            <div id="menu-rows">
+              <ul class="menu-rows">
+                <li><div><b>Classic Manicure</b></div><span class="service-price">$20</span></li>
+                <li><div><b>Classic Manicure with Hot Wax Paraffin</b><span>Add-on to Classic Manicure</span></div><span class="service-price">+$15</span></li>
+                <li><div><b>Deluxe Ocean Manicure</b><span>Includes hot wax paraffin.</span></div><span class="service-price">$39</span></li>
+              </ul>
+            </div>
           </div>
-          <p><button type="button" class="text-button" data-menu-photo>View the original price list</button></p>
-          <p class="menu-note">Prices from the salon’s posted menu. Please confirm current pricing with the salon.</p>
+          <p class="menu-note">Prices are from the salon’s posted menu. A trailing + means the price starts at that amount. Call to confirm current pricing.</p>
+          <button class="text-button" type="button" data-book>Preview the appointment form</button>
         </div>
+        <figure class="service-image">
+          <img src="assets/french.webp" width="636" height="938" loading="lazy" alt="Pink nails with glossy white French tips">
+          <figcaption>Classic French tips</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -106,10 +112,10 @@
         <h2 id="visit-title">On Ocean <em>Avenue.</em></h2>
         <address>640 E Ocean Ave, Suite 17<br>Boynton Beach, FL 33435</address>
         <dl class="hours"><div><dt>Monday–Saturday</dt><dd>9 AM–7:30 PM</dd></div><div><dt>Sunday</dt><dd>10 AM–5 PM</dd></div></dl>
-        <p class="menu-note">Hours from the salon’s card. Call ahead to confirm.</p>
+        <p class="menu-note">Please call ahead to confirm hours.</p>
         <div class="visit-actions">
           <a class="button button-dark" href="https://www.google.com/maps/search/?api=1&amp;query=640+E+Ocean+Ave+Suite+17+Boynton+Beach+FL+33435" target="_blank" rel="noopener">Get directions</a>
-          <a class="phone" href="tel:+15615722282">(561) 572-2282</a>
+          <a class="button phone" href="tel:+15615722282">Call (561) 572-2282</a>
         </div>
       </div>
       <figure class="reception">
@@ -137,7 +143,7 @@
 
   <dialog id="booking" class="booking" aria-labelledby="booking-title">
     <div class="dialog-inner">
-      <button class="close round" type="button" data-close="booking" aria-label="Close appointment form">&times;</button>
+      <button class="close round" type="button" data-close="booking" aria-label="Close appointment form">Close</button>
       <h2 id="booking-title">Request an <em>appointment.</em></h2>
       <p class="dialog-note">Preview only. This form doesn’t send a request to the salon.</p>
       <form id="booking-form">
@@ -160,7 +166,7 @@
   </dialog>
 
   <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-caption">
-    <button class="close round" type="button" data-close="lightbox" aria-label="Close image">&times;</button>
+    <button class="close round" type="button" data-close="lightbox" aria-label="Close image">Close</button>
     <figure><img id="lightbox-image" alt=""><figcaption id="lightbox-caption"></figcaption></figure>
     <div class="lightbox-controls"><button class="round" id="photo-prev" type="button" aria-label="Previous photo">Previous</button><button class="round" id="photo-next" type="button" aria-label="Next photo">Next</button></div>
   </dialog>

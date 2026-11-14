@@ -122,3 +122,59 @@ form input, form select { width: 100%; min-height: 44px; border: 1px solid var(-
   pointer-events: none;
 }
 .visit .interior { grid-column: 1 / -1; }
+
+.hero { grid-template-columns: minmax(0, .78fr) minmax(0, 1.42fr); }
+.hero-copy { grid-column: 1; grid-row: 1; }
+.hero-image { grid-column: 2; grid-row: 1; min-width: 0; }
+.hero-lettering {
+  inset: 11% 4% auto;
+  font-size: 43cqw;
+  line-height: .8;
+  letter-spacing: -.085em;
+  text-align: center;
+}
+.hero-menu-link { display: block; width: fit-content; padding-block: 12px; margin-top: 5px; color: var(--plum); }
+.service-grid { grid-template-columns: minmax(0, 1.38fr) minmax(0, .82fr); }
+.menu {
+  padding: clamp(14px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #fffaf8;
+}
+.menu-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.menu-tabs button { padding-inline: 4px; font-size: clamp(.75rem, 2.7vw, .95rem); font-weight: 600; }
+#service-panel { margin-top: 16px; }
+.menu-group + .menu-group { margin-top: 20px; }
+.menu-group h3 { color: var(--plum); font-size: .95rem; margin: 0 0 2px; }
+.menu-rows { margin: 0; }
+.menu-rows li > div { min-width: 0; }
+.menu-rows li > div > span { color: #684c5c; }
+.service-price {
+  flex: none;
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  min-height: 0;
+  background: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.visit-copy { align-self: center; }
+.visit .interior { margin-top: 10px; }
+.phone { color: var(--plum); border-color: var(--line); }
+.lightbox .close, .booking .close { margin-bottom: 10px; }
+.lightbox img { max-height: min(62dvh, 720px); }
+@media (max-width: 650px) {
+  .hero, .service-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-copy, .hero-image { grid-column: 1; grid-row: auto; }
+  .hero { padding-top: 16px; gap: 14px; }
+  .hero h1 { font-size: clamp(53px, 12vw, 68px); }
+  .hero-menu-link { margin-top: 0; }
+  .gallery-controls { display: none; }
+  .gallery-track { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; gap: 10px; padding-inline: 0; }
+  .gallery-card { border-radius: 16px; }
+  .gallery-card img { aspect-ratio: 1; object-fit: cover; }
+  .gallery-card span { padding: 9px 10px; font-size: .86rem; }
+  .visit .interior { margin-top: 0; }
+}
