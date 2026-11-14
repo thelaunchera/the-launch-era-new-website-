@@ -35,7 +35,7 @@ try{
   assert.match(await page.locator('#page-title').innerText(),/ORDERS & NOTIFICATIONS/i,'Orders and alerts must open first');
   assert.match(await page.locator('.app-home-hero').innerText(),/GET THE DAY STARTED/i,'Branded welcome message missing');
   const expectedGreeting=await page.evaluate(()=>{const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening';});
-  assert.ok((await page.locator('.app-home-hero h2').innerText()).includes(expectedGreeting),'Time-aware greeting is wrong');
+  assert.ok((await page.locator('.app-home-hero h2').innerText()).toLowerCase().includes(expectedGreeting.toLowerCase()),'Time-aware greeting is wrong');
   assert.equal(await page.locator('.app-home-content img').evaluate(el=>el.complete&&el.naturalWidth>0),true,'Knockout logo did not load');
   if(width<=700){
     await page.locator('#menu-toggle').click();
