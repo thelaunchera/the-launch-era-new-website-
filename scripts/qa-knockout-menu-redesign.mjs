@@ -11,8 +11,8 @@ const items=JSON.parse(m[1]);
 assert(items.length>=25 && items.length<=40,'Expected complete official screenshot menu');
 assert.equal(new Set(items.map(i=>i.id)).size,items.length,'Duplicate product IDs');
 // Spanish translations cover every food item, every description and all five categories.
-assert(items.length===29 && items.every(item=>
-  item.nameEs&&item.descriptionEs&&item.categoryEs), 'Incomplete Spanish menu catalog');
+assert(items.length===30 && items.every(item=>
+  item.nameEs&&item.descriptionEs&&item.categoryEs), 'Incomplete Spanish menu catalog (including official Loaded Fries)');
 assert(items.find(item=>item.id==='pastrami-half')?.nameEs==='Pastrami recién cortado · ½ lb',
   'Spanish take-home pastrami title missing');
 assert(items.find(item=>item.id==='pastrami-half')?.descriptionEs==='Media libra de pastrami recién cortado.',
