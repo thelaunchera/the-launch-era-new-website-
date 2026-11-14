@@ -101,38 +101,36 @@ form input, form select { width: 100%; min-height: 44px; border: 1px solid var(-
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  aspect-ratio: 7 / 5;
   border-radius: 24px;
   container-type: inline-size;
+  background: radial-gradient(ellipse at 48% 75%, #e0c9dc 0%, #ac8fa9 48%, #61425e 100%);
 }
-.hero-art > img { border-radius: 0; }
 .hero-defs { position: absolute; }
 .hero-lettering {
   position: absolute;
-  inset: 6% auto auto 5%;
-  font: italic 24cqw/.78 "Instrument Serif", Georgia, serif;
-  letter-spacing: -.065em;
-  color: #fff2e9;
-  text-shadow: 0 2px 18px #40273765;
+  inset: 1% 0 auto;
+  font: italic 32cqw/1 "Instrument Serif", Georgia, serif;
+  letter-spacing: -.055em;
+  text-align: center;
+  color: #fff7ed;
+  text-shadow: 0 2px 20px #47274040;
   pointer-events: none;
 }
 .hero-art > .hero-foreground {
   position: absolute;
-  inset: 0;
+  inset: auto 3% 0;
+  width: 94%;
+  height: auto;
+  background: none;
+  border-radius: 0;
   clip-path: url(#penn-hands);
-  pointer-events: none;
 }
 .visit .interior { grid-column: 1 / -1; }
 
 .hero { grid-template-columns: minmax(0, .78fr) minmax(0, 1.42fr); }
 .hero-copy { grid-column: 1; grid-row: 1; }
 .hero-image { grid-column: 2; grid-row: 1; min-width: 0; }
-.hero-lettering {
-  inset: 11% 4% auto;
-  font-size: 43cqw;
-  line-height: .8;
-  letter-spacing: -.085em;
-  text-align: center;
-}
 .hero-menu-link { display: block; width: fit-content; padding-block: 12px; margin-top: 5px; color: var(--plum); }
 .service-grid { grid-template-columns: minmax(0, 1.38fr) minmax(0, .82fr); }
 .menu {
