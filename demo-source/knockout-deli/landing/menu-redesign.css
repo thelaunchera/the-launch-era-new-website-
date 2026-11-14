@@ -1060,3 +1060,19 @@ body:has(.km-banner) #window-cart-dialog.digital-checkout
   }
   body:has(.km-banner) .km-banner .km-eyebrow{display:none!important}
 }
+
+/* KNOCKOUT PICKUP CHAPTER EDITORIAL SEAM — 2026-11-13
+   The original menu flow reserves ~75px after the menu. A small negative
+   margin left the dark chapter floating below rather than crossing the ivory.
+   Pull the dark chapter over the last 24px of the menu sheet at phone/tablet.
+   Scope only to the separate menu route; leave cart/footer/sale flows intact. */
+@media(max-width:1050px){
+ body:has(.km-banner) .window-order-section{
+   margin-top:-102px!important;
+ }
+}
+@media(max-width:600px){
+ body:has(.km-banner) .window-order-section{
+   margin-top:-100px!important;
+ }
+}
