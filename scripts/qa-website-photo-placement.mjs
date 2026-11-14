@@ -87,7 +87,7 @@ for(const [language,html] of [['en',en],['es',es]]){
   assert(html.split('src="'+photoRoot+name+'"').length===2,language+': '+name+' is missing or duplicated outside its approved package or process section');
   assert(existsSync('public'+photoRoot+name),language+': asset missing: '+name);
  }
- assert(html.includes('$15')&&html.includes('$25')&&!html.includes('$8 USD'),language+': current one-time prices or optional AI billing not aligned');
+ assert(html.includes('$29')&&html.includes('$59')&&!html.includes('$8 USD'),language+': current one-time prices or optional AI billing not aligned');
  assert(/48 (hours|horas)/i.test(html),language+': delivery estimate missing');
  assert(/one revision|revision round|una revisión|ronda de revisión/i.test(html),language+': included single revision missing');
 }
