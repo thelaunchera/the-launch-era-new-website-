@@ -235,7 +235,7 @@ function setView(next){
 }
 function drawNav(){
  const mobile=$("#mobile-nav");
- for(const [name,num,label] of navLabels.filter((x)=>["dashboard","menu","locations","events"].includes(x[0]))){
+ for(const [name,num,label] of navLabels){
   const b=el("button","nav-btn");b.type="button";b.dataset.view=name;b.append(el("span","",num),document.createTextNode(label));mobile.append(b);
  }
 }
@@ -297,7 +297,7 @@ async function uploadImage(input){
    const value=canvas.toDataURL("image/jpeg",.74);
    editPhoto={type:input.dataset.photoUpload,value};
    if(input.dataset.photoUpload==="location"){
-    const f=$("#location-form");if(f){f.elements.photo.value="";img(location.href,value);}
+    const f=$("#location-form");if(f){f.elements.photo.value="";}
     const imgNode=$("#view-root .panel img");
     if(imgNode&&imgNode.tagName==="IMG")imgNode.src=value;
    }else updatePhotoPreview(value);
