@@ -58,7 +58,7 @@ try{
   await page.locator('#offer-form [name="title"]').fill('Demo offer');
   await page.locator('#offer-form [name="discount"]').fill('10');
   await page.locator('#offer-form [name="enabled"]').check();
-  await page.locator('#offer-form button[type="submit"]').click();
+  await page.locator('#offer-form button.btn.primary').click();
   await nav('alerts').click();
   await page.locator('#alert-form [name="subject"]').fill('Demo next stop');
   await page.locator('#alert-form [name="body"]').fill('Preview message only — never delivered.');
