@@ -316,7 +316,8 @@ function setView(next){
  $("#crumb").textContent="KNOCKOUT DELI / "+next.toUpperCase();
  $("#eyebrow").textContent=h[0];$("#page-title").textContent=h[1];$("#page-description").textContent=h[2];
  $("#view-root").innerHTML=renderers[next]();
- $$("[data-view]").forEach(n=>{if(n.classList.contains("nav-btn")){if(n.dataset.view===next)n.setAttribute("aria-current","page");else n.removeAttribute("aria-current");}});
+ refreshNotificationCounter();toggleSidebar(false);
+ $("[data-view]").forEach(n=>{if(n.classList.contains("nav-btn")){if(n.dataset.view===next)n.setAttribute("aria-current","page");else n.removeAttribute("aria-current");}});
  if(next==="menu")filterMenu();
  window.scrollTo({top:0,behavior:"instant"});
 }
@@ -433,8 +434,44 @@ function submitForm(form){
   persist();closeModal();setView("content");toast("Social content draft saved.");
  }
 }
+
+let installPrompt=null;
+function toggleSidebar(open){
+ document.body.classList.toggle("sidebar-open",!!open);
+ const backdrop=$("#sidebar-backdrop"),toggle=$("#menu-toggle");
+ if(backdrop)backdrop.hidden=!open;
+ if(toggle){toggle.setAttribute("aria-expanded",open?"true":"false");toggle.setAttribute("aria-label",open?"Close sidebar":"Open sidebar");}
+}
+function saveOwnerSettings(form){
+ const d=new FormData(form),email=String(d.get("email")||"").trim(),phone=String(d.get("phone")||"").trim();
+ if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast("Enter a valid email, or leave it blank.");return;}
+ const digits=phone.replace(/\D/g,"");
+ if(phone&&(digits.length<10||digits.length>15)){toast("Enter a valid phone number with area code.");return;}
+ state.ownerAlerts={email,phone,emailEnabled:d.get("emailEnabled")==="on",smsEnabled:d.get("smsEnabled")==="on"};
+ persist();setView(view==="notifications"?"notifications":"settings");
+ toast("Saved to this browser. No email or SMS was sent.");
+}
+
 function handleClick(event){
  const target=event.target.closest("button,[data-view]");if(!target)return;
+ if(target.id==="menu-toggle"){toggleSidebar(!document.body.classList.contains("sidebar-open"));return;}
+ if(target.hasAttribute("data-simulate-order")){simulateIncomingOrder();return;}
+ if(target.hasAttribute("data-order-preparing")){
+  const o=state.orders.find(o=>o.id===target.dataset.orderPreparing);if(!o||o.status!=="New")return;
+  o.status="Preparing";persist();setView(view);toast("Order marked Preparing (demo).");return;
+ }
+ if(target.hasAttribute("data-mark-read")){
+  const n=state.ownerNotifications.find(n=>n.id===target.dataset.markRead);
+  if(n){n.read=true;persist();setView(view);}return;
+ }
+ if(target.hasAttribute("data-mark-all-read")){
+  state.ownerNotifications.forEach(n=>{n.read=true;});persist();setView(view);return;
+ }
+ if(target.hasAttribute("data-install-app")){
+  if(installPrompt){const prompt=installPrompt;installPrompt=null;void prompt.prompt().catch(()=>{});}
+  else toast("On iPhone: Safari Share, then Add to Home Screen. On Android: Chrome menu, then Install app.");
+  return;
+ }
  if(target.matches("[data-view]")){setView(target.dataset.view);return;}
  if(target.hasAttribute("data-close-modal")||target.id==="modal-close"){closeModal();return;}
  if(target.hasAttribute("data-edit-product")){productEditor(target.dataset.editProduct);return;}
@@ -450,7 +487,8 @@ function handleClick(event){
   if(!order||order.status==="Ready")return;
   order.status="Ready";order.notification="Ready email prepared · Demo only, NOT SENT";
   const preview=defaultAlert("order-ready");state.alertDraft={type:"order-ready",subject:preview.subject,body:preview.body};
-  persist();setView("requests");toast("Marked ready. Branded email prepared, NOT SENT.");return;
+  recordOwnerNotice("APP","Admin Panel","Sample order ready "+order.id,"Customer pickup-ready email preview prepared. Not sent.");
+  persist();setView(view==="dashboard"?"dashboard":"requests");toast("Marked Ready. Branded email prepared, NOT SENT.");return;
  }
  if(target.hasAttribute("data-new-social")){socialEditor();return;}
  if(target.hasAttribute("data-notify-location")){
@@ -472,11 +510,18 @@ function handleInput(event){
  }
 }
 document.addEventListener("click",handleClick);
-document.addEventListener("submit",(e)=>{if(e.target.getAttribute("id")&&["product-form","event-form","location-form","offer-form","alert-form","social-form"].includes(e.target.getAttribute("id"))){e.preventDefault();submitForm(e.target);}},true);
+document.addEventListener("submit",(e)=>{
+ const id=e.target.getAttribute("id");
+ if(id==="owner-settings-form"){e.preventDefault();saveOwnerSettings(e.target);return;}
+ if(id&&["product-form","event-form","location-form","offer-form","alert-form","social-form"].includes(id)){e.preventDefault();submitForm(e.target);}
+},true);
 document.addEventListener("change",(e)=>{if(e.target.matches("[data-photo-upload]"))void uploadImage(e.target);else handleInput(e);});
 document.addEventListener("input",handleInput);
-document.addEventListener("keydown",(e)=>{if(e.key==="Escape"&&!$("#modal-backdrop").hidden)closeModal();});
+document.addEventListener("keydown",(e)=>{if(e.key==="Escape"){if(!$("#modal-backdrop").hidden)closeModal();toggleSidebar(false);}});
 $("#modal-backdrop").addEventListener("click",(e)=>{if(e.target.id==="modal-backdrop")closeModal();});
+$("#sidebar-backdrop")?.addEventListener("click",()=>toggleSidebar(false));
+window.addEventListener("beforeinstallprompt",(event)=>{event.preventDefault();installPrompt=event;});
+if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("./sw.js",{scope:"./"}).catch(()=>{});});}
 drawNav();
 fetch("./menu-catalog.json",{cache:"no-store"}).then(async(response)=>{
  if(!response.ok)throw Error("Official menu data unavailable");
