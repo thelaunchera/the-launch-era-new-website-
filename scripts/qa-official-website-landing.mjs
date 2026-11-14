@@ -78,8 +78,8 @@ for(const r of routes){
  if(language==='en')assert.match(html,/<article class="plan" id="website-basic"><img class="plan-photo" src="\/assets\/website-packages-20261105\/hero-jaramillo\.svg"/,'EN Package 1 should feature Jaramillo photo');
  assert.match(html,/id="website-plus"/);
  assert.doesNotMatch(html,/class="app-section"|\/custom-app\/\?lang=|optional-app-original/,'the redundant app offer must be hidden');
- assert.match(html,/\$15/);
- assert.match(html,/\$25/);
+ assert.match(html,/\$29/);
+ assert.match(html,/\$59/);
  assert.match(html,/\/website-checkout\/\?offer=website-basic&lang=/);
  assert.match(html,/\/website-checkout\/\?offer=website-plus&lang=/);
  assert.doesNotMatch(html,/offer=website-ai-crm/,'retired AI subscription not sold in current package');
