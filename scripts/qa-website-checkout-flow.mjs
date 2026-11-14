@@ -24,7 +24,7 @@ for (const [lang,page] of [['en',en],['es',es]]) {
  ensure(page.includes('href="/demos/?demo=havana-19&amp;returnTo=')&&!page.includes('data-demo="umbral"'),lang+' demo hero must link to canonical Havana 19 without duplicating Umbral');
  ensure(!page.includes('data-key="heroOverline"')&&!page.includes('<span class="dash"></span>'),lang+' hero heading or yellow line still visible');
  ensure(!page.includes('href="/custom-app/?lang='+lang+'"')&&!page.includes('class="app-section"'),lang+' should not advertise a separate app');
- ensure(page.includes(lang==='en'?'$25 one-time payment':'Pago único de $25'),lang+' one-time pricing missing');
+ ensure(page.includes(lang==='en'?'$59 one-time payment':'Pago único de $59'),lang+' one-time pricing missing');
  ensure(page.includes('class="website-choice-strip"')&&page.includes('class="features container feature-snapshot"'),lang+' compact website choices or mobile features missing');
  ensure(page.includes('class="website-agent-addon"')&&page.includes(lang==='en'?'+$10 <small>USD / month':'+$10 <small>USD / mes'),lang+' must display optional $10 monthly agent price separately');
  ensure(page.includes('tle-website-offer-compact-20261109.css'),lang+' compact mobile layout styles not linked');
@@ -81,4 +81,4 @@ ensure((customApp.match(/class="choice-option"/g)||[]).length>=20,'App brief nee
 ensure(customApp.includes('name="app_goals"')&&customApp.includes('name="preferred_features"')&&customApp.includes('name="reference_urls"'),'Each group needs an open-text field');
 ensure(customJS.includes('goalRequired'),'One goal or free-text must be required');
 ensure(customApp.includes('optional-app-original.jpg'),'Custom app uses old blurry image');
-console.log('PASS: current one-time $15/$25 CTAs, paid gated plus intake, and legacy subscriptions segregated.');
+console.log('PASS: current one-time $29/$59 CTAs, paid gated plus intake, and legacy subscriptions segregated.');
