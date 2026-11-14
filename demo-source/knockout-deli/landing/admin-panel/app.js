@@ -317,7 +317,7 @@ function setView(next){
  $("#eyebrow").textContent=h[0];$("#page-title").textContent=h[1];$("#page-description").textContent=h[2];
  $("#view-root").innerHTML=renderers[next]();
  refreshNotificationCounter();toggleSidebar(false);
- $("[data-view]").forEach(n=>{if(n.classList.contains("nav-btn")){if(n.dataset.view===next)n.setAttribute("aria-current","page");else n.removeAttribute("aria-current");}});
+ $$("[data-view]").forEach(n=>{if(n.classList.contains("nav-btn")){if(n.dataset.view===next)n.setAttribute("aria-current","page");else n.removeAttribute("aria-current");}});
  if(next==="menu")filterMenu();
  window.scrollTo({top:0,behavior:"instant"});
 }
