@@ -375,7 +375,11 @@ try{
   const originalWebsiteUrl=pathToFileURL(path.join(root,'index.html')).href;
   for(const width of [390,768,1024,1440]){
     const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1});
+    page.on('framenavigated',frame=>{if(frame===page.mainFrame())console.log('KNOCKOUT HERO NAV',width,frame.url())});
     await page.goto(originalWebsiteUrl,{waitUntil:'domcontentloaded'});
+    // This section tests press feedback, not link activation. Suppress anchor
+    // navigation while testing pointerdown/pointerup; href integrity is checked separately.
+    await page.evaluate(()=>document.querySelectorAll('.hero-actions a.btn').forEach(a=>a.addEventListener('click',event=>event.preventDefault(),true)));
     await page.locator('.hero-photo img').waitFor({state:'visible'});
     const hero=await page.locator('.hero-photo img').evaluate(async img=>{
       if(!img.complete)await new Promise(resolve=>{
