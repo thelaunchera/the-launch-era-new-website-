@@ -424,6 +424,10 @@ try{
       'Primary corners and resting scale must be correct at '+width+': '+JSON.stringify(pressStyle));
     const buttonBox=await primaryHandle.boundingBox();
     assert(buttonBox,'Hero menu action missing at '+width);
+    // This is a press animation check, not a navigation check. Cancel only the
+    // next actual click inside this isolated Playwright page so its anchor
+    // cannot navigate away before the release animation has been measured.
+    await primaryHandle.evaluate(el=>el.addEventListener('click',event=>event.preventDefault(),{capture:true,once:true}));
     await page.mouse.move(buttonBox.x+buttonBox.width/2,buttonBox.y+buttonBox.height/2);
     await page.mouse.down();
     const pressed=await primaryHandle.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
