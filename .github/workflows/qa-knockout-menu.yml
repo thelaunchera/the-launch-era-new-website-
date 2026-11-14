@@ -56,10 +56,10 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/node_modules"
           ln -sfn /tmp/tle-knockout-playwright/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
           ln -sfn /tmp/tle-knockout-playwright/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
-      - name: Browser-check product customization and bag in 4 viewport sizes
-        run: node scripts/qa-knockout-pickup-browser.mjs /tmp/knockout-demo-qa
       - name: Browser-check Admin Panel product edits, events, alerts and responsive UI
         run: node scripts/qa-knockout-admin-browser.mjs /tmp/knockout-demo-qa
+      - name: Browser-check product customization and bag in 4 viewport sizes
+        run: node scripts/qa-knockout-pickup-browser.mjs /tmp/knockout-demo-qa
       - name: Save device QA screenshots
         if: always()
         uses: actions/upload-artifact@v4
