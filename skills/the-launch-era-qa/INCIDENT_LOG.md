@@ -1,3 +1,9 @@
+## 2026-11-13 — Knockout Deli menu price drift in digital-menu source (proposed repair)
+- Evidence: owner's official printed menu photo supplied November 13 shows The Jab $18, The Knockout $20, Egg McDeli $10, Cheesesteak/Chopped Cheese $15, and Loaded Fries $10. Canonical existing source had The Jab $25, The Knockout $27, Egg McDeli $12 and omitted Loaded Fries. This was a verified source discrepancy, not a Square or DoorDash incident.
+- Safe scope: correct only Knockout's source menu-catalog pricing/names and feed both public concept menu and isolated Admin Panel preview from this one catalog. Preserve product IDs and the ordering logic. Do not infer missing merchant fees, live billing or backend privileges. Avoid duplicate product photography because the menu builder enforces uniqueness.
+- Test gates: source uniqueness, original photo prices, new Admin Panel no-send behavior, isolated public builder, responsive browser interaction, main route integrity, GitHub Pages. These are REQUIRED before considering the change released.
+- Status: branch `feature/knockout-admin-panel-menu-20261113`; code prepared, public publishing not claimed until successful CI and Pages deploy.
+
 ## 2026-11-13 — Knockout pickup form Back to Bag invisible on iPhone
 - Screenshot evidence: on mobile, the outlined `BACK TO BAG` action under the Square payment preview has almost-white text on the ivory form, while the red review button remains readable. The intended action is to go back to the existing bag with its items intact.
 - Verified style gap: `menu-only.css` styles checkout action dimensions but does not force text contrast; the original outlined action inherits a pale color on an ivory surface. No action routing change is needed.
