@@ -412,6 +412,8 @@ try{
     // Test the real CSS :active state, not just the existence of a declaration.
     const primary=page.locator('.hero-actions .btn').first();
     await primary.scrollIntoViewIfNeeded();
+    const primaryInfo={url:page.url(),count:await primary.count(),bodyActions:await page.locator('.hero-actions').count(),width};
+    console.log('KNOCKOUT PRIMARY DEBUG',JSON.stringify(primaryInfo));
     const pressStyle=await primary.evaluate(el=>{
       const s=getComputedStyle(el);
       return {radius:parseFloat(s.borderTopLeftRadius),before:new DOMMatrixReadOnly(s.transform).a};
