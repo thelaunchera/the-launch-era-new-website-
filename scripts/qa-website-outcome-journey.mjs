@@ -25,8 +25,8 @@ for(const [lang,path] of [['en','public/website-for-your-business/index.html'],[
  assert.match(html,/data-outcome-owner-title/,'owner result');
  assert.match(html,/data-outcome-receipt-text/,'email acknowledgment preview');
  assert.match(html,/data-preview-state="idle"/,'safe initial state');
- assert.match(html,/\$15/,'basic website price');
- assert.match(html,/\$25/,'Website Plus price');
+ assert.match(html,/\$29/,'basic website price');
+ assert.match(html,/\$59/,'Website Plus price');
  const standaloneAgent=html.match(/<(?:aside|p) class="(?:website-agent-addon|tle-agent-line)"([\s\S]*?)<\/(?:aside|p)>/)?.[0];
  assert.ok(standaloneAgent,'optional agent must appear as a separate offer, not another website package');
  assert.match(standaloneAgent,/\$10/,'separate AI agent price must be visible');
@@ -34,7 +34,7 @@ for(const [lang,path] of [['en','public/website-for-your-business/index.html'],[
  assert.match(standaloneAgent,lang==='en'?/optional/i:/opcional/i,'service must be optional');
  const section=html.match(/<article class="plan" id="website-plus">([\s\S]*?)<\/article>/)?.[1];
  assert.ok(section,'plus package must exist');
- assert.doesNotMatch(section,/\$10|AI agent|Agente IA|agente IA|agent subscription/i,'AI must not be bundled with $25');
+ assert.doesNotMatch(section,/\$10|AI agent|Agente IA|agente IA|agent subscription/i,'AI must not be bundled with $59');
  const demo=html.match(/<section class="tle-outcome"([\s\S]*?)<\/section>/)?.[1];
  assert.ok(demo,'one integrated commercial preview must exist');
  assert.equal((demo.match(/class="tle-outcome-card"/g)||[]).length,3,'exactly three journey steps');
