@@ -315,7 +315,7 @@ async function uploadImage(input){
 }
 function submitForm(form){
  const d=new FormData(form),id=String(d.get("id")||"");
- if(form.id==="product-form"){
+ if(form.getAttribute("id")==="product-form"){
   const name=String(d.get("name")||"").trim(),cost=Number(d.get("price"));
   if(!name||!Number.isFinite(cost)||cost<0){toast("Enter a valid name and price.");return;}
   let p=state.products.find(x=>x.id===id);
@@ -325,7 +325,7 @@ function submitForm(form){
   const selected=editPhoto?.type==="product"?editPhoto.value:String(d.get("image")||"").trim();
   if(selected&&!urlImage(selected)){toast("Photo must be an image upload or HTTP(S) link.");return;}
   p.image=selected||null;persist();closeModal();setView("menu");toast("Menu item saved in demo.");
- }else if(form.id==="event-form"){
+ }else if(form.getAttribute("id")==="event-form"){
   const title=String(d.get("title")||"").trim();if(!title){toast("Enter an event name.");return;}
   let e=state.events.find(x=>x.id===id);if(!e){e={id:newId("event")};state.events.push(e);}
   for(const key of ["venue","address","date","time","description"])e[key]=String(d.get(key)||"").trim();
@@ -333,23 +333,23 @@ function submitForm(form){
   const photo=editPhoto?.type==="event"?editPhoto.value:String(d.get("photo")||"").trim();
   if(photo&&!urlImage(photo)){toast("Use a valid event photo URL or upload.");return;}
   e.photo=photo||null;persist();closeModal();setView("events");toast("Event saved in demo.");
- }else if(form.id==="location-form"){
+ }else if(form.getAttribute("id")==="location-form"){
   const name=String(d.get("name")||"").trim();if(!name){toast("Add a location name.");return;}
   for(const key of ["name","address","date","hours"])state.location[key]=String(d.get(key)||"").trim();
   state.location.published=d.get("published")==="on";
   const photo=editPhoto?.type==="location"?editPhoto.value:String(d.get("photo")||"").trim();
   if(photo&&!urlImage(photo)){toast("Use a valid location photo URL or upload.");return;}
   state.location.photo=photo||null;editPhoto=null;persist();setView("locations");toast("Location saved in demo. No messages sent.");
- }else if(form.id==="offer-form"){
+ }else if(form.getAttribute("id")==="offer-form"){
   const o=state.offer;for(const k of ["title","description","productId"])o[k]=String(d.get(k)||"").trim();
   o.discount=Math.max(0,Math.min(90,Number(d.get("discount"))||0));o.enabled=d.get("enabled")==="on";
   persist();setView("offers");toast("Promotion saved in demo.");
- }else if(form.id==="alert-form"){
+ }else if(form.getAttribute("id")==="alert-form"){
   const type=String(d.get("type")||"location"),subject=String(d.get("subject")||"").trim(),body=String(d.get("body")||"").trim();
   if(!subject||!body){toast("Subject and message are required.");return;}
   state.alerts.unshift({id:newId("alert"),type,subject,body,createdAt:new Date().toLocaleString("en-US")});
   state.alertDraft={type,subject,body};persist();setView("alerts");toast("Alert preview saved. Nothing was sent.");
- }else if(form.id==="social-form"){
+ }else if(form.getAttribute("id")==="social-form"){
   const title=String(d.get("title")||"").trim();if(!title){toast("Add a post title.");return;}
   state.social.unshift({id:newId("post"),title,date:String(d.get("date")||""),caption:String(d.get("caption")||"")});
   persist();closeModal();setView("content");toast("Social content draft saved.");
@@ -394,7 +394,7 @@ function handleInput(event){
  }
 }
 document.addEventListener("click",handleClick);
-document.addEventListener("submit",(e)=>{if(e.target.id&&["product-form","event-form","location-form","offer-form","alert-form","social-form"].includes(e.target.id)){e.preventDefault();submitForm(e.target);}},true);
+document.addEventListener("submit",(e)=>{if(e.target.getAttribute("id")&&["product-form","event-form","location-form","offer-form","alert-form","social-form"].includes(e.target.getAttribute("id"))){e.preventDefault();submitForm(e.target);}},true);
 document.addEventListener("change",(e)=>{if(e.target.matches("[data-photo-upload]"))void uploadImage(e.target);else handleInput(e);});
 document.addEventListener("input",handleInput);
 document.addEventListener("keydown",(e)=>{if(e.key==="Escape"&&!$("#modal-backdrop").hidden)closeModal();});
