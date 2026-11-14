@@ -59,7 +59,7 @@ upgradeKnockoutPickup(destination);
 // Both the public menu and the browser-only Admin Panel read this approved
 // catalog. Copy source files for standalone QA and for published Pages.
 const adminPreviewDir = path.join(destination,'admin-panel');
-const adminPreviewSource = path.resolve('public/demos/knockout-deli/admin-panel');
+const adminPreviewSource = path.join(source,'admin-panel');
 fs.mkdirSync(adminPreviewDir,{recursive:true});
 for (const name of ['index.html','app.js']) {
   const from=path.join(adminPreviewSource,name);
