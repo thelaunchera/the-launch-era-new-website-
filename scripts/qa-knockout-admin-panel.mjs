@@ -34,4 +34,16 @@ assert.ok(!/supabase\.co|\/functions\/v1|resend\.com|api\.stripe\.com|sendBeacon
 const parsed=spawnSync(process.execPath,['--check',appPath],{encoding:'utf8'});
 assert.equal(parsed.status,0,'Invalid Admin Panel JavaScript: '+parsed.stderr);
 assert.ok(fs.statSync(path.join(root,'assets','logo-knockout-deli-transparent.webp')).size>1000,'Official logo required in built site');
+const manifest=JSON.parse(fs.readFileSync(path.join(admin,'manifest.webmanifest'),'utf8'));
+const serviceWorker=fs.readFileSync(path.join(admin,'sw.js'),'utf8');
+assert.equal(manifest.display,'standalone','Admin Panel must offer installable app experience');
+assert.equal(manifest.scope,'./','Installable app must stay scoped to Knockout admin only');
+assert.ok(manifest.icons?.length>0&&fs.statSync(path.join(admin,'icon.svg')).size>100,'App icon missing');
+assert.ok(html.includes('rel="manifest"')&&html.includes('id="menu-toggle"')&&html.includes('id="sidebar-backdrop"'),'Responsive app sidebar and install metadata missing');
+for(const marker of ['data-view="dashboard"','data-view="requests"','data-view="notifications"','data-view="settings"','data-view="install"','id="notification-count"'])
+ assert.ok(html.includes(marker),'Order-first sidebar missing '+marker);
+for(const marker of ['function greetingText()','LET’S GET THE DAY STARTED.','function simulateIncomingOrder()','function saveOwnerSettings(','owner-settings-form','recordOwnerNotice("SMS"','recordOwnerNotice("EMAIL"','beforeinstallprompt','serviceWorker.register'])
+ assert.ok(js.includes(marker),'Owner app functionality missing '+marker);
+assert.ok(serviceWorker.includes('knockout-admin-preview-')&&!/showNotification|PushManager|pushSubscription/.test(serviceWorker),'App shell must not send push notifications');
+
 console.log('Knockout Admin Panel QA passed: '+catalog.length+' official products, own logo, isolated browser-only controls, correct prices and no live network writes.');
