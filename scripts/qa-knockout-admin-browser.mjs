@@ -68,6 +68,12 @@ try{
   await page.locator('#alert-form button[type="submit"]').click();
   await page.getByText('Demo next stop',{exact:true}).first().waitFor();
   assert.ok((await page.locator('#view-root').innerText()).includes('NOT SENT'),'Alert wrongly implies delivery');
+  await nav('requests').click();
+  const ready=page.locator('[data-order-ready="DEMO-KO-1001"]');
+  await ready.click();
+  assert.ok((await page.locator('#view-root').innerText()).includes('Ready email prepared'),'Pickup ready action must prepare branded email without sending');
+  await nav('alerts').click();
+  assert.ok((await page.locator('#alert-form [name="subject"]').inputValue()).includes('ready for pickup'),'Branded order ready email must be composed');
   await nav('preview').click();
   const preview=await page.locator('#view-root').innerText();
   for(const required of ['QA sample market','Demo event','Demo offer'])assert.ok(preview.includes(required),'Missing preview '+required);
