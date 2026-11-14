@@ -984,7 +984,9 @@ body:has(.km-banner) .menu-filters .filter{
   body:has(.km-banner) .window-order-section{
     position:relative!important;
     z-index:15!important;
-    margin-top:-30px!important;
+    /* The legacy menu wrapper introduces a 75px vertical gap; pull the dark
+       pickup chapter past it so its rounded upper corners truly overlap. */
+    margin-top:-95px!important;
     border-radius:36px 36px 0 0!important;
     background:#191717!important;
     overflow:hidden!important;
@@ -1005,7 +1007,7 @@ body:has(.km-banner) .menu-filters .filter{
   }
   body:has(.km-banner) .menu-grid .menu-card{border-radius:20px!important}
   body:has(.km-banner) .window-order-section{
-    margin-top:-22px!important;
+    margin-top:-90px!important;
     border-radius:29px 29px 0 0!important;
   }
 }
