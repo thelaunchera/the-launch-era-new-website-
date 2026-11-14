@@ -411,25 +411,27 @@ try{
     assert.equal(heroAnimation.headlineAnimation,'none','Other hero words must stay still at '+width);
     // Test the real CSS :active state, not just the existence of a declaration.
     const primary=page.locator('.hero-actions .btn').first();
-    await primary.scrollIntoViewIfNeeded();
+    const primaryHandle=await primary.elementHandle();
+    assert(primaryHandle,'Hero action element should resolve before scroll at '+width);
+    await primaryHandle.scrollIntoViewIfNeeded();
     const primaryInfo={url:page.url(),count:await primary.count(),bodyActions:await page.locator('.hero-actions').count(),width};
     console.log('KNOCKOUT PRIMARY DEBUG',JSON.stringify(primaryInfo));
-    const pressStyle=await primary.evaluate(el=>{
+    const pressStyle=await primaryHandle.evaluate(el=>{
       const s=getComputedStyle(el);
       return {radius:parseFloat(s.borderTopLeftRadius),before:new DOMMatrixReadOnly(s.transform).a};
     });
     assert(pressStyle.radius>=15&&Math.abs(pressStyle.before-1)<0.015,
       'Primary corners and resting scale must be correct at '+width+': '+JSON.stringify(pressStyle));
-    const buttonBox=await primary.boundingBox();
+    const buttonBox=await primaryHandle.boundingBox();
     assert(buttonBox,'Hero menu action missing at '+width);
     await page.mouse.move(buttonBox.x+buttonBox.width/2,buttonBox.y+buttonBox.height/2);
     await page.mouse.down();
-    const pressed=await primary.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    const pressed=await primaryHandle.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
     assert(Math.abs(pressed-.94)<.015,
       'Primary button should immediately shrink to 0.94 at pointerdown '+width+': '+pressed);
     await page.mouse.up();
     await page.waitForTimeout(380);
-    const released=await primary.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+    const released=await primaryHandle.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
     assert(Math.abs(released-1)<.015,
       'Primary button should return to 1 without overshoot on pointerup '+width+': '+released);
 
