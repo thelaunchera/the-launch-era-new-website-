@@ -34,7 +34,7 @@ const headings={
 function defaults(items){return {
  products:items.map(p=>Object.assign({},p,{discount:0})),
  location:{name:"Next stop to be announced",address:"",date:"",hours:"",photo:"../assets/knockout-live-music.webp",published:false},
- events:[],offer:{enabled:false,title:"",description:"",discount:0,productId:"all"},alerts:[],social:[],
+ events:[],offer:{enabled:false,title:"",description:"",discount:0,productId:"all"},alerts:[],social:[],orders:[{id:"DEMO-KO-1001",customer:"Alex (example)",items:"1 × The Jab, 1 × Loaded Fries",status:"Preparing",paid:"Example payment confirmed",notification:"Not sent"}],
  managedBy:"owner",updatedAt:null
 };}
 function load(items){
@@ -47,12 +47,13 @@ function load(items){
      const base=new Map(items.map(x=>[x.id,x]));
      fresh.products=saved.products.filter(x=>valid.has(x.id)||x.id.startsWith("custom-")).map(x=>Object.assign({},base.get(x.id)||{},x));
      for(const p of items)if(!fresh.products.some(x=>x.id===p.id))fresh.products.push(Object.assign({},p,{discount:0}));
-     for(const key of ["location","events","offer","alerts","social","managedBy","updatedAt"])if(saved[key]!==undefined)fresh[key]=saved[key];
+     for(const key of ["location","events","offer","alerts","social","orders","managedBy","updatedAt"])if(saved[key]!==undefined)fresh[key]=saved[key];
    }
  }catch(error){console.warn("Knockout preview storage unavailable",error);}
  if(!Array.isArray(fresh.events))fresh.events=[];
  if(!Array.isArray(fresh.alerts))fresh.alerts=[];
  if(!Array.isArray(fresh.social))fresh.social=[];
+ if(!Array.isArray(fresh.orders))fresh.orders=[];
  state=fresh;
 }
 function persist(){
@@ -101,7 +102,9 @@ function renderDashboard(){
  '<div class="panel metric"><small>Subscriber alerts sent</small><strong>0</strong></div></div>'+
  section("Quick updates","Change the parts of your website that need attention most.")+
  '<div class="grid cols-3">'+quick("menu","Change menu prices","Edit items, photo and availability.")+quick("locations","Update truck stop","Location, time and website photo.")+quick("events","Create an event","Image, date, details and visibility.")+'</div>'+
- section("Today's snapshot","Everything here is for demonstration only.")+
+ section("One-tap pickup readiness","Mark an order Ready to prepare a customer update. Included in both plans.")+
+ '<div class="panel action-row"><button class="btn primary" data-view="requests">Open pickup orders · Mark ready</button><button class="btn secondary" data-view="alerts">Preview photo-rich emails</button></div>'+
+ section("Today\'s snapshot","Everything here is for demonstration only.")+
  '<div class="split"><article class="panel">'+img(state.location.photo,"Featured truck stop","card-photo feature-photo")+
  '<p class="label" style="margin-top:17px">CURRENT LOCATION</p><h3 class="display-title">'+esc(state.location.name)+'</h3><p class="soft-text">'+esc(state.location.address||"Add a location address")+'</p><span class="'+(state.location.published?"red-chip":"muted-chip")+'">'+(state.location.published?"Visible in preview":"Hidden on website preview")+'</span>'+
  '<div class="action-row" style="margin-top:17px"><button class="btn primary" data-view="locations">Edit location</button><button class="btn secondary" data-view="alerts">Prepare an alert</button></div></article>'+
@@ -119,7 +122,7 @@ function productCard(p){
 }
 function renderMenu(){
  const cats=[...new Set(state.products.map(x=>x.category))];
- return '<div class="notice"><strong>Original menu pricing</strong>These items reflect the supplied Knockout Deli printed menu. Changes below affect this browser preview, not the published website.</div>'+
+ return '<div class="notice"><strong>Original menu pricing</strong>Pickup Direct uses the supplied Knockout Deli printed menu. DoorDash has separate, sometimes higher delivery prices that vary by area. Changes here affect this browser preview, not the published website.</div>'+
  section("All menu items",state.products.length+" items · "+countAvailable()+" available",'<button class="btn primary" data-new-product>Add menu item</button>')+
  '<div class="toolbar"><input id="menu-search" class="search" type="search" aria-label="Search menu" placeholder="Search by item or category" value="'+esc(searchTerm)+'">'+
  '<select id="menu-category" class="select" aria-label="Filter category"><option value="">All categories</option>'+cats.map(c=>'<option value="'+esc(c)+'" '+(filterCategory===c?"selected":"")+'>'+esc(c)+'</option>').join("")+'</select></div>'+
@@ -178,6 +181,8 @@ function renderOffers(){
 function defaultAlert(type){
  const e=state.events.filter(x=>x.published)[0],l=state.location,o=state.offer;
  if(type==="event")return {subject:"Knockout Deli is heading to "+(e?.venue||"a new event"),body:"Find us at "+(e?.venue||"our upcoming event")+". "+[e?.date,e?.time,e?.address].filter(Boolean).join(" · ")+". Come hungry!"};
+ if(type==="order-ready")return {subject:"Your Knockout Deli order is ready for pickup!",body:"Your food is ready! Head to the truck and tell our team your order name or number. Thank you for ordering with Knockout Deli."};
+ if(type==="receipt")return {subject:"We received your Knockout Deli request",body:"Thanks for reaching out to Knockout Deli! Your inquiry is in. Our team will review it and reply personally to confirm the details."};
  if(type==="offer")return {subject:o.title||"A new Knockout special",body:(o.description||"A new offer is on the menu.")+(o.discount?" "+o.discount+"% off selected items.":"")};
  return {subject:"Find Knockout Deli at "+(l.name||"our next stop"),body:"Our next truck stop: "+(l.name||"to be announced")+". "+[l.address,l.date,l.hours].filter(Boolean).join(" · ")+". See you there!"};
 }
@@ -185,20 +190,24 @@ function renderAlerts(){
  const draft=state.alertDraft||{type:"location",subject:defaultAlert("location").subject,body:defaultAlert("location").body};
  return '<div class="notice"><strong>Preview mode, no messages are sent.</strong>Actual email or SMS announcements would require subscriber consent, a secure sending provider, and owner approval. Saving below only adds an example to the demo history.</div>'+
  '<div class="split"><section class="panel"><p class="label">MESSAGE COMPOSER</p><h2 class="display-title">Tell them where to go.</h2>'+
- '<form id="alert-form" class="form-grid"><div class="field full"><label for="alert-kind">Alert type</label><select id="alert-kind" name="type"><option value="location" '+(draft.type==="location"?"selected":"")+'>New location</option><option value="event" '+(draft.type==="event"?"selected":"")+'>Upcoming event</option><option value="offer" '+(draft.type==="offer"?"selected":"")+'>New promotion</option></select></div>'+
+ '<form id="alert-form" class="form-grid"><div class="field full"><label for="alert-kind">Alert type</label><select id="alert-kind" name="type"><option value="location" '+(draft.type==="location"?"selected":"")+'>New location</option><option value="event" '+(draft.type==="event"?"selected":"")+'>Upcoming event</option><option value="offer" '+(draft.type==="offer"?"selected":"")+'>New promotion</option><option value="receipt" '+(draft.type==="receipt"?"selected":"")+'>Inquiry receipt</option><option value="order-ready" '+(draft.type==="order-ready"?"selected":"")+'>Order ready for pickup</option></select></div>'+
  field("Email subject","subject",draft.subject,true)+
  '<div class="field full"><label for="alert-body">Message preview</label><textarea id="alert-body" name="body" maxlength="700" required>'+esc(draft.body||"")+'</textarea></div>'+
  '<div class="field full"><label for="alert-target">Audience</label><select id="alert-target" name="audience"><option value="opt-in">Customers who opted in (future integration)</option></select></div>'+
  '<div class="field full action-row"><button class="btn primary" type="submit">Save preview alert</button></div></form></section>'+
- '<section class="panel"><p class="label">EMAIL PREVIEW</p><div style="border:1px solid #e5dad3;border-radius:15px;overflow:hidden;margin-top:11px"><div style="background:#191919;color:#fff;padding:21px;font:800 25px Barlow Condensed,sans-serif">KNOCKOUT DELI</div><div style="padding:19px"><small class="soft-text">To: opted-in subscribers (not connected)</small><h3 id="email-preview-subject" style="font:800 25px Barlow Condensed,sans-serif;margin:13px 0">'+esc(draft.subject)+'</h3><p class="soft-text" id="email-preview-body">'+esc(draft.body)+'</p><span class="muted-chip">Preview · Not sent</span></div></div></section></div>'+
+ '<section class="panel"><p class="label">EMAIL PREVIEW</p><div style="border:1px solid #e5dad3;border-radius:15px;overflow:hidden;margin-top:11px"><div style="background:#191919;color:#fff;padding:21px;font:800 25px Barlow Condensed,sans-serif">KNOCKOUT DELI</div><div style="width:100%;height:140px;overflow:hidden">'+img("../assets/01-hero-pastrami.webp","Knockout Deli signature deli sandwich","card-photo")+'</div><div style="padding:19px"><small class="soft-text">To: example customer / opted-in subscribers (not connected)</small><h3 id="email-preview-subject" style="font:800 25px Barlow Condensed,sans-serif;margin:13px 0">'+esc(draft.subject)+'</h3><p class="soft-text" id="email-preview-body">'+esc(draft.body)+'</p><span class="muted-chip">Preview · Not sent</span></div></div></section></div>'+
  section("Demo alert history","These entries were saved in this browser and never delivered.")+
  (state.alerts.length?state.alerts.map(a=>'<div class="list-row"><div><strong>'+esc(a.subject)+'</strong><small>'+esc(a.type)+" · "+esc(a.createdAt||"")+'</small></div><span class="muted-chip">NOT SENT</span></div>').join(""):'<div class="empty">No preview alerts saved yet.</div>');
 }
 function renderRequests(){
+ const orders=state.orders||[];
+ const orderList=orders.map(o=>'<article class="panel"><div class="action-row" style="justify-content:space-between"><span class="label">'+esc(o.id)+'</span><span class="'+(o.status==="Ready"?"red-chip":"muted-chip")+'">'+esc(o.status)+'</span></div><h3 class="display-title">'+esc(o.customer)+'</h3><p class="soft-text">'+esc(o.items)+'</p><p class="soft-text">'+esc(o.paid)+'</p><p class="soft-text">Customer notification: '+esc(o.notification||"Not sent")+'</p>'+(o.status==="Ready"?'<button type="button" class="btn secondary" disabled>Marked ready</button>':'<button type="button" class="btn primary" data-order-ready="'+esc(o.id)+'">Order Ready · Notify Customer</button>')+'</article>').join("");
  return '<div class="grid cols-3">'+
  '<div class="panel metric"><small>Real orders</small><strong>—</strong></div>'+
  '<div class="panel metric"><small>Live inquiries</small><strong>—</strong></div>'+
  '<div class="panel metric"><small>Square payments</small><strong>—</strong></div></div>'+
+ section("One-tap order readiness","Both packages include a ready-for-pickup button. This sample order is fictional; pressing it changes the sample status and prepares a branded email preview, but sends nothing.")+
+ '<div class="grid cols-2">'+orderList+'</div>'+
  section("Request management","Where customer orders and event inquiries would appear once activated.")+
  '<div class="grid cols-2"><div class="panel"><span class="label">PICKUP ORDERS</span><h3 class="display-title">Review incoming pickup orders.</h3><p class="soft-text">A future connected panel will show item details, payment status and owner approval. No order is created here and no payment is collected.</p><span class="muted-chip">Demo · no orders</span></div>'+
  '<div class="panel"><span class="label">EVENT & CATERING INQUIRIES</span><h3 class="display-title">Follow up with every inquiry.</h3><p class="soft-text">The $120 plan would automatically acknowledge receipt only. Knockout handles the reply. The $200 plan adds approved follow-ups managed through the agreed automation.</p><span class="muted-chip">Demo · no live inquiries</span></div></div>';
@@ -208,8 +217,8 @@ function renderContent(){
  section("Content planner","Organize an Instagram draft for Knockout.",'<button type="button" data-new-social class="btn primary">Add content draft</button>')+
  (state.social.length?state.social.map(p=>'<div class="list-row"><div><strong>'+esc(p.title)+'</strong><small>'+esc(p.date||"Date not set")+' · '+esc(p.caption||"")+'</small></div><span class="muted-chip">DRAFT</span></div>').join(""):'<div class="empty">Your first social content draft can be created here.</div>')+
  section("Plan comparison","Business owners keep their own Admin Panel access in both packages.")+
- '<div class="grid cols-2"><div class="panel"><span class="label">$120 / ONE-TIME</span><h3 class="display-title">Owner-managed</h3><p class="soft-text">Knockout changes prices, photos, availability, events and locations using the Admin Panel. Inquiry receipt is automated; replies are manual.</p></div>'+
- '<div class="panel"><span class="label">$200 / MONTH</span><h3 class="display-title">Managed for you</h3><p class="soft-text">Everything in the first package, plus The Launch Era manages the Admin Panel and agreed social content, email workflows and updates.</p></div></div>';
+ '<div class="grid cols-2"><div class="panel"><span class="label">$120 / ONE-TIME</span><h3 class="display-title">Owner-managed</h3><p class="soft-text">Knockout changes prices, photos, availability, events and locations using the Admin Panel. Inquiry receipt is automated; replies are manual. The one-tap ready-for-pickup notice is also included.</p></div>'+
+ '<div class="panel"><span class="label">$200 / MONTH</span><h3 class="display-title">Managed for you</h3><p class="soft-text">Everything in the first package, plus The Launch Era manages the Admin Panel and agreed social content, email workflows, one-tap ready-for-pickup notices and updates.</p></div></div>';
 }
 function renderPreview(){
  const products=state.products.filter(p=>p.available).slice(0,8),published=state.events.filter(e=>e.published).slice(0,2),l=state.location,o=state.offer;
@@ -357,6 +366,13 @@ function handleClick(event){
  if(target.hasAttribute("data-delete-event")){
   if(!confirm("Remove this event from the demo?"))return;
   state.events=state.events.filter(x=>x.id!==target.dataset.deleteEvent);persist();setView("events");toast("Event removed from demo.");return;
+ }
+ if(target.hasAttribute("data-order-ready")){
+  const order=state.orders.find(o=>o.id===target.dataset.orderReady);
+  if(!order||order.status==="Ready")return;
+  order.status="Ready";order.notification="Ready email prepared · Demo only, NOT SENT";
+  const preview=defaultAlert("order-ready");state.alertDraft={type:"order-ready",subject:preview.subject,body:preview.body};
+  persist();setView("requests");toast("Marked ready. Branded email prepared, NOT SENT.");return;
  }
  if(target.hasAttribute("data-new-social")){socialEditor();return;}
  if(target.hasAttribute("data-notify-location")){
