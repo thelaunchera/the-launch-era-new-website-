@@ -39,7 +39,7 @@ try {
   await page.locator("img").evaluateAll(imgs=>imgs.forEach(img=>img.loading="eager"));
   await page.waitForFunction(()=>[...document.querySelectorAll('img')].every(x=>x.complete&&x.naturalWidth>0),null,{timeout:25000}).catch(async e=>{const state=await page.locator("img").evaluateAll(imgs=>imgs.map(img=>({src:img.currentSrc,complete:img.complete,width:img.naturalWidth})));throw new Error("Image loading failed "+JSON.stringify(state)+" / "+e.message)});
   const docWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
-  assert.ok(docWidth<=width+1,"Horizontal overflow at "+width+": "+docWidth);
+  if(docWidth>width+1){ const offenders=await page.evaluate(()=>[...document.querySelectorAll("body *")].map(e=>({tag:e.tagName,cls:String(e.className).slice(0,90),text:(e.textContent||"").trim().slice(0,35),right:Math.round(e.getBoundingClientRect().right),left:Math.round(e.getBoundingClientRect().left)})).filter(x=>x.right>innerWidth+1||x.left< -1).slice(0,20));throw new Error("Horizontal overflow at "+width+": "+docWidth+" offending: "+JSON.stringify(offenders)) }
   await page.locator('.filter[data-kind="tacos"]').click();
   assert.equal(await page.locator(".menu-row:visible").count(),4);
   await page.locator('.filter[data-kind="more"]').click();
