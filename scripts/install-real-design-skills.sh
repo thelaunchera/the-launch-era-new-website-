@@ -14,7 +14,7 @@ sparse_repo() {
  git init -q "$location"
  git -C "$location" remote add origin "$url"
  git -C "$location" sparse-checkout init --cone
- git -C "$location" sparse-checkout set "$$"
+ git -C "$location" sparse-checkout set "$@"
  git -C "$location" -c protocol.version=2 fetch -q --depth=1 --filter=blob:none origin "$commit"
  git -C "$location" checkout -q --detach FETCH_HEAD
  [ "$(git -C "$location" rev-parse HEAD)" = "$commit" ] || { echo "Upstream pin mismatch: $name"; exit 1; }
@@ -47,7 +47,7 @@ echo "Installed actual pinned upstream skill files and read-only DESIGN.md refer
 
 if [ "${1:-}" = "--with-cli" ]; then
  mkdir -p "$ROOT/.tools/playwright-cli"
- npm install --no-audit --no-fund --no-save --prefix "$ROOT/.tools/playwright-cli" $playwright/cli$0.1.24
+ npm install --no-audit --no-fund --no-save --prefix "$ROOT/.tools/playwright-cli" @playwright/cli@0.1.24
  "$ROOT/.tools/playwright-cli/node_modules/.bin/playwright-cli" --help >/dev/null
  echo "Playwright CLI verified for development/QA, not included in website runtime."
 fi
