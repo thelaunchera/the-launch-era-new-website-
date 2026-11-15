@@ -16,14 +16,20 @@ assert.match(html, /es:\{navMenu:/);
 assert.match(html, /prefers-reduced-motion/);
 assert.doesNotMatch(html, /<form\b|href="[^"]*(?:checkout|stripe|squareup|doordash)/i);
 assert.doesNotMatch(html, /<img[^>]+src="\.\/media\/[^"]+\.svg"/, "Illustrated placeholder art must not be used");
-const photos = [...html.matchAll(/<img[^>]+src="([^"]+)"[^>]*data-source="stand-in"/g)].map(x=>x[1]);
-assert.equal(photos.length, 4, "Must show four distinct licensed photo stand-ins");
-assert.equal(new Set(photos).size, 4);
-for (const p of photos) assert.match(p,/images\.pexels\.com\/photos\/\d+\/pexels-photo-\d+\.jpeg/);
+const photos = [...html.matchAll(/<img[^>]+src="(\.\/media\/[^"]+\.webp)"[^>]*data-source="illustration"/g)].map(x=>x[1]);
+assert.deepEqual(photos, ["./media/taco-in-hand.webp","./media/tacos-overhead.webp","./media/quesadilla-hand.webp","./media/burrito-disposable-fork.webp"]);
+for (const p of photos) {
+ const bytes=readFileSync(join(root,p));
+ assert.ok(bytes.length>50000, "Image file is unexpectedly small: "+p);
+ assert.equal(bytes.toString("ascii",0,4),"RIFF",p+" must be WebP RIFF");
+ assert.equal(bytes.toString("ascii",8,12),"WEBP",p+" must be WebP");
+}
+assert.match(html, /white disposable plastic fork lifting a bite/);
+assert.doesNotMatch(html,/images\.pexels\.com|pexels\.com/);
 assert.equal([...html.matchAll(/class="menu-row"/g)].length, 6);
 const script = [...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(x => x[1]).join("\n");
 new Script(script, { filename:"delicious-tacos-inline.js" });
-console.log("PASS static: editorial photography, licensing disclosures, clear menu, EN/ES and no fake checkout");
+console.log("PASS static: four local original WebP concept images, disposable fork, EN/ES and no fake checkout");
 
 if (!process.env.QA_URL) process.exit(0);
 const { chromium } = await import("playwright");
