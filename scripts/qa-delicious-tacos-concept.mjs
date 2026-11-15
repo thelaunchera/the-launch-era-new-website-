@@ -1,91 +1,86 @@
 import assert from "node:assert/strict";
-import { readFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
-import { Script } from "node:vm";
-
-const root = join(process.cwd(), "public/demos/delicious-tacos");
-const html = readFileSync(join(root, "index.html"), "utf8");
-assert.match(html, /<meta name="robots" content="noindex,nofollow">/);
-assert.match(html, /not the official Delicious Tacos website/i);
-assert.match(html, /1950 S Federal Hwy/);
-assert.match(html, /tel:\+15617816080/);
-assert.match(html, /www\.google\.com\/maps\/search\//);
-assert.match(html, /data-t-html="heroTitle"/);
-assert.match(html, /const d=\{\s*en:\{/);
-assert.match(html, /es:\{navMenu:/);
-assert.match(html, /prefers-reduced-motion/);
-assert.doesNotMatch(html, /<form\b|href="[^"]*(?:checkout|stripe|squareup|doordash)/i);
-assert.doesNotMatch(html, /<img[^>]+src="\.\/media\/[^"]+\.svg"/, "Illustrated placeholder art must not be used");
-const photos = [...html.matchAll(/<img[^>]+src="(\.\/media\/[^"]+\.webp)"[^>]*data-source="illustration"/g)].map(x=>x[1]);
-assert.deepEqual(photos, ["./media/taco-in-hand.webp","./media/tacos-overhead.webp","./media/quesadilla-hand.webp","./media/burrito-disposable-fork.webp"]);
-for (const p of photos) {
- const bytes=readFileSync(join(root,p));
- assert.ok(bytes.length>50000, "Image file is unexpectedly small: "+p);
- assert.equal(bytes.toString("ascii",0,4),"RIFF",p+" must be WebP RIFF");
- assert.equal(bytes.toString("ascii",8,12),"WEBP",p+" must be WebP");
+import {readFileSync,mkdirSync,existsSync} from "node:fs";
+import {join} from "node:path";
+import {Script} from "node:vm";
+const dir=join(process.cwd(),"public/demos/delicious-tacos");
+const page=readFileSync(join(dir,"index.html"),"utf8");
+const customer=readFileSync(join(dir,"customer-preview.html"),"utf8");
+assert.match(page,/<meta name="robots" content="noindex,nofollow,noarchive">/);
+assert.match(page,/OWNER CONCEPT · NOT LIVE ORDERING/);
+assert.match(page,/SIMULATION ONLY · NO REAL ORDERS, EMAILS OR PAYMENTS/);
+assert.match(page,/id="customer-stage"/);
+assert.match(page,/id="owner-stage"/);
+assert.match(page,/id="send-sample"/);
+assert.match(page,/function paintTicket/);
+assert.match(page,/phase==="preparing"\)phase="ready"/);
+assert.match(page,/photoIntro:".*send us the food photos/);
+assert.match(page,/scopeNote:"Pickup ordering is shown as a concept/);
+assert.match(page,/https:\/\/www\.canva\.com\/d\//);
+assert.match(page,/intake-1f2685aa1fd2491f9eea0/);
+assert.ok(!/<form\b/i.test(page),"No customer info form in demo");
+assert.ok(!/(fetch\s*\(|XMLHttpRequest|localStorage\.|sessionStorage\.)/.test(page),"Sample order must not send or persist customer data");
+assert.ok(existsSync(join(dir,"customer-preview.html")));
+assert.match(customer,/<meta name="robots" content="noindex,nofollow"/);
+assert.match(customer,/class="truck-gallery"/);
+assert.match(customer,/truckAILabel:"AI-generated photos"/);
+for(const p of ["truck-service-window.webp","tacos-overhead.webp","taco-in-hand.webp","quesadilla-hand.webp","burrito-disposable-fork.webp"]){
+ assert.ok(existsSync(join(dir,"media",p)),"Missing "+p);
+ assert.match(page,p.replace(/\./g,"\\."));
 }
-assert.match(html, /white disposable plastic fork lifting a bite/);
-assert.doesNotMatch(html,/images\.pexels\.com|pexels\.com/);
-const truckPhotos=["truck-angle-three-quarter.webp","truck-service-window.webp","truck-wide-setting.webp"];
-assert.match(html, /<section class="truck-gallery"/);
-assert.match(html, /class="truck-gallery-ai-label" data-t="truckAILabel">AI-generated photos<\/p>/);
-assert.match(html, /truckAILabel:"AI-generated photos"/);
-assert.match(html, /truckAILabel:"Fotos hechas con IA"/);
-for (const photo of truckPhotos) {
- assert.match(html, new RegExp('src="\\.\\/media\\/'+photo+'"' ));
- const bytes=readFileSync(join(root,"media",photo));
- assert.ok(bytes.length>50000,photo+" should be optimized WebP asset");
- assert.equal(bytes.toString("ascii",0,4),"RIFF");
- assert.equal(bytes.toString("ascii",8,12),"WEBP");
-}
-assert.equal([...html.matchAll(/class="menu-row"/g)].length, 6);
-const script = [...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(x => x[1]).join("\n");
-new Script(script, { filename:"delicious-tacos-inline.js" });
-console.log("PASS static: four local original WebP concept images, disposable fork, EN/ES and no fake checkout");
-
-if (!process.env.QA_URL) process.exit(0);
-const { chromium } = await import("playwright");
-const browser = await chromium.launch({ headless:true });
-try {
- for (const width of [375,390,820,1440]) {
-  const ctx = await browser.newContext({viewport:{width,height:width<600?812:900},reducedMotion:"reduce"});
-  const page = await ctx.newPage();
-  const errors=[];page.on("pageerror",e=>errors.push(String(e)));
-  const response = await page.goto(new URL("/demos/delicious-tacos/",process.env.QA_URL).href,{waitUntil:"domcontentloaded",timeout:30000});
-  assert.equal(response.status(),200);
-  assert.equal(await page.locator(".menu-row").count(),6);
-  assert.equal(await page.locator(".truck-gallery-grid img").count(),3);
-  assert.equal((await page.locator(".truck-gallery-ai-label").innerText()).trim(),"AI-generated photos");
-
-  await page.locator("img").evaluateAll(imgs=>imgs.forEach(img=>img.loading="eager"));
-  await page.waitForFunction(()=>[...document.querySelectorAll('img')].every(x=>x.complete&&x.naturalWidth>0),null,{timeout:25000}).catch(async e=>{const state=await page.locator("img").evaluateAll(imgs=>imgs.map(img=>({src:img.currentSrc,complete:img.complete,width:img.naturalWidth})));throw new Error("Image loading failed "+JSON.stringify(state)+" / "+e.message)});
-  const docWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
-  if(docWidth>width+1){ const offenders=await page.evaluate(()=>[...document.querySelectorAll("body *")].map(e=>({tag:e.tagName,cls:String(e.className).slice(0,90),text:(e.textContent||"").trim().slice(0,35),right:Math.round(e.getBoundingClientRect().right),left:Math.round(e.getBoundingClientRect().left)})).filter(x=>x.right>innerWidth+1||x.left< -1).slice(0,20));throw new Error("Horizontal overflow at "+width+": "+docWidth+" offending: "+JSON.stringify(offenders)) }
-  await page.locator('.filter[data-kind="tacos"]').click();
-  assert.equal(await page.locator(".menu-row:visible").count(),4);
-  await page.locator('.filter[data-kind="more"]').click();
-  assert.equal(await page.locator(".menu-row:visible").count(),2);
-  await page.locator('.filter[data-kind="all"]').click();
-  assert.equal(await page.locator(".menu-row:visible").count(),6);
-  await page.locator("#language").click();
-  assert.equal(await page.locator("html").getAttribute("lang"),"es");
-  assert.equal((await page.locator(".truck-gallery-ai-label").innerText()).trim(),"Fotos hechas con IA");
-  assert.equal((await page.locator("[data-t='menuKicker']").textContent()).trim(),"01 / EL MENÚ");
-  if(width<600){
-   await page.locator("#menuToggle").click();
-   assert.equal(await page.locator("#menuToggle").getAttribute("aria-expanded"),"true");
-   await page.keyboard.press("Escape");
-   assert.equal(await page.locator("#menuToggle").getAttribute("aria-expanded"),"false");
-  }
-  assert.deepEqual(errors,[]);
-  if([375,820,1440].includes(width)){
-   await page.locator("#language").click();
-   await page.evaluate(()=>{document.documentElement.style.scrollBehavior="auto";window.scrollTo(0,0)});
-   await page.waitForFunction(()=>window.scrollY===0,null,{timeout:5000});
-   mkdirSync("qa-screenshots/delicious-tacos",{recursive:true});
-   await page.screenshot({path:"qa-screenshots/delicious-tacos/"+width+".png",fullPage:true,animations:"disabled"});
-  }
-  await ctx.close();
+const script=[...page.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(m=>m[1]).join("\n");
+new Script(script,{filename:"delicious-tacos-owner.js"});
+console.log("PASS owner static: noindex, sample workflow, EN/ES, photos, proposal and source guest preview, no actual order endpoint");
+if(!process.env.QA_URL)process.exit(0);
+const {chromium}=await import("playwright");
+const browser=await chromium.launch({headless:true});
+try{
+ for(const width of [375,390,820,1440]){
+   const ctx=await browser.newContext({viewport:{width,height:width<600?812:900},reducedMotion:"reduce"});
+   const p=await ctx.newPage();
+   const errors=[];
+   p.on("pageerror",x=>errors.push(String(x)));
+   const posted=[];
+   p.on("request",q=>{if(!["GET","HEAD"].includes(q.method()))posted.push(q.url())});
+   const res=await p.goto(new URL("/demos/delicious-tacos/",process.env.QA_URL).href,{waitUntil:"domcontentloaded",timeout:30000});
+   assert.equal(res.status(),200);
+   assert.equal(await p.locator("#product-list .product").count(),4);
+   assert.equal(await p.locator("#send-sample").isDisabled(),true);
+   await p.locator("img").evaluateAll(images=>images.forEach(x=>x.loading="eager"));
+   await p.waitForFunction(()=>[...document.querySelectorAll("img")].every(x=>x.complete&&x.naturalWidth>0),null,{timeout:20000});
+   let sw=await p.evaluate(()=>document.documentElement.scrollWidth);
+   if(sw>width+1){const bad=await p.evaluate(()=>[...document.querySelectorAll("body *")].filter(e=>e.getBoundingClientRect().right>innerWidth+1).slice(0,12).map(e=>({tag:e.tagName,cls:e.className,right:Math.round(e.getBoundingClientRect().right)})));throw Error("horizontal overflow "+width+" vs "+sw+" "+JSON.stringify(bad))}
+   await p.locator('[data-add="0"]').click();
+   assert.equal(await p.locator("#send-sample").isEnabled(),true);
+   assert.equal((await p.locator("#cart-total").innerText()).trim(),"$3.50");
+   await p.locator("#send-sample").click();
+   assert.equal(await p.locator("#metric-new").innerText(),"1");
+   assert.match(await p.locator("#tickets").innerText(),/Carne Asada/);
+   await p.locator("#advance").click();
+   assert.equal(await p.locator("#metric-working").innerText(),"1");
+   await p.locator("#advance").click();
+   assert.equal(await p.locator("#metric-ready").innerText(),"1");
+   await p.locator("#advance").click();
+   assert.match(await p.locator("#tickets").innerText(),/PICKED UP/);
+   await p.locator("#advance").click();
+   assert.match(await p.locator("#tickets").innerText(),/No sample orders yet/);
+   await p.locator("#lang").click();
+   assert.equal(await p.locator("html").getAttribute("lang"),"es");
+   assert.match(await p.locator("#owner-stage .admin-head h3").innerText(),/Pedidos pickup/);
+   assert.equal(await p.locator("#send-sample").innerText(),"Enviar pedido de EJEMPLO");
+   assert.equal(posted.length,0,"Demo must never POST, DELETE or PUT");
+   assert.deepEqual(errors,[],"No page errors");
+   if([375,820,1440].includes(width)){
+     await p.locator("#lang").click();
+     await p.evaluate(()=>{document.documentElement.style.scrollBehavior="auto";window.scrollTo(0,0)});
+     await p.waitForFunction(()=>scrollY===0);
+     mkdirSync("qa-screenshots/delicious-tacos-owner",{recursive:true});
+     await p.screenshot({path:"qa-screenshots/delicious-tacos-owner/"+width+".png",fullPage:true,animations:"disabled"});
+   }
+   const customerPage=await ctx.newPage();
+   const guest=await customerPage.goto(new URL("/demos/delicious-tacos/customer-preview.html",process.env.QA_URL).href,{waitUntil:"domcontentloaded",timeout:30000});
+   assert.equal(guest.status(),200);
+   assert.equal(await customerPage.locator(".truck-gallery-grid img").count(),3);
+   await ctx.close();
  }
 }finally{await browser.close()}
-console.log("PASS real-photography responsive Chromium QA at 375, 390, 820, 1440 px");
+console.log("PASS owner walkthrough at 375,390,820,1440: mock pickup order & Admin Panel statuses, ES/EN, no POST, photos, no overflow, guest preview");
