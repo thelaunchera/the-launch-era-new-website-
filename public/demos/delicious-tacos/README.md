@@ -18,7 +18,7 @@ This brand-isolated concept is for The Launch Era's *qualified* prospect **Delic
 - Color direction: roasted red #AD3E24, warm paper #F5EFE4, ink #1B231E, maize #E0A23B, herb green #65755A. These are **proposed, not the business's established brand colors**.
 - Proposed wordmark is only the live text 'Delicious Tacos' in the concept. No claim to represent an original authorized business logo.
 - Hero: oversized typographic message and food-forward composition; accessible navigation and mobile-first menu.
-- The draft landing page now uses **four Pexels-licensed illustrative photographs** instead of the prior eight SVG taco illustrations. These are **not the restaurant's photos** and are clearly described as temporary references. Original SVG art remains in the branch for historical review only and is **not referenced by the new homepage**. Replace all stand-ins with approved individual food/team photos before public release.
+- The draft landing page now uses **four Pexels-licensed illustrative photographs** instead of the prior eight SVG taco illustrations. These are **not the restaurant's photos** and are clearly described as temporary references. The rejected eight SVG assets were deleted from the branch entirely. Replace all stand-ins with approved individual food/team photos before public release.
 - CTA: call existing public number and Google Maps *search* (not a guaranteed destination), no cart, checkout, fictitious booking, email sending, invented inventory or prices.
 
 ## Functional concept built
@@ -30,7 +30,7 @@ This brand-isolated concept is for The Launch Era's *qualified* prospect **Delic
 ## The mandatory approval gates (all still pending)
 
 - [ ] Approve moodboard, palette, typography and copy direction.
-- [ ] Approve individual original food photos and hero imagery, plus rights/likeness.
+- [ ] Approve individual original food photos and hero imagery, plus rights/likeness; current stand-ins are Pexels concept images only.
 - [ ] Approve actual brand logo/wordmark from owner.
 - [ ] Confirm exact physical location, current hours, item names, ingredients, prices and channel for customer requests.
 - [ ] Run and pass the project QA checklist and browser tests at 375, 390, 768/820, 1024 and 1440, EN/ES.
