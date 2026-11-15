@@ -34,3 +34,13 @@ Do not mark a demo 'finished' or publicly publish its kit to the class automatic
 ## Adapted TLE creative and visual QA workflow — 2026-11-15
 For frontend design, redesign, brand demo work or visually weak interfaces, also read `DESIGN.md` and `skills/tle-creative-toolkit/SKILL.md`. Use the brand-isolated `docs/DEMO-DESIGN-BRIEF-TEMPLATE.md` only as a starting structure after checking existing approved assets. Taste Skill, Vercel Web Design Guidelines, Image to Code, Awesome DESIGN.md, and Playwright CLI are design/QA references, not runtime dependencies or permission to clone another company's visual identity.
 Preserve the approved moodboard → individual photos → logo → demo order, the existing mandatory QA skill, route/tenant privacy, production logic, and GitHub Pages validation. External skill or CLI installation must never silently modify release dependencies or published client sites.
+
+
+## REAL installed upstream design skills (2026-11-15)
+The original third-party skill directories are vendored (with pinned upstream commits and available license notices), not paraphrased, in:
+- `.agents/skills/design-taste-frontend/` — current upstream Taste Skill with its real scripts, assets, references, and browser quality gate.
+- `.agents/skills/web-design-guidelines/` — Vercel's original web-design-guidelines SKILL.md.
+- `.agents/skills/playwright-cli/` — Microsoft's Playwright CLI original SKILL.md + references. To install the executable locally, run `bash scripts/install-real-design-skills.sh --with-cli` (Node 22+); CI installs it in an isolated developer-only location.
+- `.agents/design-inspirations/{airbnb,figma,apple}/DESIGN.md` — read-only patterns from VoltAgent; these are NOT TLE's or a prospect's brand identities.
+Read `docs/DESIGN-SKILL-INSTALLATION.md` and the applicable upstream `SKILL.md` before any redesign. Run the actual checkers after implementation. Upstream scripts are third-party tools and must not receive secrets or execute real customer actions. Project-specific brand approvals, privacy, separate client assets, and mandatory TLE QA gates override any generic upstream guideline. In particular, do NOT let a generic rule replace a business's verified phone/address, functional links, or legally required content.
+The previously linked `skills/image-to-code-skill/SKILL.md` path is no longer present in the current Taste Skill upstream repository; use its live design-to-code process instead, without claiming that missing historical skill was installed.
