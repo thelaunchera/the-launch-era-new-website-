@@ -26,6 +26,16 @@ for (const p of photos) {
 }
 assert.match(html, /white disposable plastic fork lifting a bite/);
 assert.doesNotMatch(html,/images\.pexels\.com|pexels\.com/);
+const truckPhotos=["truck-angle-three-quarter.webp","truck-service-window.webp","truck-wide-setting.webp"];
+assert.match(html, /<section class="truck-gallery"/);
+assert.match(html, /class="truck-gallery-ai-label">Fotos hechas con IA<\/p>/);
+for (const photo of truckPhotos) {
+ assert.match(html, new RegExp('src="\\.\\/media\\/'+photo+'"' ));
+ const bytes=readFileSync(join(root,"media",photo));
+ assert.ok(bytes.length>50000,photo+" should be optimized WebP asset");
+ assert.equal(bytes.toString("ascii",0,4),"RIFF");
+ assert.equal(bytes.toString("ascii",8,12),"WEBP");
+}
 assert.equal([...html.matchAll(/class="menu-row"/g)].length, 6);
 const script = [...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(x => x[1]).join("\n");
 new Script(script, { filename:"delicious-tacos-inline.js" });
@@ -42,6 +52,9 @@ try {
   const response = await page.goto(new URL("/demos/delicious-tacos/",process.env.QA_URL).href,{waitUntil:"domcontentloaded",timeout:30000});
   assert.equal(response.status(),200);
   assert.equal(await page.locator(".menu-row").count(),6);
+  assert.equal(await page.locator(".truck-gallery-grid img").count(),3);
+  assert.equal((await page.locator(".truck-gallery-ai-label").innerText()).trim(),"Fotos hechas con IA");
+
   await page.locator("img").evaluateAll(imgs=>imgs.forEach(img=>img.loading="eager"));
   await page.waitForFunction(()=>[...document.querySelectorAll('img')].every(x=>x.complete&&x.naturalWidth>0),null,{timeout:25000}).catch(async e=>{const state=await page.locator("img").evaluateAll(imgs=>imgs.map(img=>({src:img.currentSrc,complete:img.complete,width:img.naturalWidth})));throw new Error("Image loading failed "+JSON.stringify(state)+" / "+e.message)});
   const docWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
