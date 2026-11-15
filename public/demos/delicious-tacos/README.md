@@ -18,11 +18,11 @@ This brand-isolated concept is for The Launch Era's *qualified* prospect **Delic
 - Color direction: roasted red #AD3E24, warm paper #F5EFE4, ink #1B231E, maize #E0A23B, herb green #65755A. These are **proposed, not the business's established brand colors**.
 - Proposed wordmark is only the live text 'Delicious Tacos' in the concept. No claim to represent an original authorized business logo.
 - Hero: oversized typographic message and food-forward composition; accessible navigation and mobile-first menu.
-- The draft landing page now uses **four Pexels-licensed illustrative photographs** instead of the prior eight SVG taco illustrations. These are **not the restaurant's photos** and are clearly described as temporary references. The rejected eight SVG assets were deleted from the branch entirely. Replace all stand-ins with approved individual food/team photos before public release.
+- The draft landing page now uses **four individually generated, local WebP concept photographs**: overhead tacos, hand-held taco, hand-held quesadilla, and burrito with a **white disposable plastic fork**. They do **not** depict verified food or premises from Delicious Tacos and are labeled as illustrative concepts. The previously rejected eight SVG illustrations and stock-photo links have been removed. Business-authentic food photos still require confirmation/permission for final customer delivery.
 - CTA: call existing public number and Google Maps *search* (not a guaranteed destination), no cart, checkout, fictitious booking, email sending, invented inventory or prices.
 
 ## Functional concept built
-- Self-contained HTML/CSS/JS; no new package dependencies. External images are temporary CDN references, which must be replaced by approved local media for release.
+- Self-contained HTML/CSS/JS with four locally committed, optimized WebP images in `public/demos/delicious-tacos/media/`, no new dependencies or external photography CDN.
 - English/Spanish switch; anchored sections; responsive mobile navigation with Escape; category filtering; call and map search links. Menu is an editorial text list beside one primary photo, not repeated image cards.
 - Dynamic menu is **presentation-only**, using items from third-party public listings. No online ordering.
 - All copy distinguishes business facts from design examples; bilingual unverified-data warnings and noindex.
@@ -30,7 +30,8 @@ This brand-isolated concept is for The Launch Era's *qualified* prospect **Delic
 ## The mandatory approval gates (all still pending)
 
 - [ ] Approve moodboard, palette, typography and copy direction.
-- [ ] Approve individual original food photos and hero imagery, plus rights/likeness; current stand-ins are Pexels concept images only.
+- [x] The Launch Era founder selected the concept photo direction and requested disposable plastic fork, implemented November 15, 2026. These are AI-generated concept images only.
+- [ ] Prospect/business owner approves real food photos, logo and actual venue imagery before official delivery.
 - [ ] Approve actual brand logo/wordmark from owner.
 - [ ] Confirm exact physical location, current hours, item names, ingredients, prices and channel for customer requests.
 - [ ] Run and pass the project QA checklist and browser tests at 375, 390, 768/820, 1024 and 1440, EN/ES.
@@ -45,6 +46,11 @@ Code branch: `feature/delicious-tacos-concept-20261115` in `thelaunchera/the-lau
 
 ## Redesign based on user feedback · November 15, 2026
 - Previous illustrated theme was rejected as generic / AI-looking; the visual layout and hero were replaced in the existing draft PR, not published.
-- New design direction: food photography, flat neutral surfaces, larger editorial type, menu list instead of six identical image cards, minimal decoration, no false restaurant endorsement.
-- Photo sources and license pages: Los Muertos Crew [hero](https://www.pexels.com/photo/close-up-photo-of-mouth-watering-tacos-8448337/) and [service photo](https://www.pexels.com/photo/cook-handing-a-person-a-taco-8448179/); Betsai Ekmeiro [menu photo](https://www.pexels.com/photo/filling-in-tacos-15434290/); Rodrigo Ortega [preparation photo](https://www.pexels.com/photo/authentic-mexican-street-food-preparation-29349427/). Temporary stand-ins; no owner-approved brand photographs yet.
+- New design direction: editorial food concept photography, varied angles and human interaction, flat neutral surfaces, larger typography, text menu instead of six identical cards, minimal decoration, no false restaurant endorsement.
+- The four web images were generated specifically for the concept: `taco-in-hand.webp`, `tacos-overhead.webp`, `quesadilla-hand.webp`, `burrito-disposable-fork.webp`. The latter is the corrected image with a white disposable fork; all four are separate locally stored assets, not a collage. Original concept files are stored in the brand's private Drive kit; customer-owned photographs remain to be obtained.
 - The actual Taste Skill, Vercel, Playwright CLI skills and read-only DESIGN.md reference collection were installed in the main repository by PR #615. Design review uses them under TLE's existing approved-brand/release policies, without automatically copying another company's visual identity.
+
+## Four local concept photos · November 15, 2026
+- Founder explicitly requested overhead, hand-held quesadilla, taco in hand, and fork lifting food. Fork was replaced with a **white disposable plastic fork**.
+- Web assets verified committed via GitHub Git Data API to this draft branch, encoded as WebP to reduce page weight. All image tags link to their actual local `./media/` files. No third-party image CDN or URL dependency.
+- The conceptual backgrounds may not match the prospect's actual truck. Do not claim that they are enhanced photos from the owner's site or photographs of its current menu.
