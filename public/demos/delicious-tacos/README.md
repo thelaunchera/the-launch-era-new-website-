@@ -18,12 +18,12 @@ This brand-isolated concept is for The Launch Era's *qualified* prospect **Delic
 - Color direction: roasted red #AD3E24, warm paper #F5EFE4, ink #1B231E, maize #E0A23B, herb green #65755A. These are **proposed, not the business's established brand colors**.
 - Proposed wordmark is only the live text 'Delicious Tacos' in the concept. No claim to represent an original authorized business logo.
 - Hero: oversized typographic message and food-forward composition; accessible navigation and mobile-first menu.
-- The 8 SVG assets under `media/` are independent concept **illustrations**, not food photographs, and cannot be described as real products. Replace with approved individual original photographs before any public release.
+- The draft landing page now uses **four Pexels-licensed illustrative photographs** instead of the prior eight SVG taco illustrations. These are **not the restaurant's photos** and are clearly described as temporary references. Original SVG art remains in the branch for historical review only and is **not referenced by the new homepage**. Replace all stand-ins with approved individual food/team photos before public release.
 - CTA: call existing public number and Google Maps *search* (not a guaranteed destination), no cart, checkout, fictitious booking, email sending, invented inventory or prices.
 
 ## Functional concept built
-- Self-contained HTML/CSS/JS; no new package dependencies.
-- English/Spanish switch; anchored sections; responsive mobile navigation with Escape; category filtering; call and map search links.
+- Self-contained HTML/CSS/JS; no new package dependencies. External images are temporary CDN references, which must be replaced by approved local media for release.
+- English/Spanish switch; anchored sections; responsive mobile navigation with Escape; category filtering; call and map search links. Menu is an editorial text list beside one primary photo, not repeated image cards.
 - Dynamic menu is **presentation-only**, using items from third-party public listings. No online ordering.
 - All copy distinguishes business facts from design examples; bilingual unverified-data warnings and noindex.
 
@@ -42,3 +42,9 @@ This brand-isolated concept is for The Launch Era's *qualified* prospect **Delic
 This draft is authored by The Launch Era. No screenshots or assets from another client's demo were copied. Neither images nor menu facts are presented as owner-approved; source data needs owner confirmation.
 
 Code branch: `feature/delicious-tacos-concept-20261115` in `thelaunchera/the-launch-era-new-website-`. Intended future canonical route after approval: `/demos/delicious-tacos/`.
+
+## Redesign based on user feedback · November 15, 2026
+- Previous illustrated theme was rejected as generic / AI-looking; the visual layout and hero were replaced in the existing draft PR, not published.
+- New design direction: food photography, flat neutral surfaces, larger editorial type, menu list instead of six identical image cards, minimal decoration, no false restaurant endorsement.
+- Photo sources and license pages: Los Muertos Crew [hero](https://www.pexels.com/photo/close-up-photo-of-mouth-watering-tacos-8448337/) and [service photo](https://www.pexels.com/photo/cook-handing-a-person-a-taco-8448179/); Betsai Ekmeiro [menu photo](https://www.pexels.com/photo/filling-in-tacos-15434290/); Rodrigo Ortega [preparation photo](https://www.pexels.com/photo/authentic-mexican-street-food-preparation-29349427/). Temporary stand-ins; no owner-approved brand photographs yet.
+- The actual Taste Skill, Vercel, Playwright CLI skills and read-only DESIGN.md reference collection were installed in the main repository by PR #615. Design review uses them under TLE's existing approved-brand/release policies, without automatically copying another company's visual identity.
