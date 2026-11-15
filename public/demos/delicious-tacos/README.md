@@ -1,3 +1,13 @@
+# Correction — demo vs Canva proposal (November 15, 2026)
+
+**The website is now only a short functional demonstration.** The owner can view a simple four-step explanation, select a sample food item, send an in-browser mock pickup request and see the Admin Panel ticket move New → Preparing → Ready → Picked up. They can open the separate guest-view concept.
+
+**The proposal lives only in Canva.** The website has no commercial package cards, prices for services, lead-collection/intake CTAs, photo-retouching sales explanation, negotiation terms, or contract timeline. The approved original seven-page Canva proposal is unchanged. Menu prices inside the demo are expressly sample-only, not official Delicious Tacos menu prices.
+
+**No ordering backend exists** and no orders, payments, messages or personal data leave the demo. It is an unlisted, noindex GitHub Pages URL, not an authenticated private webpage.
+
+---
+
 # Owner walkthrough update — 15 November 2026
 
 **Target audience: Delicious Tacos business owner, NOT restaurant customers.** This route has been repurposed from the original public-facing concept to a brief, explanatory, interactive **owner presentation**.
