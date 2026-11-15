@@ -1,0 +1,49 @@
+name: Delicious Tacos concept QA
+on:
+  pull_request:
+    paths:
+      - 'public/demos/delicious-tacos/**'
+      - 'scripts/qa-delicious-tacos-concept.mjs'
+      - '.github/workflows/delicious-tacos-concept-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview-quality:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse and validate safe isolated demo
+        run: |
+          node --check scripts/qa-delicious-tacos-concept.mjs
+          node scripts/qa-delicious-tacos-concept.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Install isolated Playwright Chromium for QA only
+        run: |
+          mkdir -p /tmp/tle-tacos-qa
+          npm install --prefix /tmp/tle-tacos-qa --no-audit --no-fund playwright@1.57.0
+          /tmp/tle-tacos-qa/node_modules/.bin/playwright install --with-deps chromium
+          mkdir -p "$GITHUB_WORKSPACE/node_modules"
+          ln -sfn /tmp/tle-tacos-qa/node_modules/playwright "$GITHUB_WORKSPACE/node_modules/playwright"
+          ln -sfn /tmp/tle-tacos-qa/node_modules/playwright-core "$GITHUB_WORKSPACE/node_modules/playwright-core"
+      - name: Browser check mobile, tablet, desktop and both languages
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory public > /tmp/tacos-qa-http.log 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for i in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:4173/demos/delicious-tacos/ >/dev/null; then break; fi
+            sleep 1
+          done
+          QA_URL=http://127.0.0.1:4173 node scripts/qa-delicious-tacos-concept.mjs
+      - name: Preserve responsive screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: delicious-tacos-concept-screenshots
+          path: qa-screenshots/delicious-tacos/
+          if-no-files-found: ignore
