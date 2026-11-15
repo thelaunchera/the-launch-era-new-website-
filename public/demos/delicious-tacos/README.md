@@ -1,3 +1,20 @@
+# Owner walkthrough update — 15 November 2026
+
+**Target audience: Delicious Tacos business owner, NOT restaurant customers.** This route has been repurposed from the original public-facing concept to a brief, explanatory, interactive **owner presentation**.
+
+- Main linked route `/demos/delicious-tacos/` now offers a step-by-step walkthrough with a **simulated pickup order and simulated Admin Panel**. It cannot actually accept orders, take money, store customers, send notifications, or update backend systems.
+- The original customer-facing concept is preserved, unchanged except its title, at `/demos/delicious-tacos/customer-preview.html` and is linked from the walkthrough.
+- Photo retouching is a proposed service: customer submits genuine photos, TLE enhances light/crop/presentation, business approves before publishing; no real product imagery or menu details are represented as verified.
+- Gallery and truck images are clearly labeled illustrative AI-generated concepts, NOT real photos of the business or staff.
+- Owner-facing flow: menu → sample pickup request → new order in Admin Panel → preparing → ready → picked up. Four sample menu items and **sample prices** only. Orders and progress exist exclusively in the current browser session, without network calls or storage.
+- Public marketing remains English with ES switch; the phrase "Admin Panel" is used instead of "Command Center".
+- The existing Canva proposal has $89 one-time and $120/month options; **live pickup ordering, notifications, third-party costs and final scope must be agreed separately**, and truck staff handle accepting/preparing orders. Do not imply the simulation is deployed as a live service.
+- This is an **unlisted GitHub Pages URL, not an access-controlled private site**. `noindex,nofollow,noarchive` is used, and it is intentionally excluded from the public demo catalog, but anyone holding the exact link can open it. A truly private version would require server-side authentication/another host.
+- Required release QA: static no-side-effects checks, screenshots at 375/390/820/1440, sample pickup simulation and stage progression, EN/ES, distinct guest preview, source photos, navigation/CTA links and Pages deployment.
+- No outreach to the prospect has been sent through this workflow.
+
+---
+
 # Delicious Tacos · independent prospect concept
 
 **Status: UNAPPROVED DESIGN PROTOTYPE — NOT PUBLISHED, NOT CUSTOMER-AUTHORIZED.**

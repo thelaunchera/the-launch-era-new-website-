@@ -45,5 +45,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: delicious-tacos-concept-screenshots
-          path: qa-screenshots/delicious-tacos/
+          path: qa-screenshots/delicious-tacos-owner/
           if-no-files-found: ignore
