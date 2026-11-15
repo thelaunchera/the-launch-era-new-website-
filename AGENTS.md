@@ -29,3 +29,8 @@ Do not mark a demo 'finished' or publicly publish its kit to the class automatic
 - Do **not** replace a banned emoji with another random star, icon or dot. Remove the ornament. Text-only CTAs with 44px+ touch targets are preferred; keep meaningful accessibility, Back and Close controls working.
 - Brand-specific logos and approved original visual assets are the only identifying marks. Do not use an invented generic symbol as a logo. Avoid decorative arrows in every new demo and remove from existing ones when found.
 - Test at iPhone width, including reduced-motion and clear CTA spacing. The enforced source+compiled symbol scan is `node scripts/qa-demo-decorative-icons.mjs`.
+
+
+## Adapted TLE creative and visual QA workflow — 2026-11-15
+For frontend design, redesign, brand demo work or visually weak interfaces, also read `DESIGN.md` and `skills/tle-creative-toolkit/SKILL.md`. Use the brand-isolated `docs/DEMO-DESIGN-BRIEF-TEMPLATE.md` only as a starting structure after checking existing approved assets. Taste Skill, Vercel Web Design Guidelines, Image to Code, Awesome DESIGN.md, and Playwright CLI are design/QA references, not runtime dependencies or permission to clone another company's visual identity.
+Preserve the approved moodboard → individual photos → logo → demo order, the existing mandatory QA skill, route/tenant privacy, production logic, and GitHub Pages validation. External skill or CLI installation must never silently modify release dependencies or published client sites.
