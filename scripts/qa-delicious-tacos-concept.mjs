@@ -39,7 +39,8 @@ try {
     const response = await page.goto(new URL("/demos/delicious-tacos/", process.env.QA_URL).href, { waitUntil:"domcontentloaded", timeout:30000 });
     assert.equal(response.status(), 200);
     assert.equal(await page.locator(".dish").count(), 6);
-    await page.waitForFunction(() => [...document.querySelectorAll('img')].every(x => x.complete && x.naturalWidth > 0), null, { timeout:15000 });
+    await page.locator("img").evaluateAll(images => images.forEach(img => { img.loading = "eager" }));
+    await page.waitForFunction(() => [...document.querySelectorAll('img')].every(x => x.complete && x.naturalWidth > 0), null, { timeout:15000 }).catch(async err => { const state = await page.locator("img").evaluateAll(images => images.map(img => ({src:img.getAttribute("src"), complete:img.complete, width:img.naturalWidth}))); throw new Error("Image load verification failed: " + JSON.stringify(state) + " / " + err.message) });
     const pageWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     assert.ok(pageWidth <= width + 1, "Horizontal overflow " + width + "px, content " + pageWidth);
     await page.locator('.filter[data-kind="tacos"]').click();
