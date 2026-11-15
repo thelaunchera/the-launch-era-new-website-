@@ -1,3 +1,9 @@
+## 2026-11-15 — Delicious Tacos floating CTA obscured menu on iPhone; header CTA square
+- Symptom from owner screenshot: square black `TRY THE DEMO` in sticky header and persistent red bottom `TRY THE SAMPLE ORDER` overlay obscuring taco menu and add controls, even after initial `.btn` rounding release.
+- Verified cause: `.top-cta` lacked corner radius; `.mobile-cta` was a fixed-position overlay, and related customer preview also had a fixed call bar.
+- Fix: `border-radius:9999px` on `.top-cta`, round the add/quantity actions; remove mobile CTA markup/style, associated footer extra padding; remove customer preview's fixed bar without touching ordinary Call/Maps CTAs.
+- Evidence: GitHub Pages run 43751903386 success; uncached live HTML for both routes HTTP 200, `.top-cta` CSS contains `9999px` and main add buttons `50%`, no `.mobile-cta`/`.mobile-bar` markup. IPhone Safari hands-on QA is not yet evidenced.
+
 ## 2026-11-15 — Delicious Tacos square-CTA styling correction
 - Owner requested fully rounded (pill-shaped) calls to action instead of square corners in the Delicious Tacos demo.
 - Verified CSS in `public/demos/delicious-tacos/index.html` lacked `border-radius` for `.btn`, and linked `customer-preview.html` omitted rounding for `.contact-link`, `.solid`, `.outline`; full-width mobile bars were rectangular.
