@@ -1,3 +1,10 @@
+## 2026-11-15 — Delicious Tacos independent prospect concept (DRAFT, NOT LIVE)
+- Proposed future route: `/demos/delicious-tacos/`; source `public/demos/delicious-tacos/index.html`, 8 independently created SVG concept illustrations in `media/`. Branch `feature/delicious-tacos-concept-20261115`, PR #614. Not merged/published; do NOT link to it as a live demo or put it in public catalogue yet.
+- Navigation: local `#menu`, `#story`, `#visit`; EN/ES frontend-only switch; 3-category menu filter. These functions never write customer state.
+- Real externally directed links: telephone `tel:+15617816080`, publicly listed by Boynton Beach CRA; Google Maps place-name **search** using `maps/search/?api=1&query=...`, not a claimed verified static destination. No backend/order/booking/form/checkout.
+- Address conflict: Florida DBPR mobile food license MFD6052364 gives 1950 S Federal Hwy; CRA lists 1954 Federal Hwy; Restaurantji 1950 N. Display S as the state-listing reference with "call to verify" warning. Current hours, items/prices, real photos and official logo are unapproved. UI `noindex,nofollow`, independent-concept disclaimers.
+- Before release: owner approves moodboard, individual photos and logo; menu/location facts; run `node scripts/qa-delicious-tacos-concept.mjs` and Chromium QA; verify actual Pages deployment in browser/iPhone; then log canonical URL in private Studio. Never change tenant or email/Make/Stripe logic as part of this demo.
+
 ## 2026-11-13 — Knockout Deli Admin Panel interactive concept and official menu sync
 - New *demo-only*, noindex route: `/demos/knockout-deli/admin-panel/`, sourced from `demo-source/knockout-deli/landing/admin-panel/index.html` and `app.js` (published only by `scripts/build-knockout-deli-public.mjs`). This is a branded preview, NOT the authenticated owner CRM and NOT the production customer checkout.
 - Shared, canonical product catalog: `demo-source/knockout-deli/landing/menu-catalog.json`. `scripts/build-knockout-deli-public.mjs` generates `admin-panel/menu-catalog.json` and the public digital menu from that one source; do not maintain competing product prices in public demo files.
