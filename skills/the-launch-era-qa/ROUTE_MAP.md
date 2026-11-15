@@ -1,3 +1,10 @@
+## 2026-11-15 — Delicious Tacos editorial photo redesign (draft, NOT live)
+- Route remains proposed `/demos/delicious-tacos/` in PR #614 only; NOT merged or publicly published.
+- User rejected the vector-art/card-grid concept as AI-looking; deleted all 8 SVG illustrations. Current branch source `public/demos/delicious-tacos/index.html` has photographic hero, editorial text menu (4 tacos + 2 other items) and licensed Pexels stand-in photos, explicitly marked NOT real business products.
+- External actions: `tel:+15617816080` from public CRA listing and Google Maps place-name search. No checkout, bookings, messages, admin backend or real order handling. Public data still conflicts for Federal Highway address; display state listing only with call-to-confirm warning.
+- Current files are draft approval assets only; owner-approved food photos, logo, current menu, accurate phone/location/hours, Safari iPhone and post-deploy verification all remain mandatory.
+- Chromium CI passed 375/390/820/1440 bilingual/filter/photo rendering on run 43720032641. Taste/Vercel/Playwright skills installed separately on main via merged PR #615; their installation is NOT proof of final design quality. Production unaffected.
+
 ## 2026-11-15 — Delicious Tacos independent prospect concept (DRAFT, NOT LIVE)
 - Proposed future route: `/demos/delicious-tacos/`; source `public/demos/delicious-tacos/index.html`, 8 independently created SVG concept illustrations in `media/`. Branch `feature/delicious-tacos-concept-20261115`, PR #614. Not merged/published; do NOT link to it as a live demo or put it in public catalogue yet.
 - Navigation: local `#menu`, `#story`, `#visit`; EN/ES frontend-only switch; 3-category menu filter. These functions never write customer state.
