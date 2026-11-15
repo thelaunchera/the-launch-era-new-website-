@@ -62,6 +62,8 @@ try {
     mkdirSync("qa-screenshots/delicious-tacos", { recursive: true });
     if ([375,820,1440].includes(width)) {
       await page.locator("#language").click();
+      await page.evaluate(() => { document.documentElement.style.scrollBehavior = "auto"; window.scrollTo(0, 0); });
+      await page.waitForFunction(() => window.scrollY === 0, null, { timeout:5000 });
       await page.screenshot({ path:"qa-screenshots/delicious-tacos/" + width + ".png", fullPage:true, animations:"disabled" });
     }
     await context.close();
