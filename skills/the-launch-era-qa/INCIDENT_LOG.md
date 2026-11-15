@@ -1,3 +1,9 @@
+## 2026-11-15 — Delicious Tacos square-CTA styling correction
+- Owner requested fully rounded (pill-shaped) calls to action instead of square corners in the Delicious Tacos demo.
+- Verified CSS in `public/demos/delicious-tacos/index.html` lacked `border-radius` for `.btn`, and linked `customer-preview.html` omitted rounding for `.contact-link`, `.solid`, `.outline`; full-width mobile bars were rectangular.
+- Updated only relevant button styling to `border-radius:9999px` and inset mobile sticky CTAs from screen edges, preserving iPhone safe-area spacing; made cart icon circular. Interactive demo content and links unchanged.
+- After write, re-fetched both files from main and verified targeted CSS rules. GitHub Pages deployment and Safari/real browser checks remain separate release evidence; do not treat source-level checks as published verification.
+
 ## 2026-11-15 — Delicious Tacos visual-quality rejection and redesign (NOT LIVE)
 - User found the original illustrated Delicious Tacos draft generic and AI-looking even though it passed technical QA. Verified root cause in screenshot review: repetitive synthetic taco SVGs, six identical photo cards and decorative stamp/tape elements.
 - Mitigation on existing draft PR #614: real licensed photography as explicitly labeled temporary stand-ins, full-bleed editorial hero, list-first menu, fewer unnecessary decorations; removed all eight rejected SVG assets from branch. Not the restaurant's official media, not customer-approved, not published.
