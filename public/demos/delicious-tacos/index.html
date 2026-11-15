@@ -24,6 +24,14 @@ header{position:sticky;top:0;z-index:80;background:rgba(245,240,231,.96);backdro
 @media(max-width:760px){.wrap{width:calc(100% - 38px)}.header-inner{height:68px}.header-meta{display:none}.top-cta{padding:9px 12px;font-size:10px}.logo{font-size:23px}.hero{grid-template-columns:1fr}.hero-text{padding:73px 19px 65px}.hero h1{font-size:clamp(79px,18vw,125px);max-width:600px}.hero-copy{font-size:15px;margin-top:25px}.hero-photo{min-height:410px;max-height:570px}.hero-photo img{object-position:center 50%}.journey{padding:77px 0}.journey-head,.demo-head,.photo-head{display:block}.journey h2{margin-top:12px}.journey-summary,.demo-head p,.photo-head p{max-width:620px;margin-top:17px}.journey-steps{grid-template-columns:1fr 1fr;gap:17px}.journey-step{padding-right:10px}.try-it,.photo-section,.next{padding:82px 0}.demo-grid{grid-template-columns:1fr;gap:20px}.stage{width:min(100%,580px);margin:auto}.demo-head{margin-bottom:29px}.customer-head h3{font-size:44px}.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.photo-grid figure:first-child{grid-column:1/-1}.photo-grid figure:first-child img{aspect-ratio:1.25}.photo-grid img{aspect-ratio:3/4}.photo-process{grid-template-columns:1fr;gap:18px;margin-top:32px}.photo-process>div{padding-bottom:16px;border-bottom:1px solid var(--line)}.features-wrap{grid-template-columns:1fr;gap:30px}.admin-features{padding:82px 0}.feature-list{gap:10px}.timeline{grid-template-columns:1fr 1fr;gap:14px 18px}.packages{padding:85px 0}.package-grid{grid-template-columns:1fr}.footer-top,.footer-bottom{display:block}.footer-top .btn{margin-top:24px}.footer-bottom span{display:block;margin-top:10px}.mobile-cta{position:fixed;bottom:0;left:0;right:0;z-index:90;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;text-transform:uppercase;letter-spacing:.13em;font-size:12px;font-weight:900;padding:12px 16px calc(12px + env(safe-area-inset-bottom));min-height:54px}.footer{padding-bottom:110px}}
 @media(max-width:390px){.wrap{width:calc(100% - 30px)}.hero-text{padding-left:15px;padding-right:15px}.hero h1{font-size:clamp(74px,18vw,85px)}.hero-buttons .btn{flex:1}.journey h2,.big-title{font-size:65px}.product-photo{height:55px;width:55px}.product-list{padding:0 12px}.product{gap:10px}.add-btn{height:35px;width:35px}.stage-top{padding:12px}.feature{padding:16px}.feature strong{font-size:11px}.feature p{font-size:11px}.footer h2{font-size:45px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Mobile-first cart and pickup-order simulation; isolated from real customer data. */
+.stage-controls{display:flex;align-items:center;gap:12px}.cart-icon-btn{position:relative;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:var(--cream);color:var(--ink);border:1px solid #d1c5b5;border-radius:13px;flex:none}.cart-bubble{position:absolute;right:-5px;top:-5px;min-width:20px;height:20px;padding:0 3px;background:var(--red);color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;line-height:1}
+.cart-overlay[hidden],.drawer-screen[hidden]{display:none!important}.cart-overlay{position:fixed;inset:0;z-index:200;display:flex;justify-content:flex-end}.cart-scrim{position:absolute;inset:0;background:rgba(14,23,16,.68);border:0;width:100%;height:100%;padding:0;cursor:default}.cart-drawer{position:relative;z-index:1;height:100%;height:100dvh;width:min(490px,100%);display:flex;flex-direction:column;background:var(--paper);box-shadow:-12px 0 55px #100c0b26}.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:26px 28px 14px;gap:15px}.drawer-eyebrow{font-size:10px;letter-spacing:.13em;font-weight:800;color:var(--red);text-transform:uppercase}.drawer-header h2{font:900 54px/.9 "Barlow Condensed",Impact,sans-serif;text-transform:uppercase;letter-spacing:-.02em;margin-top:10px}.drawer-close{background:#efe7da;border:0;font-size:33px;line-height:1;width:44px;height:44px;flex:none;border-radius:50%}.drawer-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 28px 22px;border-bottom:1px solid var(--line)}.step-item{display:flex;gap:7px;align-items:center;font-size:10px;letter-spacing:.05em;font-weight:800;text-transform:uppercase;color:#837d72}.step-item b{font-size:11px;border:1px solid #cac0af;border-radius:50%;height:24px;width:24px;display:flex;align-items:center;justify-content:center}.step-item.is-active{color:var(--red)}.step-item.is-active b{background:var(--red);color:#fff;border-color:var(--red)}.step-item.is-done b{background:var(--forest);border-color:var(--forest);color:#fff}.drawer-content{overflow-y:auto;overscroll-behavior:contain;padding:26px 28px 35px;flex:1}.drawer-screen h3{font:900 40px/.95 "Barlow Condensed",Impact,sans-serif;text-transform:uppercase}.drawer-caption{font-size:13px;color:#656459;line-height:1.7;margin:10px 0 22px}.drawer-items{border-top:1px solid var(--line)}.drawer-item{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:13px;padding:17px 0;border-bottom:1px solid var(--line);align-items:center}.drawer-item img{width:64px;height:70px;object-fit:cover}.drawer-item h4{font-size:13px;line-height:1.25;margin:0 0 4px}.drawer-item small{font-size:10px;color:#777165}.drawer-item .line-price{font-size:12px;font-weight:800;display:block;margin-top:4px}.qty-tools{display:flex;align-items:center;gap:7px;justify-content:flex-end}.qty-btn{min-width:32px;height:35px;border:1px solid #bcb09f;background:#fff7ec;font-size:17px;font-weight:800}.qty-number{min-width:19px;text-align:center;font-size:12px;font-weight:800}.drawer-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:25px 0;font-size:13px;font-weight:700}.drawer-summary strong{font-size:19px}.drawer-full{width:100%;min-height:54px}.drawer-full:disabled{opacity:.42;cursor:not-allowed}.drawer-text-button{min-height:46px;display:block;margin:11px auto 0;background:transparent;border:0;padding:10px 15px;color:var(--red);font-size:12px;font-weight:800}.drawer-empty{text-align:center;color:#716c62;padding:58px 10px;font-size:13px;border-bottom:1px solid var(--line)}.pickup-choice-label{background:#e6eddf;color:#263f33;padding:15px 17px;font-size:12px;font-weight:800;margin-bottom:20px}.pickup-windows{margin:0;padding:0;border:0;min-width:0}.pickup-windows legend{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}.pickup-choice{border:1px solid #ccc2b1;padding:16px;display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;cursor:pointer;background:#fffaf2}.pickup-choice:has(input:checked){border-color:var(--red);background:#f8eee2}.pickup-choice input{accent-color:var(--red);width:18px;height:18px;flex:none;margin:3px 0 0}.pickup-choice strong{display:block;font-size:13px}.pickup-choice small{display:block;color:#6d6a62;font-size:11px;margin-top:4px}.pickup-demo-note{margin:17px 0 22px;padding:17px;border-left:3px solid var(--gold);background:#ece5d8}.pickup-demo-note strong{display:block;font-size:12px}.pickup-demo-note p{font-size:11px;color:#656153;margin-top:8px;line-height:1.7}.receipt-details{border-top:1px solid var(--line);margin-bottom:20px}.receipt-details>div{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;align-items:start}.receipt-details small{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#777064}.receipt-details strong{font-size:12px;font-weight:800;text-align:right;max-width:235px}.review-items{padding:10px 0}.review-line{display:flex;justify-content:space-between;gap:12px;padding:9px 0;font-size:12px}.payment-notice{font-size:11px;line-height:1.75;background:#f1e8da;color:#665a4e;padding:14px;margin-bottom:18px}.receipt-success-icon{width:70px;height:70px;background:#e7f0df;color:#2c6943;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:37px;margin-bottom:20px}
+body.cart-open-body{overflow:hidden}
+@media(max-width:760px){.cart-drawer{width:min(480px,100%)}.drawer-header{padding:17px 20px 10px}.drawer-steps{padding:10px 20px 17px}.drawer-content{padding:20px 20px max(28px,env(safe-area-inset-bottom))}.drawer-header h2{font-size:48px}.stage-controls{gap:6px}.stage-state{font-size:9px}.stage-top{gap:7px}}
+@media(max-width:390px){.stage-controls{gap:5px}.stage-state{max-width:108px;text-align:right}.drawer-item{grid-template-columns:55px minmax(0,1fr) auto;gap:9px}.drawer-item img{width:55px;height:66px}.qty-tools{gap:4px}.qty-btn{min-width:29px;height:32px}.drawer-content{padding-left:16px;padding-right:16px}.drawer-steps{padding-left:16px;padding-right:16px}.drawer-header{padding-left:16px;padding-right:16px}}
+
 </style>
 </head>
 <body>
@@ -34,9 +42,51 @@ header{position:sticky;top:0;z-index:80;background:rgba(245,240,231,.96);backdro
 <section class="journey" id="the-flow"><div class="wrap"><div class="journey-head"><div><p class="label" style="color:var(--gold)" data-t="flowKicker">HOW IT WOULD WORK</p><h2 data-t-html="flowTitle">ONE MENU.<br>ONE SIMPLE FLOW.</h2></div><p class="journey-summary" data-t="flowIntro">See the same sample pickup order from the customer menu to the Admin Panel.</p></div><div class="journey-steps"><div class="journey-step"><strong>01</strong><h3 data-t="step1Title">Find the menu</h3><p data-t="step1Body">Customers open a mobile-friendly menu with clear food photos.</p></div><div class="journey-step"><strong>02</strong><h3 data-t="step2Title">Request pickup</h3><p data-t="step2Body">They choose their items and submit a pickup request.</p></div><div class="journey-step"><strong>03</strong><h3 data-t="step3Title">See the ticket</h3><p data-t="step3Body">Your team reviews the request in the Admin Panel.</p></div><div class="journey-step"><strong>04</strong><h3 data-t="step4Title">Mark it ready</h3><p data-t="step4Body">You control when the order is accepted and ready for pickup.</p></div></div></div></section>
 <section class="try-it" id="pickup-demo"><div class="wrap"><div class="demo-head"><div><p class="section-id" data-t="sampleLabel">INTERACTIVE DEMO / 01</p><h2 class="big-title" data-t="playTitle">TRY IT YOURSELF.</h2><span class="demo-disclosure" data-t="demoDisclosure">SIMULATION ONLY · NO REAL ORDERS, EMAILS OR PAYMENTS</span></div><p class="section-intro" data-t="demoIntro">Tap + next to a taco. Submit the sample pickup request. Then watch the order appear in the Admin Panel and move it through preparation.</p></div>
 <div class="demo-grid">
-<div class="stage" id="customer-stage"><div class="stage-top"><span class="label" data-t="customerSide">CUSTOMER'S PHONE</span><span class="stage-state" data-t="customerState">SAMPLE DIGITAL MENU</span></div><div class="customer-head"><h3 data-t="customerTitle">Pick your tacos.</h3><p data-t="samplePrices">Illustrative menu items and prices—not the restaurant's confirmed menu.</p></div><div class="product-list" id="product-list"></div><div class="cart"><strong data-t="cartTitle">Sample pickup order</strong><div class="cart-list" id="cart-list" aria-live="polite">Choose an item above to start.</div><div class="cart-total"><span data-t="totalText">Sample total</span><span id="cart-total">$0.00</span></div></div><div class="customer-actions"><button type="button" id="send-sample" class="btn btn-red" data-t="sendSample" disabled>Send SAMPLE pickup request</button><p class="fine" data-t="cartCaution">Nothing leaves this page. We don't collect names, phone numbers or payments here.</p></div></div>
+<div class="stage" id="customer-stage"><div class="stage-top"><span class="label" data-t="customerSide">CUSTOMER'S PHONE</span><div class="stage-controls"><span class="stage-state" data-t="customerState">SAMPLE DIGITAL MENU</span><button type="button" id="cart-open" class="cart-icon-btn" aria-label="Open sample cart" aria-haspopup="dialog" aria-controls="cart-overlay"><svg aria-hidden="true" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2 12h11l3-9H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><span class="cart-bubble" id="cart-bubble">0</span></button></div></div><div class="customer-head"><h3 data-t="customerTitle">Pick your tacos.</h3><p data-t="samplePrices">Illustrative menu items and prices—not the restaurant's confirmed menu.</p></div><div class="product-list" id="product-list"></div><div class="cart"><strong data-t="cartTitle">Your sample cart</strong><div class="cart-list" id="cart-list" aria-live="polite">Choose an item above to start.</div><div class="cart-total"><span data-t="totalText">Sample subtotal</span><span id="cart-total">$0.00</span></div></div><div class="customer-actions"><button type="button" id="send-sample" class="btn btn-red" data-t="sendSample" disabled>Review cart & pickup</button><p class="fine" data-t="cartCaution">Demo only · no actual orders, payments, or customer information.</p></div></div>
 <div class="stage" id="owner-stage"><div class="stage-top"><span class="label" data-t="ownerSide">YOUR TEAM'S VIEW</span><span class="stage-state" data-t="ownerState">ADMIN PANEL · PREVIEW</span></div><div class="admin-head"><div><h3 data-t="adminTitle">Pickup orders</h3><p class="fine" data-t="adminIntro">This is how an order ticket could appear.</p></div><span class="admin-preview-pill" data-t="samplePill">SAMPLE ONLY</span></div><div class="metrics"><div class="metric"><b id="metric-new">0</b><span data-t="metricNew">New</span></div><div class="metric"><b id="metric-working">0</b><span data-t="metricWork">Preparing</span></div><div class="metric"><b id="metric-ready">0</b><span data-t="metricReady">Ready</span></div></div><div class="tickets" aria-live="polite" id="tickets"><div class="ticket-empty"><strong data-t="emptyTitle">No sample orders yet.</strong><p data-t="emptyText">Create one from the digital menu on the left to see your future pickup workflow.</p></div></div><p class="admin-footnote" data-t="adminNote">A working system would need real order storage, staff access and confirmed notification settings. Those are not connected to this demo.</p></div>
 </div></div></section>
+
+<div class="cart-overlay" id="cart-overlay" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title" hidden>
+ <button type="button" class="cart-scrim" id="cart-scrim" tabindex="-1" aria-label="Close cart"></button>
+ <aside class="cart-drawer">
+  <div class="drawer-header"><div><p class="drawer-eyebrow" data-t="drawerEyebrow">DELICIOUS TACOS · PICKUP PREVIEW</p><h2 id="cart-drawer-title" data-t="drawerTitle">Your cart.</h2></div><button id="cart-close" class="drawer-close" type="button" aria-label="Close cart">×</button></div>
+  <div class="drawer-steps" role="list" aria-label="Pickup order steps"><span class="step-item" data-step-indicator="1" role="listitem"><b>1</b><span data-t="stepCart">Cart</span></span><span class="step-item" data-step-indicator="2" role="listitem"><b>2</b><span data-t="stepPickup">Pickup</span></span><span class="step-item" data-step-indicator="3" role="listitem"><b>3</b><span data-t="stepReview">Review</span></span></div>
+  <div class="drawer-content">
+   <div class="drawer-screen" data-drawer-screen="cart">
+    <h3 data-t="cartScreenTitle">Your favorites</h3><p class="drawer-caption" data-t="cartScreenCaption">Adjust quantities or remove items before continuing.</p>
+    <div id="drawer-items" class="drawer-items" aria-live="polite"></div>
+    <div class="drawer-summary"><span data-t="totalText">Sample subtotal</span><strong id="drawer-subtotal">$0.00</strong></div>
+    <button type="button" class="btn btn-red drawer-full" id="to-pickup" data-t="continuePickup" disabled>Continue to pickup</button>
+    <button type="button" class="drawer-text-button" id="continue-shopping" data-t="continueShopping">+ Continue shopping</button>
+   </div>
+   <div class="drawer-screen" data-drawer-screen="pickup" hidden>
+    <h3 data-t="pickupScreenTitle">Choose pickup</h3><p class="drawer-caption" data-t="pickupScreenCaption">Choose a simulated pickup window. These are not real restaurant availability times.</p>
+    <div class="pickup-choice-label" data-t="pickupOnly">Pickup at the food truck · no delivery</div>
+    <fieldset class="pickup-windows"><legend data-t="pickupWindowLabel">Sample pickup timing</legend>
+      <label class="pickup-choice"><input type="radio" name="pickup-window" value="soon" checked><span><strong data-t="pickupSoon">As soon as ready</strong><small data-t="pickupSoonNote">Example only · no confirmed wait time</small></span></label>
+      <label class="pickup-choice"><input type="radio" name="pickup-window" value="later"><span><strong data-t="pickupLater">Later pickup</strong><small data-t="pickupLaterNote">Example only · time chosen with staff</small></span></label>
+    </fieldset>
+    <div class="pickup-demo-note"><strong data-t="pickupExampleGuest">Sample guest · no personal details needed</strong><p data-t="pickupInstructions">Pickup location and exact readiness would be confirmed by the food truck before real orders are accepted.</p></div>
+    <button type="button" class="btn btn-red drawer-full" id="to-review" data-t="continueReview">Review sample order</button><button type="button" class="drawer-text-button" id="back-to-cart" data-t="backCart">Back to cart</button>
+   </div>
+   <div class="drawer-screen" data-drawer-screen="review" hidden>
+    <h3 data-t="reviewScreenTitle">Review your pickup</h3><p class="drawer-caption" data-t="reviewScreenCaption">Everything below is for demonstration only.</p>
+    <div class="receipt-details"><div><small data-t="pickupMethodLabel">Method</small><strong data-t="pickupOnly">Pickup at the food truck · no delivery</strong></div><div><small data-t="pickupWindowLabel">Sample pickup timing</small><strong id="review-window"></strong></div><div><small data-t="guestLabel">Customer</small><strong data-t="guestName">Sample guest</strong></div></div>
+    <div id="review-items" class="review-items"></div><div class="drawer-summary"><span data-t="totalText">Sample subtotal</span><strong id="review-total"></strong></div>
+    <p class="payment-notice" data-t="noPayment">No real charge. This preview does not collect payment details or submit an order to the truck.</p>
+    <button type="button" class="btn btn-red drawer-full" id="place-sample" data-t="confirmSample">Place SAMPLE pickup request</button><button type="button" class="drawer-text-button" id="back-to-pickup" data-t="backPickup">Back to pickup options</button>
+   </div>
+   <div class="drawer-screen" data-drawer-screen="confirmed" hidden>
+    <div class="receipt-success-icon" aria-hidden="true">✓</div><p class="drawer-eyebrow" data-t="confirmationEyebrow">SAMPLE CONFIRMATION</p><h3 data-t="confirmedTitle">Sample request placed!</h3><p class="drawer-caption" data-t="confirmedText">This is only a preview. The same sample ticket is now visible in the Admin Panel.</p>
+    <div class="receipt-details"><div><small data-t="orderLabel">Sample ticket</small><strong id="receipt-number">#DEMO-104</strong></div><div><small data-t="pickupWindowLabel">Sample pickup timing</small><strong id="receipt-window"></strong></div><div><small data-t="statusLabel">Status</small><strong id="receipt-status">NEW</strong></div></div>
+    <div id="receipt-items" class="review-items"></div>
+    <div class="drawer-summary"><span data-t="totalText">Sample subtotal</span><strong id="receipt-total"></strong></div>
+    <button type="button" class="btn btn-red drawer-full" id="view-admin" data-t="viewAdmin">View order in Admin Panel</button><button type="button" class="drawer-text-button" id="new-demo" data-t="newDemo">Start another sample order</button>
+   </div>
+  </div>
+ </aside>
+</div>
+
 </main>
 <footer class="footer"><div class="wrap"><div class="footer-top"><div><h2 data-t-html="footerTitle">PICKUP DEMO.<br>TRY THE FLOW.</h2><p data-t="footerCopy">Interactive demonstration only. No real orders, payments, notifications or customer records.</p></div><a href="#top" class="btn btn-outline" data-t="backTop">Back to top</a></div><div class="footer-bottom"><span data-t="footerDisclosure">Unlisted concept link · no customer orders accepted · AI illustrative photos</span><span>THE LAUNCH ERA · thelaunchera.com</span></div></div></footer>
 <a href="#pickup-demo" class="mobile-cta" data-t="mobileTry">Try the sample order</a>
@@ -59,56 +109,160 @@ header{position:sticky;top:0;z-index:80;background:rgba(245,240,231,.96);backdro
  footerTitle:"DEMO PICKUP.<br>PRUEBA EL FLUJO.",footerCopy:"Demostración interactiva. No hay pedidos, pagos, notificaciones ni registros de clientes reales.",backTop:"Volver arriba",footerDisclosure:"Enlace de concepto no indexado · sin pedidos reales · fotos ilustrativas con IA",mobileTry:"Probar pedido de ejemplo",
  addItem:"+",cartEmpty:"Escoge un producto para empezar.",guestName:"Cliente de ejemplo",ticketTitle:"Solicitud de pickup de ejemplo",ticketItems:"Productos",ticketStatusNew:"NUEVO",ticketStatusPreparing:"PREPARANDO",ticketStatusReady:"LISTO",ticketStatusPicked:"ENTREGADO",actionNew:"Aceptar y empezar a preparar",actionPreparing:"Marcar listo para recoger",actionReady:"Marcar entregado",actionPicked:"Crear otro ejemplo",orderSubmitted:"El pedido de ejemplo aparece en el panel",exampleLabel:"precio de ejemplo"
  }};
+
+ Object.assign(dict.en,{
+ drawerEyebrow:"DELICIOUS TACOS · PICKUP PREVIEW",drawerTitle:"Your cart.",stepCart:"Cart",stepPickup:"Pickup",stepReview:"Review",
+ cartScreenTitle:"Your favorites",cartScreenCaption:"Adjust quantities or remove items before continuing.",continuePickup:"Continue to pickup",continueShopping:"+ Continue shopping",
+ pickupScreenTitle:"Choose pickup",pickupScreenCaption:"Pick a sample option. This is not real availability.",pickupOnly:"Pickup at the food truck · no delivery",pickupWindowLabel:"Sample pickup timing",
+ pickupSoon:"As soon as ready",pickupSoonNote:"Example only · no confirmed wait time",pickupLater:"Later pickup",pickupLaterNote:"Example only · timing agreed with staff",
+ pickupExampleGuest:"Sample guest · no personal details needed",pickupInstructions:"A real food truck would need to confirm the location, accepted time and readiness before pickup.",
+ continueReview:"Review sample order",backCart:"Back to cart",reviewScreenTitle:"Review your pickup",reviewScreenCaption:"Everything below is for demonstration only.",
+ pickupMethodLabel:"Method",guestLabel:"Customer",noPayment:"No real charge. This preview doesn't collect payment information or send an order to the truck.",
+ confirmSample:"Place SAMPLE pickup request",backPickup:"Back to pickup options",confirmationEyebrow:"SAMPLE CONFIRMATION",confirmedTitle:"Sample request placed!",
+ confirmedText:"This is only a preview. The same sample ticket is now visible in the Admin Panel.",orderLabel:"Sample ticket",statusLabel:"Status",
+ viewAdmin:"View order in Admin Panel",newDemo:"Start another sample order",removeItem:"Remove",cartItemCount:"Items in cart",
+ sendSample:"Review cart & pickup",cartTitle:"Your sample cart",totalText:"Sample subtotal",
+ demoIntro:"Choose food, open the cart, choose pickup, review and place a SAMPLE request. See the ticket in the Admin Panel on the right.",
+ cartCaution:"Demo only · no real orders, payment or customer information."
+ });
+ Object.assign(dict.es,{
+ drawerEyebrow:"DELICIOUS TACOS · DEMO PICKUP",drawerTitle:"Tu carrito.",stepCart:"Carrito",stepPickup:"Recoger",stepReview:"Revisar",
+ cartScreenTitle:"Tus favoritos",cartScreenCaption:"Cambia cantidades o elimina productos antes de continuar.",continuePickup:"Continuar a pickup",continueShopping:"+ Seguir comprando",
+ pickupScreenTitle:"Elige cómo recoger",pickupScreenCaption:"Selecciona un ejemplo. No indica disponibilidad real.",pickupOnly:"Pickup en el food truck · sin delivery",pickupWindowLabel:"Horario de ejemplo",
+ pickupSoon:"Cuando esté listo",pickupSoonNote:"Ejemplo · sin tiempo confirmado",pickupLater:"Recoger más tarde",pickupLaterNote:"Ejemplo · horario acordado con el equipo",
+ pickupExampleGuest:"Cliente de ejemplo · sin datos personales",pickupInstructions:"En un pedido real, el food truck debe confirmar ubicación, horario y cuándo estará listo.",
+ continueReview:"Revisar pedido de ejemplo",backCart:"Volver al carrito",reviewScreenTitle:"Revisa tu pickup",reviewScreenCaption:"Todo lo que aparece aquí es una simulación.",
+ pickupMethodLabel:"Método",guestLabel:"Cliente",noPayment:"No hay cobros. Este demo no pide datos de pago ni envía órdenes al truck.",
+ confirmSample:"Confirmar pickup de EJEMPLO",backPickup:"Volver a opciones de pickup",confirmationEyebrow:"CONFIRMACIÓN DE EJEMPLO",confirmedTitle:"¡Solicitud de ejemplo creada!",
+ confirmedText:"Esto es solo un demo. El mismo pedido de ejemplo aparece ahora en el Panel de administrador.",orderLabel:"Pedido de ejemplo",statusLabel:"Estado",
+ viewAdmin:"Ver pedido en el Panel de administrador",newDemo:"Crear otro pedido de ejemplo",removeItem:"Quitar",cartItemCount:"Productos en el carrito",
+ sendSample:"Revisar carrito y pickup",cartTitle:"Tu carrito de ejemplo",totalText:"Subtotal de ejemplo",
+ demoIntro:"Elige comida, abre el carrito, selecciona pickup, revisa y confirma un pedido de EJEMPLO. Sigue la orden en el Panel de administrador.",
+ cartCaution:"Solo demostración · sin pedidos, pagos ni datos de clientes."
+ });
  const catalog=[
  {name:"Carne Asada",price:3.5,pic:"./media/tacos-overhead.webp"},
  {name:"Al Pastor",price:3.25,pic:"./media/taco-in-hand.webp"},
  {name:"Pollo",price:3.0,pic:"./media/tacos-overhead.webp"},
  {name:"Quesadilla",price:9,pic:"./media/quesadilla-hand.webp"}
  ];
- let lang="en",cart={},ticket=null,phase="new";
+
+ let lang="en",cart={},ticket=null,phase="new",pickup="soon",drawerStep="cart",lastFocus=null,demoSeq=104;
  const $=id=>document.getElementById(id);
  const fmt=n=>"$"+n.toFixed(2);
- function t(k){return dict[lang][k]||k}
+ const t=k=>dict[lang][k]||k;
+ const entries=()=>Object.entries(cart).filter(([,qty])=>qty>0).map(([i,qty])=>({index:Number(i),item:catalog[Number(i)],qty}));
+ const countItems=()=>entries().reduce((a,x)=>a+x.qty,0);
+ const cartTotal=()=>entries().reduce((a,x)=>a+x.qty*x.item.price,0);
+ const scrollMode=()=>matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth";
  function paintMenu(){
-  $("product-list").innerHTML=catalog.map((p,i)=>'<div class="product"><img class="product-photo" loading="lazy" src="'+p.pic+'" alt="'+p.name+' sample concept"><div class="product-body"><h4>'+p.name+'</h4><small>'+t("exampleLabel")+'</small><span class="price">'+fmt(p.price)+'</span></div><button type="button" class="add-btn" data-add="'+i+'" aria-label="Add '+p.name+'">+</button></div>').join("");
-  $("product-list").querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click",()=>{const i=Number(b.dataset.add);cart[i]=(cart[i]||0)+1;paintCart()}));
+   $("product-list").innerHTML=catalog.map((p,i)=>'<div class="product"><img class="product-photo" loading="lazy" src="'+p.pic+'" alt="'+p.name+' sample concept"><div class="product-body"><h4>'+p.name+'</h4><small>'+t("exampleLabel")+'</small><span class="price">'+fmt(p.price)+'</span></div><button type="button" class="add-btn" data-add="'+i+'" aria-label="'+(lang==="en"?"Add ":"Agregar ")+p.name+'">+</button></div>').join("");
+   $("product-list").querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click",()=>{
+     const i=Number(b.dataset.add);cart[i]=(cart[i]||0)+1;paintCart();openDrawer("cart");
+   }));
  }
  function paintCart(){
-  const items=Object.entries(cart).filter(([,qty])=>qty>0);
-  $("cart-list").textContent=items.length?items.map(([i,qty])=>qty+" × "+catalog[Number(i)].name).join(" · "):t("cartEmpty");
-  const total=items.reduce((a,[i,q])=>a+catalog[Number(i)].price*q,0);
-  $("cart-total").textContent=fmt(total);$("send-sample").disabled=!items.length;
+   const xs=entries();
+   $("cart-list").textContent=xs.length?xs.map(x=>x.qty+" × "+x.item.name).join(" · "):t("cartEmpty");
+   $("cart-total").textContent=fmt(cartTotal());
+   $("cart-bubble").textContent=String(countItems());
+   $("cart-open").setAttribute("aria-label",lang==="en"?"Open cart, "+countItems()+" items":"Abrir carrito, "+countItems()+" productos");
+   $("send-sample").disabled=!xs.length;
+   $("drawer-subtotal").textContent=fmt(cartTotal());
+   $("to-pickup").disabled=!xs.length;
+   $("drawer-items").innerHTML=xs.length?xs.map(x=>'<div class="drawer-item"><img src="'+x.item.pic+'" alt="'+x.item.name+'"><div><h4>'+x.item.name+'</h4><small>'+t("exampleLabel")+'</small><span class="line-price">'+fmt(x.item.price*x.qty)+'</span></div><div class="qty-tools"><button type="button" class="qty-btn" data-dec="'+x.index+'" aria-label="'+(lang==="en"?"Remove one ":"Quitar uno de ")+x.item.name+'">−</button><span class="qty-number">'+x.qty+'</span><button type="button" class="qty-btn" data-inc="'+x.index+'" aria-label="'+(lang==="en"?"Add one ":"Agregar uno de ")+x.item.name+'">+</button></div></div>').join(""):'<div class="drawer-empty">'+t("cartEmpty")+'</div>';
+   $("drawer-items").querySelectorAll("[data-inc]").forEach(b=>b.addEventListener("click",()=>{const i=Number(b.dataset.inc);cart[i]=(cart[i]||0)+1;paintCart()}));
+   $("drawer-items").querySelectorAll("[data-dec]").forEach(b=>b.addEventListener("click",()=>{const i=Number(b.dataset.dec);cart[i]=Math.max(0,(cart[i]||0)-1);if(!cart[i])delete cart[i];paintCart()}));
+   renderReview();
+ }
+ function windowLabel(){return t(pickup==="soon"?"pickupSoon":"pickupLater")}
+ function renderReview(){
+   const xs=entries();
+   $("review-window").textContent=windowLabel();
+   $("review-items").innerHTML=xs.map(x=>'<div class="review-line"><span>'+x.qty+' × '+x.item.name+'</span><strong>'+fmt(x.qty*x.item.price)+'</strong></div>').join("");
+   $("review-total").textContent=fmt(cartTotal());
+ }
+ function paintReceipt(){
+   if(!ticket)return;
+   $("receipt-number").textContent=ticket.id;
+   $("receipt-window").textContent=t(ticket.window==="soon"?"pickupSoon":"pickupLater");
+   const statuses={new:"ticketStatusNew",preparing:"ticketStatusPreparing",ready:"ticketStatusReady",picked:"ticketStatusPicked"};
+   $("receipt-status").textContent=t(statuses[phase]);
+   $("receipt-items").innerHTML=ticket.items.map(x=>'<div class="review-line"><span>'+x.qty+' × '+x.name+'</span><strong>'+fmt(x.subtotal)+'</strong></div>').join("");
+   $("receipt-total").textContent=fmt(ticket.total);
  }
  function paintTicket(){
-  const stats={new:0,preparing:0,ready:0};
-  if(ticket&&phase in stats)stats[phase]=1;
-  $("metric-new").textContent=stats.new;$("metric-working").textContent=stats.preparing;$("metric-ready").textContent=stats.ready;
-  if(!ticket){$("tickets").innerHTML='<div class="ticket-empty"><strong>'+t("emptyTitle")+'</strong><p>'+t("emptyText")+'</p></div>';return}
-  const keys={new:"ticketStatusNew",preparing:"ticketStatusPreparing",ready:"ticketStatusReady",picked:"ticketStatusPicked"};
-  const acts={new:"actionNew",preparing:"actionPreparing",ready:"actionReady",picked:"actionPicked"};
-  $("tickets").innerHTML='<div class="ticket"><div class="ticket-row"><span>#DEMO-104 · '+t("guestName")+'</span><span class="ticket-status">'+t(keys[phase])+'</span></div><h4>'+t("ticketTitle")+'</h4><p>'+t("ticketItems")+': '+ticket.items.map(x=>x.qty+' × '+x.name).join(", ")+'</p><p style="margin-top:8px">'+t("totalText")+": "+fmt(ticket.total)+'</p><button class="btn btn-ink" type="button" id="advance">'+t(acts[phase])+'</button></div>';
-  $("advance").addEventListener("click",()=>{
-   if(phase==="new")phase="preparing";else if(phase==="preparing")phase="ready";else if(phase==="ready")phase="picked";else{phase="new";ticket=null}
-   paintTicket();
-  });
+   const stats={new:0,preparing:0,ready:0};
+   if(ticket&&phase in stats)stats[phase]=1;
+   $("metric-new").textContent=stats.new;$("metric-working").textContent=stats.preparing;$("metric-ready").textContent=stats.ready;
+   if(!ticket){$("tickets").innerHTML='<div class="ticket-empty"><strong>'+t("emptyTitle")+'</strong><p>'+t("emptyText")+'</p></div>';return}
+   const keys={new:"ticketStatusNew",preparing:"ticketStatusPreparing",ready:"ticketStatusReady",picked:"ticketStatusPicked"};
+   const acts={new:"actionNew",preparing:"actionPreparing",ready:"actionReady",picked:"actionPicked"};
+   $("tickets").innerHTML='<div class="ticket"><div class="ticket-row"><span>'+ticket.id+' · '+t("guestName")+'</span><span class="ticket-status">'+t(keys[phase])+'</span></div><h4>'+t("ticketTitle")+'</h4><p>'+t("ticketItems")+': '+ticket.items.map(x=>x.qty+' × '+x.name).join(", ")+'</p><p style="margin-top:8px">'+t("pickupWindowLabel")+': '+t(ticket.window==="soon"?"pickupSoon":"pickupLater")+'</p><p style="margin-top:8px">'+t("totalText")+": "+fmt(ticket.total)+'</p><button class="btn btn-ink" type="button" id="advance">'+t(acts[phase])+'</button></div>';
+   $("advance").addEventListener("click",()=>{
+     if(phase==="new")phase="preparing";else if(phase==="preparing")phase="ready";else if(phase==="ready")phase="picked";else{phase="new";ticket=null}
+     paintTicket();paintReceipt();
+   });
+ }
+ function showScreen(step){
+   drawerStep=step;
+   document.querySelectorAll("[data-drawer-screen]").forEach(el=>{el.hidden=el.dataset.drawerScreen!==step});
+   const n=step==="cart"?1:step==="pickup"?2:3;
+   document.querySelectorAll("[data-step-indicator]").forEach(el=>{const i=Number(el.dataset.stepIndicator);el.classList.toggle("is-active",i===n);el.classList.toggle("is-done",i<n)});
+   if(step==="review")renderReview();if(step==="confirmed")paintReceipt();
+   $("cart-drawer-title").textContent=step==="confirmed"?t("confirmedTitle"):t("drawerTitle");
+   const panel=$("cart-overlay").querySelector(".drawer-content");panel.scrollTop=0;
+ }
+ function openDrawer(step="cart"){
+   lastFocus=document.activeElement;
+   $("cart-overlay").hidden=false;document.body.classList.add("cart-open-body");
+   showScreen(step);
+   $("cart-close").focus();
+ }
+ function closeDrawer(){
+   $("cart-overlay").hidden=true;document.body.classList.remove("cart-open-body");
+   if(lastFocus&&lastFocus.isConnected&&lastFocus.focus)lastFocus.focus();
+ }
+ function resetExample(){
+   cart={};ticket=null;phase="new";pickup="soon";
+   document.querySelector('input[name="pickup-window"][value="soon"]').checked=true;
+   paintCart();paintTicket();showScreen("cart");
  }
  function setLang(next){
-  lang=next;document.documentElement.lang=lang;
-  document.querySelectorAll("[data-t]").forEach(el=>{const v=dict[lang][el.dataset.t];if(v!==undefined)el.textContent=v});
-  document.querySelectorAll("[data-t-html]").forEach(el=>{const v=dict[lang][el.dataset.tHtml];if(v!==undefined)el.innerHTML=v});
-  $("lang").textContent=lang==="en"?"ES":"EN";$("lang").setAttribute("aria-label",lang==="en"?"Switch language to Spanish":"Cambiar idioma a inglés");
-  paintMenu();paintCart();paintTicket();
-  document.title=lang==="en"?"Delicious Tacos | Owner Walkthrough":"Delicious Tacos | Presentación para el dueño";
+   lang=next;document.documentElement.lang=lang;
+   document.querySelectorAll("[data-t]").forEach(el=>{const v=dict[lang][el.dataset.t];if(v!==undefined)el.textContent=v});
+   document.querySelectorAll("[data-t-html]").forEach(el=>{const v=dict[lang][el.dataset.tHtml];if(v!==undefined)el.innerHTML=v});
+   $("lang").textContent=lang==="en"?"ES":"EN";$("lang").setAttribute("aria-label",lang==="en"?"Switch language to Spanish":"Cambiar idioma a inglés");
+   paintMenu();paintCart();paintTicket();paintReceipt();showScreen(drawerStep);
+   document.title=lang==="en"?"Delicious Tacos | Sample Pickup Cart":"Delicious Tacos | Carrito pickup de ejemplo";
  }
- $("send-sample").addEventListener("click",()=>{
-  const items=Object.entries(cart).filter(([,qty])=>qty>0).map(([i,qty])=>({name:catalog[Number(i)].name,qty}));
-  if(!items.length)return;
-  ticket={items,total:items.reduce((a,x)=>a+catalog.find(p=>p.name===x.name).price*x.qty,0)};
-  phase="new";cart={};paintCart();paintTicket();
-  $("owner-stage").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});
- });
  $("lang").addEventListener("click",()=>setLang(lang==="en"?"es":"en"));
+ $("cart-open").addEventListener("click",()=>openDrawer("cart"));
+ $("send-sample").addEventListener("click",()=>openDrawer("cart"));
+ $("cart-close").addEventListener("click",closeDrawer);$("cart-scrim").addEventListener("click",closeDrawer);
+ $("continue-shopping").addEventListener("click",closeDrawer);
+ document.addEventListener("keydown",e=>{
+   if(e.key!=="Escape"||$("cart-overlay").hidden)return;
+   e.preventDefault();closeDrawer();
+ });
+ $("cart-overlay").addEventListener("keydown",e=>{
+   if(e.key!=="Tab")return;const els=[...$("cart-overlay").querySelectorAll('button:not([disabled]),input:not([disabled])')].filter(x=>x.offsetParent!==null);
+   if(!els.length)return;const first=els[0],last=els[els.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+ });
+ $("to-pickup").addEventListener("click",()=>{if(countItems())showScreen("pickup")});
+ $("back-to-cart").addEventListener("click",()=>showScreen("cart"));
+ document.querySelectorAll('input[name="pickup-window"]').forEach(el=>el.addEventListener("change",()=>{if(el.checked)pickup=el.value}));
+ $("to-review").addEventListener("click",()=>showScreen("review"));
+ $("back-to-pickup").addEventListener("click",()=>showScreen("pickup"));
+ $("place-sample").addEventListener("click",()=>{
+   const xs=entries();if(!xs.length){showScreen("cart");return}
+   ticket={id:"#DEMO-"+demoSeq++,window:pickup,items:xs.map(x=>({name:x.item.name,qty:x.qty,subtotal:x.qty*x.item.price})),total:cartTotal()};
+   phase="new";cart={};paintCart();paintTicket();showScreen("confirmed");
+ });
+ $("view-admin").addEventListener("click",()=>{closeDrawer();$("owner-stage").scrollIntoView({behavior:scrollMode(),block:"center"})});
+ $("new-demo").addEventListener("click",resetExample);
  setLang("en");
+
 })();
 </script>
 </body>
