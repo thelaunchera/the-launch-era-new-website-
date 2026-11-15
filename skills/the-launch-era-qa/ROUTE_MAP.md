@@ -1,3 +1,10 @@
+## 2026-11-15 — Delicious Tacos removal of floating mobile CTAs, rounded header/menu actions (LIVE)
+- Owner iPhone screenshot showed square top-right `TRY THE DEMO` CTA and fixed red mobile `TRY THE SAMPLE ORDER` overlay obstructing menu product controls on `/demos/delicious-tacos/`.
+- Source: `public/demos/delicious-tacos/index.html`. `top-cta` now uses `border-radius:9999px`; add (`.add-btn`) and quantity (`.qty-btn`) buttons rounded. Removed fixed `.mobile-cta` element and its CSS as well as unused 110px mobile footer spacer. Header CTA retains `#pickup-demo` destination.
+- `public/demos/delicious-tacos/customer-preview.html`: removed analogous fixed `.mobile-bar` link and associated CSS/padding; ordinary in-page Call and Maps buttons are preserved.
+- GitHub Pages deployment run 43751903386 succeeded. Live HTML on both URLs returned HTTP 200 and verified rounded `.top-cta` / `.add-btn`, without floating CTA markup. No changes to menu catalog, simulated cart, Admin Panel state, emails, payments or tenant data.
+- Next full QA: device-level iPhone Safari visual testing and cart actions are not claimed here.
+
 ## 2026-11-15 — Delicious Tacos CTA styling on the pickup-demo and customer-preview routes
 - Existing route `/demos/delicious-tacos/` uses `public/demos/delicious-tacos/index.html`, and linked customer-facing preview `/demos/delicious-tacos/customer-preview.html` uses `customer-preview.html`.
 - Both routes keep their current destinations, sample-only pickup behavior, EN/ES language switching and tenant-specific content. No payments, messages, live orders, automation, client data or backend settings were changed.
