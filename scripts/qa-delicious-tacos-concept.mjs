@@ -25,7 +25,7 @@ assert.match(customer,/class="truck-gallery"/);
 assert.match(customer,/truckAILabel:"AI-generated photos"/);
 for(const p of ["truck-service-window.webp","tacos-overhead.webp","taco-in-hand.webp","quesadilla-hand.webp","burrito-disposable-fork.webp"]){
  assert.ok(existsSync(join(dir,"media",p)),"Missing "+p);
- assert.match(page,p.replace(/\./g,"\\."));
+ assert.ok(page.includes(p),"Expected owner photo reference: "+p);
 }
 const script=[...page.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(m=>m[1]).join("\n");
 new Script(script,{filename:"delicious-tacos-owner.js"});
