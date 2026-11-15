@@ -1,0 +1,52 @@
+name: Install pinned real design tools (review branch only)
+on:
+  push:
+    branches:
+      - feature/install-real-design-skills-20261115
+    paths:
+      - scripts/install-real-design-skills.sh
+      - .github/workflows/install-real-design-skills.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  install-and-verify:
+    if: github.ref == 'refs/heads/feature/install-real-design-skills-20261115'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify installer shell syntax
+        run: bash -n scripts/install-real-design-skills.sh
+      - name: Install pinned official skill trees and Playwright CLI
+        run: bash scripts/install-real-design-skills.sh --with-cli
+      - name: Validate installed sources without touching website runtime
+        run: |
+          test -f .agents/skills/design-taste-frontend/SKILL.md
+          test -f .agents/skills/design-taste-frontend/scripts/gate.mjs
+          test -f .agents/skills/design-taste-frontend/references/photos.md
+          test -f .agents/skills/web-design-guidelines/SKILL.md
+          test -f .agents/skills/playwright-cli/SKILL.md
+          test -f .agents/design-inspirations/airbnb/DESIGN.md
+          test -f .agents/design-inspirations/figma/DESIGN.md
+          test -f .agents/design-inspirations/apple/DESIGN.md
+          node --check .agents/skills/design-taste-frontend/scripts/gate.mjs
+          node --check .agents/skills/design-taste-frontend/scripts/start.mjs
+          node scripts/qa-route-integrity.mjs --static
+      - name: Persist original upstream files on this review branch
+        run: |
+          git add .agents/skills/design-taste-frontend .agents/skills/web-design-guidelines .agents/skills/playwright-cli .agents/design-inspirations docs/vendor-licenses
+          if git diff --cached --quiet; then
+            echo "Pinned tools already installed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --cached --stat | tail -40
+          git commit -m "chore(design): vendor pinned official design skills and read-only inspiration references"
+          git push origin HEAD:feature/install-real-design-skills-20261115
