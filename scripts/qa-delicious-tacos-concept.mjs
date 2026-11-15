@@ -66,7 +66,7 @@ try{
    await p.locator("#lang").click();
    assert.equal(await p.locator("html").getAttribute("lang"),"es");
    assert.match((await p.locator("#owner-stage .admin-head h3").textContent()).trim(),/Pedidos pickup/);
-   assert.equal(await p.locator("#send-sample").innerText(),"Enviar pedido de EJEMPLO");
+   assert.equal((await p.locator("#send-sample").textContent()).trim(),"Enviar pedido de EJEMPLO");
    assert.equal(posted.length,0,"Demo must never POST, DELETE or PUT");
    assert.deepEqual(errors,[],"No page errors");
    if([375,820,1440].includes(width)){
