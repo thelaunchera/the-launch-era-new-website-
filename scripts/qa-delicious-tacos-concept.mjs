@@ -13,23 +13,23 @@ assert.match(page,/id="owner-stage"/);
 assert.match(page,/id="send-sample"/);
 assert.match(page,/function paintTicket/);
 assert.match(page,/phase==="preparing"\)phase="ready"/);
-assert.match(page,/photoIntro:".*send us the food photos/);
-assert.match(page,/scopeNote:"Pickup ordering is shown as a concept/);
-assert.match(page,/https:\/\/www\.canva\.com\/d\//);
-assert.match(page,/intake-1f2685aa1fd2491f9eea0/);
+assert.match(page,/heroTitle:"SEE PICKUP<em>IN ACTION/);
+assert.doesNotMatch(page,/<section class="(?:packages|next|photo-section|admin-features)"/);
+assert.doesNotMatch(page,/canva\.com|published-intake\.html|packageOne:|scopeNote:|photoIntro:/i);
+assert.match(page,/href="\.\/customer-preview\.html"/);
 assert.ok(!/<form\b/i.test(page),"No customer info form in demo");
 assert.ok(!/(fetch\s*\(|XMLHttpRequest|localStorage\.|sessionStorage\.)/.test(page),"Sample order must not send or persist customer data");
 assert.ok(existsSync(join(dir,"customer-preview.html")));
 assert.match(customer,/<meta name="robots" content="noindex,nofollow"/);
 assert.match(customer,/class="truck-gallery"/);
 assert.match(customer,/truckAILabel:"AI-generated photos"/);
-for(const p of ["truck-service-window.webp","tacos-overhead.webp","taco-in-hand.webp","quesadilla-hand.webp","burrito-disposable-fork.webp"]){
+for(const p of ["truck-service-window.webp","tacos-overhead.webp","taco-in-hand.webp","quesadilla-hand.webp"]){
  assert.ok(existsSync(join(dir,"media",p)),"Missing "+p);
  assert.ok(page.includes(p),"Expected owner photo reference: "+p);
 }
 const script=[...page.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map(m=>m[1]).join("\n");
 new Script(script,{filename:"delicious-tacos-owner.js"});
-console.log("PASS owner static: noindex, sample workflow, EN/ES, photos, proposal and source guest preview, no actual order endpoint");
+console.log("PASS demo static: noindex, sample workflow, EN/ES, photos, guest preview and NO proposal/checkout content");
 if(!process.env.QA_URL)process.exit(0);
 const {chromium}=await import("playwright");
 const browser=await chromium.launch({headless:true});
