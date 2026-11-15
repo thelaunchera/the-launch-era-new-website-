@@ -1,3 +1,9 @@
+## 2026-11-15 — Delicious Tacos CTA styling on the pickup-demo and customer-preview routes
+- Existing route `/demos/delicious-tacos/` uses `public/demos/delicious-tacos/index.html`, and linked customer-facing preview `/demos/delicious-tacos/customer-preview.html` uses `customer-preview.html`.
+- Both routes keep their current destinations, sample-only pickup behavior, EN/ES language switching and tenant-specific content. No payments, messages, live orders, automation, client data or backend settings were changed.
+- Main hero, footer, admin-ticket and cart flow CTA elements `.btn` now use `border-radius:9999px`; mobile fixed CTA `.mobile-cta` is an inset safe-area pill. Cart opener `.cart-icon-btn` is round. Customer preview primary `.solid`/`.contact-link`, secondary `.outline` and mobile `.mobile-bar` are rounded pills.
+- Source commit verification passed; GitHub Pages / interactive-browser checks must be inspected separately before declaring the published visual change complete.
+
 ## 2026-11-15 — Delicious Tacos editorial photo redesign (draft, NOT live)
 - Route remains proposed `/demos/delicious-tacos/` in PR #614 only; NOT merged or publicly published.
 - User rejected the vector-art/card-grid concept as AI-looking; deleted all 8 SVG illustrations. Current branch source `public/demos/delicious-tacos/index.html` has photographic hero, editorial text menu (4 tacos + 2 other items) and licensed Pexels stand-in photos, explicitly marked NOT real business products.
