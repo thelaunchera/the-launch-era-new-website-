@@ -28,7 +28,9 @@ assert.match(html, /white disposable plastic fork lifting a bite/);
 assert.doesNotMatch(html,/images\.pexels\.com|pexels\.com/);
 const truckPhotos=["truck-angle-three-quarter.webp","truck-service-window.webp","truck-wide-setting.webp"];
 assert.match(html, /<section class="truck-gallery"/);
-assert.match(html, /class="truck-gallery-ai-label">Fotos hechas con IA<\/p>/);
+assert.match(html, /class="truck-gallery-ai-label" data-t="truckAILabel">AI-generated photos<\/p>/);
+assert.match(html, /truckAILabel:"AI-generated photos"/);
+assert.match(html, /truckAILabel:"Fotos hechas con IA"/);
 for (const photo of truckPhotos) {
  assert.match(html, new RegExp('src="\\.\\/media\\/'+photo+'"' ));
  const bytes=readFileSync(join(root,"media",photo));
@@ -53,7 +55,7 @@ try {
   assert.equal(response.status(),200);
   assert.equal(await page.locator(".menu-row").count(),6);
   assert.equal(await page.locator(".truck-gallery-grid img").count(),3);
-  assert.equal((await page.locator(".truck-gallery-ai-label").innerText()).trim(),"Fotos hechas con IA");
+  assert.equal((await page.locator(".truck-gallery-ai-label").innerText()).trim(),"AI-generated photos");
 
   await page.locator("img").evaluateAll(imgs=>imgs.forEach(img=>img.loading="eager"));
   await page.waitForFunction(()=>[...document.querySelectorAll('img')].every(x=>x.complete&&x.naturalWidth>0),null,{timeout:25000}).catch(async e=>{const state=await page.locator("img").evaluateAll(imgs=>imgs.map(img=>({src:img.currentSrc,complete:img.complete,width:img.naturalWidth})));throw new Error("Image loading failed "+JSON.stringify(state)+" / "+e.message)});
@@ -67,6 +69,7 @@ try {
   assert.equal(await page.locator(".menu-row:visible").count(),6);
   await page.locator("#language").click();
   assert.equal(await page.locator("html").getAttribute("lang"),"es");
+  assert.equal((await page.locator(".truck-gallery-ai-label").innerText()).trim(),"Fotos hechas con IA");
   assert.equal((await page.locator("[data-t='menuKicker']").textContent()).trim(),"01 / EL MENÚ");
   if(width<600){
    await page.locator("#menuToggle").click();
