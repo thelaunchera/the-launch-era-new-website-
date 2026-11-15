@@ -51,7 +51,7 @@ try {
     assert.equal(await page.locator(".dish:visible").count(), 6);
     await page.locator("#language").click();
     assert.equal(await page.locator("html").getAttribute("lang"), "es");
-    assert.equal(await page.locator('[data-i18n="menuTitle"]').innerText(), "Lo bueno.");
+    assert.equal((await page.locator('[data-i18n="menuTitle"]').textContent()).trim(), "Lo bueno.");
     if (width <= 390) {
       await page.locator("#menuToggle").click();
       assert.equal(await page.locator("#menuToggle").getAttribute("aria-expanded"), "true");
