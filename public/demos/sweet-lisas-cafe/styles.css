@@ -429,3 +429,137 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
  .menu-cover{height:198px}
 }
 @media(prefers-reduced-motion:reduce){.dish-open,.dish-thumb img,.menu-browse-cta{transition:none!important}}
+
+
+/* v8 · authentic transparent Sweet Lisa logo, centered visit/footer, expressive gallery cards */
+/* Official identity: only the customer's own SWEET / cafe / LISA'S mark, extracted with transparency */
+.site-header .brand{display:inline-flex;align-items:center;min-width:0;flex:0 0 auto}
+.site-header .brand img{
+  width:76px;height:72px;max-width:100%;object-fit:contain;object-position:center;
+  border:0;border-radius:0;background:transparent;
+  filter:drop-shadow(0 2px 7px rgba(0,0,0,.27));
+}
+@media(max-width:820px){.site-header .brand img{width:68px;height:64px}}
+@media(max-width:560px){.site-header .brand img{width:62px;height:59px}}
+/* Center the entire visit area; useful details remain readable and tappable. */
+.home-page .visit-section{
+  position:relative;overflow:hidden;
+  padding:98px 0 108px;
+  background:radial-gradient(circle at 50% -15%,#f0d9c8,#fffaf3 70%);
+}
+.home-page .visit-section:before{
+  content:"";position:absolute;left:-50px;top:20px;width:210px;height:210px;
+  border:1px solid rgba(164,56,64,.13);border-radius:50%;pointer-events:none;
+  box-shadow:0 0 0 27px rgba(164,56,64,.025),0 0 0 60px rgba(164,56,64,.018);
+}
+.home-page .visit-section .visit-grid{
+  display:grid;grid-template-columns:minmax(0,1fr);gap:36px;
+  justify-items:center;align-items:center;text-align:center;
+  width:min(100% - 48px,980px);
+}
+.home-page .visit-grid > div:first-child{
+  min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.home-page .visit-grid h2{font-size:clamp(52px,6.4vw,90px);margin:15px 0 18px}
+.home-page .visit-grid p:not(.eyebrow){margin:0 auto;max-width:560px}
+.home-page .visit-actions{justify-content:center;gap:14px;margin-top:30px}
+.home-page .visit-panel{
+  position:relative;isolation:isolate;width:min(100%,720px);max-width:none;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 28px;padding:32px 42px 36px;align-items:start;text-align:center;
+  border:1px solid rgba(142,48,54,.16);
+  border-radius:30px 9px 30px 9px;
+  background:linear-gradient(145deg,#fff9f0,#f5e7db 70%,#f8eee6);
+  box-shadow:0 26px 66px rgba(74,20,27,.13),0 6px 13px rgba(74,20,27,.04);
+}
+.home-page .visit-panel::before{
+  content:"";position:absolute;inset:8px;z-index:-1;
+  border:1px solid rgba(122,35,43,.14);border-radius:23px 5px 23px 5px;
+  pointer-events:none;
+}
+.home-page .visit-panel > div:not(.panel-signoff){
+  min-width:0;display:flex;flex-direction:column;align-items:center;
+  padding:17px 12px 9px;border-bottom:none;gap:9px;
+}
+.home-page .visit-panel > div:not(.panel-signoff):first-child{border-right:1px solid rgba(122,35,43,.16)}
+.home-page .visit-panel .visit-logo-mark{
+  grid-column:1/-1;grid-row:1;justify-self:center;order:-1;
+  width:186px;height:158px;max-width:100%;
+  padding:8px 14px 5px;margin-bottom:11px;
+  border:0!important;
+}
+.home-page .visit-logo-mark img{
+  display:block;height:100%;width:100%;object-fit:contain;
+  filter:drop-shadow(0 4px 6px rgba(65,8,17,.1));
+}
+.home-page .visit-panel small{font-size:10px;letter-spacing:.21em}
+.home-page .visit-panel strong,
+.home-page .visit-panel a{font-size:clamp(21px,2.9vw,29px);line-height:1.22}
+.home-page .visit-panel p{font-size:12px!important;line-height:1.6;max-width:260px}
+.home-page .site-footer{padding:59px 0 25px;background:#201013;text-align:center}
+.home-page .site-footer .footer-layout{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:13px;text-align:center;
+}
+.home-page .footer-logo-link{display:block;width:155px;height:132px}
+.home-page .footer-logo-link img{display:block;width:100%;height:100%;object-fit:contain}
+.home-page .footer-layout p{margin:0;max-width:430px;line-height:1.7}
+.home-page .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:18px 32px;margin-top:11px}
+.home-page .demo-disclaimer{max-width:930px;margin-top:29px;padding-top:19px;text-align:center;line-height:1.6;color:#d1b8ae}
+@media(max-width:700px){
+  .home-page .visit-section{padding:74px 0 82px}
+  .home-page .visit-section .visit-grid{width:calc(100% - 36px);gap:27px}
+  .home-page .visit-grid h2{font-size:clamp(47px,10vw,69px)}
+  .home-page .visit-panel{padding:23px 20px 30px;grid-template-columns:1fr;border-radius:25px 9px 25px 9px}
+  .home-page .visit-panel > div:not(.panel-signoff){padding:16px 8px;border-right:0!important}
+  .home-page .visit-panel > div:not(.panel-signoff):first-child{border-bottom:1px solid rgba(122,35,43,.15)}
+  .home-page .visit-panel .visit-logo-mark{grid-column:1;width:172px;height:134px;margin:0 auto}
+  .home-page .visit-panel strong,.home-page .visit-panel a{font-size:25px}
+  .home-page .site-footer .footer-layout{display:flex}
+  .home-page .footer-logo-link{width:144px;height:120px}
+}
+/* Make the gallery cards feel styled and layered rather than a rigid catalog grid. */
+.home-page .moments-section{
+  background:linear-gradient(160deg,#f3e5d9 0%,#eddbcf 45%,#f5e9df 100%);
+}
+.home-page .moments-grid{gap:clamp(14px,2.1vw,26px);padding:18px 6px 32px;overflow:visible}
+.home-page .moment-card{
+  position:relative;isolation:isolate;overflow:hidden;
+  min-width:0;border:2px solid rgba(255,247,234,.9);
+  border-radius:25px 7px 25px 7px;
+  box-shadow:0 21px 32px rgba(70,26,28,.19),0 3px 8px rgba(70,26,28,.12);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease;
+}
+.home-page .moment-card:nth-child(1){transform:translateY(8px) rotate(-1.25deg)}
+.home-page .moment-card:nth-child(2){transform:translateY(-8px) rotate(1.25deg)}
+.home-page .moment-card:nth-child(3){transform:translateY(10px) rotate(.9deg)}
+.home-page .moment-card:nth-child(4){transform:translateY(-5px) rotate(-1.1deg)}
+.home-page .moment-card::before{
+  content:"";position:absolute;z-index:2;pointer-events:none;
+  inset:10px;border:1px solid rgba(255,242,227,.53);
+  border-radius:17px 4px 17px 4px;
+}
+.home-page .moment-card::after{
+  background:linear-gradient(180deg,rgba(32,12,19,.32),transparent 34%,rgba(26,8,14,.23) 61%,rgba(28,5,12,.93));
+}
+.home-page .moment-card img{transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .5s ease}
+.home-page .moment-card:hover,
+.home-page .moment-card:focus-visible{
+  transform:translateY(-14px) rotate(0deg) scale(1.025);
+  box-shadow:0 30px 50px rgba(70,26,28,.26),0 8px 14px rgba(70,26,28,.1);
+  outline:none;
+}
+.home-page .moment-card:hover img,
+.home-page .moment-card:focus-visible img{transform:scale(1.065);filter:saturate(1.1)}
+.home-page .moment-caption{font-size:clamp(22px,2.15vw,31px);text-shadow:0 1px 8px rgba(0,0,0,.19)}
+.home-page .moment-index{font-size:9px;letter-spacing:.19em;text-shadow:0 2px 9px rgba(0,0,0,.27)}
+@media(max-width:560px){
+  .home-page .moments-grid{gap:14px;padding:14px 4px 25px}
+  .home-page .moment-card{border-radius:18px 5px 18px 5px}
+  .home-page .moment-card::before{inset:7px;border-radius:11px 3px 11px 3px}
+  .home-page .moment-caption{font-size:21px}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-page .moment-card,.home-page .moment-card img{transition:none!important}
+  .home-page .moment-card:hover,.home-page .moment-card:focus-visible{transform:none!important}
+}
