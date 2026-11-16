@@ -2009,7 +2009,7 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
   isolation:isolate;
 }
 .home-page .hero-greenwood .hero-stage .hero-photo{
-  position:relative;
+  position:absolute;
   z-index:2!important;
   display:block;
   width:100%;
