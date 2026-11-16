@@ -1,3 +1,9 @@
+## 2026-11-16 — Sweet Lisa’s overlapping dessert / contact decoration (REVIEW BRANCH)
+- Route: `/demos/sweet-lisas-cafe/`; source `public/demos/sweet-lisas-cafe/index.html` and `styles.css`. Brand/tenant is **Sweet Lisa’s Cafe** only; separate `/demos/sweet-lisas-cafe/digital-menu.html` is unchanged.
+- The homepage `#sweet-moment` dessert chapter is an inset rounded burgundy card with a negative bottom margin, layered above the `#visit` chapter. The previous decorative circle (`.visit-section::before`) is disabled; three small decorative cake-slice silhouettes and a subtle watermark reuse the existing official `assets/sweet-lisas-logo-hd.png`.
+- Existing `#visit` contact, directions, phone, Instagram and `digital-menu.html#desserts` destinations are unchanged. No ordering, booking, emails, addresses, backend or customer data were changed.
+- Status: code committed to a review branch; published GitHub Pages and device QA pending verification.
+
 ## 2026-11-15 — Delicious Tacos removal of floating mobile CTAs, rounded header/menu actions (LIVE)
 - Owner iPhone screenshot showed square top-right `TRY THE DEMO` CTA and fixed red mobile `TRY THE SAMPLE ORDER` overlay obstructing menu product controls on `/demos/delicious-tacos/`.
 - Source: `public/demos/delicious-tacos/index.html`. `top-cta` now uses `border-radius:9999px`; add (`.add-btn`) and quantity (`.qty-btn`) buttons rounded. Removed fixed `.mobile-cta` element and its CSS as well as unused 110px mobile footer spacer. Header CTA retains `#pickup-demo` destination.
