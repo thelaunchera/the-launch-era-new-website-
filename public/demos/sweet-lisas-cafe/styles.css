@@ -1414,3 +1414,65 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
   }
   .home-page .hero-greenwood h1{font-size:clamp(39px,11.6vw,52px)}
 }
+
+
+/* v14: unclutter Sweet Lisa's neighborhood story on phones only */
+.home-page .story-copy .story-lead-compact{display:none}
+@media (max-width:700px) {
+  /* One clean, authentic photograph. No miniature food card, overlay label or chips. */
+  .home-page .story-section{
+    padding:18px 0 35px;
+  }
+  .home-page .story-section .story-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:20px;
+  }
+  .home-page .story-visual{
+    width:100%;max-width:100%;
+    margin:0;overflow:visible;
+  }
+  .home-page .story-visual .story-interior-photo{
+    display:block;width:100%;
+    height:auto;max-height:none;
+    aspect-ratio:1.46;object-fit:cover;object-position:center;
+    border-radius:15px;
+    box-shadow:none;
+  }
+  .home-page .story-visual .story-food-inset,
+  .home-page .story-visual .story-photo-label,
+  .home-page .story-copy .story-highlights{display:none!important}
+  .home-page .story-copy{
+    max-width:100%;width:100%;
+    padding:0!important;margin:0;
+  }
+  .home-page .story-copy .eyebrow{
+    margin:0 0 10px;
+    font-size:9px;
+    letter-spacing:.17em;
+  }
+  .home-page .story-copy h2{
+    margin:0 0 13px;
+    font-size:clamp(37px,9.6vw,47px);
+    line-height:1.02;
+    letter-spacing:-.045em;
+    max-width:100%;
+    text-wrap:balance;
+  }
+  .home-page .story-copy p.story-lead-expanded{display:none!important}
+  .home-page .story-copy p.story-lead-compact{
+    display:block!important;
+    font-size:14px;line-height:1.5;
+    max-width:365px;
+    margin:0 0 14px;
+    color:#64524d;
+  }
+  .home-page .story-menu-link{
+    display:inline-flex;gap:10px;align-items:center;
+    min-height:40px;
+    font-size:10px;letter-spacing:.075em;
+  }
+  .home-page .story-link-arrow{width:30px;height:30px;font-size:15px}
+}
+@media(max-width:390px){
+ .home-page .story-copy h2{font-size:clamp(35px,9.6vw,40px)}
+}
