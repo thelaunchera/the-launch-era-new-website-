@@ -1,34 +1,24 @@
-# Sweet Lisa's Cafe — demo working draft
+# Sweet Lisa’s Cafe — editorial website & digital menu demo
 
-**Status:** visual prototype started, not published to the public demo library. Awaiting selection/permission for original photos.
+## What this concept now includes
+- Editorial, story-led Greenwood homepage, refined cream / black / brick-red brand palette and clean DM Serif + DM Sans typography.
+- The original Sweet Lisa’s round red-and-black logo (user-supplied reference).
+- Four freshly enhanced, individual food images: fried catfish with okra/cornbread, cheeseburger, grilled pork chop and dessert spread.
+- A separately presented **Digital Menu** view behind the homepage button (hash route #digital-menu); no menu item listing on the homepage.
+- Filterable menu preview across main plates, breakfast, sides and desserts, with an optional zoomable original October 2025 breakfast flyer.
+- Call button, Instagram and Google Maps search links; responsive layout and reduced-motion handling.
+- Single-file HTML with image assets embedded and no external image hosts or download links.
+- **Unofficial concept** — not a live ordering site, no checkout, no real reservations, no automated emails and no Admin Panel connected.
 
-## Business identification
-- Sweet Lisa's Cafe, 111 N Greenwood Ave, Tulsa, OK 74120
-- Phone: (918) 340-5335
-- Instagram: https://www.instagram.com/sweetlisasong/
-- Existing Canva client proposal: https://www.canva.com/d/ayaxUXgBcx1LoyV
+## Facts awaiting direct confirmation
+- Street address: social posts mention 109 N Greenwood Ave, while some tourism listings use 111 N. The demo provides a business-search Maps link until confirmed.
+- Current food prices, availability, breakfast hours and complete menu. The breakfast flyer dates to October 2025.
+- Written permission and original photography for commercial deployment. Enhanced AI images are conceptual illustrations based on user-provided reference screenshots, not verified exact photographs of current dishes.
 
-## Photo reference sources (research only, not licensed for republishing)
-- Restaurant Guru gallery (~188 food/exterior/interior photos): https://restaurantguru.com/Sweet-Lisas-Cafe-Tulsa
-- Sluurpy food gallery: https://sagemenu.com/tulsa/sweet-lisas-cafe-tulsa/
-- Restaurantji restaurant gallery: https://www.restaurantji.com/ok/tulsa/sweet-lisas-cafe-/
-- Official Instagram: https://www.instagram.com/sweetlisasong/
-- Official Tulsa tourism article, business-credited photo: https://www.visittulsa.com/blog/post/tulsas-historic-greenwood-district-itinerary/
+## Review links
+- Existing client proposal: https://www.canva.com/d/ayaxUXgBcx1LoyV
+- Client's Instagram: https://www.instagram.com/sweetlisasong/
+- Project assets folder: https://drive.google.com/drive/folders/1eLNKiAsINHBVd4QKQZLYt_wvX7zMyOOG
 
-## Demo structure implemented
-- Mobile-first premium editorial single-page layout
-- Rounded CTAs and contact links; real phone and Google Maps destination
-- Working filtered menu categories: main dishes, sides, desserts, drinks
-- Today's Specials concept (no invented special or price)
-- Food, café and storefront photo slots awaiting real photo selection
-- No payments, ordering backend, checkout, made-up prices or automation
-- English customer-facing copy; accessible menu and reduced-motion support
-
-## Next design steps
-1. Choose food hero image (ideally a standout catfish or pork-chop plate), café interior/counter and Greenwood storefront photographs with reuse rights.
-2. Confirm current restaurant hours, service format and menu prices with business; sources conflict in hours.
-3. Replace decorative placeholders with approved optimized WebP assets, one source per shot, and test iPhone/tablet/desktop.
-4. Publish to demos only after images are confirmed and visual QA passes.
-
-## Drive workspace
-https://drive.google.com/drive/folders/1eLNKiAsINHBVd4QKQZLYt_wvX7zMyOOG
+## QA
+The page and routed digital menu are self-contained; repo CI verifies route safety and prohibited ornamentation. Local browser automation was blocked by ERR_BLOCKED_BY_ADMINISTRATOR, so an independent live browser review is still recommended before client outreach.
