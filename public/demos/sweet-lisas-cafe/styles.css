@@ -627,3 +627,50 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
  .menu-page .menu-results-line{padding:12px 0 9px}
 }
 @media(max-width:370px){.menu-page .menu-cover-copy{max-width:83%}.menu-page .menu-cover-copy h1{font-size:32px!important}}
+
+
+/* Cash-only dining information & compact original flyer archive: menu route only. */
+.menu-page .menu-visit-info{background:#fffaf6;padding:11px 0 0}
+.menu-page .menu-visit-info .shell{width:min(calc(100% - 40px),1340px)}
+.menu-visit-info-inner{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;background:#f5e8dd;border:1px solid #e1cbbb;border-radius:14px;padding:12px 17px}
+.menu-cash-note{display:flex;align-items:center;gap:14px;min-width:0}
+.cash-note-mark{width:39px;height:39px;border-radius:50%;border:1.5px solid #84283b;display:grid;place-items:center;flex:0 0 auto;color:#84283b;font:700 22px/1 var(--serif)}
+.menu-cash-note strong{display:block;color:#6d1a2b;font:850 13px/1.2 var(--sans);letter-spacing:.1em}
+.menu-cash-note p{margin:3px 0 0;color:#55463e;font:12px/1.4 var(--sans)}
+.menu-call-link{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;border-radius:99px;padding:11px 17px;background:#431922;color:#fff;font:850 10px/1.2 var(--sans);letter-spacing:.045em}
+.menu-call-link:hover{background:#792435}
+.menu-call-link:focus-visible,.menu-visit-directions:focus-visible,.menu-archive-short button:focus-visible{outline:3px solid #ab3145;outline-offset:3px}
+.menu-page .menu-last-note{background:#f3e5da;border-top:1px solid #e2d5cb;padding:39px 0 44px}
+.menu-page .menu-last-note .shell{width:min(calc(100% - 64px),1260px)}
+.menu-last-note-inner{display:grid;grid-template-columns:1fr minmax(230px,.72fr);align-items:center;gap:45px}
+.menu-last-note h2{font-size:clamp(31px,3.3vw,46px);line-height:1.07;letter-spacing:-.05em;margin:8px 0 12px}
+.menu-last-note h2 em{color:#99283c}
+.menu-last-note p:not(.eyebrow){color:#66534e;font:13px/1.65 var(--sans);max-width:520px}
+.menu-visit-links{display:flex;align-items:center;gap:15px 23px;flex-wrap:wrap;margin-top:19px}
+.menu-visit-links .button{min-height:45px;padding:12px 18px}
+.menu-visit-directions{font:850 11px/1.5 var(--sans);color:#7a2434;border-bottom:1px solid #7a2434;padding-bottom:5px;letter-spacing:.05em}
+.menu-archive-short{padding:18px 23px;border:1px solid #dec7bd;background:#fffaf6;border-radius:16px}
+.menu-archive-short>span{font:800 10px/1.4 var(--sans);letter-spacing:.11em;color:#9c3544}
+.menu-archive-short p{margin:9px 0 13px!important;font:12px/1.65 var(--sans)!important}
+.menu-archive-short button{padding:8px 0;border:0;background:transparent;color:#692435;font:850 10px/1.4 var(--sans);letter-spacing:.04em;text-align:left;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:820px){
+ .menu-visit-info-inner{gap:12px}
+ .menu-call-link{font-size:9px;padding:10px 12px}
+ .menu-last-note-inner{gap:20px}
+}
+@media(max-width:650px){
+ .menu-page .menu-visit-info{padding-top:8px}
+ .menu-page .menu-visit-info .shell{width:calc(100% - 24px)}
+ .menu-visit-info-inner{padding:11px 12px;display:flex;flex-direction:column;align-items:stretch;border-radius:12px;gap:9px}
+ .menu-cash-note{gap:10px}
+ .cash-note-mark{width:35px;height:35px;font-size:20px}
+ .menu-cash-note strong{font-size:12px}
+ .menu-cash-note p{font-size:11px;line-height:1.35}
+ .menu-call-link{align-self:flex-start;min-height:33px;padding:8px 13px;font-size:9px}
+ .menu-page .menu-last-note{padding:29px 0 33px}
+ .menu-page .menu-last-note .shell{width:calc(100% - 30px)}
+ .menu-last-note-inner{display:block}
+ .menu-last-note h2{font-size:37px}
+ .menu-visit-links{margin-top:16px}
+ .menu-archive-short{margin-top:25px;padding:17px}
+}
