@@ -1,3 +1,9 @@
+## 2026-11-16 — Sweet Lisa’s iPhone oversized cake illustration regression (REVIEW)
+- Homepage route `/demos/sweet-lisas-cafe/`, original Sweet Lisa’s tenant only. Review branch `fix/sweet-lisas-slice-icon-size-20261116` updates only `public/demos/sweet-lisas-cafe/index.html` and `styles.css`.
+- Replaces three decorative inline SVG cake illustrations (unbounded intrinsic sizing when new CSS is not loaded) with three CSS background icons on empty `<span>` elements capped at 46×36 px desktop and 40×32 px phone; if the stylesheet is stale/unavailable, they disappear instead of rendering huge.
+- Adds a versioned stylesheet URL for both preload and stylesheet to avoid reusing previously cached CSS. Adds intrinsic dimensions to original-logo watermark image. Preserves rounded dessert/visit overlap, visit phone/maps/Instagram and separate digital menu.
+- Verify CI, GitHub Pages and mobile rendering before calling the published fix complete.
+
 ## 2026-11-16 — Sweet Lisa’s overlapping dessert / contact decoration (REVIEW BRANCH)
 - Route: `/demos/sweet-lisas-cafe/`; source `public/demos/sweet-lisas-cafe/index.html` and `styles.css`. Brand/tenant is **Sweet Lisa’s Cafe** only; separate `/demos/sweet-lisas-cafe/digital-menu.html` is unchanged.
 - The homepage `#sweet-moment` dessert chapter is an inset rounded burgundy card with a negative bottom margin, layered above the `#visit` chapter. The previous decorative circle (`.visit-section::before`) is disabled; three small decorative cake-slice silhouettes and a subtle watermark reuse the existing official `assets/sweet-lisas-logo-hd.png`.
