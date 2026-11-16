@@ -1992,3 +1992,112 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
   .home-page .dessert-copy h2{font-size:clamp(41px,10.4vw,48px)}
   .home-page .dessert-art img{height:220px!important}
 }
+
+
+/* v19 — Sweet Lisa hero foreground, visible four-point mesh and headline-only shimmer.
+   Pure CSS: leave the official logo, other page headings, menu and CTA untouched. */
+/* The former generic .hero-photo z-index:-2 was burying the transparent cutout. */
+.home-page .hero-greenwood .hero-stage{
+  z-index:5;
+}
+.home-page .hero-greenwood .hero-heritage{
+  z-index:1;
+  opacity:.32;
+}
+.home-page .hero-greenwood .hero-stage .hero-visual{
+  z-index:6!important;
+  isolation:isolate;
+}
+.home-page .hero-greenwood .hero-stage .hero-photo{
+  position:relative;
+  z-index:2!important;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  filter:drop-shadow(0 15px 22px rgba(33,5,12,.26));
+}
+.home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake{
+  z-index:3!important;
+}
+/* Four soft burgundy, berry, cocoa and crimson pools exchange corners in 18s. */
+.home-page .hero-greenwood{
+  background:#2b0c16;
+  isolation:isolate;
+}
+.home-page .hero-mesh{
+  position:absolute;
+  z-index:0;
+  inset:-11%;
+  opacity:1;
+  pointer-events:none;
+  background-color:transparent;
+  background-image:
+    radial-gradient(ellipse closest-side at center,rgba(224,32,64,.96) 0%,rgba(186,27,57,.70) 38%,transparent 100%),
+    radial-gradient(ellipse closest-side at center,rgba(142,21,49,.93) 0%,rgba(105,23,41,.65) 45%,transparent 100%),
+    radial-gradient(ellipse closest-side at center,rgba(183,78,52,.84) 0%,rgba(121,51,43,.52) 43%,transparent 100%),
+    radial-gradient(ellipse closest-side at center,rgba(164,32,56,.86) 0%,rgba(120,25,45,.60) 47%,transparent 100%);
+  background-repeat:no-repeat;
+  background-size:76% 78%,74% 80%,77% 77%,80% 76%;
+  background-position:0% 0%,100% 0%,100% 100%,0% 100%;
+  filter:blur(23px) saturate(1.15);
+  animation:sweet-lisa-mesh-visible 18s linear infinite;
+  will-change:background-position;
+}
+@keyframes sweet-lisa-mesh-visible{
+  0%,100%{background-position:0% 0%,100% 0%,100% 100%,0% 100%}
+  25%{background-position:100% 0%,100% 100%,0% 100%,0% 0%}
+  50%{background-position:100% 100%,0% 100%,0% 0%,100% 0%}
+  75%{background-position:0% 100%,0% 0%,100% 0%,100% 100%}
+}
+/* Keep contrast for the hero copy, but no longer flatten the animated mesh. */
+.home-page .hero-greenwood .hero-shade{
+  background:linear-gradient(90deg,rgba(35,9,17,.28) 0%,rgba(35,9,17,.17) 38%,rgba(35,9,17,.07) 69%,rgba(35,9,17,.02) 100%);
+}
+/* Editorial light passing across ONLY the oversized headline, never navigation or body copy. */
+.home-page .hero-greenwood #heroTitle,
+.home-page .hero-greenwood #heroTitle em{
+  background-image:linear-gradient(115deg,#fffaf1 0%,#fff2e4 30%,#f9d9ca 48%,#fffdf5 64%,#f5dfd3 84%,#fffaf1 100%);
+  background-size:220% 100%;
+  background-position:0% 50%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  -webkit-text-stroke:.18px rgba(255,253,247,.62);
+  animation:sweet-lisa-title-sheen 8.5s ease-in-out infinite alternate;
+}
+.home-page .hero-greenwood #heroTitle{
+  color:#fff8f0;
+  text-shadow:none;
+  filter:drop-shadow(0 4px 6px rgba(34,5,13,.38));
+}
+.home-page .hero-greenwood #heroTitle em{
+  color:#fbe4d5;
+  animation-delay:-1.25s;
+}
+@keyframes sweet-lisa-title-sheen{
+  from{background-position:0% 50%}
+  to{background-position:100% 50%}
+}
+@media(max-width:700px){
+  .home-page .hero-mesh{
+    opacity:1;
+    filter:blur(21px) saturate(1.13);
+    background-size:84% 77%,86% 81%,85% 78%,82% 84%;
+  }
+  .home-page .hero-greenwood .hero-stage .hero-visual{
+    z-index:6!important;
+  }
+  .home-page .hero-greenwood .hero-shade{
+    background:linear-gradient(180deg,rgba(29,5,13,.26),rgba(29,5,13,.08) 46%,transparent 74%);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .home-page .hero-mesh,
+  .home-page .hero-greenwood #heroTitle,
+  .home-page .hero-greenwood #heroTitle em{
+    animation:none!important;
+    will-change:auto;
+  }
+}
