@@ -1,21 +1,28 @@
-# Sweet Lisa’s Cafe — Editorial Demo v2 (visual concept)
+# Sweet Lisa’s Cafe — Editorial Demo v3
 
-## How to open
-- Open `index.html` for the editorial story-driven website.
-- Tap **View Digital Menu** to open `digital-menu.html`, which is intentionally separate from the homepage.
-- Menu filters and the original-2025 breakfast flyer modal are interactive.
-- All images are inside `assets/`. No network access is required except optional Google Fonts.
+## Intent
+A design concept for The Launch Era prospect presentation, not an operational ordering or booking website.
 
-## Source & media notes
-- Enhanced food illustrations were created from user-supplied reference images with AI. They are *visual concepts*, not verified unaltered food photos or proof of current offerings.
-- The Sweet Lisa’s logo was cropped from the supplied Instagram profile reference. Keep the original identity.
-- Original October 2025 breakfast flyer included for reference; price and hours were not carried into the live menu cards.
-- Location references conflict between **109** and **111 N Greenwood Ave**. The demo points to a business search on Google Maps until the precise number is confirmed.
-- No Stripe, checkout, online ordering, emails, automatic booking, CRM or Admin Panel is connected.
+- The homepage is a single-photo hero inspired by the user’s selected visual reference, with an original editable Tulsa skyline line sketch, real logo, story, real café interior photo and four category teaser cards.
+- The original user-selected strawberry cheesecake campaign image is prominently featured in an overlapping editorial dessert block.
+- The full menu is **only** on `digital-menu.html`, reachable from the main `View Our Digital Menu` button.
+- Menu imagery is mapped by dish. No duplicated catfish stand-ins for breakfast, cornbread, desserts or drinks. Main dish and dessert concept images retain the café brand context.
+- Two menu elements overlap deliberately: the menu hero title badge and the featured dessert card; most other cards are normal with gentle rounded corners.
+- Interactive category filters support direct links via hash, work on mobile, and do not simulate real ordering. October 2025 breakfast flyer remains clearly archived and accessible in a dialog.
+- Street number is intentionally not displayed because sources conflict (109 vs 111). Phone and hours need client confirmation.
 
-## Brand direction
-Warm cream `#f7f1e9`, near-black `#181615`, editorial brick red `#982529`, muted sand `#eaded0`.
-DM Serif Display + DM Sans, with local font fallbacks.
+## Image treatment
+Original photo of café interior and original logo are sourced from customer-shared references; enhancements and generated images are **concepts**, not documentary photographs or verified official product photos. Do not claim the generated sign or interiors are real. No images have embedded download links. Existing image usage is subject to rights/consent before public customer use.
 
-## QA
-Run `python -m http.server 8000 --directory sweet-lisa-editorial-demo`, then view `/index.html` and `/digital-menu.html` at 375px, 768px and desktop sizes.
+## 8 campaign images
+`campaign-posts/` contains eight **individual** image files with no repeated hero subject: actual interior, breakfast, cheeseburger, cornbread, fried chicken, sweet tea, cheesecake, pork chop. Use as a creative direction set; final copy and publishing require client approval.
+
+## Contact and integration
+Contact via phone, Instagram and Google Maps search link. No checkout, automated emails, bookings or backend added.
+
+## v4 — Editorial inspiration: Avalon Beach House (layout principles only)
+- Hero features **one** selected strawberry-cheesecake-in-hand concept image; full Tulsa skyline silhouette is a separate inline vector, not a raster/photo background.
+- Story: “A little sweet. A lot of soul.” Original café interior photo is the second chapter to establish visual authenticity.
+- Primary CTA is a functioning link to the separate digital-menu.html; there is NO ordering, checkout or payment handling.
+- Avalon inspiration applied as narrative page rhythm, editorial typography and a delicate architectural drawing. No Avalon copy, photos, logos or source code used.
+- Hero cake image is AI-styled concept photography, not a verified photograph of the exact product. Street address intentionally withheld pending verification.

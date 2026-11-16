@@ -1,0 +1,80 @@
+{
+  "campaign": [
+    {
+      "name": "01-the-cafe.webp",
+      "title": "A real look inside",
+      "source": "actual-interior.webp",
+      "notes": "Real café interior, original logo; user-provided photo",
+      "status": "concept; client approval required"
+    },
+    {
+      "name": "02-slow-morning.webp",
+      "title": "Slow mornings",
+      "source": "breakfast.webp",
+      "notes": "Breakfast, overhead, concept styling",
+      "status": "concept; client approval required"
+    },
+    {
+      "name": "03-cheeseburger.webp",
+      "title": "The cheeseburger",
+      "source": "cheeseburger.webp",
+      "notes": "Different from fried fish; original subject from their Instagram",
+      "status": "concept; client approval required"
+    },
+    {
+      "name": "04-cornbread.webp",
+      "title": "Golden cornbread",
+      "source": "cornbread.webp",
+      "notes": "Macro detail, warm editorial shot",
+      "status": "concept; client approval required"
+    },
+    {
+      "name": "05-fried-chicken.webp",
+      "title": "Fried chicken & cornbread",
+      "source": "fried-chicken.webp",
+      "notes": "Distinct from catfish; category-specific",
+      "status": "concept; client approval required"
+    },
+    {
+      "name": "06-sweet-tea.webp",
+      "title": "A little refreshment",
+      "source": "iced-tea.webp",
+      "notes": "Sweet tea, with café interior signage",
+      "status": "concept; client approval required"
+    },
+    {
+      "name": "07-cheesecake.webp",
+      "title": "The sweetest moment",
+      "source": "cheesecake-hand.webp",
+      "notes": "Selected original campaign image from user",
+      "status": "concept; client approval required"
+    },
+    {
+      "name": "08-pork-chop.webp",
+      "title": "Comfort on a plate",
+      "source": "pork-chop.webp",
+      "notes": "Grilled pork chop and sides",
+      "status": "concept; client approval required"
+    }
+  ],
+  "menu": {
+    "catfish": "catfish.webp",
+    "pork chop": "pork-chop.webp",
+    "cheeseburger": "cheeseburger.webp",
+    "fried chicken": "fried-chicken.webp",
+    "breakfast": "breakfast.webp",
+    "omelette": "omelette.webp",
+    "breakfast sandwich": "breakfast-sandwich.webp",
+    "cornbread": "cornbread.webp",
+    "cheesecake": "cheesecake-hand.webp",
+    "dessert cups": "dessert-cups.webp",
+    "iced tea": "iced-tea.webp",
+    "grilled chicken": "chicken-grilled.webp"
+  },
+  "identity": {
+    "real_cafe_interior": "actual-interior.webp",
+    "actual_original_logo": "logo.webp",
+    "hero": "campaign-hero.webp",
+    "cheesecake_feature": "cheesecake-hand.webp"
+  }
+}
