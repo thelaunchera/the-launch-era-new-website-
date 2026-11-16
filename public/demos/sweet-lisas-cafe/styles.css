@@ -169,10 +169,10 @@ body.home-page{max-width:100%;overflow-x:clip}
 .home-page .hero-heritage{
   position:absolute;z-index:1;pointer-events:none;
   inset:12% 0 0;
-  background-image:url("assets/greenwood-streetscape.svg");
-  background-repeat:no-repeat;background-position:center bottom;
-  background-size:100% auto;
-  opacity:.34;
+  background-image:url("assets/storefront-outline-behind-cake.svg");
+  background-repeat:no-repeat;background-position:52% bottom;
+  background-size:105% auto;
+  opacity:.42;
   -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#000 43%,#000 96%);
   mask-image:linear-gradient(to bottom,transparent 1%,#000 43%,#000 96%);
 }
@@ -238,7 +238,7 @@ body.home-page{max-width:100%;overflow-x:clip}
   .home-page .hero-greenwood h1{font-size:clamp(55px,6vw,73px);line-height:1.02}
   .home-page .hero-greenwood .hero-visual{right:0;width:50%;height:73%}
   .home-page .hero-greenwood .city-mark.skyline-above-cake{top:20%;left:57%;width:min(34vw,340px)}
-  .home-page .hero-heritage{background-size:auto 80%;background-position:center bottom}
+  .home-page .hero-heritage{background-size:112% auto;background-position:53% bottom}
   .home-page .story-grid{grid-template-columns:.85fr 1.15fr;gap:30px}
   .home-page .story-copy h2{font-size:clamp(44px,5.3vw,68px)}
 }
@@ -269,8 +269,8 @@ body.home-page{max-width:100%;overflow-x:clip}
   .home-page .hero-greenwood .city-mark-name{font-size:8px;letter-spacing:.14em}
   .home-page .hero-greenwood .hero-shade{background:linear-gradient(180deg,rgba(27,6,11,.32),transparent 56%)}
   .home-page .hero-heritage{
-    inset:13% 0 0;background-size:auto 65%;
-    opacity:.28;background-position:54% bottom;
+    inset:13% 0 0;background-size:175% auto;
+    opacity:.27;background-position:56% bottom;
   }
   .home-page .hero-mesh{filter:blur(26px);opacity:.92}
   .home-page .hero-seam{height:44px}
