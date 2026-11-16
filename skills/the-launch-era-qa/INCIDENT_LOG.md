@@ -1,3 +1,18 @@
+## 2026-11-16 — Pumpkin’s Kitchen menu appears empty in HTML preview (REVIEW FIX)
+- Owner reported no food dishes in digital menu. Verified markup had `<div id="menuList"></div>` until JS created all 42; an HTML viewer disabling JavaScript rendered an empty menu even though previous JS-on Chromium tests passed. Generic PK placeholders and 73px thumbnails compounded the visual emptiness.
+- Fix: render all 42 real-reference dish names/prices/details as HTML, add static anchor tabs and six photo-forward concept dishes, increase menu photo readability; JS enhances search/category/cart, with cart buttons only shown when the simulated-order controller loads. No new photos sourced from other restaurants.
+- Tests: 360/390/820/1440 Chromium with JavaScript OFF and ON: 42 items, 6 photo tiles, 14 illustrated dish cards, no JS errors/overflow; JS-on sample checkout/status regression also passed 360/390/820/1024/1440. GitHub Pages deployment and physical iPhone Safari not verified yet.
+
+## 2026-11-16 — Pumpkin’s Kitchen footer logo stretched and no simulated ordering (REVIEW BRANCH FIX)
+- User screenshot: footer chef-hat wordmark appeared extremely tall and distorted on iPhone. Root cause confirmed: markup `width=900 height=300` combined with CSS `.footer-logo{width:170px}` but no `height:auto`, so image rendered 170×300 instead of a natural 3:1 ratio. Fixed by `height:auto`, explicit aspect ratio and object fit, preserving original asset.
+- User expressly requested complete simulated ordering. Only standalone Pumpkin’s Kitchen digital-menu demo gained a JS-only cart, sample checkout, printed-price option chooser, quantities, receipt and on-screen status transitions. No real order/payment/email/SMS or data persistence was added, and independent-site architecture remains.
+- Verified locally using in-memory Chromium DOM and screenshots at 360/390/820/1024/1440: image rendered 170×56.7 mobile; 190×63.3 desktop; all 42 dishes and 3-stage simulated pickup flow passed; no JS errors/overflow. Browser HTTP/file navigation previously blocked by administrator; GitHub Pages, Safari, repository static QA runner remain unverified.
+
+## 2026-11-16 — Pumpkin’s Kitchen browser-navigation QA blocked (OPEN)
+- During new two-route prospect demo build, Chromium navigation to local `http://127.0.0.1` and `file://` returned ERR_BLOCKED_BY_ADMINISTRATOR. This is an environment restriction, not proof the website or menu is broken.
+- Used in-memory Chromium rendering (HTML with embedded image data URLs) for 375/390/768/1024/1440; detected no horizontal overflow or JS page errors and confirmed the menu’s search, tabs, and details modal. Browser navigation/Pages deploy are not independently verified.
+- Draft remains on review branch only. Never claim published or test actual customer orders, emails, payments, hours or location. Re-run canonical route-integrity and device checks from repository runner before public release.
+
 ## 2026-11-16 — Sweet Lisa hero storefront overlaps hand / photo needs small left shift
 - Report: tablet landscape/desktop screenshot shows the real cheesecake cutout at right, upper Tulsa skyline near the top and a second unwanted architectural drawing behind and above the hand at the bottom of hero. User requests nudging hero image left and hiding the building near the hand.
 - Cause confirmed in source: duplicate building visual is the `.hero-heritage` background `assets/storefront-outline-behind-cake.svg` (distinct from the Tulsa skyline `.city-mark` SVG). Responsive `.hero-stage .hero-visual` controls photo placement.
