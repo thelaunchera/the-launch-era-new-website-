@@ -903,3 +903,147 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
 }
 @media(max-width:390px){.home-page .moments-invite{flex-wrap:wrap}.home-page .story-copy h2{font-size:42px}.home-page .moments-grid{gap:9px}}
 @media(prefers-reduced-motion:reduce){.home-page .story-link-arrow{transition:none}.home-page .moments-section .moment-card:hover{transform:none!important}}
+
+
+/* v11 · tablet / desktop side-by-side hero restored; phone stays image-first */
+@media (min-width:701px) {
+  /* Restore the original landscape editorial composition, despite the
+     image-first hero-stage markup used by phones. */
+  .home-page .hero-greenwood {
+    display:block;
+    position:relative;
+    min-height:738px!important;
+    height:auto!important;
+    padding:0;
+    overflow:hidden;
+  }
+  .home-page .hero-greenwood .hero-stage {
+    position:absolute;
+    z-index:5;
+    inset:0;
+    width:100%;
+    height:100%!important;
+    min-height:0;
+    overflow:visible;
+    pointer-events:none;
+    margin:0;
+    flex:none;
+  }
+  .home-page .hero-greenwood .hero-stage .hero-visual {
+    position:absolute!important;
+    inset:auto 2.3% 0 auto!important;
+    top:auto!important;
+    left:auto!important;
+    right:2.3%!important;
+    bottom:0!important;
+    width:51%!important;
+    height:77%!important;
+    max-width:none!important;
+    margin:0!important;
+    overflow:visible;
+  }
+  .home-page .hero-greenwood .hero-stage .hero-photo {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    max-width:none;
+    object-fit:contain;
+    object-position:center bottom;
+    transform:none;
+  }
+  .home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake {
+    position:absolute!important;
+    top:17%!important;
+    left:58%!important;
+    right:auto!important;
+    width:min(30vw,385px)!important;
+    max-width:none!important;
+    margin:0!important;
+    transform:none!important;
+    text-align:center;
+  }
+  .home-page .hero-greenwood .hero-content {
+    position:relative;
+    z-index:8;
+    display:block;
+    width:min(calc(100% - 72px),1280px)!important;
+    max-width:1280px!important;
+    margin:0 auto;
+    padding:236px 0 144px!important;
+    text-align:left;
+  }
+  .home-page .hero-greenwood .hero-main {
+    display:block;
+    width:50%!important;
+    max-width:610px!important;
+    text-align:left;
+  }
+  .home-page .hero-greenwood h1 {
+    max-width:620px;
+    font-size:clamp(62px,6.25vw,104px);
+    line-height:1.005;
+    margin:0 0 26px;
+  }
+  .home-page .hero-greenwood .hero-text {
+    max-width:430px;
+    margin:0;
+    text-align:left;
+    font-size:16px;
+    line-height:1.7;
+  }
+  .home-page .hero-greenwood .hero-actions {
+    display:flex;
+    width:auto;
+    justify-content:flex-start;
+    margin:27px 0 0;
+  }
+  .home-page .hero-greenwood .hero-shade {
+    z-index:2;
+    background:linear-gradient(90deg,rgba(30,8,13,.29),rgba(30,8,13,.15) 37%,rgba(30,8,13,.08) 66%,rgba(30,8,13,.02));
+  }
+  /* This is the NEW transparent storefront drawing, not the upper Tulsa skyline. */
+  .home-page .hero-greenwood .hero-heritage {
+    background-image:url("assets/storefront-outline-behind-cake.svg");
+  }
+  .home-page .hero-seam{height:65px}
+}
+@media (min-width:701px) and (max-width:1100px) {
+  .home-page .hero-greenwood {
+    min-height:715px!important;
+  }
+  .home-page .hero-greenwood .hero-stage .hero-visual {
+    inset:auto 0 0 auto!important;
+    top:auto!important;
+    bottom:0!important;
+    right:0!important;
+    left:auto!important;
+    width:50%!important;
+    height:73%!important;
+    max-width:none!important;
+  }
+  .home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake {
+    top:20%!important;
+    left:57%!important;
+    right:auto!important;
+    width:min(34vw,340px)!important;
+    transform:none!important;
+  }
+  .home-page .hero-greenwood .hero-content {
+    padding:219px 0 127px!important;
+    width:min(calc(100% - 72px),1280px)!important;
+    max-width:1280px!important;
+  }
+  .home-page .hero-greenwood .hero-main {
+    width:51%!important;
+    max-width:520px!important;
+  }
+  .home-page .hero-greenwood h1 {
+    font-size:clamp(55px,6vw,73px);
+    line-height:1.02;
+  }
+  .home-page .hero-greenwood .hero-text {
+    max-width:350px;
+    font-size:15px;
+  }
+}
