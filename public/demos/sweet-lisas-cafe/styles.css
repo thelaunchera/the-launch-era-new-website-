@@ -674,3 +674,156 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
  .menu-visit-links{margin-top:16px}
  .menu-archive-short{margin-top:25px;padding:17px}
 }
+
+
+/* v10 · image-first Sweet Lisa hero, exact Drive logo placement, mobile/tablet refinement */
+/* The homepage header deliberately has no logo; the verified brand mark is in the footer only. */
+.home-page .header-row{justify-content:space-between}
+.home-page .home-header-location{
+  display:inline-flex;align-items:center;min-height:48px;
+  font:800 10px/1.35 var(--sans);letter-spacing:.17em;
+  color:#e7b9ad;white-space:nowrap;
+}
+.home-page .desktop-nav{margin-left:auto}
+.home-page .header-cta{margin-left:0}
+.menu-page .site-header .brand{display:flex;align-items:center;width:86px;min-width:0;flex:0 0 86px}
+.menu-page .site-header .brand img{
+  width:80px;height:67px;object-fit:contain;object-position:center;
+  border:0!important;border-radius:0!important;background:none!important;
+  box-shadow:none!important;filter:drop-shadow(0 2px 5px rgba(0,0,0,.1));
+}
+.menu-page .site-header .brand span{display:none!important}
+.site-footer .footer-logo-link img{width:100%;height:100%;object-fit:contain;object-position:center;filter:drop-shadow(0 3px 6px rgba(0,0,0,.2))}
+/* The photography and Tulsa skyline introduce the cafe BEFORE the message and CTA. */
+.home-page .hero-greenwood{
+  position:relative;display:flex;flex-direction:column;isolation:isolate;
+  min-height:0!important;height:auto!important;
+  padding:0 0 10px;overflow:hidden;
+  background-color:#2d0a13;
+}
+.home-page .hero-greenwood .hero-stage{
+  position:relative;z-index:5;display:block;
+  width:100%;height:clamp(510px,52vw,675px);
+  flex:0 0 auto;overflow:visible;pointer-events:none;
+}
+.home-page .hero-greenwood .hero-stage .hero-visual{
+  position:absolute!important;
+  inset:114px 0 0 0!important;
+  width:min(86%,850px)!important;
+  max-width:calc(100% - 32px)!important;
+  height:auto!important;
+  margin:0 auto;
+  z-index:4;
+  overflow:visible;
+  background:transparent!important;
+  display:block;
+}
+.home-page .hero-greenwood .hero-stage .hero-photo{
+  position:absolute;inset:0;width:100%;height:100%;
+  max-width:100%;object-fit:contain;object-position:center bottom;
+  transform:none;filter:drop-shadow(0 17px 23px rgba(33,5,12,.25));
+}
+.home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake{
+  position:absolute!important;z-index:8;
+  left:50%!important;right:auto!important;top:28px!important;
+  width:min(43vw,440px)!important;max-width:calc(100% - 64px);
+  transform:translateX(-50%)!important;margin:0;
+  text-align:center;filter:drop-shadow(0 2px 10px rgba(24,3,9,.3));
+}
+.home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake .skyline{
+  display:block;width:100%;height:auto;margin:0 auto;
+}
+.home-page .hero-greenwood .hero-stage .city-mark-name{
+  margin-top:3px;font:800 11px/1.4 var(--sans);
+  letter-spacing:.23em;text-align:center;
+}
+.home-page .hero-greenwood .hero-content{
+  position:relative;z-index:8;
+  display:flex;flex-direction:column;align-items:center;
+  width:min(calc(100% - 40px),960px)!important;
+  max-width:960px!important;
+  padding:24px 0 111px!important;
+  text-align:center;
+  margin:0 auto;
+}
+.home-page .hero-greenwood .hero-main{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  width:100%!important;max-width:860px!important;
+}
+.home-page .hero-greenwood h1{
+  max-width:100%;font-size:clamp(52px,6.8vw,100px);
+  line-height:1.045;letter-spacing:-.056em;margin:0 0 18px;
+}
+.home-page .hero-greenwood .hero-text{
+  font-size:clamp(14px,1.45vw,17px);
+  line-height:1.6;max-width:580px;margin:0 auto;
+}
+.home-page .hero-greenwood .hero-actions{
+  margin:23px auto 0;justify-content:center;display:flex;width:100%;
+}
+.home-page .hero-greenwood .hero-shade{
+  z-index:2;background:linear-gradient(180deg,transparent 0%,rgba(35,8,13,.08) 57%,rgba(35,8,13,.13) 100%);
+}
+.home-page .hero-heritage{z-index:1;opacity:.37}
+.home-page .hero-seam{z-index:10;height:69px}
+.home-page .story-section{padding:15px 0 85px}
+.home-page .visit-panel{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  padding-top:32px;
+}
+@media(min-width:701px) and (max-width:1100px){
+  .home-page .hero-greenwood .hero-stage{height:clamp(515px,57vw,625px)}
+  .home-page .hero-greenwood .hero-stage .hero-visual{
+    inset:106px 0 0 0!important;
+    width:min(86%,720px)!important;
+  }
+  .home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake{
+    width:min(41vw,390px)!important;top:25px!important;
+  }
+  .home-page .hero-greenwood .hero-content{padding:16px 0 102px!important}
+  .home-page .hero-greenwood h1{font-size:clamp(55px,6.5vw,75px)}
+  .home-page .hero-greenwood .hero-text{font-size:15px;max-width:490px}
+}
+@media(max-width:700px){
+  .home-page .home-header-location{font-size:8px;letter-spacing:.095em;max-width:35%;white-space:normal}
+  .home-page .header-row{min-height:68px}
+  .home-page .header-cta{margin-left:auto}
+  .home-page .hero-greenwood .hero-stage{height:clamp(380px,109vw,485px)}
+  .home-page .hero-greenwood .hero-stage .hero-visual{
+    inset:90px 0 0 0!important;
+    width:min(96%,530px)!important;max-width:calc(100% - 12px)!important;
+  }
+  .home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake{
+    top:11px!important;left:50%!important;
+    width:min(77vw,330px)!important;max-width:calc(100% - 48px);
+    transform:translateX(-50%)!important;
+  }
+  .home-page .hero-greenwood .hero-stage .city-mark-name{
+    margin-top:0;font-size:8px;letter-spacing:.13em;
+  }
+  .home-page .hero-greenwood .hero-content{
+    width:calc(100% - 38px)!important;
+    padding:6px 0 87px!important;max-width:none!important;
+  }
+  .home-page .hero-greenwood h1{
+    font-size:clamp(43px,11.8vw,64px);
+    line-height:1.02;margin:0 0 19px;
+  }
+  .home-page .hero-greenwood .hero-text{
+    font-size:14px;max-width:340px;line-height:1.6;
+  }
+  .home-page .hero-greenwood .hero-actions{margin:24px auto 0}
+  .home-page .hero-heritage{opacity:.29;background-position:55% bottom;background-size:175% auto}
+  .home-page .hero-seam{height:43px}
+  .home-page .story-section{padding-top:13px}
+  .menu-page .site-header .brand{flex:0 0 77px;width:77px}
+  .menu-page .site-header .brand img{width:73px;height:62px}
+}
+@media(max-width:390px){
+  .home-page .home-header-location{font-size:7px;max-width:30%}
+  .home-page .hero-greenwood .hero-stage{height:clamp(354px,108vw,421px)}
+  .home-page .hero-greenwood .hero-stage .hero-visual{inset:80px 0 0 0!important}
+  .home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake{top:9px!important;width:74vw!important}
+  .home-page .hero-greenwood h1{font-size:clamp(40px,11.5vw,52px)}
+}
