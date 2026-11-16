@@ -1681,13 +1681,19 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
   transform:rotate(-13deg);
   filter:grayscale(1) sepia(.6);
 }
-.home-page .visit-slice-defs { position:absolute; width:0; height:0; overflow:hidden; }
 .home-page .visit-cake-slice {
   position:absolute;
-  width:clamp(48px,6.5vw,83px);
-  height:auto;
-  color:#8b3847;
-  opacity:.19;
+  display:block;
+  width:46px;
+  height:36px;
+  min-width:0;
+  max-width:46px;
+  max-height:36px;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2072%2056%22%3E%3Cpath%20d%3D%22M9%2044%2040%2016%2064%2044Z%22%20fill%3D%22%238b3847%22%20fill-opacity%3D%22.20%22%20stroke%3D%22%238b3847%22%20stroke-width%3D%222.7%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12%2044h49M18%2038h40M25%2031h28%22%20fill%3D%22none%22%20stroke%3D%22%238b3847%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M33%2019q-1-7%205-8%205-1%207%206%22%20fill%3D%22none%22%20stroke%3D%22%238b3847%22%20stroke-width%3D%222.7%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%2210%22%20r%3D%223.5%22%20fill%3D%22%238b3847%22%2F%3E%3C%2Fsvg%3E");
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:contain;
+  opacity:.15;
 }
 .home-page .visit-cake-slice--one { top:20%; left:6%; transform:rotate(-18deg); }
 .home-page .visit-cake-slice--two { top:48%; right:7%; transform:rotate(16deg) scale(.8); }
@@ -1713,7 +1719,7 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
     width:165px;
     opacity:.07;
   }
-  .home-page .visit-cake-slice { width:49px; opacity:.16; }
+  .home-page .visit-cake-slice { width:40px; height:32px; max-width:40px; max-height:32px; opacity:.15; }
   .home-page .visit-cake-slice--one { top:14%; left:5%; transform:rotate(-18deg) scale(.78); }
   .home-page .visit-cake-slice--two { top:43%; right:2%; transform:rotate(19deg) scale(.7); }
   .home-page .visit-cake-slice--three { bottom:10%; left:3%; transform:rotate(9deg) scale(.58); }

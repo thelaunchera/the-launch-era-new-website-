@@ -1,3 +1,9 @@
+## 2026-11-16 — Oversized gray cake-slice SVGs on Sweet Lisa’s iPhone
+- Owner’s screenshot shows giant block-like gray cake illustrations occupying the viewport below an awning graphic, instead of tiny decorative cake slices.
+- Confirmed source-level risk: the previous `visit-cake-slice` markup used inline `<svg>` without width or height attributes, and the stylesheet URL was unversioned; if the updated CSS is cached/missing, SVGs can use large default browser dimensions. Exact iOS cache state not independently established.
+- Safe corrective change: remove inline SVG drawing elements and their symbol; use empty spans with small background-image cake-slice outlines and hard width/height caps, including a phone override; cache-bust the Sweet Lisa homepage-only stylesheet; give the existing official logo watermark explicit fallback dimensions. The images, contacts, dessert content, menu and all other demos remain untouched.
+- QA status: source check and CI required; published visual/mobile confirmation pending. Do not claim verified on the physical iPhone without actual browser evidence.
+
 ## 2026-11-16 — Sweet Lisa’s unwanted circle and hard transition between dessert/visit (VISUAL REVISION)
 - Owner’s iPad screenshots show an unrequested outlined circle on the left of the lower `Good food is better together` section and a hard full-width boundary beneath the burgundy dessert chapter.
 - Verified source: homepage `.home-page .visit-section:before` draws the circle. Design change adds rounded inset edges and a controlled overlapping boundary between dessert and visit using homepage-only CSS; removes the circle by disabling this pseudo-element, and adds quiet cake-slice vector decorations plus the existing official Sweet Lisa logo watermark.
