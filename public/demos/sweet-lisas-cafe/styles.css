@@ -1047,3 +1047,186 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
     font-size:15px;
   }
 }
+
+
+/* v11 — Sweet Lisa's dessert chapter: compact two-column tablet layout and intentional mobile composition.
+   Keep the existing dessert image, official identity and original menu untouched. */
+.home-page .dessert-section{
+ position:relative;
+ padding:clamp(48px,6vw,88px) 0;
+ color:#fff4e8;
+ background:
+  radial-gradient(ellipse 60% 75% at 84% 49%,rgba(174,54,60,.56),transparent 72%),
+  linear-gradient(135deg,#571924 0%,#75212e 56%,#641d28 100%);
+ overflow:hidden;
+}
+.home-page .dessert-section::before{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background-image:radial-gradient(#fff8e512 1px,transparent 1px);
+ background-size:19px 19px;opacity:.38;
+}
+.home-page .dessert-frame{
+ position:relative;
+ display:grid;
+ grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);
+ align-items:center;
+ gap:clamp(30px,5vw,85px);
+ min-height:0;
+}
+.home-page .dessert-copy{
+ grid-column:1;
+ position:relative;
+ z-index:3;
+ max-width:525px;
+}
+.home-page .dessert-copy .eyebrow{
+ display:inline-block;
+ font-size:10px;
+ letter-spacing:.17em;
+ margin:0 0 21px;
+ color:#f4c5b6;
+}
+.home-page .dessert-copy h2{
+ font:500 clamp(59px,6vw,99px)/.98 var(--serif);
+ letter-spacing:-.06em;
+ margin:0 0 22px;
+ text-wrap:balance;
+}
+.home-page .dessert-copy h2 em{color:#ffe3d1;font-weight:400}
+.home-page .dessert-copy p:not(.eyebrow){
+ font:400 clamp(14px,1.3vw,17px)/1.68 var(--sans);
+ max-width:390px;
+ color:#fae0d6;
+ margin:0 0 22px;
+}
+.home-page .dessert-copy .button{
+ min-height:49px;
+ padding:14px 22px;
+ margin:0;
+ box-shadow:0 10px 27px rgba(36,7,13,.15);
+}
+.home-page .dessert-art{
+ grid-column:2;
+ position:relative;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ width:100%;
+ min-width:0;
+ min-height:0;
+ padding:20px 24px 23px 8px;
+ isolation:isolate;
+}
+.home-page .dessert-art::before{
+ content:"";position:absolute;z-index:-1;
+ inset:8% 4% 6% 6%;
+ border-radius:49% 46% 28% 31%;
+ background:radial-gradient(circle at 45% 42%,rgba(255,211,191,.19),rgba(91,9,25,.05) 70%);
+}
+.home-page .dessert-art img{
+ display:block;
+ position:relative;
+ z-index:2;
+ width:min(100%,440px);
+ height:clamp(330px,38vw,480px);
+ object-fit:cover;
+ object-position:center;
+ border:6px solid #fff5e6;
+ border-radius:230px 230px 15px 15px;
+ transform:rotate(-3deg);
+ box-shadow:18px 23px 0 rgba(65,13,27,.54),0 16px 34px rgba(38,6,14,.25);
+}
+.home-page .dessert-back-word{
+ position:absolute;
+ z-index:1;
+ top:5%;
+ left:-1%;
+ font:900 clamp(60px,7vw,112px)/.83 var(--sans);
+ letter-spacing:-.07em;
+ color:#e36e70;
+ opacity:.31;
+ transform:rotate(-6deg);
+ pointer-events:none;
+}
+.home-page .dessert-label{
+ position:absolute;
+ z-index:4;
+ left:-1%;
+ bottom:11%;
+ max-width:270px;
+ padding:13px 16px;
+ border-radius:5px;
+ font:850 10px/1.35 var(--sans);
+ letter-spacing:.12em;
+ color:#57232e;
+ background:#fff9ed;
+ box-shadow:0 9px 20px rgba(49,6,18,.22);
+ transform:rotate(-5deg);
+}
+@media (min-width:701px) and (max-width:1050px){
+ .home-page .dessert-section{padding:47px 0 52px}
+ .home-page .dessert-frame{
+  grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);
+  gap:24px;
+ }
+ .home-page .dessert-copy h2{font-size:clamp(48px,6vw,67px);margin-bottom:15px}
+ .home-page .dessert-copy .eyebrow{margin-bottom:12px;font-size:9px}
+ .home-page .dessert-copy p:not(.eyebrow){font-size:14px;line-height:1.58;margin-bottom:19px}
+ .home-page .dessert-art{min-height:0;padding:12px 18px 13px 0}
+ .home-page .dessert-art img{width:min(100%,360px);height:clamp(300px,42vw,390px);border-width:5px}
+ .home-page .dessert-back-word{font-size:clamp(47px,7.3vw,77px);left:0;top:4%}
+ .home-page .dessert-label{bottom:6%;left:-4%;font-size:8px;max-width:210px;padding:10px 12px}
+}
+@media (max-width:700px){
+ .home-page .dessert-section{padding:44px 0 42px}
+ .home-page .dessert-frame{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:13px;
+ }
+ .home-page .dessert-copy{grid-column:1;max-width:100%}
+ .home-page .dessert-copy .eyebrow{font-size:9px;margin:0 0 12px}
+ .home-page .dessert-copy h2{font-size:clamp(54px,11.6vw,73px);margin:0 0 14px;line-height:.98}
+ .home-page .dessert-copy p:not(.eyebrow){
+  font-size:14px;line-height:1.58;
+  max-width:390px;margin:0 0 18px
+ }
+ .home-page .dessert-copy .button{min-height:46px;padding:12px 17px;font-size:10px}
+ .home-page .dessert-art{
+  grid-column:1;
+  width:100%;
+  min-height:0;
+  padding:8px 14px 16px 18px;
+  margin:0;
+ }
+ .home-page .dessert-art img{
+  width:min(77%,355px);
+  height:clamp(255px,78vw,345px);
+  border-width:5px;
+  border-radius:210px 210px 13px 13px;
+  transform:rotate(-3deg);
+  box-shadow:12px 14px 0 rgba(55,11,24,.5);
+ }
+ .home-page .dessert-back-word{
+  font-size:clamp(60px,15vw,88px);
+  left:1%;
+  top:2%;
+  opacity:.27;
+ }
+ .home-page .dessert-label{
+  bottom:5%;left:3%;
+  max-width:210px;
+  font-size:8px;
+  letter-spacing:.09em;
+  padding:10px 12px;
+ }
+}
+@media (max-width:390px){
+ .home-page .dessert-section{padding:39px 0 35px}
+ .home-page .dessert-copy h2{font-size:clamp(49px,12vw,58px)}
+ .home-page .dessert-art img{width:min(80%,310px);height:270px}
+ .home-page .dessert-back-word{font-size:65px}
+}
+@media(prefers-reduced-motion:reduce){
+ .home-page .dessert-copy .button{transition:none}
+}
