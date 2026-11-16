@@ -74,8 +74,9 @@
   "identity": {
     "real_cafe_interior": "actual-interior.webp",
     "actual_original_logo": "logo.webp",
-    "hero": "hero-cheesecake-cutout.webp",
+    "hero": "hero-cheesecake-reference.png",
     "cheesecake_feature": "dessert-cups.webp",
-    "digital_menu_banner": "menu-wide-breakfast.webp"
+    "digital_menu_banner": "menu-wide-breakfast.webp",
+    "hero_source": "Original strawberry cheesecake photo shared by user on 2026-11-16; background-isolated treatment"
   }
 }

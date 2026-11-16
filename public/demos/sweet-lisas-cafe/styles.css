@@ -64,3 +64,10 @@
 .menu-banner h1{font-size:clamp(54px,5.8vw,88px)}
 .menu-banner p:not(.eyebrow){max-width:450px}
 @media(max-width:700px){.hero-greenwood .hero-visual{inset:365px 0 0}.hero-greenwood .hero-photo{object-fit:contain;object-position:center bottom}.hero-greenwood .hero-shade{background:linear-gradient(180deg,#211012 0%,#211012 36%,#211012ad 58%,transparent 84%)}.menu-banner{padding:92px 0 10px}.menu-banner-layout{min-height:430px;border-radius:16px}.menu-banner-copy{max-width:100%;padding:56px 24px 50px}.menu-banner-photo::after{background:linear-gradient(90deg,#220c10ed 0%,#220c10ce 57%,#220c1055 100%)}.menu-banner h1{font-size:clamp(51px,12vw,73px)}.menu-banner p:not(.eyebrow){max-width:310px;font-size:14px}}
+
+/* Sweet Lisa’s: user-selected strawberry cheesecake cutout in the real demo hero. */
+.hero-greenwood .hero-visual{background:#261013;isolation:isolate;overflow:hidden}
+.hero-greenwood .hero-back-type{position:absolute;top:14%;left:5%;z-index:0;display:block;color:#d51a26;font-family:Arial,Helvetica,sans-serif;font-size:clamp(82px,10vw,190px);font-weight:900;line-height:.78;letter-spacing:-.082em;white-space:nowrap;opacity:.94;pointer-events:none}
+.hero-greenwood .hero-photo{z-index:1;object-fit:contain;object-position:center bottom;max-width:none;transform:none;filter:drop-shadow(0 22px 24px #17090b3b)}
+@media(max-width:980px){.hero-greenwood .hero-back-type{font-size:clamp(76px,11vw,140px);top:24%;left:3%}}
+@media(max-width:700px){.hero-greenwood .hero-visual{background:#261013}.hero-greenwood .hero-back-type{top:5%;left:50%;transform:translateX(-50%);font-size:clamp(83px,21vw,160px);text-align:center}.hero-greenwood .hero-photo{object-fit:contain;object-position:center bottom}}
