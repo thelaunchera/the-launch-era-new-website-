@@ -1,3 +1,9 @@
+## 2026-11-16 — Sweet Lisa hero storefront overlaps hand / photo needs small left shift
+- Report: tablet landscape/desktop screenshot shows the real cheesecake cutout at right, upper Tulsa skyline near the top and a second unwanted architectural drawing behind and above the hand at the bottom of hero. User requests nudging hero image left and hiding the building near the hand.
+- Cause confirmed in source: duplicate building visual is the `.hero-heritage` background `assets/storefront-outline-behind-cake.svg` (distinct from the Tulsa skyline `.city-mark` SVG). Responsive `.hero-stage .hero-visual` controls photo placement.
+- Safe fix: remove extra architecture DOM layer; disable `.hero-heritage` in CSS as fallback; move only the photo container 18–42px left at tablet/desktop and 12px on phone. Keep the top Tulsa skyline, official image, mesh, hero copy, CTA and other sections unchanged.
+- Source QA to confirm correct selectors and no duplicated markup; Pages/browser responsive screenshot not yet evidenced.
+
 ## 2026-11-16 — Sweet Lisa’s home section feels too generated and too wordy
 - Owner’s iPhone screenshot of `#sweet-moment` shows a heavily framed arched dessert image with a white border, rotation, paper caption, giant background wordmark, long chapter tagline and a very tall section. User explicitly requests editing the **actual demo** and reducing reading and AI-template appearance.
 - Verified CSS source `.home-page .dessert-art img` applied arched `border-radius:230px 230px 15px 15px`, 6px cream border and rotation; duplicated copy in story, photo-grid banner, chapter numerals and caption tags produce an overdesigned UI.

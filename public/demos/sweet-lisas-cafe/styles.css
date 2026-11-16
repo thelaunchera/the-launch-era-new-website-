@@ -2101,3 +2101,20 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
     will-change:auto;
   }
 }
+
+/* v20 — remove the building sketch behind the hand; nudge the real cake cutout left.
+   Preserve the separate upper Tulsa skyline, the mesh and the original photo. */
+.home-page .hero-greenwood .hero-heritage {
+  display:none!important;
+  background-image:none!important;
+}
+@media(min-width:701px) {
+  .home-page .hero-greenwood .hero-stage .hero-visual {
+    transform:translateX(clamp(-42px, -2.8vw, -18px));
+  }
+}
+@media(max-width:700px) {
+  .home-page .hero-greenwood .hero-stage .hero-visual {
+    transform:translateX(-12px);
+  }
+}
