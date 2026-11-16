@@ -1230,3 +1230,187 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
 @media(prefers-reduced-motion:reduce){
  .home-page .dessert-copy .button{transition:none}
 }
+
+
+/* v12 Sweet Lisa — phone returns to copy-first hero; sharp official logo across demo; contact card fixed */
+/* Maintain one consistent clean high-resolution brand image. */
+.home-page .site-header .brand,
+.menu-page .site-header .brand{
+  display:inline-flex;align-items:center;justify-content:flex-start;
+  flex:0 0 86px;width:86px;min-width:0;flex-shrink:0;
+}
+.home-page .site-header .brand img,
+.menu-page .site-header .brand img{
+  display:block;width:80px!important;height:69px!important;max-width:100%;
+  object-fit:contain;object-position:center;
+  background:transparent!important;border:none!important;border-radius:0!important;
+  box-shadow:none!important;filter:none!important;
+  image-rendering:auto;
+}
+.home-page .header-row{justify-content:space-between}
+.home-page .desktop-nav{margin-left:auto}
+.home-page .header-cta{margin-left:0}
+.site-footer .footer-logo-link{display:block;width:145px;height:126px}
+.site-footer .footer-logo-link img{
+  display:block;object-fit:contain;object-position:center;
+  width:100%;height:100%;image-rendering:auto;
+  background:transparent;filter:none!important;
+}
+.home-page .visit-grid,
+.home-page .visit-panel,
+.home-page .site-footer{box-sizing:border-box;max-width:100%}
+.home-page .visit-panel>div{min-width:0;max-width:100%}
+.home-page .visit-panel a{overflow-wrap:anywhere;max-width:100%;word-break:normal}
+.menu-page .menu-cover-copy{max-width:min(680px,76%);min-width:0}
+.menu-page .menu-cover-copy h1{max-width:100%;overflow-wrap:normal;white-space:normal}
+@media(min-width:701px) and (max-width:1100px){
+  /* The tablet split hero from v11 remains unchanged. */
+  .home-page .site-header .brand,
+  .menu-page .site-header .brand{flex-basis:82px;width:82px}
+  .home-page .site-header .brand img,
+  .menu-page .site-header .brand img{width:75px!important;height:65px!important}
+}
+@media(max-width:700px){
+  .home-page .site-header .header-row{min-height:72px}
+  .home-page .site-header .brand,
+  .menu-page .site-header .brand{flex:0 0 73px;width:73px}
+  .home-page .site-header .brand img,
+  .menu-page .site-header .brand img{width:67px!important;height:62px!important}
+  .home-page .header-cta{margin-left:auto}
+  /* Restore the original phone layout: headline and CTA ABOVE cake + Tulsa art.
+     Hero stage stays full-size in background rather than taking its own row. */
+  .home-page .hero-greenwood{
+    position:relative;display:block!important;
+    min-height:835px!important;
+    height:auto!important;
+    padding:0!important;
+    overflow:hidden;
+  }
+  .home-page .hero-greenwood .hero-stage{
+    position:absolute!important;
+    inset:0!important;
+    display:block;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    margin:0!important;
+    z-index:5;
+    flex:none;
+    pointer-events:none;
+  }
+  .home-page .hero-greenwood .hero-stage .hero-visual{
+    position:absolute!important;
+    inset:auto 0 32px 0!important;
+    top:auto!important;bottom:32px!important;
+    left:0!important;right:0!important;
+    margin:0!important;
+    width:100%!important;max-width:100%!important;
+    height:43%!important;
+    overflow:visible;
+  }
+  .home-page .hero-greenwood .hero-stage .hero-photo{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:contain;object-position:center bottom;transform:none;
+  }
+  .home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake{
+    position:absolute!important;
+    left:50%!important;right:auto!important;
+    top:46%!important;
+    width:min(77vw,330px)!important;
+    max-width:calc(100% - 44px)!important;
+    transform:translateX(-50%)!important;
+    text-align:center;
+    z-index:8;
+  }
+  .home-page .hero-greenwood .hero-content{
+    position:relative!important;
+    z-index:9;
+    display:flex!important;
+    flex-direction:column;
+    align-items:center;
+    width:calc(100% - 38px)!important;
+    max-width:100%!important;
+    margin:0 auto;
+    padding:104px 0 0!important;
+    text-align:center!important;
+  }
+  .home-page .hero-greenwood .hero-main{
+    display:flex!important;flex-direction:column;align-items:center;
+    width:100%!important;max-width:100%!important;
+    text-align:center!important;
+  }
+  .home-page .hero-greenwood h1{
+    font-size:clamp(42px,11.45vw,64px);
+    line-height:1.025;margin:0 0 17px;
+    max-width:100%;text-align:center;
+  }
+  .home-page .hero-greenwood .hero-text{
+    max-width:355px;margin:0 auto;
+    font-size:14px;line-height:1.6;
+    text-align:center!important;
+  }
+  .home-page .hero-greenwood .hero-actions{
+    margin:23px auto 0;
+    display:flex;justify-content:center;
+    width:100%;max-width:100%;
+  }
+  .home-page .hero-greenwood .hero-shade{
+    background:linear-gradient(180deg,rgba(27,6,11,.22),transparent 52%);
+  }
+  .home-page .hero-heritage{
+    background-image:url("assets/storefront-outline-behind-cake.svg")!important;
+    background-size:175% auto;background-position:55% bottom;opacity:.29;
+  }
+  /* Fix the two-column contact card squeezing text off-screen on phones. */
+  .home-page .visit-section .visit-grid{
+    width:calc(100% - 36px);max-width:100%;
+    grid-template-columns:minmax(0,1fr);
+    justify-items:center;
+  }
+  .home-page .visit-panel{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    width:100%!important;max-width:100%!important;
+    padding:28px 22px 31px!important;
+    gap:5px;
+    box-sizing:border-box;
+    text-align:center;
+  }
+  .home-page .visit-panel>div:not(.panel-signoff){
+    display:flex;flex-direction:column;align-items:center;
+    padding:15px 2px!important;
+    width:100%;min-width:0;max-width:100%;
+    border-right:0!important;
+  }
+  .home-page .visit-panel>div:not(.panel-signoff):first-child{
+    border-bottom:1px solid rgba(122,35,43,.17)!important;
+    padding-bottom:24px!important;
+  }
+  .home-page .visit-panel strong{
+    font-size:clamp(22px,6vw,28px)!important;
+    line-height:1.18;
+    max-width:100%;
+  }
+  .home-page .visit-panel a{
+    max-width:100%;
+    font-size:clamp(21px,5.8vw,26px)!important;
+    line-height:1.25;
+    overflow-wrap:anywhere;
+  }
+  .home-page .visit-panel p{
+    margin-inline:auto;max-width:280px;
+    font-size:12px!important;line-height:1.65;
+  }
+  .home-page .visit-actions{justify-content:center;flex-wrap:wrap}
+  .home-page .site-footer .footer-layout{gap:12px}
+  .home-page .site-footer .footer-logo-link{width:130px;height:110px}
+}
+@media(max-width:390px){
+  .home-page .hero-greenwood{min-height:800px!important}
+  .home-page .hero-greenwood .hero-content{padding-top:94px!important}
+  .home-page .hero-greenwood .hero-stage .hero-visual{height:42%!important;bottom:28px!important}
+  .home-page .hero-greenwood .hero-stage .city-mark.skyline-above-cake{
+    top:45%!important;width:75vw!important;
+  }
+  .home-page .hero-greenwood h1{font-size:clamp(39px,11.6vw,52px)}
+}
