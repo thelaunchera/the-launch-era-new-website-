@@ -173,7 +173,7 @@ const items=[
 ];
 let active='all';const list=document.getElementById('menuList'),count=document.getElementById('resultCount'),tabs=document.getElementById('categoryTabs'),search=document.getElementById('menuSearch'),empty=document.getElementById('emptyState'),dialog=document.getElementById('dishModal');
 function buttonFor(c,label){const b=document.createElement('button');b.type='button';b.className='tab';b.textContent=label;b.setAttribute('aria-pressed',String(active===c));b.addEventListener('click',()=>{active=c;render()});return b}
-function showItem(item){document.getElementById('modalTitle').textContent=item.n;document.getElementById('modalDescription').textContent=item.d;document.getElementById('modalPrice').textContent=item.p;document.getElementById('modalCategory').textContent=categories.find(c=>c[0]===item.c)?.[1]||'';const im=document.getElementById('modalImage');im.hidden=!item.im;if(item.im){im.src='assets/'+item.im;im.alt='AI-generated concept photo illustrating '+item.n}dialog.showModal();document.body.classList.add('no-scroll');if(window.DemoOrder)window.DemoOrder.prepareItem(item)}
+function showItem(item){document.getElementById('modalTitle').textContent=item.n;document.getElementById('modalDescription').textContent=item.d;document.getElementById('modalPrice').textContent=item.p;document.getElementById('modalCategory').textContent=categories.find(c=>c[0]===item.c)?.[1]||'';const im=document.getElementById('modalImage');im.hidden=!item.im;if(item.im){im.src=`assets/${item.im}`;im.alt='AI-generated concept photo illustrating '+item.n}dialog.showModal();document.body.classList.add('no-scroll');if(window.DemoOrder)window.DemoOrder.prepareItem(item)}
 function render(){
   tabs.replaceChildren(buttonFor('all','All items'),...categories.map(c=>buttonFor(c[0],c[1])));
   const q=search.value.trim().toLowerCase();
@@ -188,7 +188,7 @@ function render(){
     const grid=document.createElement('div');grid.className='group-grid';
     for(const item of these){
       const row=document.createElement('article');row.className='dish'+(item.im?'':' dish--no-photo');
-      if(item.im){const visual=document.createElement('img');visual.className='dish-photo';visual.src='assets/'+item.im;visual.alt='Styled concept image of '+item.n;visual.loading='lazy';visual.width=240;visual.height=260;row.append(visual)}
+      if(item.im){const visual=document.createElement('img');visual.className='dish-photo';visual.src=`assets/${item.im}`;visual.alt='Styled concept image of '+item.n;visual.loading='lazy';visual.width=240;visual.height=260;row.append(visual)}
       const content=document.createElement('div');content.className='dish-content';
       const body=document.createElement('div');body.className='dish-text';
       const trigger=document.createElement('button');trigger.type='button';trigger.className='dish-name';trigger.textContent=item.n;trigger.addEventListener('click',()=>showItem(item));
