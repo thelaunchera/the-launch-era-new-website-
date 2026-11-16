@@ -2,6 +2,7 @@
 - Owner’s iPhone screenshot of `#sweet-moment` shows a heavily framed arched dessert image with a white border, rotation, paper caption, giant background wordmark, long chapter tagline and a very tall section. User explicitly requests editing the **actual demo** and reducing reading and AI-template appearance.
 - Verified CSS source `.home-page .dessert-art img` applied arched `border-radius:230px 230px 15px 15px`, 6px cream border and rotation; duplicated copy in story, photo-grid banner, chapter numerals and caption tags produce an overdesigned UI.
 - Revision: retain exact dessert photo and original cafe assets, remove image's frame/border/rotation, give it straightforward rectangular styling and smaller mobile footprint; cut redundant paragraphs and marketing banners; straighten category cards. Preserve original official brand, visitor links, no-ordering intent and legally important demo disclosure.
+- Menu companion update: retain all 12 dishes and on-tap description dialogs and searchable metadata; remove 12 repetitive card-level descriptions from the view-only menu and decorative arrow symbols. Shorten non-essential menu headings/notes while preserving cash-only information, concept-photo disclaimers, phone/Maps, and archived breakfast flyer access.
 - QA scope: check mobile 360/390, tablet 768/820 and desktop 1024/1440 after Pages release. No Safari/browser QA claimed until witnessed; CI and site publication evidence tracked separately.
 
 ## 2026-11-16 — Oversized gray cake-slice SVGs on Sweet Lisa’s iPhone
