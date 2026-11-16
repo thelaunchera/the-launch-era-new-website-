@@ -674,3 +674,80 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
  .menu-visit-links{margin-top:16px}
  .menu-archive-short{margin-top:25px;padding:17px}
 }
+
+
+/* v10: illustrated story and tightened photo gallery – homepage only */
+.home-page .story-section{padding:52px 0 57px;background:radial-gradient(circle at 5% 2%,#f9e5d5,transparent 39%),#f8efe5;overflow:clip}
+.home-page .story-section .story-grid{grid-template-columns:.97fr 1.03fr;gap:clamp(30px,5vw,76px);align-items:center}
+.home-page .story-visual{grid-column:1;grid-row:1;width:100%;max-width:none;left:auto;transform:none;position:relative}
+.home-page .story-visual .story-interior-photo{display:block;width:100%;height:auto;aspect-ratio:1.25;max-height:580px;object-fit:cover;object-position:center;border-radius:24px 7px 24px 7px;box-shadow:0 17px 39px #45202029}
+.home-page .story-photo-label{position:absolute;left:16px;bottom:16px;display:flex;flex-direction:column;gap:5px;max-width:65%;background:#291319dd;border:1px solid #ffffff55;border-radius:11px;color:#fff;padding:12px 16px;backdrop-filter:blur(9px)}
+.home-page .story-photo-label span{font:800 9px/1.3 var(--sans);letter-spacing:.14em}
+.home-page .story-photo-label strong{font:italic 25px/1 var(--serif)}
+.home-page .story-food-inset{position:absolute;z-index:2;right:-20px;top:-16px;width:33%;max-width:190px;aspect-ratio:1;overflow:hidden;transform:rotate(7deg);border:6px solid #fff6ec;border-radius:12px;box-shadow:0 13px 30px #3d18243d}
+.home-page .story-food-inset img{width:100%;height:100%;object-fit:cover}
+.home-page .story-copy{grid-column:2;grid-row:1;max-width:540px}
+.home-page .story-copy .eyebrow{font-size:10px;margin:0 0 14px}
+.home-page .story-copy h2{font-size:clamp(46px,5.3vw,74px);line-height:1.01;margin:0 0 19px}
+.home-page .story-copy h2 em{color:#982e3c}
+.home-page .story-copy p.story-lead{font:400 16px/1.65 var(--sans);color:#64524d;margin:0 0 18px;max-width:510px}
+.home-page .story-highlights{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 19px}
+.home-page .story-highlights span{border:1px solid #d8b9ad;border-radius:99px;background:#fff7efa8;padding:8px 11px;color:#782d3d;font:800 9px/1.2 var(--sans);letter-spacing:.05em}
+.home-page .story-menu-link{display:inline-flex;gap:14px;align-items:center;color:#792030;letter-spacing:.08em;font:850 11px/1.4 var(--sans);min-height:44px}
+.home-page .story-link-arrow{display:grid;place-items:center;width:37px;height:37px;border-radius:50%;background:#9b273a;color:white;font-size:18px;transition:transform .2s}
+.home-page .story-menu-link:hover .story-link-arrow{transform:translate(2px,-2px)}
+.home-page .moments-section{padding:55px 0 68px;background:linear-gradient(155deg,#f3e0d4,#edd9ce 55%,#f7eae0);overflow:clip}
+.home-page .moments-section .section-heading{display:flex;align-items:end;justify-content:space-between;gap:28px;margin:0 0 24px}
+.home-page .moments-section .section-heading .eyebrow{font-size:10px;margin:0 0 10px}
+.home-page .moments-section .section-heading h2{font-size:clamp(45px,5.2vw,76px);line-height:1;margin:0;max-width:680px}
+.home-page .moments-section .section-heading h2 em{color:#922f40}
+.home-page .moments-section .section-heading p:not(.eyebrow){font:400 14px/1.65 var(--sans);color:#69534f;max-width:305px;margin:0}
+.home-page .moments-grid{gap:clamp(12px,1.8vw,22px);padding:0 6px 12px;align-items:stretch}
+.home-page .moments-section .moment-card{height:clamp(260px,29vw,380px);margin-top:0;border-radius:21px 6px 21px 6px;box-shadow:0 13px 26px #551e282a}
+.home-page .moments-section .moment-caption{font-size:clamp(20px,2vw,29px);gap:5px}
+.home-page .moment-round-arrow{display:grid;place-items:center;flex:0 0 31px;width:31px;height:31px;border-radius:50%;border:1px solid #fffa;font:18px/1 var(--sans)}
+.home-page .moments-invite{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:21px;padding:20px 24px;border-radius:17px;background:#552330;color:#fff4ea}
+.home-page .moments-invite>div{display:flex;flex-direction:column;gap:4px}
+.home-page .moments-invite>div span{font:800 9px/1.3 var(--sans);letter-spacing:.15em;color:#f5c4b8}
+.home-page .moments-invite>div strong{font:italic 27px/1.15 var(--serif)}
+.home-page .moments-invite a{display:inline-flex;align-items:center;gap:11px;white-space:nowrap;border-radius:99px;padding:13px 18px;background:#fff3e9;color:#582435;font:800 10px/1.2 var(--sans)}
+.home-page .story-menu-link:focus-visible,.home-page .moments-invite a:focus-visible{outline:3px solid #b52f4b;outline-offset:4px}
+@media(max-width:900px){
+ .home-page .story-section .story-grid{gap:23px}
+ .home-page .story-food-inset{right:-12px}
+ .home-page .moments-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .home-page .moments-section .moment-card{height:295px}
+}
+@media(max-width:700px){
+ .home-page .story-section{padding:17px 0 32px}
+ .home-page .story-section .story-grid{grid-template-columns:1fr;gap:18px}
+ .home-page .story-visual{grid-column:1;grid-row:1;width:100%;max-width:100%;margin:0}
+ .home-page .story-visual .story-interior-photo{aspect-ratio:1.5;max-height:310px;border-radius:16px 5px 16px 5px}
+ .home-page .story-food-inset{width:29%;max-width:125px;right:-7px;top:-10px;border-width:4px}
+ .home-page .story-photo-label{left:10px;bottom:10px;padding:8px 11px;gap:3px;border-radius:8px}
+ .home-page .story-photo-label span{font-size:7px}
+ .home-page .story-photo-label strong{font-size:20px}
+ .home-page .story-copy{grid-column:1;grid-row:2;max-width:100%;padding-top:3px}
+ .home-page .story-copy .eyebrow{font-size:9px;margin:0 0 8px}
+ .home-page .story-copy h2{font-size:clamp(42px,10.5vw,53px);line-height:1;margin:0 0 13px}
+ .home-page .story-copy p.story-lead{font-size:14px;line-height:1.55;margin:0 0 13px}
+ .home-page .story-highlights{gap:6px;margin-bottom:10px}
+ .home-page .story-highlights span{font-size:8px;padding:6px 9px;letter-spacing:.025em}
+ .home-page .story-menu-link{font-size:10px;min-height:42px;gap:9px}
+ .home-page .story-link-arrow{width:33px;height:33px;font-size:16px}
+ .home-page .moments-section{padding:34px 0 44px}
+ .home-page .moments-section .section-heading{display:block;margin:0 0 17px}
+ .home-page .moments-section .section-heading .eyebrow{font-size:9px;margin:0 0 8px}
+ .home-page .moments-section .section-heading h2{font-size:clamp(39px,10.3vw,52px);line-height:1.02}
+ .home-page .moments-section .section-heading p:not(.eyebrow){font-size:12px;line-height:1.5;margin-top:9px}
+ .home-page .moments-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding:0 3px 7px}
+ .home-page .moments-section .moment-card{height:clamp(193px,56vw,242px);border-radius:15px 5px 15px 5px}
+ .home-page .moments-section .moment-index{font-size:7px;left:9px;top:10px;letter-spacing:.1em}
+ .home-page .moments-section .moment-caption{font-size:clamp(17px,4.6vw,21px);left:9px;right:7px;bottom:11px}
+ .home-page .moment-round-arrow{width:25px;height:25px;flex-basis:25px;font-size:14px}
+ .home-page .moments-invite{padding:15px 16px;margin-top:18px;gap:11px;border-radius:12px}
+ .home-page .moments-invite>div strong{font-size:22px}
+ .home-page .moments-invite a{padding:11px 12px;font-size:9px}
+}
+@media(max-width:390px){.home-page .moments-invite{flex-wrap:wrap}.home-page .story-copy h2{font-size:42px}.home-page .moments-grid{gap:9px}}
+@media(prefers-reduced-motion:reduce){.home-page .story-link-arrow{transition:none}.home-page .moments-section .moment-card:hover{transform:none!important}}
