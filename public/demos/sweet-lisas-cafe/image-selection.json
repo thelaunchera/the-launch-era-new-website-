@@ -66,15 +66,16 @@
     "omelette": "omelette.webp",
     "breakfast sandwich": "breakfast-sandwich.webp",
     "cornbread": "cornbread.webp",
-    "cheesecake": "cheesecake-hand.webp",
+    "cheesecake": "strawberry-cheesecake-plate.webp",
     "dessert cups": "dessert-cups.webp",
     "iced tea": "iced-tea.webp",
-    "grilled chicken": "chicken-grilled.webp"
+    "grilled chicken": "chicken-grilled.webp",
+    "banner": "menu-wide-breakfast.webp"
   },
   "identity": {
     "real_cafe_interior": "actual-interior.webp",
     "actual_original_logo": "logo.webp",
-    "hero": "campaign-hero.webp",
-    "cheesecake_feature": "cheesecake-hand.webp"
+    "hero": "hero-cheesecake-cutout.webp",
+    "cheesecake_feature": "strawberry-cheesecake-whole.webp"
   }
 }
