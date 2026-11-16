@@ -1476,3 +1476,80 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
 @media(max-width:390px){
  .home-page .story-copy h2{font-size:clamp(35px,9.6vw,40px)}
 }
+
+/* v15: Sweet Lisa overlapping dessert card + quiet cake-slice and official-logo watermark.
+   Home page only; keep the separate digital menu unchanged. */
+.home-page .dessert-section {
+  position:relative;
+  z-index:3;
+  width:calc(100% - 48px);
+  max-width:1600px;
+  margin:0 auto -62px;
+  border-radius:38px;
+  box-shadow:0 24px 48px rgba(66,18,25,.22);
+  overflow:hidden;
+}
+.home-page .visit-section {
+  position:relative;
+  z-index:1;
+  isolation:isolate;
+  padding:165px 0 108px;
+}
+.home-page .visit-section::before { content:none; display:none; }
+.home-page .visit-section .visit-grid { position:relative; z-index:2; }
+.home-page .visit-ornaments {
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  user-select:none;
+}
+.home-page .visit-watermark {
+  position:absolute;
+  top:clamp(112px,15%,185px);
+  right:clamp(-50px,5vw,90px);
+  width:clamp(185px,23vw,315px);
+  height:auto;
+  object-fit:contain;
+  opacity:.085;
+  transform:rotate(-13deg);
+  filter:grayscale(1) sepia(.6);
+}
+.home-page .visit-slice-defs { position:absolute; width:0; height:0; overflow:hidden; }
+.home-page .visit-cake-slice {
+  position:absolute;
+  width:clamp(48px,6.5vw,83px);
+  height:auto;
+  color:#8b3847;
+  opacity:.19;
+}
+.home-page .visit-cake-slice--one { top:20%; left:6%; transform:rotate(-18deg); }
+.home-page .visit-cake-slice--two { top:48%; right:7%; transform:rotate(16deg) scale(.8); }
+.home-page .visit-cake-slice--three { bottom:15%; left:13%; transform:rotate(11deg) scale(.67); }
+@media (min-width:701px) and (max-width:1050px) {
+  .home-page .dessert-section { width:calc(100% - 34px); margin-bottom:-54px; border-radius:33px; }
+  .home-page .visit-section { padding-top:150px; }
+  .home-page .visit-watermark { right:-28px; top:24%; width:225px; opacity:.065; }
+  .home-page .visit-cake-slice--one { left:3%; }
+  .home-page .visit-cake-slice--two { right:3%; }
+}
+@media (max-width:700px) {
+  .home-page .dessert-section {
+    width:calc(100% - 22px);
+    margin-bottom:-34px;
+    border-radius:24px;
+    box-shadow:0 15px 29px rgba(66,18,25,.18);
+  }
+  .home-page .visit-section { padding:112px 0 82px; }
+  .home-page .visit-watermark {
+    top:20%;
+    right:-32px;
+    width:165px;
+    opacity:.07;
+  }
+  .home-page .visit-cake-slice { width:49px; opacity:.16; }
+  .home-page .visit-cake-slice--one { top:14%; left:5%; transform:rotate(-18deg) scale(.78); }
+  .home-page .visit-cake-slice--two { top:43%; right:2%; transform:rotate(19deg) scale(.7); }
+  .home-page .visit-cake-slice--three { bottom:10%; left:3%; transform:rotate(9deg) scale(.58); }
+}
