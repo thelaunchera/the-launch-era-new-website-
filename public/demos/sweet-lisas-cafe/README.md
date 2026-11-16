@@ -26,3 +26,10 @@ Contact via phone, Instagram and Google Maps search link. No checkout, automated
 - Primary CTA is a functioning link to the separate digital-menu.html; there is NO ordering, checkout or payment handling.
 - Avalon inspiration applied as narrative page rhythm, editorial typography and a delicate architectural drawing. No Avalon copy, photos, logos or source code used.
 - Hero cake image is AI-styled concept photography, not a verified photograph of the exact product. Street address intentionally withheld pending verification.
+
+## v5 final visual revision
+- Transparent-background cheesecake cutout is reserved for the homepage hero only.
+- Tulsa skyline appears independently above the hero cake, without the old sticker or brand ribbon.
+- Original cafe photo in the next chapter has no framing overlay.
+- Digital menu uses its own horizontal breakfast campaign photo, not the homepage hero.
+- Dessert chapter uses a distinct dessert-cups image. All imagery is presentation material.
