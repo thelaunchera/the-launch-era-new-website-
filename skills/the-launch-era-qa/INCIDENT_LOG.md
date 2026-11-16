@@ -1,3 +1,8 @@
+## 2026-11-16 — Pumpkin’s Kitchen footer logo stretched and no simulated ordering (REVIEW BRANCH FIX)
+- User screenshot: footer chef-hat wordmark appeared extremely tall and distorted on iPhone. Root cause confirmed: markup `width=900 height=300` combined with CSS `.footer-logo{width:170px}` but no `height:auto`, so image rendered 170×300 instead of a natural 3:1 ratio. Fixed by `height:auto`, explicit aspect ratio and object fit, preserving original asset.
+- User expressly requested complete simulated ordering. Only standalone Pumpkin’s Kitchen digital-menu demo gained a JS-only cart, sample checkout, printed-price option chooser, quantities, receipt and on-screen status transitions. No real order/payment/email/SMS or data persistence was added, and independent-site architecture remains.
+- Verified locally using in-memory Chromium DOM and screenshots at 360/390/820/1024/1440: image rendered 170×56.7 mobile; 190×63.3 desktop; all 42 dishes and 3-stage simulated pickup flow passed; no JS errors/overflow. Browser HTTP/file navigation previously blocked by administrator; GitHub Pages, Safari, repository static QA runner remain unverified.
+
 ## 2026-11-16 — Pumpkin’s Kitchen browser-navigation QA blocked (OPEN)
 - During new two-route prospect demo build, Chromium navigation to local `http://127.0.0.1` and `file://` returned ERR_BLOCKED_BY_ADMINISTRATOR. This is an environment restriction, not proof the website or menu is broken.
 - Used in-memory Chromium rendering (HTML with embedded image data URLs) for 375/390/768/1024/1440; detected no horizontal overflow or JS page errors and confirmed the menu’s search, tabs, and details modal. Browser navigation/Pages deploy are not independently verified.
