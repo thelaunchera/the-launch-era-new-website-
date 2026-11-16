@@ -1855,3 +1855,140 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
  }
 }
 /* Keep the wave and first story canvas exactly the same ivory tone. */
+
+/* v18 Sweet Lisa: photo-first, fewer words, no faux postcard frame.
+   Homepage only. Keep the official photos, logo, links and digital menu intact. */
+.home-page .story-copy .story-lead{max-width:420px}
+.home-page .story-menu-link{
+  border-bottom:1px solid currentColor;
+  min-height:44px;
+  letter-spacing:.07em;
+}
+.home-page .moments-section{
+  padding:50px 0 60px;
+  background:#f3e8de;
+}
+.home-page .moments-section .section-heading{margin-bottom:24px}
+.home-page .moments-grid{gap:15px;padding:0}
+.home-page .moments-section .moment-card{
+  height:clamp(235px,24vw,320px);
+  border:0;
+  border-radius:14px;
+  box-shadow:none;
+  margin:0;
+  transform:none!important;
+}
+.home-page .moment-card::before{content:none;display:none}
+.home-page .moment-card::after{
+  background:linear-gradient(180deg,transparent 50%,rgba(20,8,10,.73));
+}
+.home-page .moments-section .moment-card:hover,
+.home-page .moments-section .moment-card:focus-visible{
+  transform:translateY(-4px)!important;
+  box-shadow:0 13px 25px rgba(40,10,17,.14);
+  outline:2px solid transparent;
+}
+.home-page .moments-section .moment-card:focus-visible{outline:3px solid #9b273a;outline-offset:4px}
+.home-page .moment-caption{
+  font-size:clamp(23px,2.25vw,31px);
+  left:20px;right:20px;bottom:20px;
+}
+.home-page .dessert-section{
+  padding:clamp(35px,5vw,70px) 0;
+  background:#71212e;
+}
+.home-page .dessert-section::before{content:none;display:none}
+.home-page .dessert-frame{
+  grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);
+  gap:clamp(24px,4vw,62px);
+}
+.home-page .dessert-copy{max-width:490px}
+.home-page .dessert-copy h2{
+  font-size:clamp(54px,5.7vw,85px);
+  line-height:1.02;
+  margin:0 0 26px;
+  letter-spacing:-.05em;
+}
+.home-page .dessert-copy .button{
+  box-shadow:none;
+  min-height:48px;
+}
+.home-page .dessert-art{
+  padding:0;
+  margin:0;
+  width:100%;
+  min-height:0;
+  grid-column:2;
+  isolation:auto;
+}
+.home-page .dessert-art::before{content:none;display:none}
+.home-page .dessert-art img{
+  display:block;
+  width:100%!important;
+  max-width:none!important;
+  height:clamp(290px,35vw,455px)!important;
+  object-fit:cover;
+  object-position:center 54%;
+  border:0!important;
+  border-radius:12px!important;
+  transform:none!important;
+  box-shadow:none!important;
+}
+.home-page .visit-section .visit-grid h2{
+  font-size:clamp(48px,5.7vw,78px);
+  line-height:1.05;
+}
+.home-page .visit-grid p:not(.eyebrow){max-width:440px}
+@media(min-width:701px) and (max-width:1050px){
+  .home-page .dessert-frame{
+    grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+    gap:22px;
+  }
+  .home-page .dessert-copy h2{
+    font-size:clamp(49px,5.8vw,65px);
+    margin-bottom:22px;
+  }
+  .home-page .dessert-art{padding:0}
+  .home-page .dessert-art img{height:clamp(275px,32vw,365px)!important}
+}
+@media(max-width:700px){
+  .home-page .moments-section{padding:32px 0 42px}
+  .home-page .moments-grid{gap:10px;padding:0}
+  .home-page .moments-section .moment-card{
+    height:clamp(155px,45vw,202px);
+    border-radius:11px;
+  }
+  .home-page .moment-caption{
+    font-size:clamp(18px,4.7vw,22px);
+    left:12px;right:12px;bottom:12px;
+  }
+  .home-page .dessert-section{padding:34px 0 36px}
+  .home-page .dessert-frame{
+    grid-template-columns:minmax(0,1fr);
+    gap:23px;
+  }
+  .home-page .dessert-copy{grid-column:1}
+  .home-page .dessert-copy h2{
+    font-size:clamp(43px,10.6vw,60px);
+    line-height:1.03;
+    margin-bottom:21px;
+    max-width:100%;
+  }
+  .home-page .dessert-copy .button{min-height:46px}
+  .home-page .dessert-art{
+    grid-column:1;
+    width:100%;
+    margin:0;
+    padding:0;
+  }
+  .home-page .dessert-art img{
+    height:clamp(225px,62vw,305px)!important;
+    border-radius:11px!important;
+    object-position:center 57%;
+  }
+  .home-page .visit-grid h2{font-size:clamp(44px,10vw,62px)}
+}
+@media(max-width:390px){
+  .home-page .dessert-copy h2{font-size:clamp(41px,10.4vw,48px)}
+  .home-page .dessert-art img{height:220px!important}
+}
