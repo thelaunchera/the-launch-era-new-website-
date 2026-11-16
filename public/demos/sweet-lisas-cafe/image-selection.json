@@ -74,7 +74,8 @@
   "identity": {
     "real_cafe_interior": "actual-interior.webp",
     "actual_original_logo": "logo.webp",
-    "hero": "cheesecake-hand.webp",
-    "cheesecake_feature": "dessert-cups.webp"
+    "hero": "hero-cheesecake-cutout.webp",
+    "cheesecake_feature": "dessert-cups.webp",
+    "digital_menu_banner": "menu-wide-breakfast.webp"
   }
 }
