@@ -1,24 +1,21 @@
-# Sweet Lisa’s Cafe — editorial website & digital menu demo
+# Sweet Lisa’s Cafe — Editorial Demo v2 (visual concept)
 
-## What this concept now includes
-- Editorial, story-led Greenwood homepage, refined cream / black / brick-red brand palette and clean DM Serif + DM Sans typography.
-- The original Sweet Lisa’s round red-and-black logo (user-supplied reference).
-- Four freshly enhanced, individual food images: fried catfish with okra/cornbread, cheeseburger, grilled pork chop and dessert spread.
-- A separately presented **Digital Menu** view behind the homepage button (hash route #digital-menu); no menu item listing on the homepage.
-- Filterable menu preview across main plates, breakfast, sides and desserts, with an optional zoomable original October 2025 breakfast flyer.
-- Call button, Instagram and Google Maps search links; responsive layout and reduced-motion handling.
-- Single-file HTML with image assets embedded and no external image hosts or download links.
-- **Unofficial concept** — not a live ordering site, no checkout, no real reservations, no automated emails and no Admin Panel connected.
+## How to open
+- Open `index.html` for the editorial story-driven website.
+- Tap **View Digital Menu** to open `digital-menu.html`, which is intentionally separate from the homepage.
+- Menu filters and the original-2025 breakfast flyer modal are interactive.
+- All images are inside `assets/`. No network access is required except optional Google Fonts.
 
-## Facts awaiting direct confirmation
-- Street address: social posts mention 109 N Greenwood Ave, while some tourism listings use 111 N. The demo provides a business-search Maps link until confirmed.
-- Current food prices, availability, breakfast hours and complete menu. The breakfast flyer dates to October 2025.
-- Written permission and original photography for commercial deployment. Enhanced AI images are conceptual illustrations based on user-provided reference screenshots, not verified exact photographs of current dishes.
+## Source & media notes
+- Enhanced food illustrations were created from user-supplied reference images with AI. They are *visual concepts*, not verified unaltered food photos or proof of current offerings.
+- The Sweet Lisa’s logo was cropped from the supplied Instagram profile reference. Keep the original identity.
+- Original October 2025 breakfast flyer included for reference; price and hours were not carried into the live menu cards.
+- Location references conflict between **109** and **111 N Greenwood Ave**. The demo points to a business search on Google Maps until the precise number is confirmed.
+- No Stripe, checkout, online ordering, emails, automatic booking, CRM or Admin Panel is connected.
 
-## Review links
-- Existing client proposal: https://www.canva.com/d/ayaxUXgBcx1LoyV
-- Client's Instagram: https://www.instagram.com/sweetlisasong/
-- Project assets folder: https://drive.google.com/drive/folders/1eLNKiAsINHBVd4QKQZLYt_wvX7zMyOOG
+## Brand direction
+Warm cream `#f7f1e9`, near-black `#181615`, editorial brick red `#982529`, muted sand `#eaded0`.
+DM Serif Display + DM Sans, with local font fallbacks.
 
 ## QA
-The page and routed digital menu are self-contained; repo CI verifies route safety and prohibited ornamentation. Local browser automation was blocked by ERR_BLOCKED_BY_ADMINISTRATOR, so an independent live browser review is still recommended before client outreach.
+Run `python -m http.server 8000 --directory sweet-lisa-editorial-demo`, then view `/index.html` and `/digital-menu.html` at 375px, 768px and desktop sizes.
