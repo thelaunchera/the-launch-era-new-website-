@@ -1,3 +1,8 @@
+## 2026-11-16 — Pumpkin’s Kitchen browser-navigation QA blocked (OPEN)
+- During new two-route prospect demo build, Chromium navigation to local `http://127.0.0.1` and `file://` returned ERR_BLOCKED_BY_ADMINISTRATOR. This is an environment restriction, not proof the website or menu is broken.
+- Used in-memory Chromium rendering (HTML with embedded image data URLs) for 375/390/768/1024/1440; detected no horizontal overflow or JS page errors and confirmed the menu’s search, tabs, and details modal. Browser navigation/Pages deploy are not independently verified.
+- Draft remains on review branch only. Never claim published or test actual customer orders, emails, payments, hours or location. Re-run canonical route-integrity and device checks from repository runner before public release.
+
 ## 2026-11-16 — Sweet Lisa hero storefront overlaps hand / photo needs small left shift
 - Report: tablet landscape/desktop screenshot shows the real cheesecake cutout at right, upper Tulsa skyline near the top and a second unwanted architectural drawing behind and above the hand at the bottom of hero. User requests nudging hero image left and hiding the building near the hand.
 - Cause confirmed in source: duplicate building visual is the `.hero-heritage` background `assets/storefront-outline-behind-cake.svg` (distinct from the Tulsa skyline `.city-mark` SVG). Responsive `.hero-stage .hero-visual` controls photo placement.
