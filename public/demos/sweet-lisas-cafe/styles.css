@@ -2110,7 +2110,7 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
 }
 @media(min-width:701px) {
   .home-page .hero-greenwood .hero-stage .hero-visual {
-    transform:translateX(calc(-1 * clamp(18px, 2.8vw, 42px)));
+    transform:translateX(clamp(-42px, -2.8vw, -18px));
   }
 }
 @media(max-width:700px) {
