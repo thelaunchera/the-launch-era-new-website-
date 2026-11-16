@@ -26,3 +26,9 @@ Contact via phone, Instagram and Google Maps search link. No checkout, automated
 - Primary CTA is a functioning link to the separate digital-menu.html; there is NO ordering, checkout or payment handling.
 - Avalon inspiration applied as narrative page rhythm, editorial typography and a delicate architectural drawing. No Avalon copy, photos, logos or source code used.
 - Hero cake image is AI-styled concept photography, not a verified photograph of the exact product. Street address intentionally withheld pending verification.
+
+## v5 — approved clean hero and wide menu
+- Transparent cutout (hand, plate and cheesecake; no background text) appears **only once** in the homepage hero. Actual Tulsa SVG and typography are separate HTML elements.
+- Dessert section uses a *different* whole-cake concept photo; the digital menu uses a *different* cheesecake plate shot. No hero asset reused anywhere.
+- Digital menu intro is a wide, editorial, full-width Southern breakfast photograph (Uber Eats-like wide banner, no ordering UI).
+- Photo campaign remains eight diverse original selections; image set is for Lisa's future review and is not confirmed client-approved or ready-to-post branded content.

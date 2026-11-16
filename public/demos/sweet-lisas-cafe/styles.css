@@ -38,3 +38,111 @@
 @media(max-width:980px){.hero-greenwood .hero-main{max-width:59%}.hero-greenwood .hero-visual{left:40%}.hero-greenwood h1{font-size:clamp(64px,8.8vw,88px)}.hero-greenwood .hero-photo-note{right:28px;bottom:36px}}
 @media(max-width:700px){.hero-greenwood{min-height:880px}.hero-greenwood .hero-visual{inset:355px 0 0 0}.hero-greenwood .hero-photo{object-position:center 56%}.hero-greenwood .hero-shade{background:linear-gradient(180deg,#211012 0%,#211012 27%,#211012f5 36%,#21101296 51%,#21101215 77%,#2110128f 100%)}.hero-greenwood .hero-content{padding-top:130px;padding-bottom:0}.hero-greenwood .hero-main{max-width:100%}.city-mark{margin-top:18px}.city-mark .skyline{height:67px;width:min(345px,90%)}.city-mark-name{font-size:8px;margin-top:0}.hero-greenwood h1{font-size:clamp(55px,11.6vw,78px);margin:15px 0 13px;max-width:540px}.hero-greenwood .hero-text{font-size:14px;max-width:420px;line-height:1.62}.hero-greenwood .hero-actions{margin-top:18px}.hero-story-link{margin-top:18px;font-size:9px}.hero-greenwood .hero-photo-note{bottom:40px;right:24px;padding:11px 14px}.hero-photo-note span{font-size:7px}.hero-photo-note strong{font-size:22px}.hero-image-caption{bottom:14px;left:17px;font-size:8px;max-width:180px}}
 @media(max-width:390px){.hero-greenwood{min-height:850px}.hero-greenwood .hero-visual{top:345px}.hero-greenwood h1{font-size:clamp(51px,12.5vw,64px)}.hero-greenwood .hero-kicker{font-size:8px}.hero-greenwood .hero-text{font-size:13px}.hero-greenwood .city-mark .skyline{height:56px}}
+
+/* ---------------------------------------------------------
+   v5 • User-approved clean cut-out hero and wide digital menu.
+   The image contains no baked-in brand letters; the Tulsa sketch
+   and headings remain real, selectable HTML/SVG for accessibility.
+   --------------------------------------------------------- */
+.home-page .site-header{background:linear-gradient(180deg,rgba(29,9,13,.87),rgba(29,9,13,.20));border-bottom:1px solid #ffffff30}
+.hero-greenwood{min-height:755px;background:radial-gradient(ellipse 64% 65% at 78% 73%,#9b4244 0%,#58242b 48%,transparent 95%),linear-gradient(112deg,#221113 10%,#3d1b21 64%,#61242c 100%);isolation:isolate}
+.hero-greenwood .hero-visual{position:absolute;inset:83px 0 0 43%;z-index:0;overflow:visible;pointer-events:none}
+.hero-greenwood .hero-photo{position:absolute;top:auto;left:auto;right:-3%;bottom:-11px;width:min(59vw,840px);height:auto;max-height:calc(100% + 15px);object-fit:contain;object-position:center bottom;transform:none;filter:drop-shadow(0 25px 29px rgba(30,8,14,.27));z-index:0}
+.hero-greenwood .hero-shade{display:none}
+.hero-greenwood .hero-content{position:relative;z-index:2;padding-top:164px;padding-bottom:110px;pointer-events:none}
+.hero-greenwood .hero-content a{pointer-events:auto}
+.hero-greenwood .hero-main{max-width:min(565px,51%)}
+.hero-greenwood .hero-kicker{font-size:10px;letter-spacing:.18em;color:#eaccc2}
+.hero-greenwood .city-mark{margin-top:21px}
+.hero-greenwood .city-mark .skyline{height:86px;width:min(355px,100%);opacity:.80}
+.hero-greenwood h1{font-size:clamp(64px,6.4vw,104px);margin:22px 0 18px;line-height:.99}
+.hero-greenwood .hero-text{max-width:365px;color:#fff1e7;font-size:15px;line-height:1.65}
+.hero-greenwood .hero-actions{margin-top:26px}
+.hero-greenwood .hero-photo-note,.hero-greenwood .hero-image-caption{display:none}
+/* Hand-and-cheesecake hero is used nowhere else, not even in menu. */
+.menu-banner{background:#f7efe5;padding:112px 0 48px;overflow:visible;color:white}
+.menu-banner .shell{width:min(100% - 58px,1380px)}
+.menu-banner-layout{position:relative;display:flex;align-items:center;min-height:465px;width:100%;padding:56px clamp(30px,6vw,88px);border-radius:32px;overflow:hidden;background:#4b2421;box-shadow:0 23px 51px rgba(58,27,23,.13);isolation:isolate}
+.menu-banner-photo{position:absolute;inset:0;z-index:-2}
+.menu-banner-photo img{width:100%;height:100%;border-radius:0;object-fit:cover;object-position:center 56%;filter:saturate(1.02)}
+.menu-banner-layout::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#201011ed 0%,#211013cd 26%,#26121382 52%,transparent 82%)}
+.menu-banner-copy{position:relative;z-index:2;width:min(540px,52%)}
+.menu-banner h1{font-size:clamp(60px,5.8vw,96px);text-wrap:balance;text-shadow:0 1px 12px #1b0c0e3d}
+.menu-banner .menu-return{margin-top:22px}
+.menu-overlap{z-index:2;left:auto;right:27px;bottom:23px;background:#fff7edec;padding:13px 18px;border-radius:18px;box-shadow:0 8px 27px #12050829;transform:rotate(-2deg)}
+.menu-overlap span{font-size:9px}.menu-overlap strong{font-size:25px}
+.dessert-art img{object-fit:cover;object-position:center;background:#411b24}
+@media (max-width:980px){
+ .hero-greenwood .hero-main{max-width:54%}
+ .hero-greenwood .hero-visual{inset:90px 0 0 44%}
+ .hero-greenwood .hero-photo{width:min(64vw,780px);max-height:100%;right:-8%}
+ .hero-greenwood h1{font-size:clamp(62px,7.7vw,87px)}
+ .menu-banner .shell{width:min(100% - 32px,1380px)}
+ .menu-banner-layout{min-height:440px}
+}
+@media (max-width:700px){
+ .home-page .site-header{background:linear-gradient(180deg,#291215fa,#29121560)}
+ .hero-greenwood{min-height:862px;background:radial-gradient(circle at 52% 78%,#7c343f 0%,#482129 37%,transparent 70%),linear-gradient(#261014,#33161c)}
+ .hero-greenwood .hero-visual{inset:405px 0 0 0;z-index:0;overflow:hidden}
+ .hero-greenwood .hero-photo{left:50%;right:auto;bottom:-35px;top:auto;width:min(104vw,560px);height:auto;max-height:calc(100% + 36px);transform:translateX(-50%);object-fit:contain;object-position:center bottom;filter:drop-shadow(0 15px 18px #1d090e4b)}
+ .hero-greenwood .hero-content{padding-top:117px;padding-bottom:0}
+ .hero-greenwood .hero-main{max-width:100%}
+ .hero-greenwood .city-mark{margin-top:11px}
+ .hero-greenwood .city-mark .skyline{height:52px;width:min(285px,88%)}
+ .hero-greenwood h1{font-size:clamp(51px,11.6vw,72px);margin:9px 0 9px;max-width:94%}
+ .hero-greenwood .hero-text{font-size:13px;line-height:1.54;max-width:340px}
+ .hero-greenwood .hero-actions{margin-top:16px}
+ .hero-greenwood .hero-story-link{margin-top:14px}
+ .menu-banner{padding:102px 0 28px}
+ .menu-banner .shell{width:min(100% - 22px,700px)}
+ .menu-banner-layout{min-height:510px;align-items:flex-start;padding:37px 27px;border-radius:22px}
+ .menu-banner-layout::before{background:linear-gradient(180deg,#1f0d11e8 0%,#240e12d5 40%,#270c1130 76%,#240d1166 100%)}
+ .menu-banner-photo img{object-position:64% center}
+ .menu-banner-copy{width:100%}
+ .menu-banner h1{font-size:clamp(48px,11.6vw,72px);margin:16px 0 12px}
+ .menu-banner-copy p:not(.eyebrow){max-width:360px;font-size:13px;line-height:1.56}
+ .menu-overlap{left:auto;right:15px;bottom:16px;padding:9px 13px;border-radius:13px}
+ .menu-overlap strong{font-size:21px}
+}
+@media(max-width:390px){
+ .hero-greenwood{min-height:828px}
+ .hero-greenwood .hero-visual{top:385px}
+ .hero-greenwood h1{font-size:clamp(49px,12vw,62px)}
+ .hero-greenwood .hero-text{font-size:12.5px}
+ .menu-banner-layout{min-height:470px}
+}
+
+/* v5 final fixes: render transparent subject as a single hero-background
+   layer, avoiding old nested negative stacking contexts. */
+.hero-greenwood{
+ background-color:#3d1b24;
+ background-image:url('assets/hero-cheesecake-cutout.webp'),radial-gradient(circle at 72% 65%,#88414b 0%,#572832 36%,#30171d 74%,#211115 100%);
+ background-position:right -32px bottom,center;
+ background-size:min(52vw,740px) auto,cover;
+ background-repeat:no-repeat;
+}
+.menu-page .site-header{position:relative;background:#261216;color:#fff;border-bottom:1px solid #ffffff1a}
+.menu-page .menu-banner{padding-top:28px}
+@media(max-width:980px){
+ .hero-greenwood{background-size:min(59vw,690px) auto,cover;background-position:right -8vw bottom,center}
+}
+@media(max-width:700px){
+ .hero-greenwood{background-size:min(104vw,575px) auto,cover;background-position:center bottom -20px,center;min-height:860px}
+ .menu-page .menu-banner{padding-top:14px}
+}
+@media(max-width:390px){
+ .hero-greenwood{min-height:828px;background-size:min(107vw,560px) auto,cover}
+}
+/* Visual QA polish: keep the cutout clear of navigation and mobile CTAs. */
+@media(min-width:981px){
+ .hero-greenwood{background-size:min(45vw,650px) auto,cover;background-position:right 0 bottom,center}
+}
+@media(min-width:701px) and (max-width:980px){
+ .hero-greenwood{background-size:min(55vw,540px) auto,cover;background-position:right -3vw bottom,center}
+}
+@media(max-width:700px){
+ .hero-greenwood{min-height:950px;background-size:min(92vw,540px) auto,cover;background-position:center bottom -7px,center}
+}
+@media(max-width:390px){
+ .hero-greenwood{min-height:945px;background-size:min(92vw,525px) auto,cover}
+}
