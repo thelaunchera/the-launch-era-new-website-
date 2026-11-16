@@ -1,3 +1,11 @@
+## 2026-11-16 — Sweet Lisa’s shorter editorial homepage and unframed dessert photo (REVIEW)
+- Route: `/demos/sweet-lisas-cafe/`; sources `public/demos/sweet-lisas-cafe/index.html`, `digital-menu.html` and `styles.css`, scoped to the Sweet Lisa demo only. Brand, visual assets, official logo and contact values stay unchanged.
+- Replaces overly long home copy with simple one-line location/menu language; removes repeated promo CTA block, editorial chapter numbers, extra tags on photo cards, tilted category cards, dessert wordmark behind photo and paper label.
+- Keeps existing `assets/dessert-cups.webp` but displays it as a clean horizontal unframed photo with soft 11-12px corners, no arch border or rotation; mobile height max 305px. The previously approved rounded burgundy chapter overlap with the cream visit chapter remains.
+- The separate view-only `digital-menu.html` still lists 12 dishes with searchable `data-description` values and an accessible details dialog; display cards now show names and a "See details" hint instead of repetitive blurbs. Decorative diagonal arrows removed, cash-only and archive messages shortened, all filtering/search/category hashes intact.
+- Links: primary hero CTA → `digital-menu.html`; story link → `digital-menu.html`; four category photo links → their menu category hashes; dessert CTA → `digital-menu.html#desserts`; visit Maps search, `tel:+19183405335`, and Instagram unchanged. No ordering/payments/backend touched.
+- QA: source assertions pass; CI/Pages and mobile screenshot rendering to be checked before claiming a live visual fix.
+
 ## 2026-11-16 — Sweet Lisa’s iPhone oversized cake illustration regression (REVIEW)
 - Homepage route `/demos/sweet-lisas-cafe/`, original Sweet Lisa’s tenant only. Review branch `fix/sweet-lisas-slice-icon-size-20261116` updates only `public/demos/sweet-lisas-cafe/index.html` and `styles.css`.
 - Replaces three decorative inline SVG cake illustrations (unbounded intrinsic sizing when new CSS is not loaded) with three CSS background icons on empty `<span>` elements capped at 46×36 px desktop and 40×32 px phone; if the stylesheet is stale/unavailable, they disappear instead of rendering huge.
