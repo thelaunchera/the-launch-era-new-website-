@@ -1,3 +1,11 @@
+## 2026-11-16 — Pumpkin’s Kitchen two independent preview routes (REVIEW ONLY)
+- Owner: Pumpkin’s Kitchen prospect. Branch: `feature/pumpkins-kitchen-two-site-concept-20261116` in `thelaunchera/the-launch-era-new-website-`; NOT published to main or Pages.
+- Website path `public/demos/pumpkins-kitchen/index.html` → proposed `/demos/pumpkins-kitchen/`; hero, dish photo sections, interactive spotlight, location call panel. Main CTA goes to independent sibling menu route, not an embedded menu.
+- Digital menu path `public/demos/pumpkins-kitchen-menu/index.html` → proposed `/demos/pumpkins-kitchen-menu/`; standalone category filters, search, item details, view-only (NO ordering/cart/checkout/backend).
+- Each site holds its own `assets/` folder with image-optimized, AI-generated brand-concept food photos and concept pink chef-hat wordmark. Never use the screenshot of My Granny’s Kitchen truck as Pumpkin’s.
+- Phone displayed `tel:+19542740331` is from the prospect’s photographed menu; hours, specific location and menu prices remain unverified. No social link (UK `@pumpkins_kitchen` screenshot may refer to another account). No data writes, bookings, payments or emails.
+- QA: local route references and HTML-embedded JS syntax inspected; browser script tested in-memory at 375/390/768/1024/1440 without overflow and with menu filters/search/dialog interactions. HTTP/file browser navigation blocked by ERR_BLOCKED_BY_ADMINISTRATOR. GitHub Pages and Safari remain PENDING. Do not add to public demo catalogue before approval and release QA.
+
 ## 2026-11-16 — Sweet Lisa hero photo shifts left; lower building removed (REVIEW)
 - Scope: `/demos/sweet-lisas-cafe/` **home** only; source files `public/demos/sweet-lisas-cafe/index.html` and `styles.css`. Upper standalone SVG Tulsa skyline and copy/CTA, mesh gradient, original cheesecake cutout photo, logo, contact and `digital-menu.html` are preserved.
 - Owner’s tablet screenshot: lower outlined storefront drawn behind the woman's hand is undesirable; remove the `<div class="hero-heritage">` element and defensively disable its CSS. This is distinct from the upper `.city-mark.skyline-above-cake`, which stays visible.
