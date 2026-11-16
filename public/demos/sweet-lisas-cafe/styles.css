@@ -2264,3 +2264,107 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
     will-change:auto;
   }
 }
+
+
+/* v21 — restore clean dessert artwork, correcting the washed-out ghost image.
+   Do not imitate transparency with radial masking. Respect iPhone/tablet layout. */
+.home-page .dessert-section{
+  overflow:hidden!important;
+  isolation:isolate;
+  padding:clamp(42px,5vw,68px) 0!important;
+  margin-bottom:0!important;
+  background-color:#651b2a!important;
+  box-shadow:0 17px 35px rgba(58,14,24,.18)!important;
+}
+.home-page .dessert-section .dessert-frame{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,.90fr) minmax(0,1.10fr);
+  align-items:center;
+  gap:clamp(22px,4vw,55px)!important;
+  overflow:visible;
+}
+.home-page .dessert-section .dessert-copy{z-index:2}
+.home-page .dessert-section .dessert-art{
+  position:relative;
+  grid-column:2;
+  width:100%!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  border-radius:15px;
+  pointer-events:none;
+  box-shadow:0 14px 34px rgba(24,4,10,.15);
+}
+.home-page .dessert-section .dessert-art::before{content:none!important;display:none!important}
+.home-page .dessert-section .dessert-art img{
+  position:relative!important;
+  inset:auto!important;
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  height:clamp(290px,32vw,390px)!important;
+  margin:0!important;
+  object-fit:cover!important;
+  object-position:center 53%!important;
+  border:0!important;
+  border-radius:15px!important;
+  opacity:1!important;
+  filter:none!important;
+  transform:none!important;
+  box-shadow:none!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+  -webkit-mask:none!important;
+  mask:none!important;
+}
+.home-page .visit-section{
+  position:relative;
+  z-index:1;
+  padding-top:clamp(72px,8vw,110px)!important;
+}
+@media(min-width:701px) and (max-width:1050px){
+ .home-page .dessert-section{padding:38px 0!important}
+ .home-page .dessert-section .dessert-frame{
+   grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
+   gap:22px!important;
+ }
+ .home-page .dessert-section .dessert-art img{
+   height:clamp(260px,35vw,365px)!important;
+ }
+ .home-page .visit-section{padding-top:82px!important}
+}
+@media(max-width:700px){
+ .home-page .dessert-section{
+   width:calc(100% - 30px)!important;
+   margin:0 auto 0!important;
+   padding:34px 0 23px!important;
+   border-radius:23px!important;
+   overflow:hidden!important;
+ }
+ .home-page .dessert-section .dessert-frame{
+   display:grid;
+   grid-template-columns:minmax(0,1fr)!important;
+   gap:21px!important;
+ }
+ .home-page .dessert-section .dessert-copy{grid-column:1}
+ .home-page .dessert-section .dessert-art{
+   grid-column:1!important;
+   margin:0!important;
+   width:100%!important;
+   max-width:100%!important;
+   border-radius:13px!important;
+ }
+ .home-page .dessert-section .dessert-art img{
+   width:100%!important;
+   max-width:100%!important;
+   height:clamp(245px,68vw,315px)!important;
+   object-position:center 50%!important;
+   border-radius:13px!important;
+ }
+ .home-page .visit-section{padding:63px 0 82px!important}
+}
+@media(max-width:390px){
+ .home-page .dessert-section .dessert-art img{height:239px!important}
+}
