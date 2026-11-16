@@ -1718,3 +1718,134 @@ html.ui-scroll-locked,body.ui-scroll-locked{overflow:hidden!important;overscroll
   .home-page .visit-cake-slice--two { top:43%; right:2%; transform:rotate(19deg) scale(.7); }
   .home-page .visit-cake-slice--three { bottom:10%; left:3%; transform:rotate(9deg) scale(.58); }
 }
+
+
+/* v16 · Clean Sweet Lisa photo; remove color seam and tablet portrait empty gap.
+   Scoped to the main website, never to the separate digital menu. */
+.home-page .hero-greenwood{background-color:#4e1722}
+.home-page .hero-seam{
+ z-index:12;
+ height:clamp(38px,5vw,65px);
+ background:transparent;
+ line-height:0;
+}
+.home-page .hero-seam svg{display:block;width:100%;height:100%}
+.home-page .story-section{
+ position:relative;
+ z-index:1;
+ background:#f7efe3!important;
+ margin-top:-1px;
+ padding:clamp(24px,4vw,48px) 0 clamp(38px,5vw,66px);
+}
+.home-page .story-section .story-grid{align-items:center;min-height:0}
+.home-page .story-visual{
+ display:block;
+ position:relative;
+ margin:0;
+ min-height:0;
+ width:100%;
+ min-width:0;
+ max-width:100%;
+ background:transparent;
+ box-shadow:none!important;
+ border:0!important;
+ border-radius:0!important;
+ overflow:visible;
+}
+.home-page .story-visual .story-interior-photo{
+ display:block;
+ width:100%;
+ height:auto;
+ max-height:none;
+ aspect-ratio:1.45;
+ object-fit:cover;
+ object-position:center center;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+ transform:none!important;
+}
+.home-page .story-photo-label,.home-page .story-food-inset{display:none!important}
+/* Feather the straight left edge of the hand cutout into the original mesh.
+   The bottom of the sleeve sits behind the ivory transition, not above it. */
+.home-page .hero-greenwood .hero-stage .hero-photo{
+ -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.72) 7%,#000 16%,#000 100%);
+ mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.72) 7%,#000 16%,#000 100%);
+}
+/* Landscape tablets: keep the established editorial split. */
+@media(min-width:901px) and (max-width:1100px){
+ .home-page .story-section{padding-top:24px;padding-bottom:46px}
+ .home-page .story-section .story-grid{
+  grid-template-columns:minmax(0,.97fr) minmax(0,1.03fr);
+  column-gap:clamp(25px,3vw,38px);
+  align-items:center;
+ }
+ .home-page .story-visual{grid-column:1;grid-row:1}
+ .home-page .story-copy{grid-column:2;grid-row:1}
+ .home-page .hero-greenwood .hero-stage .hero-visual{bottom:-28px!important}
+}
+/* Tablet portrait: do not create a phantom second column or a giant blank row. */
+@media(min-width:701px) and (max-width:900px){
+ .home-page .story-section{padding:17px 0 42px!important}
+ .home-page .story-section .story-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:auto auto;
+  align-items:start;
+  gap:24px;
+ }
+ .home-page .story-section .story-visual{
+  grid-column:1!important;
+  grid-row:1!important;
+  width:100%!important;
+  max-width:none;
+  margin:0!important;
+  left:auto!important;
+  transform:none!important;
+ }
+ .home-page .story-section .story-copy{
+  grid-column:1!important;
+  grid-row:2!important;
+  width:100%;
+  max-width:680px;
+  margin:0;
+ }
+ .home-page .story-visual .story-interior-photo{aspect-ratio:1.72;max-height:415px}
+ .home-page .hero-greenwood .hero-stage .hero-visual{bottom:-28px!important}
+}
+/* Phone: photo follows the transition immediately, with no rounded frame. */
+@media(max-width:700px){
+ .home-page .story-section{padding:8px 0 31px!important}
+ .home-page .story-section .story-grid{
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:auto auto;
+  gap:17px!important;
+ }
+ .home-page .story-section .story-visual{
+  grid-column:1!important;grid-row:1!important;
+  margin:0!important;left:auto!important;transform:none!important;
+  width:100%!important;max-width:100%;
+ }
+ .home-page .story-section .story-copy{
+  grid-column:1!important;grid-row:2!important;
+  width:100%;max-width:100%;
+ }
+ .home-page .story-visual .story-interior-photo{
+  aspect-ratio:1.38;
+  height:auto;
+  max-height:360px;
+  border-radius:0!important;
+ }
+ .home-page .hero-greenwood .hero-stage .hero-visual{
+  bottom:-42px!important;
+  height:43%!important;
+ }
+ .home-page .hero-seam{height:47px}
+}
+@media(max-width:390px){
+ .home-page .hero-greenwood .hero-stage .hero-visual{
+  bottom:-37px!important;
+  height:42%!important;
+ }
+}
+/* Keep the wave and first story canvas exactly the same ivory tone. */
