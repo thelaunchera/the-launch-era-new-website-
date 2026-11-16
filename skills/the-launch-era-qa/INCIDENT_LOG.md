@@ -1,3 +1,8 @@
+## 2026-11-16 — Sweet Lisa’s unwanted circle and hard transition between dessert/visit (VISUAL REVISION)
+- Owner’s iPad screenshots show an unrequested outlined circle on the left of the lower `Good food is better together` section and a hard full-width boundary beneath the burgundy dessert chapter.
+- Verified source: homepage `.home-page .visit-section:before` draws the circle. Design change adds rounded inset edges and a controlled overlapping boundary between dessert and visit using homepage-only CSS; removes the circle by disabling this pseudo-element, and adds quiet cake-slice vector decorations plus the existing official Sweet Lisa logo watermark.
+- Existing menu route, photo assets, logo files, contact links and nontransactional demo behavior remain unchanged. Source-level/CI checks and responsive rendering need to be recorded before considering publication verified; physical Safari QA is not yet evidenced.
+
 ## 2026-11-15 — Delicious Tacos floating CTA obscured menu on iPhone; header CTA square
 - Symptom from owner screenshot: square black `TRY THE DEMO` in sticky header and persistent red bottom `TRY THE SAMPLE ORDER` overlay obscuring taco menu and add controls, even after initial `.btn` rounding release.
 - Verified cause: `.top-cta` lacked corner radius; `.mobile-cta` was a fixed-position overlay, and related customer preview also had a fixed call bar.
