@@ -49,3 +49,18 @@
 @media(max-width:980px){.hero-greenwood .hero-main{max-width:55%}.hero-greenwood .city-mark.skyline-above-cake{left:58%;top:18%;width:36vw}}
 @media(max-width:700px){.hero-greenwood .hero-main{max-width:100%}.hero-greenwood .city-mark.skyline-above-cake{top:46%;left:50%;transform:translateX(-50%);width:min(84vw,340px)}.hero-greenwood .city-mark.skyline-above-cake .skyline{height:auto;width:100%}.hero-greenwood{min-height:845px}.hero-greenwood .hero-content{padding-top:132px}.hero-greenwood h1{font-size:clamp(59px,12vw,78px)}.hero-greenwood .hero-text{max-width:325px}.story-visual{width:100%}.story-visual img{box-shadow:none;border-radius:0;height:440px}}
 @media(max-width:390px){.hero-greenwood{min-height:820px}.hero-greenwood .city-mark.skyline-above-cake{top:45%;width:82vw}.story-visual img{height:360px}}
+
+/* v5: single cutout cheesecake hero and immersive horizontal menu banner */
+.hero-greenwood .hero-visual{inset:0 0 0 43%;background:radial-gradient(ellipse at 70% 70%,#5d1a26 0%,#251012 70%)}
+.hero-greenwood .hero-photo{object-fit:contain;object-position:center bottom;transform:none}
+.hero-greenwood .hero-shade{background:linear-gradient(90deg,#211012 0%,#211012ed 30%,#2110128a 48%,transparent 75%)}
+.menu-banner{padding:116px 0 28px;background:#34151d}
+.menu-banner-layout{display:block;position:relative;min-height:460px;overflow:hidden;border-radius:24px}
+.menu-banner-photo{position:absolute;inset:0;z-index:0}
+.menu-banner-photo img{width:100%;height:100%;object-fit:cover;object-position:center 51%;border-radius:0}
+.menu-banner-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#220c10ed 0%,#220c10bd 40%,#220c1077 68%,transparent 100%)}
+.menu-banner-copy{position:relative;z-index:1;max-width:65%;padding:55px 62px 62px}
+.menu-banner .menu-overlap{display:none}
+.menu-banner h1{font-size:clamp(54px,5.8vw,88px)}
+.menu-banner p:not(.eyebrow){max-width:450px}
+@media(max-width:700px){.hero-greenwood .hero-visual{inset:365px 0 0}.hero-greenwood .hero-photo{object-fit:contain;object-position:center bottom}.hero-greenwood .hero-shade{background:linear-gradient(180deg,#211012 0%,#211012 36%,#211012ad 58%,transparent 84%)}.menu-banner{padding:92px 0 10px}.menu-banner-layout{min-height:430px;border-radius:16px}.menu-banner-copy{max-width:100%;padding:56px 24px 50px}.menu-banner-photo::after{background:linear-gradient(90deg,#220c10ed 0%,#220c10ce 57%,#220c1055 100%)}.menu-banner h1{font-size:clamp(51px,12vw,73px)}.menu-banner p:not(.eyebrow){max-width:310px;font-size:14px}}
