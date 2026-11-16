@@ -1,3 +1,9 @@
+## 2026-11-16 — Sweet Lisa hero photo shifts left; lower building removed (REVIEW)
+- Scope: `/demos/sweet-lisas-cafe/` **home** only; source files `public/demos/sweet-lisas-cafe/index.html` and `styles.css`. Upper standalone SVG Tulsa skyline and copy/CTA, mesh gradient, original cheesecake cutout photo, logo, contact and `digital-menu.html` are preserved.
+- Owner’s tablet screenshot: lower outlined storefront drawn behind the woman's hand is undesirable; remove the `<div class="hero-heritage">` element and defensively disable its CSS. This is distinct from the upper `.city-mark.skyline-above-cake`, which stays visible.
+- Shift `.hero-stage .hero-visual` (photo alone, not the headline/skyline) left by clamp(18–42px) for ≥701px and 12px on phone; asset untouched. Cache-version homepage stylesheet to v20.
+- No changes to navigation, contacts, online orders, menu or other brands. Verify source, CI, Pages and mobile/tablet viewport before declaring fully visually tested.
+
 ## 2026-11-16 — Sweet Lisa’s shorter editorial homepage and unframed dessert photo (REVIEW)
 - Route: `/demos/sweet-lisas-cafe/`; sources `public/demos/sweet-lisas-cafe/index.html`, `digital-menu.html` and `styles.css`, scoped to the Sweet Lisa demo only. Brand, visual assets, official logo and contact values stay unchanged.
 - Replaces overly long home copy with simple one-line location/menu language; removes repeated promo CTA block, editorial chapter numbers, extra tags on photo cards, tilted category cards, dessert wordmark behind photo and paper label.
