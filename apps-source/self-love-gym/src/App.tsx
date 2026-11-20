@@ -28,7 +28,7 @@ import {
   UsersRound,
   X,
 } from 'lucide-react';
-import { api, auth } from './supabaseClient';
+import { api, auth, ownerAccess } from './supabaseClient';
 import { translateUi } from './i18n';
 import type { Language } from './i18n';
 
@@ -226,6 +226,10 @@ function App() {
   const [loginPassword, setLoginPassword] = useState('');
   const [creatingAccount, setCreatingAccount] = useState(false);
   const [authNotice, setAuthNotice] = useState('');
+  const [isOwner, setIsOwner] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [invites, setInvites] = useState<{ email: string; created_at: string }[]>([]);
+  const [inviteNotice, setInviteNotice] = useState('');
   const [mode, setMode] = useState<'demo' | 'account'>('demo');
   const [ready, setReady] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -260,6 +264,9 @@ function App() {
       if (user) {
         const result = await api.get('/api/workspace');
         setAccount(user);
+        const owner = await ownerAccess.isOwner();
+        setIsOwner(owner);
+        if (owner) setInvites(await ownerAccess.listInvites());
         setWorkspace(withDefaults(result.data as Workspace));
         setMode('account');
       } else {
@@ -267,9 +274,8 @@ function App() {
         setWorkspace(withDefaults({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] }));
         setMode('demo');
       }
-    } catch {
-      setErrorMessage(
-        'Your workspace could not load. Please retry before making changes.'
+    } catch (cause) {
+      setErrorMessage(cause instanceof Error ? cause.message : 'Your workspace could not load. Please retry before making changes.'
       );
       setAccount(null);
       setWorkspace(withDefaults({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] }));
@@ -566,6 +572,8 @@ function App() {
   async function signOut() {
     await auth.signOut();
     setAccount(null);
+    setIsOwner(false);
+    setInvites([]);
     setMode('demo');
     setWorkspace(withDefaults({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] }));
     setSection('Overview');
@@ -1265,6 +1273,28 @@ function App() {
 
               {section === 'Settings' && (
                 <div className="settings-grid">
+                  {isOwner && <section className="panel settings-panel" style={{ gridColumn: '1 / -1' }}>
+                    <span className="eyebrow">OWNER · ADMIN ACCESS</span>
+                    <h2>{language === 'es' ? 'Controla quién puede entrar' : 'Control who can join'}</h2>
+                    <p>{language === 'es' ? 'Solo las personas que autorices aquí podrán acceder a su espacio. Crear una cuenta no da acceso automáticamente.' : 'Only people you approve here can access a workspace. Creating an account does not grant access.'}</p>
+                    <form onSubmit={async event => {
+                      event.preventDefault();
+                      try {
+                        await ownerAccess.invite(inviteEmail);
+                        setInvites(await ownerAccess.listInvites());
+                        setInviteEmail('');
+                        setInviteNotice(language === 'es' ? 'Correo autorizado. La persona ya puede registrarse y confirmar su correo.' : 'Email approved. This person can now register and verify their email.');
+                      } catch (cause) { setInviteNotice(cause instanceof Error ? cause.message : 'Could not approve email'); }
+                    }} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                      <input type="email" required value={inviteEmail} onChange={event => setInviteEmail(event.target.value)} placeholder="coach@example.com" aria-label="Email to approve" style={{ flex: 1, minWidth: 170, padding: 12 }} />
+                      <button className="primary-button" type="submit">{language === 'es' ? 'Autorizar correo' : 'Approve email'}</button>
+                    </form>
+                    {inviteNotice && <p role="status">{inviteNotice}</p>}
+                    {invites.map(item => <div key={item.email} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'center', marginTop: 12 }}>
+                      <span>{item.email}</span>
+                      <button type="button" onClick={async () => { try { await ownerAccess.revoke(item.email); setInvites(await ownerAccess.listInvites()); setInviteNotice(language === 'es' ? 'Acceso revocado' : 'Access revoked'); } catch (cause) { setInviteNotice(cause instanceof Error ? cause.message : 'Could not revoke access'); } }}>{language === 'es' ? 'Revocar' : 'Revoke'}</button>
+                    </div>)}
+                  </section>
                   <section className="panel settings-panel">
                     <span className="eyebrow">{language === 'es' ? 'IDIOMA' : 'LANGUAGE'}</span>
                     <h2>{language === 'es' ? 'Elige cómo quieres ver la app' : 'Choose your language'}</h2>
