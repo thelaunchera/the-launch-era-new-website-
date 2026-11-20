@@ -1227,3 +1227,39 @@ button:focus-visible, a:focus-visible { outline: 3px solid #c987d9; outline-offs
   .primary-button, .secondary-button, .nav-item, .row-actions button, .bottom-nav button, .language-switch button, .legal-links a { transition: none; }
 }
 
+
+/* Self Love Gym 2026: polished, accessible mobile-first product UI */
+:root { --sl-ink:#241a2d; --sl-purple:#793aa0; --sl-pink:#edc5e8; --sl-line:#eadfeb; --sl-surface:#ffffff; --sl-muted:#6e6375; }
+html { -webkit-text-size-adjust:100%; }
+body { background:linear-gradient(145deg,#fcf9fd 0%,#f8f1fa 52%,#fbf8fd 100%); color:var(--sl-ink); }
+button, a, input, select, textarea { -webkit-tap-highlight-color:transparent; }
+button, input, select, textarea { touch-action:manipulation; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline:3px solid #ad78d0; outline-offset:3px; }
+input, select, textarea { font-size:16px; }
+.panel { border:1px solid #eee2f0; box-shadow:0 10px 35px rgba(45,20,59,.055); }
+.sidebar { background:linear-gradient(180deg,#fffafd,#faf5fc); border-right:1px solid var(--sl-line); }
+.nav-item { transition:background .16s ease, transform .16s ease; }
+.nav-item:active, .bottom-nav button:active { transform:scale(.98); }
+.primary-button { transition:transform .15s ease, box-shadow .15s ease, filter .15s ease; }
+.primary-button:hover:not(:disabled) { filter:brightness(1.04); transform:translateY(-1px); }
+.primary-button:active:not(:disabled) { transform:translateY(1px); }
+.settings-panel { border-radius:20px; }
+.shell:has(> main.panel) { min-height:100dvh; padding:max(24px,env(safe-area-inset-top)) 18px max(30px,env(safe-area-inset-bottom)) !important; background:radial-gradient(circle at 10% 12%,#f7dced 0,transparent 35%),radial-gradient(circle at 88% 88%,#e9dcf8 0,transparent 42%),#fcf8fd; }
+.shell > main.panel { border-radius:28px; box-shadow:0 22px 65px rgba(45,20,59,.11); border:1px solid #eedfee; }
+.shell > main.panel h1 { letter-spacing:-.035em; line-height:1.12; }
+.shell > main.panel label { font-weight:700; color:#403049; font-size:13px; }
+.shell > main.panel input { background:#fff; border:1.5px solid #e3d5e7; border-radius:13px; min-height:52px; color:#251a2c; margin-top:7px; }
+.shell > main.panel input:focus { border-color:#9454b6; box-shadow:0 0 0 4px #9454b61c; outline:0; }
+.shell > main.panel .primary-button { min-height:52px; border-radius:14px; }
+.shell > main.panel [role=alert] { color:#8b2554; background:#fff0f5; border:1px solid #f4cfdf; border-radius:12px; padding:12px; font-size:13px; line-height:1.5; }
+.shell > main.panel [role=status] { color:#375e48; background:#f0faf2; border:1px solid #d2e8d8; border-radius:12px; padding:12px; font-size:13px; }
+@media (max-width:600px) {
+  .shell:has(> main.panel) { padding:16px 12px max(28px,env(safe-area-inset-bottom)) !important; align-items:start; }
+  .shell > main.panel { padding:25px 19px !important; max-width:440px !important; margin:auto; border-radius:24px; }
+  .shell > main.panel h1 { font-size:clamp(26px,7vw,35px); }
+  .shell > main.panel .language-switch { margin:14px 0 !important; }
+  .shell > main.panel .language-switch button { flex:1; min-height:44px; }
+  .bottom-nav { padding-bottom:max(8px,env(safe-area-inset-bottom)); }
+  .main { padding-bottom:calc(95px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto !important; transition-duration:.01ms !important; animation-duration:.01ms !important; } }
