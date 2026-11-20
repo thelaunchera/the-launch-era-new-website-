@@ -15,9 +15,13 @@ export const auth = {
     if (error) throw error;
   },
   async signUp(email: string, password: string) {
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/apps/self-love-gym/` } });
     if (error) throw error;
     return { session: data.session };
+  },
+  async resetPassword(email: string) {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/apps/self-love-gym/` });
+    if (error) throw error;
   },
   async signOut() {
     const { error } = await supabase.auth.signOut();
