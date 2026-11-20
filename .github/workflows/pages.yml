@@ -235,12 +235,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -s public/apps/self-love-gym/index.html
-          test -d public/apps/self-love-gym/assets
+          cd apps-source/self-love-gym
+          npm install --no-audit --no-fund
+          npm run build
+          cd ../..
           mkdir -p .output/public/apps/self-love-gym
-          cp -a public/apps/self-love-gym/. .output/public/apps/self-love-gym/
+          cp -a apps-source/self-love-gym/dist/. .output/public/apps/self-love-gym/
           test -s .output/public/apps/self-love-gym/index.html
           test -s .output/public/apps/self-love-gym/manifest.json
+          test -d .output/public/apps/self-love-gym/assets
           echo "Private Self Love Gym included in GitHub Pages artifact."
 
       - name: Upload Pages artifact
