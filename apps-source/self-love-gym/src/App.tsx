@@ -698,7 +698,7 @@ function App() {
           <div className="brand-mark" style={{ margin: '0 auto 20px' }}><span>SL</span></div>
           <span className="eyebrow">SELF LOVE GYM · COACH DESK</span>
           <h1>{language === 'es' ? 'Tu espacio de entrenamiento, organizado.' : 'Your coaching space, beautifully organized.'}</h1>
-          <p>{language === 'es' ? 'Inicia sesión para gestionar tus clientas, sesiones, membresías y pagos en tu espacio privado.' : 'Sign in to manage your clients, sessions, memberships and payments in your private workspace.'}</p>
+          <p>{creatingAccount ? (language === 'es' ? 'Crea tu cuenta privada. Solo los correos autorizados pueden utilizar el panel.' : 'Create your private account. Only approved email addresses can use the dashboard.') : (language === 'es' ? 'Entra para gestionar clientas, sesiones, membresías y pagos desde un solo lugar.' : 'Sign in to manage clients, sessions, memberships and payments in one place.')}</p>
           {errorMessage && <p role="alert">{errorMessage}</p>}
           {authNotice && <p role="status">{authNotice}</p>}
           <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
@@ -875,6 +875,13 @@ function App() {
 
               {section === 'Overview' && (
                 <>
+                  {workspace.clients.length === 0 && <section className="panel" style={{ padding: 24, marginBottom: 20, borderRadius: 20 }}>
+                    <span className="eyebrow">{language === 'es' ? 'EMPIEZA AQUÍ' : 'GET STARTED'}</span>
+                    <h2 style={{ margin: '10px 0 8px' }}>{language === 'es' ? 'Tu espacio está listo para organizarse' : 'Make this space yours'}</h2>
+                    <p style={{ color: '#6e6375', lineHeight: 1.65 }}>{language === 'es' ? 'Comienza agregando tu primera clienta. Después podrás registrar sesiones, membresías, pagos y recordatorios sin perderte entre pantallas.' : 'Start by adding your first client. Then track sessions, memberships, payments and follow-ups in one simple workspace.'}</p>
+                    <button className="primary-button" type="button" onClick={() => openModal('client')} style={{ marginTop: 12, minHeight: 48 }}><Plus size={18}/>{language === 'es' ? 'Agregar mi primera clienta' : 'Add my first client'}</button>
+                    {isOwner && <p style={{ marginTop: 16, fontSize: 13 }}>{language === 'es' ? 'Para autorizar a otras personas, abre Configuración → Acceso de administrador.' : 'To approve other members, open Settings → Owner access.'}</p>}
+                  </section>}
                   <div className="focus-banner">
                     <div className="focus-copy"><span className="eyebrow">TODAY IN FOCUS</span><h2>Stay close to your people.</h2><p>{pendingReminders.length ? `${pendingReminders.length} personal follow-up${pendingReminders.length === 1 ? '' : 's'} waiting for you.` : 'Your follow-ups are all caught up.'} Keep the next step simple.</p></div>
                     <div className="focus-actions"><button onClick={() => navigate('Messages')}>Review reminders</button><button onClick={() => navigate('Memberships')}>See memberships</button></div>
