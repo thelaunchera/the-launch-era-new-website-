@@ -1,0 +1,76 @@
+[
+  {
+    "name": "Private app requires sign-in",
+    "sanity": true,
+    "viewport": "mobile",
+    "covers": [
+      "authentication redirect",
+      "signed-out access protection",
+      "private-only workspace"
+    ],
+    "description": "Signed-out users see only a bilingual login entry, never sample clients or private records.",
+    "steps": [
+      "Open the app while signed out",
+      "Confirm the welcome screen has an account sign-in action and no clients, payments or sample records",
+      "Tap Sign in and complete account authentication"
+    ],
+    "expected": "A signed-out user sees only the login screen; authenticated user enters their own workspace."
+  },
+  {
+    "name": "Private client data persists",
+    "viewport": "desktop",
+    "covers": [
+      "protected workspace GET",
+      "protected workspace PUT",
+      "client creation",
+      "per-account persistence",
+      "sign-out boundary"
+    ],
+    "description": "A signed-in coach retains their client data across reload and it is hidden on sign-out.",
+    "steps": [
+      "Sign in",
+      "Create a client named Private Coach Client",
+      "Refresh and confirm the client remains",
+      "Sign out"
+    ],
+    "expected": "Client is saved for the signed-in account; after sign-out only the sign-in screen is visible."
+  },
+  {
+    "name": "Membership and manual records",
+    "viewport": "mobile",
+    "covers": [
+      "membership creation",
+      "Stripe Payment Link validation",
+      "cash and check payment recording",
+      "reminder drafts",
+      "email and SMS compose"
+    ],
+    "description": "The app supports genuine signed-in records without claiming automated charges or messages.",
+    "steps": [
+      "Sign in and add a client with contact details",
+      "Create a membership with a Stripe Payment Link",
+      "Record a paid Cash or Check entry",
+      "Create a reminder and open its email draft"
+    ],
+    "expected": "Records save to the private account and email opens a draft; no automatic send or charge is claimed."
+  },
+  {
+    "name": "Bilingual settings and legal pages",
+    "viewport": "mobile",
+    "covers": [
+      "English and Latin Spanish switching",
+      "install instructions",
+      "Terms and Privacy pages",
+      "Powered by The Launch Era footer",
+      "mobile navigation"
+    ],
+    "description": "Verifies Spanish and English private-app UI and installation/legal help.",
+    "steps": [
+      "Sign in",
+      "Open Settings and select Español latino",
+      "Inspect the navigation and installation instructions",
+      "Open Terms and Privacy and switch to English"
+    ],
+    "expected": "Language selection works and legal pages contain no fictional preview descriptions."
+  }
+]
