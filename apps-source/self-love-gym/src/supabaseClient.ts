@@ -5,7 +5,7 @@ export const auth = {
   async getUser() {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) return null;
-    const { data: approved, error: approvalError } = await supabase.rpc('coach_is_approved', { p_uid: data.user.id });
+    const { data: approved, error: approvalError } = await supabase.rpc('coach_is_approved');
     if (approvalError) throw approvalError;
     if (!approved) throw new Error('Your account is awaiting an invitation from the owner. / Tu cuenta necesita una invitación de la administradora.');
     return { userId: data.user.id, name: data.user.user_metadata?.name || data.user.email || 'Coach', email: data.user.email };
