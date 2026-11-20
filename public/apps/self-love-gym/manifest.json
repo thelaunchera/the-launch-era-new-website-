@@ -1,0 +1,10 @@
+{
+  "name": "Self Love Gym · Coach Desk",
+  "short_name": "Self Love Gym",
+  "description": "A private coaching workspace for clients, memberships and follow-ups.",
+  "start_url": "/apps/self-love-gym/",
+  "scope": "/apps/self-love-gym/",
+  "display": "standalone",
+  "background_color": "#fbf8fc",
+  "theme_color": "#1d1425"
+}
