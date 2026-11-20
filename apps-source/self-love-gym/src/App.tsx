@@ -713,7 +713,10 @@ function App() {
             <LogIn size={18} /> {ready ? (creatingAccount ? (language === 'es' ? 'Crear cuenta' : 'Create account') : (language === 'es' ? 'Iniciar sesión' : 'Sign in to your account')) : (language === 'es' ? 'Cargando…' : 'Loading…')}
           </button>
           </form>
-          <button type="button" className="text-action" onClick={() => { setCreatingAccount(value => !value); setErrorMessage(''); setAuthNotice(''); }} style={{ margin: '14px auto' }}>{creatingAccount ? (language === 'es' ? 'Ya tengo una cuenta' : 'I already have an account') : (language === 'es' ? 'Crear una cuenta nueva' : 'Create a new account')}</button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, margin: '16px 0 24px' }}>
+            <button type="button" className="primary-button" onClick={() => { setCreatingAccount(true); setErrorMessage(''); setAuthNotice(''); }} style={{ width: '100%', justifyContent: 'center', padding: 14, background: creatingAccount ? undefined : '#f1ddf4', color: creatingAccount ? undefined : '#24172c' }}>{language === 'es' ? 'Crear una cuenta nueva' : 'Create a new account'}</button>
+            <button type="button" className="text-action" onClick={() => { setCreatingAccount(false); setErrorMessage(''); setAuthNotice(''); }} style={{ width: '100%', padding: 12 }}>{language === 'es' ? 'Ya tengo una cuenta · Iniciar sesión' : 'I already have an account · Sign in'}</button>
+          </div>
           <p style={{ marginTop: 20, fontSize: 12 }}><a href="./terms.html">{language === 'es' ? 'Términos' : 'Terms'}</a> · <a href="./privacy.html">{language === 'es' ? 'Privacidad' : 'Privacy'}</a></p>
           <p style={{ fontSize: 11 }}>POWERED BY THE LAUNCH ERA</p>
         </main>
