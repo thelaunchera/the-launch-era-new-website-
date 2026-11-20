@@ -726,7 +726,7 @@ function App() {
             <span className="today-tag">{prettyDate(today(), language)}</span>
             {mode === 'demo' ? (
               <button className="text-action" onClick={signIn}>
-                <LogIn size={17} /> Save my workspace
+                <LogIn size={17} /> Open private app
               </button>
             ) : (
               <button className="text-action" onClick={() => void signOut()}>

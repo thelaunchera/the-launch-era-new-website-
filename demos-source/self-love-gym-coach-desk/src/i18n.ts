@@ -28,6 +28,7 @@ const spanish: Record<string, string> = {
   'Sample data': 'Datos de ejemplo',
   'Your private workspace': 'Tu espacio privado',
   'Save my workspace': 'Guardar mi espacio',
+  'Open private app': 'Abrir app privada',
   'Sign out': 'Cerrar sesión',
   'Interactive preview': 'Vista interactiva',
   'Fictional clients. Changes stay in this browser.': 'Clientas ficticias. Los cambios quedan en este navegador.',
