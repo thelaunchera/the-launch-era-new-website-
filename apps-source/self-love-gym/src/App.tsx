@@ -717,6 +717,15 @@ function App() {
             <button type="button" className="primary-button" onClick={() => { setCreatingAccount(true); setErrorMessage(''); setAuthNotice(''); }} style={{ width: '100%', justifyContent: 'center', padding: 14, background: creatingAccount ? undefined : '#f1ddf4', color: creatingAccount ? undefined : '#24172c' }}>{language === 'es' ? 'Crear una cuenta nueva' : 'Create a new account'}</button>
             <button type="button" className="text-action" onClick={() => { setCreatingAccount(false); setErrorMessage(''); setAuthNotice(''); }} style={{ width: '100%', padding: 12 }}>{language === 'es' ? 'Ya tengo una cuenta · Iniciar sesión' : 'I already have an account · Sign in'}</button>
           </div>
+          {!creatingAccount && <button type="button" className="text-action" onClick={async () => {
+            setErrorMessage('');
+            if (!loginEmail.trim()) { setErrorMessage(language === 'es' ? 'Escribe primero tu correo electrónico.' : 'Enter your email address first.'); return; }
+            try {
+              await auth.resetPassword(loginEmail.trim());
+              setAuthNotice(language === 'es' ? 'Si existe una cuenta con ese correo, recibirás instrucciones para restablecer la contraseña.' : 'If an account exists for this email, you will receive password reset instructions.');
+            } catch (cause) { setErrorMessage(cause instanceof Error ? cause.message : 'Could not request password reset'); }
+          }} style={{ margin: '0 auto 14px' }}>{language === 'es' ? '¿Olvidaste tu contraseña?' : 'Forgot your password?'}</button>}
+          <p style={{ fontSize: 12, marginTop: 8 }}>{language === 'es' ? 'Acceso privado: solo la administradora y las personas autorizadas pueden utilizar la app.' : 'Private access: only the owner and approved members can use this app.'}</p>
           <p style={{ marginTop: 20, fontSize: 12 }}><a href="./terms.html">{language === 'es' ? 'Términos' : 'Terms'}</a> · <a href="./privacy.html">{language === 'es' ? 'Privacidad' : 'Privacy'}</a></p>
           <p style={{ fontSize: 11 }}>POWERED BY THE LAUNCH ERA</p>
         </main>
