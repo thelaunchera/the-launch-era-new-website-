@@ -231,6 +231,18 @@ jobs:
           node scripts/qa-knockout-pickup-review.mjs "$destination"
           echo "Knockout Deli preview packaged: /demos/knockout-deli/"
 
+      - name: Include private Self Love Gym in actual Pages artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s public/apps/self-love-gym/index.html
+          test -d public/apps/self-love-gym/assets
+          mkdir -p .output/public/apps/self-love-gym
+          cp -a public/apps/self-love-gym/. .output/public/apps/self-love-gym/
+          test -s .output/public/apps/self-love-gym/index.html
+          test -s .output/public/apps/self-love-gym/manifest.json
+          echo "Private Self Love Gym included in GitHub Pages artifact."
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
