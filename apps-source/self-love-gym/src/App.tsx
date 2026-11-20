@@ -224,7 +224,7 @@ function App() {
   const [account, setAccount] = useState<Account | null>(null);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [creatingAccount, setCreatingAccount] = useState(false);
+  const [creatingAccount, setCreatingAccount] = useState(true);
   const [authNotice, setAuthNotice] = useState('');
   const [isOwner, setIsOwner] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
@@ -565,7 +565,10 @@ function App() {
       setLoginPassword('');
       await restore();
     } catch (cause) {
-      setErrorMessage(cause instanceof Error ? cause.message : 'Sign-in failed. Please try again.');
+      const message = cause instanceof Error ? cause.message : 'Sign-in failed. Please try again.';
+      setErrorMessage(!creatingAccount && /invalid login credentials/i.test(message)
+        ? (language === 'es' ? 'Todavía no tienes una cuenta. Toca «Crear una cuenta nueva» y regístrate primero.' : 'No account found with those credentials. Select “Create a new account” to register first.')
+        : message);
     }
   }
 
@@ -702,6 +705,7 @@ function App() {
             <button className={language === 'en' ? 'selected' : ''} onClick={() => setLanguage('en')}>English</button>
             <button className={language === 'es' ? 'selected' : ''} onClick={() => setLanguage('es')}>Español latino</button>
           </div>
+          <p style={{ fontWeight: 700, marginBottom: 8 }}>{creatingAccount ? (language === 'es' ? 'CREAR TU CUENTA' : 'CREATE YOUR ACCOUNT') : (language === 'es' ? 'ENTRAR A TU CUENTA' : 'SIGN IN')}</p>
           <form onSubmit={event => { event.preventDefault(); void signIn(); }} style={{ display: 'grid', gap: 12, textAlign: 'left' }}>
             <label>{language === 'es' ? 'Correo electrónico' : 'Email'}<input type="email" autoComplete="email" required value={loginEmail} onChange={event => setLoginEmail(event.target.value)} style={{ width: '100%', padding: 12 }} /></label>
             <label>{language === 'es' ? 'Contraseña' : 'Password'}<input type="password" autoComplete={creatingAccount ? 'new-password' : 'current-password'} minLength={6} required value={loginPassword} onChange={event => setLoginPassword(event.target.value)} style={{ width: '100%', padding: 12 }} /></label>
