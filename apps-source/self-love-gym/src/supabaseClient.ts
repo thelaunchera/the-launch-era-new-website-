@@ -5,6 +5,9 @@ export const auth = {
   async getUser() {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) return null;
+    const { data: approved, error: approvalError } = await supabase.rpc('coach_is_approved', { p_uid: data.user.id });
+    if (approvalError) throw approvalError;
+    if (!approved) throw new Error('Your account is awaiting an invitation from the owner. / Tu cuenta necesita una invitación de la administradora.');
     return { userId: data.user.id, name: data.user.user_metadata?.name || data.user.email || 'Coach', email: data.user.email };
   },
   async signInWithPassword(email: string, password: string) {
@@ -43,5 +46,30 @@ export const api = {
       if (!data?.length) throw new Error('409 Conflict');
     }
     return { data: workspace };
+  }
+};
+
+export const ownerAccess = {
+  async isOwner() {
+    const { data: user } = await supabase.auth.getUser();
+    if (!user.user) return false;
+    const { data, error } = await supabase.from('app_admins').select('user_id').eq('user_id', user.user.id).maybeSingle();
+    if (error) throw error;
+    return Boolean(data);
+  },
+  async listInvites() {
+    const { data, error } = await supabase.from('coach_invites').select('email,created_at').order('created_at', { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+  async invite(email: string) {
+    const { data: user, error: userError } = await supabase.auth.getUser();
+    if (userError || !user.user) throw new Error('Sign in required');
+    const { error } = await supabase.from('coach_invites').insert({ email: email.trim().toLowerCase(), invited_by: user.user.id });
+    if (error) throw error;
+  },
+  async revoke(email: string) {
+    const { error } = await supabase.from('coach_invites').delete().eq('email', email);
+    if (error) throw error;
   }
 };
