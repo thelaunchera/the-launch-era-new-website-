@@ -726,7 +726,7 @@ function App() {
             <span className="today-tag">{prettyDate(today(), language)}</span>
             {mode === 'demo' ? (
               <button className="text-action" onClick={signIn}>
-                <LogIn size={17} /> Open private app
+                <LogIn size={17} /> Save my workspace
               </button>
             ) : (
               <button className="text-action" onClick={() => void signOut()}>
@@ -845,10 +845,7 @@ function App() {
                         <strong>{money(dueTotal)}</strong>
                         <CircleDollarSign size={24} />
                       </div>
-                      <small>
-                        {due.length} open{' '}
-                        {due.length === 1 ? 'entry' : 'entries'}
-                      </small>
+                      <small>{`${due.length} ${due.length === 1 ? 'open entry' : 'open entries'}`}</small>
                     </div>
                     <div className="stat">
                       <span>RECORDED AS PAID</span>
@@ -1088,16 +1085,21 @@ function App() {
 
               {section === 'Memberships' && (
                 <>
-                  <div className="membership-intro">
-                    <div><span className="eyebrow">ONLINE MEMBERSHIPS</span><h2>Make it easy to join.</h2><p>Each coach creates a recurring Payment Link in her own Stripe account and adds her bank there. Paste that link into a membership here; Stripe handles checkout and recurring charges.</p></div>
-                    <div className="setup-actions"><a className="secondary-button" href="https://dashboard.stripe.com/settings/payouts" target="_blank" rel="noopener noreferrer">Set up bank in Stripe <ExternalLink size={16} /></a><a className="primary-button" href="https://dashboard.stripe.com/payment-links/create/standard-pricing" target="_blank" rel="noopener noreferrer">Create payment link <ExternalLink size={16} /></a></div>
+                  <div className="membership-intro membership-guide">
+                    <div><span className="eyebrow">ONLINE MEMBERSHIPS</span><h2>Set up payments in three steps.</h2><p>Your clients check out through Stripe. Your bank information stays in your own Stripe account.</p></div>
+                    <ol className="setup-steps">
+                      <li><span>1</span><div><strong>Connect your bank in Stripe</strong><small>Stripe handles bank details and deposits.</small></div></li>
+                      <li><span>2</span><div><strong>Create a recurring link</strong><small>Choose the same price and billing interval.</small></div></li>
+                      <li><span>3</span><div><strong>Add a membership here</strong><small>Paste the link so a client can check out.</small></div></li>
+                    </ol>
+                    <div className="setup-actions"><a className="secondary-button" href="https://dashboard.stripe.com/settings/payouts" target="_blank" rel="noopener noreferrer">Set up bank in Stripe <ExternalLink size={16} /></a><a className="secondary-button" href="https://dashboard.stripe.com/payment-links/create/standard-pricing" target="_blank" rel="noopener noreferrer">Create payment link <ExternalLink size={16} /></a><button className="primary-button" onClick={() => openModal('membership')} disabled={!workspace.clients.length}>Add membership <Plus size={16} /></button></div>
                   </div>
                   <section className="panel list-panel"><div className="list-toolbar"><div><span className="eyebrow">YOUR PLANS</span><h2>Client memberships</h2></div><span className="helper">Online status and payouts are checked in Stripe</span></div>
                     {sortedMemberships.length ? sortedMemberships.map(item => {
                       const client = workspace.clients.find(row => row.id === item.clientId);
                       return <div className="record-row" key={item.id}><div className="record-icon lavender"><CreditCard size={20} /></div><div className="record-main"><strong>{item.name} · {client?.name ?? 'Client'}</strong><span>{money(item.amount)} / {item.interval.toLowerCase()} · Next review {prettyDate(item.nextDue, language)} · {item.status}</span></div>
                         <div className="row-actions membership-actions">
-                          {item.paymentLink && mode === 'account' ? <><a href={item.paymentLink} target="_blank" rel="noopener noreferrer">Open checkout</a><button onClick={() => client && compose(client, `Hi ${client.name.split(' ')[0]}! Here is the link for your ${item.name} membership: ${item.paymentLink}`, `${item.name} membership`)}>Email link</button><button onClick={() => client && compose(client, `Hi ${client.name.split(' ')[0]}! Here is your ${item.name} membership link: ${item.paymentLink}`, '', 'sms')}>Text link</button></> : <span className="helper">{mode === 'demo' ? 'Preview only' : 'Add Stripe link'}</span>}
+                          {item.paymentLink && mode === 'account' ? <><a href={item.paymentLink} target="_blank" rel="noopener noreferrer">Open checkout</a><button onClick={() => client && compose(client, `Hi ${client.name.split(' ')[0]}! Here is the link for your ${item.name} membership: ${item.paymentLink}`, `${item.name} membership`)}>Open email draft</button><button onClick={() => client && compose(client, `Hi ${client.name.split(' ')[0]}! Here is your ${item.name} membership link: ${item.paymentLink}`, '', 'sms')}>Open SMS draft</button></> : <span className="helper">{mode === 'demo' ? 'Preview only' : 'Add Stripe link'}</span>}
                           <button onClick={() => openModal('membership', item)}>Edit</button><button onClick={() => void remove('membership', item.id)} aria-label="Delete membership"><Trash2 size={17} /></button>
                         </div></div>;
                     }) : <div className="empty-large">Create the first membership for a client.</div>}
@@ -1162,13 +1164,14 @@ function App() {
               {section === 'Messages' && (
                 <>
                   <div className="membership-intro message-intro"><div><span className="eyebrow">PERSONAL FOLLOW-UPS</span><h2>Messages with intention.</h2><p>Plan a reminder, then open the email or SMS composer when it is time. You review and send it yourself. Messages are not sent automatically.</p></div><Bell size={36} /></div>
-                  <section className="panel list-panel"><div className="list-toolbar"><div><span className="eyebrow">REMINDER LIST</span><h2>Planned messages</h2></div><span className="helper">{pendingReminders.filter(item => item.due <= today()).length} due today or earlier</span></div>
+                  <section className="panel list-panel"><div className="list-toolbar"><div><span className="eyebrow">REMINDER LIST</span><h2>Planned messages</h2></div><span className="helper">{`${pendingReminders.filter(item => item.due <= today()).length} due today or earlier`}</span></div>
                     {sortedReminders.length ? sortedReminders.map(item => {
                       const client = workspace.clients.find(row => row.id === item.clientId);
-                      return <div className="record-row" key={item.id}><div className="record-icon peach"><Bell size={20} /></div><div className="record-main"><strong>{item.subject} · {client?.name ?? 'Client'}</strong><span>{item.message}</span><small>{prettyDate(item.due, language)} · {item.status === 'Done' ? 'Completed manually' : item.due <= today() ? 'Ready to send' : 'Upcoming'}</small></div><div className="row-actions membership-actions">{item.status === 'Pending' && <><button onClick={() => client && compose(client, item.message, item.subject)}><Mail size={15} /> Email</button><button onClick={() => client && compose(client, item.message, item.subject, 'sms')}><Send size={15} /> Text</button><button onClick={() => void completeReminder(item)}>Mark done</button></>}<button onClick={() => openModal('reminder', item)}>Edit</button><button onClick={() => void remove('reminder', item.id)} aria-label="Delete reminder"><Trash2 size={17} /></button></div></div>;
+                      return <div className="record-row" key={item.id}><div className="record-icon peach"><Bell size={20} /></div><div className="record-main"><strong>{item.subject} · {client?.name ?? 'Client'}</strong><span>{item.message}</span><small>{prettyDate(item.due, language)} · {item.status === 'Done' ? 'Completed manually' : item.due <= today() ? 'Ready to send' : 'Upcoming'}</small></div><div className="row-actions membership-actions">{item.status === 'Pending' && <><button onClick={() => client && compose(client, item.message, item.subject)}><Mail size={15} /> Open email draft</button><button onClick={() => client && compose(client, item.message, item.subject, 'sms')}><Send size={15} /> Open SMS draft</button><button onClick={() => void completeReminder(item)}>Mark done</button></>}<button onClick={() => openModal('reminder', item)}>Edit</button><button onClick={() => void remove('reminder', item.id)} aria-label="Delete reminder"><Trash2 size={17} /></button></div></div>;
                     }) : <div className="empty-large">No reminders yet. Plan a personal follow-up for a client.</div>}
                   </section>
-                  <section className="panel list-panel"><div className="list-toolbar"><div><span className="eyebrow">SEND NOW</span><h2>Quick message</h2></div></div><div className="message-client-list">{workspace.clients.map(client => <div key={client.id}><strong>{client.name}</strong><div className="row-actions"><button onClick={() => compose(client, `Hi ${client.name.split(' ')[0]}! Just checking in. How are you feeling this week?`, 'Checking in')}><Mail size={15} /> Email</button><button onClick={() => compose(client, `Hi ${client.name.split(' ')[0]}! Just checking in. How are you feeling this week?`, '', 'sms')}><MessageCircle size={15} /> Text</button></div></div>)}</div></section>
+                  <p className="section-note">Mark a reminder done only after you have sent the message yourself.</p>
+                  <section className="panel list-panel"><div className="list-toolbar"><div><span className="eyebrow">COMPOSE NOW</span><h2>Quick message</h2></div></div><div className="message-client-list">{workspace.clients.map(client => <div key={client.id}><strong>{client.name}</strong><div className="row-actions"><button onClick={() => compose(client, `Hi ${client.name.split(' ')[0]}! Just checking in. How are you feeling this week?`, 'Checking in')}><Mail size={15} /> Open email draft</button><button onClick={() => compose(client, `Hi ${client.name.split(' ')[0]}! Just checking in. How are you feeling this week?`, '', 'sms')}><MessageCircle size={15} /> Open SMS draft</button></div></div>)}</div></section>
                 </>
               )}
 

@@ -1132,6 +1132,15 @@ h2 {
 .setup-actions { display: flex; flex-wrap: wrap; gap: 8px; flex: 0 0 auto; }
 .setup-actions .primary-button { text-decoration: none; }
 .message-intro > svg { color: #8e36a9; flex: 0 0 auto; }
+.membership-guide { align-items: stretch; flex-direction: column; gap: 20px; }
+.membership-guide p { max-width: 780px; }
+.setup-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.setup-steps li { display: flex; align-items: flex-start; gap: 11px; min-width: 0; padding: 14px; background: #ffffffb5; border: 1px solid #f1d9ed; border-radius: 14px; }
+.setup-steps li > span { display: grid; place-items: center; flex: 0 0 27px; height: 27px; border-radius: 9px; background: #2b1936; color: white; font-size: 12px; font-weight: 800; }
+.setup-steps strong { display: block; margin-bottom: 5px; font-size: 13px; line-height: 1.3; }
+.setup-steps small { display: block; color: #725f77; font-size: 11px; line-height: 1.5; }
+.membership-guide .setup-actions { flex: auto; }
+@media (max-width: 980px) { .setup-steps { grid-template-columns: 1fr; } }
 .section-note { margin: 14px 3px 0; font-size: 11px; line-height: 1.5; color: #745f79; }
 .membership-actions { flex-wrap: wrap; justify-content: flex-end; max-width: 350px; }
 .membership-actions a { padding: 8px; font-size: 11px; font-weight: 800; color: #7d329a; text-decoration: none; white-space: nowrap; }
