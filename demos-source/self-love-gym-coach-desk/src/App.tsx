@@ -260,7 +260,7 @@ function App() {
         setMode('account');
       } else {
         setAccount(null);
-        setWorkspace(loadDemo());
+        setWorkspace(withDefaults({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] }));
         setMode('demo');
       }
     } catch {
@@ -268,7 +268,7 @@ function App() {
         'Your workspace could not load. Please retry before making changes.'
       );
       setAccount(null);
-      setWorkspace(loadDemo());
+      setWorkspace(withDefaults({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] }));
       setMode('demo');
     } finally {
       setReady(true);
@@ -549,7 +549,7 @@ function App() {
     await auth.signOut();
     setAccount(null);
     setMode('demo');
-    setWorkspace(loadDemo());
+    setWorkspace(withDefaults({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] }));
     setSection('Overview');
   }
 
@@ -662,6 +662,29 @@ function App() {
             ? 'Plan reminder'
           : 'Add check-in';
 
+  if (!ready || !account) {
+    return (
+      <div className="shell" style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', padding: 24 }}>
+        <main className="panel" style={{ width: '100%', maxWidth: 470, padding: 32, textAlign: 'center' }}>
+          <div className="brand-mark" style={{ margin: '0 auto 20px' }}><span>SL</span></div>
+          <span className="eyebrow">SELF LOVE GYM · COACH DESK</span>
+          <h1>{language === 'es' ? 'Tu espacio de entrenamiento, organizado.' : 'Your coaching space, beautifully organized.'}</h1>
+          <p>{language === 'es' ? 'Inicia sesión para gestionar tus clientas, sesiones, membresías y pagos en tu espacio privado.' : 'Sign in to manage your clients, sessions, memberships and payments in your private workspace.'}</p>
+          {errorMessage && <p role="alert">{errorMessage}</p>}
+          <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
+            <button className={language === 'en' ? 'selected' : ''} onClick={() => setLanguage('en')}>English</button>
+            <button className={language === 'es' ? 'selected' : ''} onClick={() => setLanguage('es')}>Español latino</button>
+          </div>
+          <button className="primary-button" onClick={() => void signIn()} disabled={!ready} style={{ width: '100%', justifyContent: 'center', padding: 15 }}>
+            <LogIn size={18} /> {ready ? (language === 'es' ? 'Iniciar sesión' : 'Sign in to your account') : (language === 'es' ? 'Cargando…' : 'Loading…')}
+          </button>
+          <p style={{ marginTop: 20, fontSize: 12 }}><a href="/terms.html">{language === 'es' ? 'Términos' : 'Terms'}</a> · <a href="/privacy.html">{language === 'es' ? 'Privacidad' : 'Privacy'}</a></p>
+          <p style={{ fontSize: 11 }}>POWERED BY THE LAUNCH ERA</p>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="shell">
       <aside className="sidebar">
@@ -703,9 +726,9 @@ function App() {
         <div className="sidebar-foot">
           <span className="avatar">{account?.name?.[0] ?? 'S'}</span>
           <div>
-            <strong>{account?.name ?? 'Preview workspace'}</strong>
+            <strong>{account.name}</strong>
             <span>
-              {mode === 'demo' ? 'Sample data' : 'Your private workspace'}
+              Your private workspace
             </span>
           </div>
         </div>
@@ -724,15 +747,7 @@ function App() {
           </span>
           <div className="top-actions">
             <span className="today-tag">{prettyDate(today(), language)}</span>
-            {mode === 'demo' ? (
-              <button className="text-action" onClick={signIn}>
-                <LogIn size={17} /> Open private app
-              </button>
-            ) : (
-              <button className="text-action" onClick={() => void signOut()}>
-                <LogOut size={17} /> Sign out
-              </button>
-            )}
+            <button className="text-action" onClick={() => void signOut()}><LogOut size={17} /> Sign out</button>
           </div>
         </header>
 
@@ -740,7 +755,7 @@ function App() {
           <div className="loading">Opening your workspace…</div>
         ) : (
           <>
-            {mode === 'demo' && (
+            {false && (
               <div className="demo-strip">
                 <span className="demo-dot" />
                 <span>
@@ -1244,7 +1259,7 @@ function App() {
                       <div><strong>Android · Chrome</strong><span>{language === 'es' ? 'Toca el menú de tres puntos → Añadir a pantalla principal o Instalar app.' : 'Tap the three-dot menu → Add to Home screen or Install app.'}</span></div>
                       <div><strong>{language === 'es' ? 'Computadora · Chrome' : 'Computer · Chrome'}</strong><span>{language === 'es' ? 'Abre el menú de tres puntos → Transmitir, guardar y compartir → Instalar página como app.' : 'Open the three-dot menu → Cast, save, and share → Install page as app.'}</span></div>
                     </div>
-                    <p className="settings-hint">{language === 'es' ? 'Inicia sesión para conservar tus datos privados entre dispositivos. La vista de prueba solo se guarda en este navegador.' : 'Sign in to keep your private records across devices. Preview changes stay in this browser.'}</p>
+                    <p className="settings-hint">{language === 'es' ? 'Tus registros privados se guardan en tu cuenta.' : 'Your private records are saved to your account.'}</p>
                   </section>
                   <section className="panel settings-panel">
                     <span className="eyebrow">{language === 'es' ? 'LEGALES' : 'LEGAL'}</span>
@@ -1259,7 +1274,7 @@ function App() {
               <footer className="content-footer">
                 <span>SELF LOVE GYM · COACH DESK <b>· POWERED BY THE LAUNCH ERA</b></span>
                 <span>
-                  {mode === 'demo' ? 'PREVIEW MODE' : 'PRIVATE WORKSPACE'}{' '}
+                  {'PRIVATE WORKSPACE'}{' '}
                   {saving ? '· SAVING…' : ''}
                 </span>
               </footer>
