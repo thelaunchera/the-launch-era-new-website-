@@ -1,0 +1,31 @@
+name: Publish Self Love Gym
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps-source/self-love-gym/**'
+      - '.github/workflows/self-love-gym-pages.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build private app
+        working-directory: apps-source/self-love-gym
+        run: npm install --no-audit --no-fund && npm run build
+      - name: Copy into website
+        run: |
+          mkdir -p public/apps/self-love-gym
+          cp -R apps-source/self-love-gym/dist/. public/apps/self-love-gym/
+      - name: Commit compiled app
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/apps/self-love-gym
+          git diff --cached --quiet || (git commit -m 'Publish Self Love Gym private app' && git push)
