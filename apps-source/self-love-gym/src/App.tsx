@@ -219,6 +219,36 @@ const nav: { name: Section; Icon: typeof LayoutDashboard }[] = [
   { name: 'Settings', Icon: Settings2 },
 ];
 
+function CoachDeskSplash({ language }: { language: Language }) {
+  const [showSlowHint, setShowSlowHint] = useState(false);
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setShowSlowHint(true), 10000);
+    return () => window.clearTimeout(timeout);
+  }, []);
+
+  return (
+    <main className="coach-splash" role="status" aria-live="polite" aria-busy="true" aria-label={language === 'es' ? 'Cargando Coach Desk' : 'Loading Coach Desk'}>
+      <div className="coach-splash-inner">
+        <div className="coach-splash-mark" aria-hidden="true">
+          <img src="/apps/self-love-gym/favicon.svg" alt="" />
+        </div>
+        <div className="coach-splash-name">SELF LOVE GYM</div>
+        <div className="coach-splash-label">COACH DESK</div>
+        <p className="coach-splash-status">{language === 'es' ? 'Preparando tu espacio…' : 'Opening your workspace…'}</p>
+        <div className="coach-splash-dots" aria-hidden="true"><i /><i /><i /></div>
+        {showSlowHint && (
+          <div className="coach-splash-slow">
+            <p>{language === 'es' ? 'Está tardando más de lo habitual.' : 'This is taking longer than usual.'}</p>
+            <button className="coach-splash-retry" type="button" onClick={() => window.location.reload()}>
+              {language === 'es' ? 'Volver a intentar' : 'Try again'}
+            </button>
+          </div>
+        )}
+      </div>
+    </main>
+  );
+}
+
 function App() {
   const isPublicPreview = new URLSearchParams(window.location.search).get('demo') === '1';
   const [workspace, setWorkspace] = useState<Workspace>(loadDemo);
@@ -743,6 +773,9 @@ function App() {
             ? 'Plan reminder'
           : 'Add check-in';
 
+  // Keep the branded loader on screen until Supabase has restored the session.
+  if (!ready) return <CoachDeskSplash language={language} />;
+
   if (recoveringPassword) {
     return (
       <div className="shell" style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', padding: 24 }}>
@@ -767,7 +800,7 @@ function App() {
     );
   }
 
-  if (!ready || !account) {
+  if (!account) {
     return (
       <div className="shell" style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', padding: 24 }}>
         <main className="panel" style={{ width: '100%', maxWidth: 470, padding: 32, textAlign: 'center' }}>
