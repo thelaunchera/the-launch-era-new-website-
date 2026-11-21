@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1a1518"><meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SLG Studio">
+<title>Self Love Gym Studio — Private</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Anton&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#20171d;--cream:#faf6ef;--pink:#f4d8e0;--hot:#d6487a;--berry:#751d42;--border:#e9e0df;--soft:#797073}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font:14px/1.55 "DM Sans",sans-serif;background:var(--cream);color:var(--ink)}
+a{color:inherit}button,input,textarea,select{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid #bd547b;outline-offset:2px}
+[hidden]{display:none!important}
+button:disabled{opacity:.55;cursor:wait}
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+.eyebrow{font-size:10px;letter-spacing:.17em;text-transform:uppercase;font-weight:800}
+.auth-wrap{min-height:100dvh;display:grid;grid-template-columns:1fr 1fr}
+.auth-art{position:relative;background:#2e1721;min-height:470px;display:flex;flex-direction:column;justify-content:space-between;padding:50px;color:#fff;overflow:hidden}
+.auth-art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#2e1721e6 3%,#2e172100 65%);pointer-events:none}
+.auth-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.63);opacity:.82}
+.auth-art>*:not(img){position:relative;z-index:1}
+.brand{font:400 25px/1 "Anton",Impact,sans-serif;letter-spacing:.025em}
+.brand i{font:400 italic 30px "Instrument Serif",serif;color:#eeb4ca}
+.auth-art h1{font:400 clamp(65px,7.4vw,120px)/.92 "Anton",Impact,sans-serif;letter-spacing:-.04em;margin:0;max-width:550px}
+.auth-art h1 em{font:400 italic .95em "Instrument Serif",serif;color:#ffd4e1}
+.auth-art small{font-size:12px;color:#f3dce4}
+.auth-pane{display:flex;align-items:center;justify-content:center;padding:45px 25px;background:#fffaf7}
+.auth-card{max-width:435px;width:100%}
+.auth-card h2{font:400 47px/1.04 "Anton",sans-serif;margin:15px 0}
+.auth-card>p{color:#676069;margin:0 0 29px}
+.field{display:grid;gap:8px;margin-bottom:18px}
+.field span{font-size:12px;font-weight:800}
+.field input,.field select,.field textarea{width:100%;padding:13px 14px;background:#fff;border:1px solid #d6c9d1;border-radius:10px;color:var(--ink);min-height:49px;outline:0}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--hot);box-shadow:0 0 0 3px #ebc4d358}
+.field textarea{resize:vertical;min-height:120px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:11px;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:12px 18px;min-height:46px;font-weight:800;font-size:12px;letter-spacing:.02em}
+.btn:hover{background:#42363d}
+.btn.pink{background:var(--berry);border-color:var(--berry)}
+.btn.ghost{background:white;color:var(--ink);border:1px solid #d5c9ce}
+.btn.small{min-height:38px;padding:9px 12px}
+.btn.block{width:100%}
+.mini-note{font-size:12px;color:#7e7578}
+.status{border:1px solid #dfc1ca;background:#fff5f7;color:#793c57;padding:11px 13px;border-radius:9px;margin:12px 0;white-space:pre-wrap}
+.status:empty{display:none}
+#app{min-height:100dvh}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100dvh}
+.sidebar{background:#201a1e;color:#fff;padding:29px 19px;display:flex;flex-direction:column;gap:30px;position:sticky;top:0;height:100dvh}
+.sidebar .brand{font-size:23px}.sidebar .brand i{font-size:24px}
+.sidebar-desc{margin:10px 0 0;color:#cfbac3;font-size:11px}
+.nav{display:grid;gap:8px}
+.nav button{width:100%;text-align:left;border:0;background:transparent;border-radius:11px;color:#dacfd4;font-weight:700;padding:13px 15px}
+.nav button[aria-current=page]{color:#301825;background:#f4cfdb}
+.nav button:hover:not([aria-current]){background:#3a2e35;color:#fff}
+.nav button span{display:inline-grid;min-width:22px;height:22px;margin-left:6px;place-items:center;border-radius:15px;background:#b93d6b;color:white;font-size:10px}
+.side-bottom{margin-top:auto;border-top:1px solid #6c5661;padding-top:15px;display:grid;gap:10px}
+.side-bottom a{font-size:11px;color:#e3c6d1}
+.side-bottom button{color:#ead4dc;background:transparent;border:1px solid #6e5660;border-radius:10px;min-height:43px}
+.workspace{min-width:0;padding:37px clamp(19px,4vw,65px) 75px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:32px}
+.topbar h1{font:400 clamp(38px,5vw,64px)/.96 "Anton",Impact,sans-serif;letter-spacing:-.025em;margin:8px 0 0}
+.topbar h1 em{font:400 italic 1.03em "Instrument Serif",serif;color:var(--hot)}
+.top-actions{display:flex;gap:8px;align-items:center}
+.top-actions .date{font-size:12px;color:#787074;margin-right:10px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:25px}
+.metric{background:white;border:1px solid var(--border);border-radius:15px;padding:21px}
+.metric strong{font:400 clamp(29px,3.3vw,46px)/1 "Anton",Impact,sans-serif;letter-spacing:-.025em;display:block}
+.metric span{font-size:11px;color:#71636b;font-weight:800;margin-top:10px;display:block}
+.metric:first-child{background:#f6cfda}
+.workspace-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(295px,.94fr);gap:17px;align-items:start}
+.panel{background:#fff;border:1px solid var(--border);border-radius:17px;overflow:hidden}
+.panel-head{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:20px 22px;border-bottom:1px solid var(--border)}
+.panel-head h2{font:400 25px "Anton",sans-serif;margin:0;letter-spacing:.01em}
+.panel-head small{color:#8d8388;font-size:11px}
+.toolbar{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;gap:8px}
+.toolbar input,.toolbar select{min-width:0;background:#fffaf9;border:1px solid #e0d5d8;border-radius:9px;padding:11px 12px;font-size:12px}
+.toolbar input{flex:1}
+.list{max-height:630px;overflow:auto}
+.inquiry{width:100%;background:#fff;border:0;border-bottom:1px solid #efebea;display:grid;grid-template-columns:42px minmax(0,1fr);gap:13px;text-align:left;padding:17px 18px;color:var(--ink);transition:background .15s}
+.inquiry:hover{background:#fff5f8}
+.inquiry[aria-selected=true]{background:#fdebf1}
+.avatar{width:41px;height:41px;border-radius:13px;background:#f2d7e0;color:#8e2354;display:grid;place-items:center;font:400 21px "Anton",sans-serif}
+.inquiry strong{display:block;font-size:13px;margin-bottom:3px}
+.inquiry .sub{display:block;font-size:11px;color:#746a6d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.inquiry .under{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:7px}
+.inquiry time{font-size:10px;color:#91878a}
+.tag{font-size:10px;font-weight:800;color:#743d59;background:#f3dae4;padding:5px 8px;border-radius:7px}
+.tag[data-status=resolved]{color:#53646a;background:#e7eff2}
+.tag[data-status=contacted]{color:#655038;background:#f2e8d5}
+.tag[data-status=in_progress]{color:#805041;background:#fae5dc}
+.detail{padding:23px}
+.detail .empty{min-height:310px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:13px;color:#81757a}
+.empty-icon{font:400 65px "Instrument Serif",serif;color:#a66a82}
+.detail h3{font:400 34px/1.05 "Anton",sans-serif;margin:5px 0 10px}
+.detail .meta{font-size:11px;color:#84777e;margin-bottom:20px}
+.detail .message{background:#fbf7f7;border:1px solid #f0e7ea;border-radius:11px;padding:17px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;font-size:13px}
+.detail .links{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0 25px}
+.detail a{font-size:12px;color:#8e2354;overflow-wrap:anywhere}
+.detail .field textarea{min-height:112px}
+.detail .action-row{display:flex;gap:9px;align-items:end;flex-wrap:wrap}
+.detail .action-row .field{flex:1;min-width:125px;margin:0}
+.detail .notice{font-size:12px;margin-top:12px;min-height:22px;color:#7d3357}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.product{padding:22px;background:#fff;border:1px solid var(--border);border-radius:16px}
+.product:nth-child(1){background:#f5dbe4}
+.product:nth-child(2){background:#201a1e;color:#fff}
+.product:nth-child(2) p{color:#d9ced1}
+.product strong{font:400 27px "Anton",sans-serif;display:block;margin:12px 0}
+.product p{font-size:12px;color:#786d70}
+.product a{font-size:12px;font-weight:800;text-decoration:underline;text-underline-offset:4px}
+.tip{padding:18px;background:#f4e5e9;border-radius:14px;margin-top:22px;font-size:12px;color:#6f5060}
+.private{margin-top:24px;color:#92888b;font-size:11px}
+@media(max-width:1100px){.workspace-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.list{max-height:360px}.products{grid-template-columns:1fr 1fr}}
+@media(max-width:750px){
+.auth-wrap{display:block}.auth-art{min-height:245px;padding:25px}.auth-art h1{font-size:54px}.auth-pane{padding:31px 23px 50px}
+.layout{display:block}.sidebar{height:auto;position:sticky;top:0;z-index:10;padding:12px 14px;gap:10px;box-shadow:0 7px 17px #27141c16}
+.sidebar-head{display:flex;align-items:center;justify-content:space-between}
+.sidebar .brand{font-size:17px}.sidebar .brand i{font-size:19px}.sidebar-desc{display:none}
+.nav{display:flex;gap:7px;overflow-x:auto}.nav button{width:auto;white-space:nowrap;padding:11px 13px;font-size:12px;background:#30272d}
+.side-bottom{display:none}
+.workspace{padding:22px 16px 45px}.topbar{margin-bottom:23px}.topbar h1{font-size:43px}.top-actions .date{display:none}
+.metrics{gap:8px}.metric{padding:15px}.metric strong{font-size:34px}.metric span{font-size:10px}
+.panel-head{padding:15px}.toolbar{padding:10px}.inquiry{padding:14px}.detail{padding:18px}
+.products{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<section id="signin" class="auth-wrap">
+<div class="auth-art"><img src="/self-love-gym/photos/coach.webp" alt="Fitness coach in a bright studio" decoding="async">
+<div class="brand">SELF LOVE <i>GYM</i><div class="eyebrow" style="margin-top:13px">PRIVATE STUDIO</div></div>
+<div><h1>YOUR SPACE.<br><em>Organized.</em></h1><small>Owner access only. Powered by The Launch Era.</small></div></div>
+<div class="auth-pane"><form class="auth-card" id="login-form">
+<div class="eyebrow" style="color:#a35777">SELF LOVE GYM / ADMIN</div><h2>Welcome back.</h2>
+<p>Use your existing Self Love Gym administrator email and password. There is no public signup for Studio.</p>
+<label class="field"><span>Email</span><input id="login-email" type="email" autocomplete="username" placeholder="you@example.com" maxlength="180" required></label>
+<label class="field"><span>Password</span><input id="login-password" type="password" autocomplete="current-password" placeholder="Your password" required></label>
+<button type="submit" id="login-submit" class="btn pink block">OPEN MY STUDIO</button>
+<div class="status" id="login-error" role="alert"></div>
+<p class="mini-note">Your private workspace uses the same account as Coach Desk admin. Customer subscriptions do not grant Studio access.</p>
+<a href="https://thelaunchera.com/self-love-gym/" class="mini-note">Back to Self Love Gym</a>
+</form></div>
+</section>
+<div id="app" hidden>
+<div class="layout">
+<aside class="sidebar"><div class="sidebar-head"><div><div class="brand">SELF LOVE <i>GYM</i></div><p class="sidebar-desc">THE LAUNCH ERA / PRIVATE STUDIO</p></div><span class="eyebrow" style="color:#dca9ba">ADMIN</span></div>
+<nav class="nav" aria-label="Studio sections">
+<button type="button" data-page="overview" aria-current="page">Overview</button>
+<button type="button" data-page="inquiries">Inquiries <span id="inquiry-unread" hidden>0</span></button>
+<button type="button" data-page="products">Products & links</button>
+</nav>
+<div class="side-bottom"><span class="eyebrow">PRIVATE ACCESS</span><small id="admin-email"></small><a href="https://thelaunchera.com/self-love-gym/" target="_blank" rel="noopener">Open marketing site</a><button id="signout" type="button">Sign out</button></div>
+</aside>
+<main class="workspace">
+<div class="topbar"><div><div class="eyebrow" style="color:#a05b76">SELF LOVE GYM / ADMIN</div><h1 id="page-title">Your <em>overview.</em></h1></div>
+<div class="top-actions"><span class="date" id="current-date"></span><button type="button" class="btn small ghost" id="refresh">Refresh</button><button type="button" class="btn small ghost" id="mobile-logout" style="display:none">Exit</button></div></div>
+<div id="workspace-alert" class="status" role="alert"></div>
+<section id="page-overview">
+<div class="metrics">
+<div class="metric"><strong id="metric-new">—</strong><span>NEW INQUIRIES</span></div>
+<div class="metric"><strong id="metric-total">—</strong><span>TOTAL MESSAGES</span></div>
+<div class="metric"><strong id="metric-progress">—</strong><span>IN PROGRESS</span></div>
+<div class="metric"><strong id="metric-closed">—</strong><span>RESOLVED</span></div>
+</div>
+<div class="workspace-grid">
+<section class="panel"><div class="panel-head"><h2>Recent inquiries</h2><button class="btn small ghost" type="button" id="view-all">View all</button></div><div id="recent-list" class="list"><p class="mini-note" style="padding:18px">Loading inquiries…</p></div></section>
+<section class="panel"><div class="panel-head"><h2>Inquiry details</h2><small>Choose a message</small></div><div id="overview-detail" class="detail"></div></section>
+</div>
+<div class="tip">All inquiries from the Contact Me form arrive here. Sign-in and stored messages are protected by Supabase permissions, not by hiding this page.</div>
+</section>
+<section id="page-inquiries" hidden>
+<div class="workspace-grid">
+<section class="panel"><div class="panel-head"><h2>Your inbox</h2><small id="inbox-count">—</small></div>
+<div class="toolbar"><input id="filter-search" type="search" placeholder="Search name, email or message" aria-label="Search inquiries">
+<select id="filter-status" aria-label="Filter by status"><option value="all">All statuses</option><option value="new">New</option><option value="contacted">Contacted</option><option value="in_progress">In progress</option><option value="resolved">Resolved</option></select></div>
+<div id="inquiries-list" class="list"></div></section>
+<section class="panel"><div class="panel-head"><h2>Message</h2><small>Private follow-up</small></div><div id="inquiry-detail" class="detail"></div></section>
+</div></section>
+<section id="page-products" hidden>
+<div class="products">
+<div class="product"><div class="eyebrow">PUBLIC EXPERIENCE</div><strong>Self Love Gym</strong><p>Landing and free workout experience, available to anyone.</p><a href="https://thelaunchera.com/self-love-gym/" target="_blank" rel="noopener">Open landing</a></div>
+<div class="product"><div class="eyebrow">MONTHLY SUBSCRIPTION</div><strong>Coach Desk · $2.99</strong><p>Private coaching workspace, billed through Stripe plus applicable taxes.</p><a href="https://dashboard.stripe.com/" target="_blank" rel="noopener">Open Stripe</a></div>
+<div class="product"><div class="eyebrow">INTERACTIVE SAMPLE</div><strong>Coach Desk demo</strong><p>Public demonstration with sample data. No client information.</p><a href="https://thelaunchera.com/apps/self-love-gym/?demo=1" target="_blank" rel="noopener">Open demo</a></div>
+</div>
+<div class="tip">Your new Studio handles Self Love Gym inquiries. It does not replace the separate Studio used for your other brand projects.</div>
+</section>
+<div class="private">Private workspace · Self Love Gym · Powered by The Launch Era</div>
+</main></div></div>
+<script type="module">
+import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
+const URL="https://atrkarecooxkzmpkxrdu.supabase.co";
+const KEY="sb_publishable_1gFrwfVfMlw1JkA1DRGb6g_eSLokc7H";
+const client=createClient(URL,KEY,{auth:{storageKey:"slg-studio-owner-v1",persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+const $=id=>document.getElementById(id);
+let rows=[],selected=null,currentPage="overview",loading=false,ownerReady=false,activeUser=null;
+const formatDate=v=>new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",dateStyle:"medium",timeStyle:"short"}).format(new Date(v));
+const statusLabels={new:"New",contacted:"Contacted",in_progress:"In progress",resolved:"Resolved"};
+const topicLabels={general:"General question",free_workout:"Free workouts",coach_desk:"Coach Desk",billing:"Billing",other:"Other"};
+function setError(id,text){$(id).textContent=text||""}
+function setBusy(b){loading=b;$("refresh").disabled=b;$("refresh").textContent=b?"Refreshing…":"Refresh"}
+function setPage(page){currentPage=page;for(const p of ["overview","inquiries","products"])$("page-"+p).hidden=p!==page;
+ document.querySelectorAll("[data-page]").forEach(b=>b.setAttribute("aria-current",b.dataset.page===page?"page":"false"));
+ const headings={overview:"Your <em>overview.</em>",inquiries:"Your <em>inquiries.</em>",products:"Products <em>& links.</em>"};
+ $("page-title").innerHTML=headings[page];if(page==="inquiries")renderList();
+}
+function labels(v){return topicLabels[v]||"General"}
+function make(tag,cl,txt){const el=document.createElement(tag);if(cl)el.className=cl;if(txt!==undefined)el.textContent=txt;return el}
+function showEmpty(target,text){target.replaceChildren();let n=make("div","empty");n.append(make("div","empty-icon","SL"),make("p","",text));target.appendChild(n)}
+function renderItems(target,items){target.replaceChildren();if(!items.length){showEmpty(target,"No messages in this view.");return}
+ for(const item of items){
+ const b=make("button","inquiry");b.type="button";b.setAttribute("aria-selected",String(selected===item.id));b.addEventListener("click",()=>{selected=item.id;renderList();renderDetail();if(innerWidth<750&&currentPage==="overview")$("overview-detail").scrollIntoView({behavior:"smooth",block:"start"})});
+ const avatar=make("span","avatar",(item.full_name||"?").slice(0,1).toUpperCase());
+ const wrap=make("span","");wrap.style.minWidth="0";
+ const name=make("strong","",item.full_name);
+ const summary=make("span","sub",item.message);
+ const under=make("span","under");under.append(make("time","",formatDate(item.created_at)));
+ const status=make("span","tag",statusLabels[item.status]||item.status);status.dataset.status=item.status;under.append(status);
+ wrap.append(name,summary,under);b.append(avatar,wrap);target.appendChild(b);
+ }}
+function renderList(){
+ const q=$("filter-search").value.trim().toLowerCase(),status=$("filter-status").value;
+ const matches=rows.filter(r=>(status==="all"||r.status===status)&&[r.full_name,r.email,r.topic,r.message].join(" ").toLowerCase().includes(q));
+ renderItems($("inquiries-list"),matches);
+ renderItems($("recent-list"),rows.slice(0,7));
+ $("inbox-count").textContent=matches.length+" messages";
+ const newCount=rows.filter(r=>r.status==="new").length;
+ $("inquiry-unread").hidden=newCount===0;$("inquiry-unread").textContent=newCount;
+ $("metric-new").textContent=newCount;$("metric-total").textContent=rows.length;
+ $("metric-progress").textContent=rows.filter(r=>r.status==="in_progress").length;
+ $("metric-closed").textContent=rows.filter(r=>r.status==="resolved").length;
+}
+function renderDetail(){
+ for(const target of [$("overview-detail"),$("inquiry-detail")]){
+ target.replaceChildren();
+ const row=rows.find(x=>x.id===selected);
+ if(!row){showEmpty(target,"Choose an inquiry to see its details.");continue}
+ const type=make("div","eyebrow",labels(row.topic));type.style.color="#9c5170";
+ const title=make("h3","",row.full_name);
+ const meta=make("div","meta",formatDate(row.created_at)+" · "+(row.locale==="es"?"Spanish":"English"));
+ const message=make("div","message",row.message);
+ const links=make("div","links");
+ const email=make("a","",row.email);email.href="mailto:"+encodeURIComponent(row.email)+"?subject="+encodeURIComponent("Re: Your Self Love Gym inquiry");
+ links.append(email);
+ if(row.phone){links.append(make("span","mini-note",row.phone))}
+ const notesLabel=make("label","field");const noteCaption=make("span","","Private notes");
+ const notes=make("textarea");notes.maxLength=4000;notes.value=row.admin_notes||"";notes.placeholder="Add follow-up details here…";notesLabel.append(noteCaption,notes);
+ const action=make("div","action-row");const statusLabel=make("label","field");statusLabel.append(make("span","","Status"));
+ const pick=make("select");for(const [code,label] of Object.entries(statusLabels)){let opt=make("option","",label);opt.value=code;pick.append(opt)}pick.value=row.status;statusLabel.append(pick);
+ const save=make("button","btn pink","Save changes");save.type="button";
+ const notice=make("div","notice");notice.setAttribute("role","status");
+ save.addEventListener("click",async()=>{
+   save.disabled=true;notice.textContent="Saving…";
+   try{
+     const changes={status:pick.value,admin_notes:notes.value.trim().slice(0,4000),updated_at:new Date().toISOString()};
+     const {data,error}=await client.from("slg_inquiries").update(changes).eq("id",row.id).select("id,status,admin_notes,updated_at").single();
+     if(error||!data)throw new Error("Could not save the follow-up.");
+     Object.assign(row,data);notice.textContent="Saved to your private Studio.";renderList();
+   }catch(e){notice.textContent=e.message||"Save unavailable";}finally{save.disabled=false}
+ });
+ action.append(statusLabel,save);
+ target.append(type,title,meta,message,links,notesLabel,action,notice);
+ }}
+async function refresh(){
+ if(!ownerReady||loading)return;setBusy(true);setError("workspace-alert","");
+ try{
+   const {data,error}=await client.from("slg_inquiries").select("id,full_name,email,phone,topic,message,locale,source,status,admin_notes,created_at,updated_at").order("created_at",{ascending:false}).limit(500);
+   if(error)throw error;
+   rows=data||[];if(selected&&!rows.some(r=>r.id===selected))selected=null;
+   renderList();renderDetail();
+ }catch(e){setError("workspace-alert","Could not load inquiries. "+(e.message||"Please try refreshing."))}
+ finally{setBusy(false)}
+}
+async function verifyOwner(){
+ const {data:who,error:authError}=await client.auth.getUser();
+ if(authError||!who?.user)return false;
+ const {data:admin,error}=await client.from("app_admins").select("user_id").eq("user_id",who.user.id).maybeSingle();
+ if(error||!admin)return false;
+ activeUser=who.user;ownerReady=true;
+ $("signin").hidden=true;$("app").hidden=false;
+ $("admin-email").textContent=who.user.email||"";$("current-date").textContent=new Intl.DateTimeFormat("en-US",{month:"long",day:"numeric",timeZone:"America/New_York"}).format(new Date());
+ setPage("overview");await refresh();return true;
+}
+$("login-form").addEventListener("submit",async e=>{
+ e.preventDefault();setError("login-error","");$("login-submit").disabled=true;
+ const email=$("login-email").value.trim(),password=$("login-password").value;
+ try{
+   const {error}=await client.auth.signInWithPassword({email,password});
+   if(error)throw new Error("Your email or password could not be verified.");
+   const ok=await verifyOwner();
+   if(!ok){await client.auth.signOut();throw new Error("This account does not have Studio administrator access.")}
+ }catch(err){setError("login-error",err.message||"Sign-in unavailable.")}
+ finally{$("login-submit").disabled=false;$("login-password").value=""}
+});
+async function signOut(){await client.auth.signOut();ownerReady=false;rows=[];selected=null;activeUser=null;$("app").hidden=true;$("signin").hidden=false;setError("login-error","");}
+$("signout").addEventListener("click",signOut);$("mobile-logout").addEventListener("click",signOut);
+$("refresh").addEventListener("click",refresh);$("view-all").addEventListener("click",()=>setPage("inquiries"));
+$("filter-search").addEventListener("input",renderList);$("filter-status").addEventListener("change",renderList);
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>setPage(b.dataset.page)));
+window.addEventListener("focus",()=>{if(ownerReady)refresh()});
+setInterval(()=>{if(ownerReady&&document.visibilityState==="visible")refresh()},45000);
+if(innerWidth<=750)$("mobile-logout").style.display="inline-flex";
+try{const {data}=await client.auth.getSession();if(data.session)await verifyOwner()}catch(e){setError("login-error","Please sign in to open your Studio.")}
+</script>
+</body></html>
