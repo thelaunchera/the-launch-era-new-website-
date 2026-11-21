@@ -101,11 +101,12 @@ type Account = { userId: string; name?: string; email?: string };
 type Section = 'Overview' | 'Clients' | 'Calendar' | 'Sessions' | 'Memberships' | 'Payments' | 'Messages' | 'Check-ins' | 'Settings';
 type Kind = 'client' | 'session' | 'payment' | 'checkin' | 'membership' | 'reminder';
 
-const today = () => new Date().toLocaleDateString('en-CA');
+const localDateKey = (value: Date) => [value.getFullYear(), String(value.getMonth() + 1).padStart(2, '0'), String(value.getDate()).padStart(2, '0')].join('-');
+const today = () => localDateKey(new Date());
 const shifted = (days: number) => {
   const value = new Date();
   value.setDate(value.getDate() + days);
-  return value.toLocaleDateString('en-CA');
+  return localDateKey(value);
 };
 const uid = () => crypto.randomUUID();
 const money = (amount: number) =>
@@ -1028,7 +1029,7 @@ function App() {
                         <span className="attention-details"><strong>{language === 'es' ? 'Recordatorios listos para revisar' : 'Reminders ready to review'}</strong><small>{language === 'es' ? `${remindersToReview.length} para hoy o antes · envío manual` : `${remindersToReview.length} due today or earlier · send manually`}</small></span>
                         <ArrowRight size={18} className="attention-arrow" />
                       </button>}
-                      {sessionsToday.length > 0 && <button className="attention-row" type="button" onClick={() => navigate('Sessions')}>
+                      {sessionsToday.length > 0 && <button className="attention-row" type="button" onClick={() => { setCalendarFocusDate(today()); navigate('Calendar'); }}>
                         <span className="attention-icon"><CalendarDays size={20}/></span>
                         <span className="attention-details"><strong>{language === 'es' ? 'Sesiones de hoy' : "Today's sessions"}</strong><small>{language === 'es' ? `${sessionsToday.length} ${sessionsToday.length === 1 ? 'sesión registrada' : 'sesiones registradas'}` : `${sessionsToday.length} ${sessionsToday.length === 1 ? 'scheduled session' : 'scheduled sessions'}`}</small></span>
                         <ArrowRight size={18} className="attention-arrow" />
@@ -1235,18 +1236,18 @@ function App() {
                   {visibleClients.length ? (
                     visibleClients.map(item => (
                       <div className="client-row" key={item.id}>
-                        <div className="client-avatar">
+                        <button type="button" className="client-avatar coach-client-avatar-button" onClick={() => setSelectedClientId(item.id)} aria-label={language === 'es' ? `Abrir ficha de ${item.name}` : `Open ${item.name}'s profile`}>
                           {item.name
                             .split(' ')
                             .map(word => word[0])
                             .slice(0, 2)
                             .join('')
                             .toUpperCase()}
-                        </div>
+                        </button>
                         <div className="client-info">
-                          <strong>{item.name}</strong>
+                          <button type="button" className="coach-client-name-button" onClick={() => setSelectedClientId(item.id)}><strong>{item.name}</strong></button>
                           <span>
-                            {item.focus || 'No focus added'} · Check-in{' '}
+                            {item.focus || 'No focus added'} · Check-in{' '
                             {item.checkInDay}
                           </span>
                           <button type="button" className="coach-profile-link" onClick={() => setSelectedClientId(item.id)}>
