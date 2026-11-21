@@ -673,7 +673,7 @@ function App() {
           {errorMessage && <p role="alert">{errorMessage}</p>}
           <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
             <button className={language === 'en' ? 'selected' : ''} onClick={() => setLanguage('en')}>English</button>
-            <button className={language === 'es' ? 'selected' : ''} onClick={() => setLanguage('es')}>Español latino</button>
+            <button className={language === 'es' ? 'selected' : ''} onClick={() => setLanguage('es')}>Español</button>
           </div>
           <button className="primary-button" onClick={() => void signIn()} disabled={!ready} style={{ width: '100%', justifyContent: 'center', padding: 15 }}>
             <LogIn size={18} /> {ready ? (language === 'es' ? 'Iniciar sesión' : 'Sign in to your account') : (language === 'es' ? 'Cargando…' : 'Loading…')}
@@ -1247,7 +1247,7 @@ function App() {
                     <p>{language === 'es' ? 'Puedes cambiarlo cuando quieras. Tu preferencia se guarda en este dispositivo.' : 'Switch whenever you like. Your choice is saved on this device.'}</p>
                     <div className="language-switch" role="group" aria-label="Language / Idioma">
                       <button className={language === 'en' ? 'selected' : ''} aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>English</button>
-                      <button className={language === 'es' ? 'selected' : ''} aria-pressed={language === 'es'} onClick={() => setLanguage('es')}>Español latino</button>
+                      <button className={language === 'es' ? 'selected' : ''} aria-pressed={language === 'es'} onClick={() => setLanguage('es')}>Español</button>
                     </div>
                   </section>
                   <section className="panel settings-panel">
