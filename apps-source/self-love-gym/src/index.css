@@ -1691,3 +1691,19 @@ input, select, textarea { font-size:16px; }
   .stripe-manual-actions .secondary-button, .stripe-manual-actions .primary-button { min-width:0; width:100%; white-space:normal; font-size:11px; padding:9px 7px; text-align:center; }
 }
 @media(prefers-reduced-motion:reduce) { .stripe-manual-details summary svg { transition:none; } }
+
+
+/* Stripe links: coach-friendly primary payment actions */
+.stripe-primary-actions { margin-top:16px; padding:0; align-items:center; }
+.stripe-primary-actions .primary-button,
+.stripe-primary-actions .secondary-button { min-height:47px; border-radius:13px; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+.stripe-connection-status { border-color:#e5c9eb; color:#64367a; background:#f6eaf8; }
+.membership-actions button,
+.membership-actions a { min-height:36px; }
+@media(max-width:700px) {
+  .stripe-primary-actions { display:grid; grid-template-columns:minmax(0,1fr); gap:9px; }
+  .stripe-primary-actions .primary-button,
+  .stripe-primary-actions .secondary-button { font-size:12px; min-height:45px; justify-content:center; }
+  .membership-actions { display:flex; flex-wrap:wrap; gap:7px; }
+  .membership-actions button, .membership-actions a { min-height:40px; }
+}
