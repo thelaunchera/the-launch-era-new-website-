@@ -272,6 +272,17 @@ section.block{padding:72px 0}
 .image-assembly>.real-photo{object-position:22% center}
 .hero-photo img{object-position:25% center}
 }
+
+.demo-lazy{padding:clamp(26px,4vw,55px);background:#f2e5e9;border:1px solid #dfd2d6;display:flex;justify-content:space-between;align-items:center;gap:30px}
+.demo-lazy strong{letter-spacing:.08em;font-weight:900;font-size:12px}.demo-lazy p{max-width:520px;color:#60575a}
+.coach-demo-dialog{width:min(1230px,96vw);height:min(900px,94dvh);max-width:none;max-height:none;padding:0;border:0;background:#fff;box-shadow:0 28px 90px #0008}
+.coach-demo-dialog::backdrop{background:#090909d9}.coach-demo-toolbar{height:64px;background:#171717;color:white;padding:9px 17px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.coach-demo-toolbar strong{font-size:11px;letter-spacing:.08em}.coach-demo-toolbar span{display:flex;align-items:center;gap:12px}
+.coach-demo-toolbar a{color:#fff;font-size:11px;text-decoration:none;font-weight:800}
+.coach-demo-toolbar button{background:#fff;border:0;font-size:19px;height:39px;width:39px}
+.coach-demo-mount{height:calc(100% - 64px)}.coach-demo-mount iframe{width:100%;height:100%;border:0;background:#fff}
+@media(max-width:760px){.demo-lazy{display:block}.demo-lazy .btn{width:100%;margin-top:16px}
+.coach-demo-dialog{width:100vw;height:100dvh;margin:0}.coach-demo-toolbar{height:62px;padding:7px}.coach-demo-toolbar strong,.coach-demo-toolbar a{font-size:9px}.coach-demo-mount{height:calc(100% - 62px)}}
 </style>
 </head>
 <body>
@@ -314,7 +325,7 @@ section.block{padding:72px 0}
 <h3 data-en="Start where<br>you are." data-es="Empieza<br>donde estás.">Start where<br>you are.</h3>
 <p data-en="Easy-to-follow workouts for real life. Find gentle strength, mobility and low-impact movement you can do at home. No account or payment needed." data-es="Rutinas que puedes seguir desde casa. Encuentra fuerza suave, movilidad y ejercicios de bajo impacto. Sin cuenta y sin pagar.">Easy-to-follow workouts for real life. Find gentle strength, mobility and low-impact movement you can do at home. No account or payment needed.</p>
 <ul><li data-en="Three beginner-friendly workout routines" data-es="Tres rutinas para principiantes">Three beginner-friendly workout routines</li><li data-en="Exercise guidance and a simple timer" data-es="Instrucciones y temporizador sencillo">Exercise guidance and a simple timer</li><li data-en="Your recent workouts and streaks saved on this device" data-es="Tus rutinas y constancia se guardan en este dispositivo">Your recent workouts and streaks saved on this device</li></ul>
-<div class="actions"><a class="btn" href="https://app.thelaunchera.com/self-love-gym/" target="_blank" rel="noopener" data-en="OPEN THE FREE APP ↗" data-es="ABRIR APP GRATIS ↗">OPEN THE FREE APP ↗</a><button class="btn outline show-demo" type="button" data-product="free" data-en="SEE HOW IT WORKS ↓" data-es="VER CÓMO FUNCIONA ↓">SEE HOW IT WORKS ↓</button></div>
+<div class="actions"><a class="btn" href="https://app.thelaunchera.com/self-love-gym/" target="_blank" rel="noopener" data-en="OPEN THE FREE APP ↗" data-es="ABRIR APP GRATIS ↗">OPEN THE FREE APP ↗</a><a class="btn outline" href="https://app.thelaunchera.com/self-love-gym/" target="_blank" rel="noopener" data-en="SEE WORKOUTS ↗" data-es="VER RUTINAS ↗">SEE WORKOUTS ↗</a></div>
 <small class="sub-note" data-en="Free to use. Progress is saved locally on the device where you exercise; it does not sync across devices." data-es="Es gratis. El progreso se guarda en el dispositivo que usas; no se sincroniza entre dispositivos.">Free to use. Progress is saved locally on the device where you exercise; it does not sync across devices.</small>
 </div>
 <div><div class="image-assembly">
@@ -336,9 +347,9 @@ section.block{padding:72px 0}
 <div class="price-lockup"><strong>$2.99</strong><span data-en="/ month" data-es="/ mes">/ month</span></div>
 <p data-en="Keep your clients, sessions, memberships and payment notes in one private place. Less searching, more time for the work you love." data-es="Organiza clientas, sesiones, membresías y registros manuales de pago en un solo lugar privado. Menos búsqueda y más tiempo para lo que te gusta.">Keep your clients, sessions, memberships and payment notes in one private place. Less searching, more time for the work you love.</p>
 <ul><li data-en="Clients, appointments and memberships" data-es="Clientas, citas y membresías">Clients, appointments and memberships</li><li data-en="Manual payment records and follow-up notes" data-es="Registro manual de pagos y notas de seguimiento">Manual payment records and follow-up notes</li><li data-en="Bilingual private dashboard for approved members" data-es="Panel privado bilingüe para personas autorizadas">Bilingual private dashboard for approved members</li></ul>
-<div class="actions"><a class="btn inverse" href="mailto:hello@thelaunchera.com?subject=Coach%20Desk%20%242.99%20monthly%20access" data-en="REQUEST THE $2.99 PLAN ↗" data-es="SOLICITA EL PLAN DE $2.99 ↗">REQUEST THE $2.99 PLAN ↗</a><button class="btn line-light show-demo" type="button" data-product="coach" data-en="PREVIEW THE DESK ↓" data-es="VER EL PANEL ↓">PREVIEW THE DESK ↓</button></div>
+<div class="actions"><a class="btn inverse" href="https://buy.stripe.com/8x23cu32L6Dn0lPgDG93y10" target="_blank" rel="noopener" data-en="SUBSCRIBE · $2.99/MO ↗" data-es="SUSCRIBIRME · $2.99/MES ↗">SUBSCRIBE · $2.99/MO ↗</a><button class="btn line-light" type="button" data-open-coach-demo data-en="PREVIEW THE DESK ↓" data-es="VER EL PANEL ↓">PREVIEW THE DESK ↓</button></div>
 <a class="sub-note" style="color:#ddd;display:inline-block;text-decoration:underline" href="https://thelaunchera.com/apps/self-love-gym/" target="_blank" rel="noopener" data-en="Already approved? Sign in to Coach Desk ↗" data-es="¿Ya tienes acceso? Entra a Coach Desk ↗">Already approved? Sign in to Coach Desk ↗</a>
-<small class="sub-note" data-en="Checkout is not yet active. We will require the purchase email for sign-in when subscription verification launches. The app currently uses owner-approved access." data-es="El checkout todavía no está activo. Cuando funcione la verificación de suscripciones, debes entrar con el mismo correo de compra. La app actualmente usa acceso autorizado.">Checkout is not yet active. We will require the purchase email for sign-in when subscription verification launches. The app currently uses owner-approved access.</small>
+<small class="sub-note" data-en="$2.99/month plus applicable sales taxes. Use the same email for checkout and your Coach Desk account. Active subscribers enter automatically." data-es="$2.99/mes más los impuestos aplicables. Usa el mismo correo para pagar y crear tu cuenta. Los suscriptores activos entran automáticamente.">$2.99/month plus applicable sales taxes. Use the same email for checkout and your Coach Desk account. Active subscribers enter automatically.</small>
 </div>
 </div></div></section>
 
@@ -347,33 +358,22 @@ section.block{padding:72px 0}
 <div class="how-grid">
 <div class="how-item"><span>01</span><h3 data-en="PICK YOUR SPACE." data-es="ELIGE TU ESPACIO.">PICK YOUR SPACE.</h3><p data-en="Open the free workout app now, or discover Coach Desk for your coaching work." data-es="Entra a la app de ejercicios gratis o descubre Coach Desk para tu trabajo como coach.">Open the free workout app now, or discover Coach Desk for your coaching work.</p></div>
 <div class="how-item"><span>02</span><h3 data-en="SEE IT IN ACTION." data-es="MIRA CÓMO FUNCIONA.">SEE IT IN ACTION.</h3><p data-en="Explore the sample preview below. The actual workout app opens without a signup." data-es="Explora la vista de ejemplo. La app de ejercicios abre sin registro.">Explore the sample preview below. The actual workout app opens without a signup.</p></div>
-<div class="how-item"><span>03</span><h3 data-en="MAKE IT YOURS." data-es="HAZLO TUYO.">MAKE IT YOURS.</h3><p data-en="Move at your pace. Coaches can request access while subscription checkout is being prepared." data-es="Entrena a tu ritmo. Los coaches pueden solicitar acceso mientras preparamos el checkout.">Move at your pace. Coaches can request access while subscription checkout is being prepared.</p></div>
+<div class="how-item"><span>03</span><h3 data-en="MAKE IT YOURS." data-es="HAZLO TUYO.">MAKE IT YOURS.</h3><p data-en="Move at your pace. Coaches can subscribe through Stripe and sign up with their purchase email." data-es="Entrena a tu ritmo. Los coaches pueden suscribirse con Stripe y registrarse con su correo de compra.">Move at your pace. Coaches can subscribe through Stripe and sign up with their purchase email.</p></div>
 </div>
 <figure class="process-photo">
 <img src="/self-love-gym/photos/how.webp" alt="Athlete preparing for a workout by tying her shoes on a pink mat" loading="lazy" decoding="async">
 
 </figure></div></section>
 
-<section class="block preview" id="preview"><div class="shell">
-<div class="section-intro"><div><p class="eyebrow" data-en="INSIDE THE EXPERIENCE" data-es="DENTRO DE LA EXPERIENCIA">INSIDE THE EXPERIENCE</p><h2 data-en="TAKE A<br><i>LOOK.</i>" data-es="MIRA POR<br><i>DENTRO.</i>">TAKE A<br><i>LOOK.</i></h2></div><p data-en="Explore illustrative screens to understand both products. All figures shown are examples, not customer records." data-es="Explora pantallas ilustrativas de ambos productos. Todas las cifras son ejemplos, no registros de clientas reales.">Explore illustrative screens to understand both products. All figures shown are examples, not customer records.</p></div>
-<div class="selector" role="group" aria-label="Choose product"><button class="demo-product" type="button" data-product="coach" aria-pressed="true">COACH DESK</button><button class="demo-product" type="button" data-product="free" aria-pressed="false">SELF LOVE GYM / FREE</button></div>
-<div class="demo-shell"><aside class="demo-side"><strong id="demo-name">Coach Desk</strong><small data-en="ILLUSTRATIVE DEMO · NO LIVE CLIENT DATA" data-es="DEMO ILUSTRATIVA · SIN DATOS REALES">ILLUSTRATIVE DEMO · NO LIVE CLIENT DATA</small>
-<div class="demo-tabs" role="tablist" aria-label="Preview sections">
-<button class="demo-tab" type="button" role="tab" data-tab="0" aria-selected="true" data-coach-en="Overview" data-coach-es="Inicio" data-free-en="Home" data-free-es="Inicio">Overview</button>
-<button class="demo-tab" type="button" role="tab" data-tab="1" aria-selected="false" data-coach-en="Clients" data-coach-es="Clientas" data-free-en="Routines" data-free-es="Rutinas">Clients</button>
-<button class="demo-tab" type="button" role="tab" data-tab="2" aria-selected="false" data-coach-en="Sessions" data-coach-es="Sesiones" data-free-en="Progress" data-free-es="Progreso">Sessions</button>
-</div></aside>
-<div class="demo-main"><div class="demo-head"><h3 id="demo-title">Overview</h3><span class="sample" data-en="SAMPLE" data-es="EJEMPLO">SAMPLE</span></div>
-<p id="demo-intro" class="demo-intro"></p><div id="demo-panels"></div>
-<div class="demo-link"><a class="btn outline" id="demo-open" href="https://thelaunchera.com/apps/self-love-gym/" target="_blank" rel="noopener" data-en="OPEN REAL APP ↗" data-es="ABRIR APP REAL ↗">OPEN REAL APP ↗</a></div>
-</div></div></div></section>
-
+<section class="block preview" id="preview"><div class="shell"><div class="section-intro"><div><p class="eyebrow" data-en="INTERACTIVE COACH DESK" data-es="DEMO DE COACH DESK">INTERACTIVE COACH DESK</p><h2 data-en="TAKE A<br><i>LOOK.</i>" data-es="MIRA POR<br><i>DENTRO.</i>">TAKE A<br><i>LOOK.</i></h2></div><p data-en="Explore the complete Coach Desk app with fictional clients. The demo loads only after you press its button." data-es="Explora la app completa de Coach Desk con clientas ficticias. El demo solo carga cuando pulsas el botón.">Explore the complete Coach Desk app with fictional clients. The demo loads only after you press its button.</p></div>
+<div class="demo-lazy"><div><strong data-en="TRY THE FULL INTERACTIVE WORKSPACE" data-es="PRUEBA EL PANEL INTERACTIVO COMPLETO">TRY THE FULL INTERACTIVE WORKSPACE</strong><p data-en="Clients, sessions, payments and settings. Sample information only." data-es="Clientas, sesiones, pagos y ajustes. Solo datos de ejemplo.">Clients, sessions, payments and settings. Sample information only.</p></div><button class="btn" type="button" data-open-coach-demo data-en="OPEN THE COACH DESK DEMO ↗" data-es="ABRIR DEMO DE COACH DESK ↗">OPEN THE COACH DESK DEMO ↗</button></div></div></section>
+<dialog id="coach-demo-dialog" class="coach-demo-dialog" aria-label="Coach Desk interactive public demo"><div class="coach-demo-toolbar"><strong>SELF LOVE GYM / COACH DESK</strong><span><a target="_blank" rel="noopener" href="https://thelaunchera.com/apps/self-love-gym/?demo=1" data-en="FULL SCREEN ↗" data-es="PANTALLA COMPLETA ↗">FULL SCREEN ↗</a><button type="button" data-close-coach-demo aria-label="Close demo">✕</button></span></div><div id="coach-demo-mount" class="coach-demo-mount"></div></dialog>
 <section class="block" id="questions"><div class="shell">
 <div class="section-intro"><div><p class="eyebrow" data-en="YOUR QUESTIONS" data-es="TUS PREGUNTAS">YOUR QUESTIONS</p><h2 data-en="GOOD TO<br><i>KNOW.</i>" data-es="ES BUENO<br><i>SABER.</i>">GOOD TO<br><i>KNOW.</i></h2></div></div>
 <div class="faq-grid">
 <details class="faq"><summary data-en="Is Self Love Gym free?" data-es="¿Self Love Gym es gratis?">Is Self Love Gym free?</summary><p data-en="Yes. The workout app is free to use without an account or payment." data-es="Sí. La app de ejercicios es gratuita y no requiere cuenta ni pago.">Yes. The workout app is free to use without an account or payment.</p></details>
 <details class="faq"><summary data-en="Who is Coach Desk for?" data-es="¿Para quién es Coach Desk?">Who is Coach Desk for?</summary><p data-en="For trainers and coaches who want to organize clients, sessions, memberships and notes. It currently records payments manually; it does not collect client payments." data-es="Para entrenadores que quieren organizar clientas, sesiones, membresías y notas. Actualmente registra pagos manualmente; no cobra pagos de clientas.">For trainers and coaches who want to organize clients, sessions, memberships and notes. It currently records payments manually; it does not collect client payments.</p></details>
-<details class="faq"><summary data-en="How will I access my $2.99 subscription?" data-es="¿Cómo entraré con mi suscripción de $2.99?">How will I access my $2.99 subscription?</summary><p data-en="When billing is activated, the plan will require the same email used to purchase. Online checkout and payment verification are not yet active, so you can contact us for access information." data-es="Cuando activemos los cobros, deberás usar el mismo correo de compra. El checkout y la verificación de pagos todavía no están activos; puedes contactarnos para consultar el acceso.">When billing is activated, the plan will require the same email used to purchase. Online checkout and payment verification are not yet active, so you can contact us for access information.</p></details>
+<details class="faq"><summary data-en="How will I access my $2.99 subscription?" data-es="¿Cómo entraré con mi suscripción de $2.99?">How will I access my $2.99 subscription?</summary><p data-en="Subscribe securely through Stripe. Use the purchase email when creating your account. Active subscribers can sign in without manual approval." data-es="Suscríbete mediante Stripe y crea tu cuenta con el mismo correo de compra. No necesitas aprobación manual.">Subscribe securely through Stripe. Use the purchase email when creating your account. Active subscribers can sign in without manual approval.</p></details>
 <details class="faq"><summary data-en="Are both apps bilingual?" data-es="¿Ambas apps son bilingües?">Are both apps bilingual?</summary><p data-en="Yes, English and Latin American Spanish are supported in both apps." data-es="Sí, ambas apps permiten elegir inglés y español latino.">Yes, English and Latin American Spanish are supported in both apps.</p></details>
 </div></div></section>
 <section id="contact" class="contact"><div class="shell contact-inner"><div class="contact-copy"><div class="eyebrow" data-en="QUESTIONS? WE'RE HERE." data-es="¿PREGUNTAS? AQUÍ ESTAMOS.">QUESTIONS? WE'RE HERE.</div>
@@ -386,36 +386,15 @@ section.block{padding:72px 0}
 <span>© 2026 SELF LOVE GYM · POWERED BY THE LAUNCH ERA</span>
 <nav aria-label="Legal and support"><a href="https://thelaunchera.com/apps/self-love-gym/terms.html" target="_blank" rel="noopener" data-en="TERMS" data-es="TÉRMINOS">TERMS</a><a href="https://thelaunchera.com/apps/self-love-gym/privacy.html" target="_blank" rel="noopener" data-en="PRIVACY" data-es="PRIVACIDAD">PRIVACY</a><a href="mailto:hello@thelaunchera.com" data-en="HELP" data-es="AYUDA">HELP</a></nav>
 </div></footer>
-<script>
-(function(){
-const coach=[
-{title:{en:"Overview",es:"Inicio"},intro:{en:"Your business essentials, neatly in one place.",es:"Todo lo importante de tu negocio, en un solo lugar."},stats:[["04",{en:"Sample clients",es:"Clientas de ejemplo"}],["03",{en:"Sample sessions",es:"Sesiones de ejemplo"}],["$120",{en:"Example payments",es:"Pagos de ejemplo"}]],rows:[[{en:"Upcoming session",es:"Próxima sesión"},"10:00 AM"],[{en:"Membership review",es:"Revisar membresía"},"Friday"],[{en:"Follow-up reminder",es:"Recordatorio"},"Tomorrow"]]},
-{title:{en:"Clients",es:"Clientas"},intro:{en:"Keep the essentials for each client.",es:"Guarda lo más importante de cada clienta."},stats:[["04",{en:"Sample clients",es:"Clientas de ejemplo"}],["03",{en:"Active",es:"Activas"}],["01",{en:"Paused",es:"En pausa"}]],rows:[["Client A",{en:"Active · Beginner",es:"Activa · Principiante"}],["Client B",{en:"Active · Strength",es:"Activa · Fuerza"}],["Client C",{en:"Paused",es:"En pausa"}]]},
-{title:{en:"Sessions",es:"Sesiones"},intro:{en:"Your coaching schedule at a glance.",es:"Tu calendario de entrenamientos, de un vistazo."},stats:[["03",{en:"This week",es:"Esta semana"}],["02",{en:"Completed",es:"Completadas"}],["01",{en:"Upcoming",es:"Próxima"}]],rows:[[{en:"Strength session",es:"Sesión de fuerza"},"Mon · 10 AM"],[{en:"Mobility session",es:"Sesión de movilidad"},"Wed · 2 PM"],[{en:"Check-in",es:"Seguimiento"},"Fri · 11 AM"]]}
-];
-const free=[
-{title:{en:"Home",es:"Inicio"},intro:{en:"Start gently, at your own pace.",es:"Empieza sin prisa, a tu ritmo."},stats:[["03",{en:"Beginner routines",es:"Rutinas para empezar"}],["20",{en:"Minutes or less",es:"Minutos o menos"}],["♥",{en:"Your pace",es:"A tu ritmo"}]],rows:[[{en:"Gentle full body",es:"Cuerpo completo suave"},"20 min"],[{en:"Mobility & stretch",es:"Movilidad y estiramiento"},"12 min"],[{en:"Low-impact cardio",es:"Cardio de bajo impacto"},"15 min"]]},
-{title:{en:"Routines",es:"Rutinas"},intro:{en:"Choose the kind of movement you need.",es:"Elige el movimiento que necesitas."},stats:[["01",{en:"Strength",es:"Fuerza"}],["01",{en:"Mobility",es:"Movilidad"}],["01",{en:"Cardio",es:"Cardio"}]],rows:[[{en:"Full body foundation",es:"Base de cuerpo completo"},"Beginner"],[{en:"Move & unwind",es:"Muévete y relájate"},"Gentle"],[{en:"Feel-good cardio",es:"Cardio suave"},"Low impact"]]},
-{title:{en:"Progress",es:"Progreso"},intro:{en:"Small wins are still wins. Example only.",es:"Los pequeños logros también cuentan. Solo es un ejemplo."},stats:[["04",{en:"Sample workouts",es:"Rutinas de ejemplo"}],["62",{en:"Sample minutes",es:"Minutos de ejemplo"}],["03",{en:"Sample streak",es:"Constancia de ejemplo"}]],rows:[[{en:"Full body complete",es:"Cuerpo completo terminado"},"✓"],[{en:"Stretch complete",es:"Estiramiento terminado"},"✓"],[{en:"Next step",es:"Próximo paso"},"♥"]]}
-];
-let lang="en",product="coach",tab=0;
-const lookup=(v)=>typeof v==="string"?v:(v&&v[lang])||"";
-function render(){document.documentElement.lang=lang;document.querySelectorAll("[data-en][data-es]").forEach(el=>{el.innerHTML=el.getAttribute("data-"+lang)});
-document.querySelectorAll("[data-language]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.language===lang)));
-document.querySelectorAll(".demo-product").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.product===product)));
-document.getElementById("demo-name").textContent=product==="coach"?"Coach Desk":"Self Love Gym";
-document.querySelectorAll(".demo-tab").forEach((b,i)=>{b.textContent=b.getAttribute("data-"+product+"-"+lang);b.setAttribute("aria-selected",String(i===tab))});
-const d=(product==="coach"?coach:free)[tab];document.getElementById("demo-title").textContent=lookup(d.title);document.getElementById("demo-intro").textContent=lookup(d.intro);
-const content=document.getElementById("demo-panels");content.replaceChildren();const stats=document.createElement("div");stats.className="demo-stats";d.stats.forEach(([num,label])=>{const box=document.createElement("div");box.className="stat";const b=document.createElement("b");b.textContent=num;const span=document.createElement("span");span.textContent=lookup(label);box.append(b,span);stats.append(box)});content.append(stats);
-const list=document.createElement("div");list.className="demo-list";d.rows.forEach(([label,right])=>{const row=document.createElement("div");row.className="demo-row";const text=document.createElement("strong");text.textContent=lookup(label);const small=document.createElement("small");small.textContent=lookup(right);row.append(text,small);list.append(row)});content.append(list);
-document.getElementById("demo-open").href=product==="coach"?"https://thelaunchera.com/apps/self-love-gym/":"https://app.thelaunchera.com/self-love-gym/";
-}
-document.querySelectorAll("[data-language]").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.language;try{localStorage.setItem("slg-site-lang",lang)}catch(_){}render()}));
-document.querySelectorAll(".demo-product").forEach(b=>b.addEventListener("click",()=>{product=b.dataset.product;tab=0;render()}));
-document.querySelectorAll(".demo-tab").forEach(b=>b.addEventListener("click",()=>{tab=Number(b.dataset.tab);render()}));
-document.querySelectorAll(".show-demo").forEach(b=>b.addEventListener("click",()=>{product=b.dataset.product;tab=0;render();document.getElementById("preview").scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}));
-try{lang=localStorage.getItem("slg-site-lang")==="es"?"es":"en"}catch(_){}
-render();
-})();
-</script>
-</body></html>
+<script>(function(){
+let lang="en";
+function setLang(v){lang=v;document.documentElement.lang=v;document.querySelectorAll("[data-en][data-es]").forEach(el=>el.innerHTML=el.getAttribute("data-"+v));document.querySelectorAll("[data-language]").forEach(el=>el.setAttribute("aria-pressed",String(el.dataset.language===v)));try{localStorage.setItem("slg-site-lang",v)}catch(_){}}
+document.querySelectorAll("[data-language]").forEach(el=>el.addEventListener("click",()=>setLang(el.dataset.language)));
+try{if(localStorage.getItem("slg-site-lang")==="es")setLang("es")}catch(_){}
+const dialog=document.getElementById("coach-demo-dialog"),mount=document.getElementById("coach-demo-mount");
+function openDemo(){if(!dialog.showModal){window.open("https://thelaunchera.com/apps/self-love-gym/?demo=1","_blank","noopener");return}dialog.showModal();if(!mount.querySelector("iframe")){const f=document.createElement("iframe");f.title="Coach Desk interactive sample";f.referrerPolicy="strict-origin-when-cross-origin";f.src="https://thelaunchera.com/apps/self-love-gym/?demo=1";mount.appendChild(f)}}
+document.querySelectorAll("[data-open-coach-demo]").forEach(el=>el.addEventListener("click",openDemo));
+document.querySelector("[data-close-coach-demo]").addEventListener("click",()=>dialog.close());
+dialog.addEventListener("close",()=>mount.replaceChildren());
+dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
+})();</script></body></html>
