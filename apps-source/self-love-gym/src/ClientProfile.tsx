@@ -28,9 +28,11 @@ const usd = (num: number) => new Intl.NumberFormat('en-US', { style: 'currency',
 export default function ClientProfile({ language: lang, client, sessions, payments, memberships, checkins, onBack, onEdit, onNewSession, onOpenCalendar }: Props) {
   const es = lang === 'es';
   const initials = client.name.split(/\s+/).filter(Boolean).slice(0,2).map(x => x.charAt(0)).join('').toUpperCase();
-  const upcoming = sessions.filter(s => s.date >= new Date().toLocaleDateString('en-CA'))
+  const today = new Date();
+  const todayKey = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')].join('-');
+  const upcoming = sessions.filter(s => s.date >= todayKey)
     .sort((a, b) => (a.date + (a.startTime || '99:99')).localeCompare(b.date + (b.startTime || '99:99')));
-  const past = sessions.filter(s => s.date < new Date().toLocaleDateString('en-CA')).length;
+  const past = sessions.filter(s => s.date < todayKey).length;
   const owed = payments.filter(p => p.status === 'Due').reduce((total,p)=>total+p.amount,0);
   const sortedCheckins = [...checkins].sort((a,b)=>b.date.localeCompare(a.date));
   return (
