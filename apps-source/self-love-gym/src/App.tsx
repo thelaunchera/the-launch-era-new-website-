@@ -1394,15 +1394,30 @@ function App() {
 
               {section === 'Memberships' && (
                 <>
-                  <div className="membership-intro membership-guide">
-                    <div><span className="eyebrow">ONLINE MEMBERSHIPS</span><h2>Set up payments in three steps.</h2><p>Your clients check out through Stripe. Your bank information stays in your own Stripe account.</p></div>
-                    <ol className="setup-steps">
-                      <li><span>1</span><div><strong>Connect your bank in Stripe</strong><small>Stripe handles bank details and deposits.</small></div></li>
-                      <li><span>2</span><div><strong>Create a recurring link</strong><small>Choose the same price and billing interval.</small></div></li>
-                      <li><span>3</span><div><strong>Add a membership here</strong><small>Paste the link so a client can check out.</small></div></li>
-                    </ol>
-                    <div className="setup-actions"><a className="secondary-button" href="https://dashboard.stripe.com/settings/payouts" target="_blank" rel="noopener noreferrer">Set up bank in Stripe <ExternalLink size={16} /></a><a className="secondary-button" href="https://dashboard.stripe.com/payment-links/create/standard-pricing" target="_blank" rel="noopener noreferrer">Create payment link <ExternalLink size={16} /></a><button className="primary-button" onClick={() => openModal('membership')} disabled={!workspace.clients.length}>Add membership <Plus size={16} /></button></div>
-                  </div>
+                  <section className="stripe-connection-panel" aria-label={language === 'es' ? 'Cobros online con Stripe' : 'Stripe online payments'}>
+                    <div className="stripe-connection-summary">
+                      <div>
+                        <span className="eyebrow">{language === 'es' ? 'COBROS ONLINE' : 'ONLINE PAYMENTS'}</span>
+                        <h2>{language === 'es' ? 'Stripe de tu negocio' : 'Your business Stripe account'}</h2>
+                        <p>{language === 'es'
+                          ? 'La suscripción a Coach Desk es independiente de los cobros que recibes de tus clientes. Actualmente puedes guardar enlaces de pago creados en tu propia cuenta de Stripe.'
+                          : 'Your Coach Desk subscription is separate from the payments you collect from clients. You can currently save payment links created in your own Stripe account.'}</p>
+                      </div>
+                      <span className="stripe-connection-status"><CircleDollarSign size={16}/>{language === 'es' ? 'Conexión directa no disponible' : 'Direct connection not available'}</span>
+                    </div>
+                    <details className="stripe-manual-details">
+                      <summary>{language === 'es' ? 'Usar enlaces de Stripe (opción manual)' : 'Use Stripe Payment Links (manual option)'} <ChevronRight size={17}/></summary>
+                      <div className="stripe-manual-body">
+                        <p>{language === 'es'
+                          ? 'Si ya tienes Stripe, crea allí tu enlace de pago recurrente y pégalo al añadir una membresía. Si todavía no tienes Stripe, tendrás que configurar tu cuenta de negocio directamente en Stripe. Coach Desk no solicita datos bancarios ni verifica automáticamente los pagos.'
+                          : 'If you already have Stripe, create a recurring payment link there and paste it when adding a membership. If you do not have Stripe yet, set up your business account directly with Stripe. Coach Desk never requests bank details and does not automatically verify payments.'}</p>
+                        <div className="stripe-manual-actions">
+                          <a className="secondary-button" href="https://dashboard.stripe.com/payment-links" target="_blank" rel="noopener noreferrer">{language === 'es' ? 'Abrir Stripe' : 'Open Stripe'} <ExternalLink size={16}/></a>
+                          <button type="button" className="primary-button" onClick={() => openModal('membership')} disabled={!workspace.clients.length}>{language === 'es' ? 'Añadir membresía' : 'Add membership'} <Plus size={16}/></button>
+                        </div>
+                      </div>
+                    </details>
+                  </section>
                   <section className="panel list-panel"><div className="list-toolbar"><div><span className="eyebrow">YOUR PLANS</span><h2>Client memberships</h2></div><span className="helper">Online status and payouts are checked in Stripe</span></div>
                     {sortedMemberships.length ? sortedMemberships.map(item => {
                       const client = workspace.clients.find(row => row.id === item.clientId);
