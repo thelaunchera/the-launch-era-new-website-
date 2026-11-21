@@ -259,6 +259,19 @@ section.block{padding:72px 0}
  .process-photo figcaption strong{font-size:29px}
 }
 
+
+/* Clean editorial campaign photographs: no UI cards, gradients or caption overlays. */
+.hero-photo:after,.coach-editorial-media:before,.process-photo:after{content:none!important;display:none!important}
+.hero-photo img,.image-assembly>.real-photo,.coach-photo,.process-photo img,.contact-image img{filter:none!important}
+.coach-editorial-media{isolation:auto}
+.coach-photo{object-fit:cover;object-position:28% center}
+.image-assembly>.real-photo{object-fit:cover;object-position:29% center}
+.hero-photo img{object-position:28% center}
+@media(max-width:760px){
+.coach-photo{object-position:24% center}
+.image-assembly>.real-photo{object-position:22% center}
+.hero-photo img{object-position:25% center}
+}
 </style>
 </head>
 <body>
@@ -288,8 +301,8 @@ section.block{padding:72px 0}
 </div>
 <div class="hero-photo">
 <img src="/self-love-gym/photos/hero.webp" alt="Athlete practicing fitness movement in a minimalist studio" fetchpriority="high">
-<div class="photo-credit">SELF LOVE GYM · EDITORIAL COLLECTION</div>
-<div class="hero-photo-label"><b data-en="SHOW UP AS YOU ARE." data-es="PRESÉNTATE TAL COMO ERES.">SHOW UP AS YOU ARE.</b><span>Self Love Gym / 01</span></div>
+
+
 </div>
 </section>
 <div class="ticker"><div class="shell ticker-inner"><span data-en="YOUR BODY. YOUR PACE." data-es="TU CUERPO. TU RITMO.">YOUR BODY. YOUR PACE.</span><b>✳</b><span data-en="EVERY BEGINNING COUNTS." data-es="CADA COMIENZO CUENTA.">EVERY BEGINNING COUNTS.</span><b>✳</b><span data-en="MOVE WITH LOVE." data-es="MUÉVETE CON AMOR.">MOVE WITH LOVE.</span></div></div>
@@ -306,14 +319,8 @@ section.block{padding:72px 0}
 </div>
 <div><div class="image-assembly">
 <img class="real-photo" src="/self-love-gym/photos/workouts.webp" loading="lazy" alt="Woman taking a rest on an exercise mat">
-<span class="image-badge" data-en="FEEL GOOD. KEEP GOING." data-es="SIÉNTETE BIEN. SIGUE.">FEEL GOOD. KEEP GOING.</span>
-<div class="app-screen" aria-label="Illustrative app preview, not a live workout record">
-<div class="screen-top"><b>SELF LOVE GYM</b><i>♥</i></div>
-<div class="screen-photo"><img src="https://app.thelaunchera.com/self-love-gym/greeting-3d.webp" alt="" loading="lazy"></div>
-<div class="screen-kicker" data-en="TODAY'S MOVEMENT" data-es="MOVIMIENTO DE HOY">TODAY'S MOVEMENT</div>
-<div class="screen-title" data-en="A little stronger today." data-es="Un poquito más fuerte hoy.">A little stronger today.</div>
-<div class="screen-row"><span data-en="GENTLE FULL BODY" data-es="CUERPO COMPLETO">GENTLE FULL BODY</span><b>20 MIN</b></div>
-</div>
+
+
 </div>
 <small class="photo-attribution">SELF LOVE GYM · ORIGINAL EDITORIAL SERIES</small>
 </div>
@@ -324,15 +331,7 @@ section.block{padding:72px 0}
 <div class="product-row">
 <div class="coach-editorial-media">
 <img class="coach-photo" src="/self-love-gym/photos/coach.webp" alt="Fitness coach organizing her work with a laptop and notebook" loading="lazy" decoding="async">
-<div class="coach-window" aria-label="Illustrative Coach Desk dashboard with sample figures">
-<div class="coach-window-head"><span>SL</span><strong>SELF LOVE GYM / COACH DESK</strong><span>◯</span></div>
-<div class="coach-window-body"><div class="coach-window-nav"><span>⌂</span><span>♧</span><span>▦</span><span>◷</span></div>
-<div class="coach-window-main"><small data-en="SAMPLE / PRIVATE WORKSPACE" data-es="EJEMPLO / ESPACIO PRIVADO">SAMPLE / PRIVATE WORKSPACE</small><h4 data-en="Good morning, coach." data-es="Buenos días, coach.">Good morning, coach.</h4>
-<div class="coach-metrics"><div><b>04</b><span data-en="CLIENTS" data-es="CLIENTAS">CLIENTS</span></div><div><b>03</b><span data-en="SESSIONS" data-es="SESIONES">SESSIONS</span></div><div><b>02</b><span data-en="FOLLOW-UPS" data-es="SEGUIMIENTOS">FOLLOW-UPS</span></div></div>
-<div class="coach-record"><span data-en="Upcoming appointment" data-es="Próxima cita">Upcoming appointment</span><span>↗</span></div>
-<div class="coach-record"><span data-en="Membership review" data-es="Revisar membresía">Membership review</span><span>↗</span></div>
-</div></div><div class="coach-window-foot" data-en="DESIGN PREVIEW · SAMPLE DATA" data-es="VISTA DE DISEÑO · DATOS DE EJEMPLO">DESIGN PREVIEW · SAMPLE DATA</div>
-</div></div>
+</div>
 <div class="product-lead"><span class="product-code" data-en="THE PRIVATE COACHING WORKSPACE" data-es="TU ESPACIO PRIVADO DE COACHING">THE PRIVATE COACHING WORKSPACE</span>
 <div class="price-lockup"><strong>$2.99</strong><span data-en="/ month" data-es="/ mes">/ month</span></div>
 <p data-en="Keep your clients, sessions, memberships and payment notes in one private place. Less searching, more time for the work you love." data-es="Organiza clientas, sesiones, membresías y registros manuales de pago en un solo lugar privado. Menos búsqueda y más tiempo para lo que te gusta.">Keep your clients, sessions, memberships and payment notes in one private place. Less searching, more time for the work you love.</p>
@@ -352,7 +351,7 @@ section.block{padding:72px 0}
 </div>
 <figure class="process-photo">
 <img src="/self-love-gym/photos/how.webp" alt="Athlete preparing for a workout by tying her shoes on a pink mat" loading="lazy" decoding="async">
-<figcaption><span data-en="ONE STEP AT A TIME" data-es="UN PASO A LA VEZ">ONE STEP AT A TIME</span><strong data-en="Every beginning matters." data-es="Cada comienzo importa.">Every beginning matters.</strong></figcaption>
+
 </figure></div></section>
 
 <section class="block preview" id="preview"><div class="shell">
