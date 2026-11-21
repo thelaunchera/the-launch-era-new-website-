@@ -494,7 +494,7 @@ function App() {
         : `this ${kind === 'checkin' ? 'check-in' : kind}`;
     const prompt = language === 'es'
       ? kind === 'client'
-        ? '¿Borrar esta clienta y todas sus sesiones, membresías, pagos, recordatorios y seguimientos? No se puede deshacer.'
+        ? '¿Borrar esta cliente y todas sus sesiones, membresías, pagos, recordatorios y seguimientos? No se puede deshacer.'
         : '¿Borrar este registro? No se puede deshacer.'
       : `Delete ${label}? This cannot be undone.`;
     if (!window.confirm(prompt)) return;
@@ -669,7 +669,7 @@ function App() {
           <div className="brand-mark" style={{ margin: '0 auto 20px' }}><span>SL</span></div>
           <span className="eyebrow">SELF LOVE GYM · COACH DESK</span>
           <h1>{language === 'es' ? 'Tu espacio de entrenamiento, organizado.' : 'Your coaching space, beautifully organized.'}</h1>
-          <p>{language === 'es' ? 'Inicia sesión para gestionar tus clientas, sesiones, membresías y pagos en tu espacio privado.' : 'Sign in to manage your clients, sessions, memberships and payments in your private workspace.'}</p>
+          <p>{language === 'es' ? 'Inicia sesión para gestionar tus clientes, sesiones, membresías y pagos en tu espacio privado.' : 'Sign in to manage your clients, sessions, memberships and payments in your private workspace.'}</p>
           {errorMessage && <p role="alert">{errorMessage}</p>}
           <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
             <button className={language === 'en' ? 'selected' : ''} onClick={() => setLanguage('en')}>English</button>
