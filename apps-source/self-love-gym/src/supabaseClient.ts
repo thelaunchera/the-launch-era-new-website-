@@ -1,5 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
-const supabase = createClient('https://atrkarecooxkzmpkxrdu.supabase.co', 'sb_publishable_1gFrwfVfMlw1JkA1DRGb6g_eSLokc7H');
+const supabase = createClient('https://atrkarecooxkzmpkxrdu.supabase.co', 'sb_publishable_1gFrwfVfMlw1JkA1DRGb6g_eSLokc7H', {
+  auth: {
+    // Keep the default storage key so existing customers stay signed in after this update.
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  },
+});
 const AUTH_RETURN_URL = 'https://thelaunchera.com/apps/self-love-gym/';
 const empty = () => ({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] });
 export const auth = {
@@ -15,7 +22,9 @@ export const auth = {
   },
   async getUser() {
     const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) return null;
+    // A temporary connection failure must not be interpreted as a signed-out account.
+    if (error) throw error;
+    if (!data.user) return null;
     const { data: approved, error: approvalError } = await supabase.rpc('coach_is_approved');
     if (approvalError) throw approvalError;
     if (!approved) throw new Error('No active Coach Desk subscription was found for your verified email. Please use the same email as your Stripe purchase, or subscribe at thelaunchera.com/self-love-gym. / No hay una suscripción activa para este correo. Usa el mismo correo de compra o suscríbete en thelaunchera.com/self-love-gym.');
