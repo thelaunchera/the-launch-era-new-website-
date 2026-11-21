@@ -1,4 +1,4 @@
-const privateApp = 'https://self-love-gym-coach-desk-mab29i.v2.appdeploy.ai/';
+const privateApp = 'https://thelaunchera.com/apps/self-love-gym/';
 
 export const auth = {
   getUser: async () => null,
