@@ -42,6 +42,29 @@ jobs:
           test -s public/assets/demo-services/medical.webp
           test -s public/assets/demo-services/floor.webp
 
+      - name: Prepare Self Love Gym editorial images before static link validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageOps
+          folder=Path("public/self-love-gym/photos")
+          for name in ("hero","workouts","coach","how","contact"):
+              src=folder/(name+".png")
+              dst=folder/(name+".webp")
+              if not src.is_file():
+                  raise RuntimeError(f"Missing Self Love Gym image: {src}")
+              with Image.open(src) as original:
+                  im=ImageOps.exif_transpose(original)
+                  im.thumbnail((1500,1100),Image.Resampling.LANCZOS)
+                  im=im.convert("RGB")
+                  im.save(dst,format="WEBP",quality=74,method=6)
+              if dst.stat().st_size > src.stat().st_size * .8:
+                  raise RuntimeError(f"Image optimization unexpectedly large: {name}")
+              print(f"Self Love Gym {name}: {src.stat().st_size} -> {dst.stat().st_size}")
+          PY
+
       - name: Protect approved hero and independent bilingual website photos
         run: |
           node scripts/qa-website-photo-placement.mjs
