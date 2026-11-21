@@ -1656,3 +1656,38 @@ input, select, textarea { font-size:16px; }
   .client-row .client-info { flex:1 1 calc(100% - 70px); }
   .client-row .row-actions { margin-left:auto; }
 }
+
+
+/* Clear distinction between a Coach Desk subscription and a coach's own Stripe payments */
+.stripe-connection-panel {
+  background:#fff; border:1px solid #eee3f1; border-radius:20px;
+  padding:21px 23px; margin-bottom:18px;
+  box-shadow:0 8px 20px rgba(65,27,74,.035);
+}
+.stripe-connection-summary { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; }
+.stripe-connection-summary > div { flex:1; min-width:0; }
+.stripe-connection-summary h2 { margin:6px 0 8px; font-size:19px; letter-spacing:-.04em; }
+.stripe-connection-summary p { margin:0; color:#7e7083; font-size:12px; line-height:1.65; max-width:630px; }
+.stripe-connection-status {
+  display:inline-flex; align-items:center; gap:7px; flex:0 0 auto;
+  padding:9px 11px; border:1px solid #e9ddea; background:#faf6fb;
+  border-radius:99px; color:#744d82; font-size:11px; font-weight:750;
+}
+.stripe-manual-details { border-top:1px solid #f0e6f1; margin-top:17px; padding-top:13px; }
+.stripe-manual-details summary { display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:pointer; color:#703d80; font-size:12px; font-weight:800; list-style:none; }
+.stripe-manual-details summary::-webkit-details-marker { display:none; }
+.stripe-manual-details summary svg { transition:transform .2s ease; }
+.stripe-manual-details[open] summary svg { transform:rotate(90deg); }
+.stripe-manual-body p { color:#7b6b80; font-size:12px; line-height:1.6; margin:13px 0 14px; }
+.stripe-manual-actions { display:flex; gap:9px; flex-wrap:wrap; }
+.stripe-manual-actions .primary-button, .stripe-manual-actions .secondary-button { min-height:42px; font-size:12px; }
+@media(max-width:700px) {
+  .stripe-connection-panel { border-radius:17px; padding:16px 14px; }
+  .stripe-connection-summary { display:block; }
+  .stripe-connection-summary h2 { font-size:17px; }
+  .stripe-connection-summary p { font-size:12px; }
+  .stripe-connection-status { margin-top:12px; font-size:10px; width:max-content; max-width:100%; white-space:normal; }
+  .stripe-manual-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .stripe-manual-actions .secondary-button, .stripe-manual-actions .primary-button { min-width:0; width:100%; white-space:normal; font-size:11px; padding:9px 7px; text-align:center; }
+}
+@media(prefers-reduced-motion:reduce) { .stripe-manual-details summary svg { transition:none; } }
