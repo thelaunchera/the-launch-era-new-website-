@@ -1573,3 +1573,68 @@ input, select, textarea { font-size:16px; }
   .modal { padding: 16px 13px 18px; }
   .modal-actions button { font-size: 11px; }
 }
+
+
+/* Coach Desk: refined native-feeling client and calendar flows */
+.coach-profile-link {
+  border:0; background:none; color:#773b8b; display:inline-flex; align-items:center;
+  gap:5px; padding:8px 0 0; font-size:11px; font-weight:800; text-align:left; cursor:pointer;
+}
+.coach-profile-link:hover { color:#a047b2; }
+.coach-upcoming-action {
+  display:flex; width:100%; border:0; background:transparent; cursor:pointer;
+  text-align:left; font:inherit; color:inherit;
+}
+.coach-upcoming-action:hover { background:#fcf7fd; }
+.coach-upcoming-action:active { background:#f5e8f7; }
+.coach-upcoming-action .row-main small { white-space:normal; }
+.coach-calendar-day:focus-visible,.coach-appointment:focus-visible,.coach-profile-link:focus-visible,
+.coach-session-edit:focus-visible,.coach-session-client:focus-visible,.coach-profile-entry:focus-visible {
+  outline:3px solid #a86ac2; outline-offset:2px;
+}
+@media (max-width:900px) {
+  .coach-profile-page-title { display:none; }
+}
+@media (max-width:650px) {
+  /* A proper bottom sheet, instead of a centered web modal, on iPhone */
+  .modal-backdrop {
+    align-items:flex-end; justify-content:center; padding:0;
+    background:rgba(29,17,36,.56); overflow:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .modal {
+    flex:0 1 auto; width:100%; max-width:100%;
+    height:auto; max-height:calc(95dvh - env(safe-area-inset-top));
+    margin:0; padding:19px 18px max(22px,env(safe-area-inset-bottom));
+    border-radius:25px 25px 0 0; box-shadow:0 -18px 55px rgba(29,15,34,.18);
+    animation:coach-sheet-in .23s cubic-bezier(.19,.81,.31,1);
+  }
+  .modal-heading {
+    top:-19px; padding-top:13px; margin-bottom:16px;
+    background:linear-gradient(#fff 96%,#fff0);
+  }
+  .modal-heading::before {
+    content:''; position:absolute; top:-12px; left:calc(50% - 21px); width:42px;
+    height:5px; border-radius:99px; background:#e6d8e9;
+  }
+  .modal-heading h2 { font-size:22px; }
+  .modal form { gap:14px; }
+  .modal form label { font-size:12px; color:#62416c; }
+  .modal .form-grid { grid-template-columns:minmax(0,1fr); }
+  .modal input,.modal select,.modal textarea {
+    min-height:48px; border-radius:13px; background:#fbf8fc;
+    border-color:#ead9ed; font-size:16px;
+  }
+  .modal-actions {
+    bottom:calc(-1 * max(22px,env(safe-area-inset-bottom)));
+    padding:14px 0 max(22px,env(safe-area-inset-bottom));
+    margin-bottom:calc(-1 * max(22px,env(safe-area-inset-bottom)));
+  }
+  .modal-actions button { border-radius:13px; min-height:48px; font-size:12px; }
+  .coach-profile-link { font-size:12px; }
+  @keyframes coach-sheet-in {
+    from { transform:translateY(34px); opacity:.76; }
+    to { transform:translateY(0); opacity:1; }
+  }
+}
+@media (prefers-reduced-motion:reduce) { .modal { animation:none; } }
