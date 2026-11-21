@@ -2,399 +2,217 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Self Love Gym — Move for You | Free Fitness + Coach Desk</title>
-<meta name="description" content="Self Love Gym: free beginner workouts, plus Coach Desk for fitness coaches at $2.99 per month. An English and Spanish fitness experience by The Launch Era.">
-<meta name="theme-color" content="#141414">
-<meta property="og:title" content="Self Love Gym — Move for You">
-<meta property="og:description" content="An everyday place to move. A calmer way to coach. Free workouts and Coach Desk at $2.99/month.">
-<meta property="og:type" content="website">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#191919">
+<meta name="description" content="Self Love Gym offers a free beginner workout app and Coach Desk for fitness coaches at $2.99 USD per month plus applicable tax.">
+<meta property="og:title" content="Self Love Gym — Free Workouts + Coach Desk">
+<meta property="og:description" content="Move on your terms. Coach with clarity. Free workouts and a $2.99/month coaching workspace.">
 <link rel="canonical" href="https://thelaunchera.com/self-love-gym/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://images.unsplash.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<title>Self Love Gym | Move & Coach</title>
 <style>
-:root{--black:#151515;--coal:#212020;--paper:#f8f8f5;--white:#fff;--pink:#e7a9bc;--pinkpale:#f4e2e8;--muted:#73716e;--line:#d7d6d2}
+:root{--ink:#191919;--paper:#faf9f7;--rose:#eec6d4;--line:#dedbd8;--muted:#67625f}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:88px}
-body{margin:0;background:var(--paper);color:var(--black);font:400 15px/1.6 "DM Sans",Arial,sans-serif;overflow-x:hidden}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.65 "DM Sans",sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}button,a{font:inherit}button{cursor:pointer}
-:focus-visible{outline:3px solid #c15e89;outline-offset:3px}
-.skip{position:absolute;left:10px;top:-90px;background:#fff;padding:12px;z-index:70}.skip:focus{top:10px}
-.shell{width:min(1270px,calc(100% - 76px));margin:0 auto}
-.announcement{background:var(--black);color:#f5f1f0;text-align:center;font:800 10px/1.3 "DM Sans",sans-serif;letter-spacing:.17em;padding:10px 15px}
-.site-header{position:sticky;top:0;z-index:50;background:rgba(250,250,247,.98);border-bottom:1px solid #e9e8e5;backdrop-filter:blur(16px)}
-.head{min-height:80px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.wordmark{text-decoration:none;display:flex;align-items:center;gap:11px;font:900 19px/1 "Outfit",sans-serif;letter-spacing:-.035em}
-.wordmark .wm-seal{border:2px solid #111;border-radius:50%;height:42px;width:42px;display:grid;place-items:center;font:400 italic 26px "Instrument Serif",serif}
-.wordmark small{font:800 8px "DM Sans",sans-serif;letter-spacing:.22em;display:block;margin-top:5px;color:#777}
-.header-menu{display:flex;align-items:center;gap:29px}
-.header-menu>a{font:800 11px "DM Sans",sans-serif;text-decoration:none;letter-spacing:.095em;white-space:nowrap}
-.header-menu>a:hover{color:#ad5873}
-.lang{display:flex;gap:2px;border:1px solid #aaa;padding:3px}
-.lang button{border:0;background:transparent;color:#444;padding:7px 10px;font-weight:800;font-size:11px}
-.lang button[aria-pressed=true]{background:#161616;color:#fff}
-.eyebrow{font:800 11px/1.35 "DM Sans",sans-serif;letter-spacing:.19em;text-transform:uppercase}
-.btn{min-height:54px;padding:14px 22px;display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;text-align:center;border:1px solid #171717;background:#171717;color:white;border-radius:0;font:800 11px "DM Sans",sans-serif;letter-spacing:.105em;text-transform:uppercase;transition:background .2s,color .2s,transform .2s}
-.btn:hover{transform:translateY(-2px);background:#474043}
-.btn.outline{color:#171717;background:transparent;border:1px solid #171717}
-.btn.outline:hover{background:#171717;color:#fff}
-.btn.inverse{background:#fff;color:#171717;border-color:#fff}
-.btn.inverse:hover{background:#eee}
-.btn.line-light{background:transparent;color:#fff;border-color:#bbb}
-.btn.line-light:hover{background:#fff;color:#171717}
-.hero{display:grid;grid-template-columns:49% 51%;min-height:690px;background:#171717;color:white}
-.hero-copy-panel{padding:100px max(38px,calc((100vw - 1270px)/2)) 74px max(38px,calc((100vw - 1270px)/2));display:flex;flex-direction:column;justify-content:center}
-.hero .eyebrow{color:#dcb2be;margin:0 0 28px}
-.hero h1{font:900 clamp(73px,8.6vw,153px)/.83 "Outfit",Arial,sans-serif;letter-spacing:-.075em;margin:0 0 30px;text-transform:uppercase}
-.hero h1 .serif-line{font:400 italic 1.05em/.78 "Instrument Serif",Georgia,serif;text-transform:none;letter-spacing:-.04em;color:var(--pink);display:block;margin:15px 0 5px}
-.hero-description{max-width:440px;color:#d3d0cd;font-size:16px;line-height:1.75;margin:0 0 32px}
-.hero .actions{display:flex;gap:11px;flex-wrap:wrap}
-.hero-stamp{display:flex;gap:22px;margin-top:66px;padding-top:17px;border-top:1px solid #74706e;max-width:520px}
-.hero-stamp span{font-weight:800;font-size:11px;letter-spacing:.075em}
-.hero-photo{position:relative;min-height:690px;background:#a8a8a8;overflow:hidden}
-.hero-photo img{height:100%;width:100%;object-fit:cover;object-position:50% 40%;filter:grayscale(1) contrast(1.16);display:block;position:absolute;inset:0}
-.hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.51),transparent 48%)}
-.hero-photo-label{position:absolute;left:30px;right:30px;bottom:33px;z-index:1;color:#fff;display:flex;justify-content:space-between;gap:15px;align-items:end}
-.hero-photo-label b{font:800 12px "DM Sans",sans-serif;letter-spacing:.15em}
-.hero-photo-label span{font:400 italic 28px "Instrument Serif",serif}
-.photo-credit{position:absolute;top:15px;right:17px;z-index:2;color:white;font-size:9px;text-shadow:0 1px 8px #000}
-.photo-credit a{text-decoration:underline}
-.ticker{background:#f1dbe2;border-bottom:1px solid #ddc6cf}
-.ticker-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:22px}
-.ticker-inner span{font:800 11px "DM Sans",sans-serif;letter-spacing:.14em;white-space:nowrap}.ticker-inner b{font:400 22px "Instrument Serif",serif}
-section.block{padding:110px 0}
-.section-intro{display:flex;justify-content:space-between;gap:28px;align-items:end;border-top:1px solid #aaa9a5;padding-top:18px;margin-bottom:43px}
-.section-intro h2{font:900 clamp(50px,6.4vw,98px)/.95 "Outfit",sans-serif;letter-spacing:-.07em;text-transform:uppercase;margin:0}
-.section-intro h2 i{font:400 italic 1.14em "Instrument Serif",serif;text-transform:none;letter-spacing:-.04em;color:#a87081}
-.section-intro .eyebrow{color:#666;margin:0 0 13px}
-.section-intro>p{max-width:380px;font-size:14px;color:#66645f;line-height:1.8;margin:0 0 6px}
-.product-row{display:grid;grid-template-columns:.9fr 1.1fr;gap:6.5%;align-items:center}
-.product-lead{padding:25px 0}
-.product-code{font:800 11px "DM Sans",sans-serif;color:#9e6878;letter-spacing:.17em}
-.product-lead h3{font:900 clamp(46px,5.5vw,78px)/1 "Outfit",sans-serif;letter-spacing:-.06em;margin:15px 0 19px}
-.product-lead p{font-size:16px;line-height:1.8;color:#56534f;max-width:490px;margin:0 0 25px}
-.product-lead ul{list-style:none;margin:0 0 30px;padding:0;border-top:1px solid #bdbbb5}
-.product-lead li{padding:13px 2px;border-bottom:1px solid #d9d7d1;display:flex;align-items:center;gap:15px;font-size:13px;font-weight:700}
-.product-lead li:before{content:"+";font:800 17px "DM Sans",sans-serif;color:#ad7489}
-.product-lead .actions{display:flex;gap:10px;flex-wrap:wrap}
-.sub-note{display:block;margin-top:17px;font-size:11px;color:#78746d;line-height:1.65;max-width:490px}
-.image-assembly{position:relative;min-height:590px;background:#eae8e4;overflow:hidden}
-.image-assembly>.real-photo{width:100%;height:590px;object-fit:cover;object-position:center;filter:grayscale(1) contrast(1.1)}
-.image-badge{position:absolute;top:24px;left:27px;font:800 10px "DM Sans",sans-serif;letter-spacing:.18em;background:#fff;padding:12px 15px;color:#111}
-.app-screen{position:absolute;bottom:25px;right:25px;width:245px;padding:18px;background:#fff;border:1px solid #ddd;box-shadow:10px 16px 45px #17171744}
-.screen-top{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:900;letter-spacing:.07em;padding-bottom:12px;border-bottom:1px solid #ddd}
-.screen-top i{font-style:normal;color:#b36280}
-.screen-photo{height:132px;margin:14px 0;background:#eee6e6;display:grid;place-items:center;overflow:hidden}
-.screen-photo img{width:100%;height:100%;object-fit:contain}
-.screen-kicker{font-size:9px;letter-spacing:.13em;color:#a76480;font-weight:900}
-.screen-title{font:800 22px/1.05 "Outfit",sans-serif;letter-spacing:-.04em;margin:8px 0 10px}
-.screen-row{display:flex;justify-content:space-between;border-top:1px solid #e7e4e4;padding:9px 0;font-size:10px;font-weight:800}
-.photo-attribution{display:block;font-size:10px;color:#85827e;margin-top:8px}.photo-attribution a{text-decoration:underline}
-.dark-product{background:#171717;color:#fff}
-.dark-product .section-intro{border-top-color:#666}
-.dark-product .section-intro h2 i{color:var(--pink)}
-.dark-product .section-intro .eyebrow,.dark-product .section-intro>p{color:#c8c2c0}
-.dark-product .product-row{grid-template-columns:1.08fr .92fr}
-.dark-product .product-lead p{color:#c6c2be}
-.dark-product .product-lead ul{border-color:#625e5e}
-.dark-product .product-lead li{border-bottom-color:#4e4b4b}
-.dark-product .sub-note{color:#b1aaa6}
-.price-lockup{display:flex;align-items:baseline;gap:10px;margin:15px 0 22px}
-.price-lockup strong{font:900 74px/.95 "Outfit",sans-serif;letter-spacing:-.07em}
-.price-lockup span{font:400 italic 29px "Instrument Serif",serif;color:var(--pink)}
-.coach-window{min-height:520px;background:#f5f4f1;color:#161616;padding:20px;display:flex;flex-direction:column;justify-content:center}
-.coach-window-head{background:#fff;border:1px solid #c6c6c2;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;font-size:10px;letter-spacing:.1em;font-weight:800}
-.coach-window-head span:first-child{width:25px;height:25px;background:#f3dbe2;display:grid;place-items:center}
-.coach-window-body{border:1px solid #c6c6c2;border-top:0;background:#fff;display:grid;grid-template-columns:57px 1fr;min-height:335px}
-.coach-window-nav{background:#222;display:flex;align-items:center;flex-direction:column;gap:24px;padding:23px 4px;color:#f1d7e0;font-size:17px}
-.coach-window-main{padding:27px}.coach-window-main small{font-size:10px;letter-spacing:.12em;font-weight:900;color:#a46d80}
-.coach-window-main h4{font:900 30px/1 "Outfit",sans-serif;letter-spacing:-.04em;margin:9px 0 20px}
-.coach-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.coach-metrics>div{padding:11px;background:#f7f5f3;min-height:77px}.coach-metrics b{font:900 29px "Outfit",sans-serif;display:block}.coach-metrics span{font-size:9px;font-weight:800;color:#777}
-.coach-record{border-bottom:1px solid #e8e6e4;padding:12px 0;font-weight:700;font-size:12px;display:flex;justify-content:space-between}
-.coach-window-foot{font-size:9px;color:#86817d;letter-spacing:.08em;padding-top:12px;text-align:right}
-.how{background:#f0e8e8}
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:27px}
-.how-item{border-top:1px solid #aaa;padding-top:15px}
-.how-item>span{font:400 56px/.9 "Instrument Serif",serif;color:#a97183}
-.how-item h3{font:900 22px "Outfit",sans-serif;letter-spacing:-.035em;margin:22px 0 8px}
-.how-item p{font-size:13px;line-height:1.8;color:#635e5a;margin:0;max-width:290px}
-.preview{background:#fafaf8}
-.selector{display:flex;justify-content:flex-start;gap:0;margin:0 0 27px;border-bottom:1px solid #bcbab7}
-.selector .demo-product{padding:16px 30px;background:transparent;border:0;border-bottom:3px solid transparent;letter-spacing:.12em;font-size:11px;font-weight:900;color:#777}
-.selector .demo-product[aria-pressed=true]{border-color:#171717;color:#111}
-.demo-shell{display:grid;grid-template-columns:240px 1fr;min-height:400px;background:#fff;border:1px solid #c9c7c2}
-.demo-side{background:#202020;color:white;padding:28px}
-.demo-side strong{font:900 22px "Outfit",sans-serif}.demo-side small{display:block;font-size:11px;color:#aaa;margin:8px 0 24px}
-.demo-tabs{display:grid;gap:4px}
-.demo-tab{background:transparent;color:#d5d5d5;border:0;text-align:left;padding:13px 14px;font-size:12px;font-weight:800;cursor:pointer}
-.demo-tab[aria-selected=true]{background:#f1dce3;color:#171717}
-.demo-main{padding:40px}
-.demo-head{display:flex;justify-content:space-between;align-items:center;gap:13px}
-.demo-head h3{font:900 37px "Outfit",sans-serif;letter-spacing:-.05em;margin:0}
-.sample{font-size:9px;letter-spacing:.12em;border:1px solid #c6c4c1;padding:6px 8px;font-weight:800;color:#777}
-.demo-intro{color:#716e6b;margin:6px 0 0;font-size:13px}
-.demo-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:27px 0}
-.stat{background:#f7f6f4;padding:19px}
-.stat b{display:block;font:900 34px "Outfit",sans-serif}
-.stat span{font-size:11px;color:#75716e}
-.demo-list{border-top:1px solid #c9c8c5}
-.demo-row{padding:15px 3px;border-bottom:1px solid #e8e6e2;display:flex;justify-content:space-between;gap:15px;font-size:13px}
-.demo-row small{color:#a56f80}
-.demo-link{display:flex;justify-content:flex-end;margin-top:23px}
-.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 35px}
-.faq{border-bottom:1px solid #ccc9c4}
-.faq summary{padding:20px 0;font-weight:800;cursor:pointer}
-.faq p{color:#625e5b;font-size:13px;line-height:1.8;margin:0 0 19px}
-.contact{background:#e8aebf;padding:100px 0}
-.contact-inner{display:flex;justify-content:space-between;align-items:end;gap:30px}
-.contact h2{font:900 clamp(52px,7vw,110px)/.93 "Outfit",sans-serif;letter-spacing:-.07em;max-width:750px;margin:15px 0}
-.contact h2 i{font:400 italic 1em "Instrument Serif",serif}
-.contact p{font-size:14px;max-width:480px}
-.footer{background:#161616;color:white;padding:30px 0}
-.footer-inner{display:flex;justify-content:space-between;gap:17px;flex-wrap:wrap;align-items:center;font-size:11px;font-weight:800;letter-spacing:.07em}
-.footer a{text-decoration:none;margin-left:21px;color:#c7c4c1}
-.footer a:hover{color:white}
-@media(max-width:1070px){.shell{width:calc(100% - 50px)}.header-menu{gap:15px}.hero h1{font-size:clamp(75px,8vw,120px)}.hero-copy-panel{padding:60px 35px}.product-row{gap:30px}.image-assembly{min-height:520px}.image-assembly>.real-photo{height:520px}}
-@media(max-width:760px){
-.shell{width:calc(100% - 34px)}
-.announcement{font-size:8px;letter-spacing:.12em}
-.head{min-height:67px}.wordmark{font-size:16px}.wordmark .wm-seal{width:35px;height:35px;font-size:22px}
-.header-menu>a{display:none}
+:focus-visible{outline:3px solid #b76c84;outline-offset:3px}
+.skip{position:absolute;left:8px;top:-100px;z-index:99;background:#fff;padding:12px}
+.skip:focus{top:8px}
+.shell{max-width:1200px;width:calc(100% - 68px);margin:auto}
+.header{position:sticky;top:0;z-index:25;background:rgba(250,249,247,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.header-inner{min-height:74px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;white-space:nowrap;font:900 17px "Outfit",sans-serif;letter-spacing:-.025em}
+.logo-symbol{width:41px;height:41px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%;font:400 italic 25px "Instrument Serif",serif}
+.nav{display:flex;align-items:center;gap:24px}
+.nav>a{text-decoration:none;font-size:12px;font-weight:800}
+.nav>a:hover{text-decoration:underline}
+.lang{display:flex;padding:3px;border:1px solid #bcb8b5}
+.lang button{border:0;background:transparent;padding:7px 11px;font-size:11px;font-weight:800}
+.lang button[aria-pressed=true]{background:var(--ink);color:white}
+.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;text-align:center;min-height:49px;padding:13px 19px;border:1px solid currentColor;background:var(--ink);color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em;line-height:1.4;transition:background .15s}
+.btn:hover{background:#474747}
+.btn.outline{background:transparent;color:var(--ink)}
+.btn.outline:hover{background:#f0ebe9}
+.btn.light{background:#fff;color:var(--ink)}
+.btn.light:hover{background:#f0eae7}
+.btn.outline-light{background:transparent;color:#fff}
+.btn.outline-light:hover{background:#302c30}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+h1,h2,h3,p{margin-top:0}
+.hero{display:grid;grid-template-columns:1.04fr .96fr;min-height:565px;background:var(--ink);color:#fff}
+.hero-content{padding:70px 36px 60px max(34px,calc((100vw - 1200px)/2));display:flex;flex-direction:column;justify-content:center}
+.hero .kicker{color:var(--rose);margin-bottom:22px}
+.hero h1{font:900 clamp(59px,7.3vw,111px)/.92 "Outfit",sans-serif;letter-spacing:-.07em;max-width:670px;margin-bottom:23px}
+.hero h1 i{font:400 italic 1.12em/.8 "Instrument Serif",serif;letter-spacing:-.02em;color:var(--rose);display:block;text-transform:none}
+.hero .intro{color:#ddd8db;max-width:505px;font-size:16px;line-height:1.7;margin-bottom:24px}
+.hero .price-note{font-size:12px;color:#e9c7d2;margin-top:17px;margin-bottom:0}
+.hero-image{position:relative;min-height:565px;overflow:hidden;background:#817a77}
+.hero-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:31% center}
+.section{padding:78px 0;border-bottom:1px solid var(--line)}
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:6%;align-items:center}
+.feature-content{padding:12px 0}
+.feature h2{font:900 clamp(48px,5.4vw,79px)/1 "Outfit",sans-serif;letter-spacing:-.055em;margin:17px 0}
+.feature h2 i{font:400 italic 1.08em "Instrument Serif",serif;letter-spacing:-.02em;color:#ad7489}
+.feature p{max-width:440px;color:#585552;margin-bottom:23px}
+.feature .summary{font-size:14px;line-height:1.8}
+.feature-image{width:100%;height:410px;object-fit:cover;object-position:30% center;background:#d5c8cb}
+.feature-line{padding:13px 0;border-top:1px solid #c8c6c2;font-size:13px;font-weight:700;max-width:435px}
+.feature-line:last-of-type{border-bottom:1px solid #c8c6c2;margin-bottom:24px}
+.label{color:#926b7b}
+.coach{background:#1c1a1b;color:#fff;border:0}
+.coach .feature{grid-template-columns:1fr 1fr}
+.coach .feature-content{order:2}
+.coach .feature-image{order:1;object-position:35% center;min-height:420px}
+.coach h2 i{color:var(--rose)}
+.coach .feature p{color:#d1cbd0}
+.coach .feature-line{border-color:#5b555a}
+.coach .price{font:900 clamp(45px,5.8vw,77px)/1 "Outfit",sans-serif;letter-spacing:-.07em;margin:0 0 16px}
+.coach .price small{font:400 italic 28px "Instrument Serif",serif;letter-spacing:0;color:var(--rose)}
+.coach .micro{font-size:12px;color:#c6bac1;max-width:455px;line-height:1.7;margin:16px 0 0}
+.coach .sign-in{display:inline-block;margin-top:15px;font-size:12px;color:#fff;text-decoration:underline;text-underline-offset:4px}
+.contact{background:#edc9d5;color:var(--ink);padding:0}
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.contact-content{padding:73px 0}
+.contact h2{font:900 clamp(48px,6vw,82px)/.97 "Outfit",sans-serif;letter-spacing:-.06em;margin:17px 0}
+.contact h2 i{font:400 italic 1.05em "Instrument Serif",serif}
+.contact p{max-width:470px;margin-bottom:24px;font-size:14px}
+.contact-image{height:390px;display:block;width:100%;object-fit:cover;object-position:36% center}
+.footer{background:#161616;color:#f3eeee;padding:25px 0}
+.footer-content{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.footer-content span,.footer-content a{font-size:11px;font-weight:700}
+.footer-content a{text-decoration:none;color:#e0d6da;margin-left:16px}
+.footer-content a:hover{text-decoration:underline}
+.demo-dialog{position:fixed;width:min(1180px,96vw);height:min(880px,94dvh);max-width:none;max-height:none;padding:0;border:0;background:#fff;box-shadow:0 25px 90px #0009}
+.demo-dialog::backdrop{background:#080708d9}
+.demo-bar{height:62px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#181818;color:#fff;padding:9px 14px}
+.demo-bar strong{font-size:11px;letter-spacing:.05em}
+.demo-controls{display:flex;align-items:center;gap:16px}
+.demo-controls a{font-size:11px;font-weight:800;text-decoration:none;color:#fff}
+.demo-controls button{border:0;background:#fff;color:#1c1b1c;height:38px;min-width:38px;font-size:16px;font-weight:800}
+.demo-holder{height:calc(100% - 62px)}
+.demo-holder iframe{border:0;width:100%;height:100%;background:#fff}
+@media(max-width:960px){
+.shell{width:calc(100% - 42px)}
+.hero-content{padding-left:28px}
+.hero h1{font-size:clamp(58px,7.1vw,95px)}
+.nav{gap:13px}
+}
+@media(max-width:720px){
+html{scroll-padding-top:69px}
+.shell{width:calc(100% - 36px)}
+.header-inner{min-height:66px}
+.logo{font-size:15px}.logo-symbol{width:37px;height:37px;font-size:23px}
+.nav>a{display:none}.lang button{padding:7px 10px}
 .hero{display:flex;flex-direction:column;min-height:0}
-.hero-copy-panel{padding:58px 20px 44px}
-.hero .eyebrow{margin-bottom:22px;font-size:10px}
-.hero h1{font-size:clamp(78px,16vw,122px);margin-bottom:23px}
-.hero h1 .serif-line{font-size:1.14em;margin-top:7px}
-.hero-description{font-size:15px;line-height:1.7}
-.hero-stamp{margin-top:38px;gap:15px}
-.hero-stamp span{font-size:9px}
-.hero-photo{min-height:490px}
-.hero-photo img{object-position:center 35%}
-.hero-photo-label{bottom:22px;left:20px;right:20px}.hero-photo-label b{font-size:10px}.hero-photo-label span{font-size:23px}
-.ticker-inner{min-height:55px;justify-content:center}.ticker-inner span{font-size:9px}.ticker-inner span:nth-child(3),.ticker-inner b:nth-child(4),.ticker-inner span:nth-child(5){display:none}
-section.block{padding:72px 0}
-.section-intro{display:block;margin-bottom:24px}.section-intro h2{font-size:clamp(56px,11vw,80px)}.section-intro>p{margin-top:18px}
-.product-row,.dark-product .product-row{grid-template-columns:1fr;gap:20px}
-.product-lead{padding:0}
-.product-lead h3{font-size:clamp(52px,11vw,72px)}
-.product-lead p{font-size:14px}
-.product-lead .actions .btn{flex:1 1 auto}
-.image-assembly{min-height:480px}
-.image-assembly>.real-photo{height:480px}
-.image-badge{top:16px;left:16px}
-.app-screen{width:208px;bottom:15px;right:15px;padding:13px}
-.screen-photo{height:100px}
-.coach-window{min-height:340px;padding:12px}
-.coach-window-main{padding:17px}.coach-window-main h4{font-size:25px}.coach-window-body{grid-template-columns:37px 1fr;min-height:270px}.coach-window-nav{padding:19px 3px;font-size:14px}
-.coach-metrics b{font-size:24px}.coach-metrics>div{min-height:66px;padding:8px}
-.price-lockup strong{font-size:65px}
-.how-grid{grid-template-columns:1fr;gap:25px}.how-item>span{font-size:45px}.how-item h3{margin:6px 0 7px}
-.selector .demo-product{padding:13px 17px;font-size:10px}
-.demo-shell{grid-template-columns:1fr}
-.demo-side{padding:16px}.demo-side small{margin:1px 0 12px}
-.demo-tabs{display:flex;gap:5px}.demo-tab{padding:9px;flex:1;text-align:center}
-.demo-main{padding:22px}.demo-head h3{font-size:30px}.demo-stats{gap:5px;margin:20px 0}.stat{padding:11px}.stat b{font-size:26px}
-.faq-grid{grid-template-columns:1fr}
-.contact{padding:70px 0}.contact-inner{display:block}.contact h2{font-size:clamp(61px,12vw,95px)}.contact .btn{margin-top:17px}
-.footer-inner{display:grid;justify-content:start;gap:16px}.footer a{margin-left:0;margin-right:14px}
+.hero-content{padding:52px 20px 38px}
+.hero h1{font-size:clamp(57px,14.4vw,80px);margin-bottom:19px}
+.hero .intro{font-size:15px}
+.hero .actions{display:grid;grid-template-columns:1fr}
+.hero-image{min-height:330px;height:330px}
+.hero-image img{object-position:33% center}
+.section{padding:55px 0}
+.feature,.coach .feature{display:flex;flex-direction:column;gap:22px;align-items:stretch}
+.feature-content{order:1;padding:0}
+.feature-image,.coach .feature-image{order:2;width:100%;height:315px;min-height:0}
+.feature h2{font-size:clamp(48px,11vw,67px);margin:11px 0}
+.feature p{margin-bottom:18px}
+.feature-line{padding:10px 0}
+.coach .price{font-size:59px}.coach .price small{font-size:24px}
+.coach .actions{display:grid}
+.coach .actions>*{width:100%}
+.contact-grid{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.contact-content{padding:55px 0 35px}
+.contact h2{font-size:65px;margin:15px 0}
+.contact-image{height:255px}
+.demo-dialog{width:100vw;height:100dvh;margin:0}
+.demo-bar{padding:8px;height:59px}
+.demo-bar strong,.demo-controls a{font-size:9px}
+.demo-holder{height:calc(100% - 59px)}
 }
-@media(max-width:375px){.hero h1{font-size:72px}.hero-stamp{gap:9px}.hero-stamp span{font-size:8px}.btn{padding:13px 16px}.hero-photo{min-height:420px}.image-assembly,.image-assembly>.real-photo{height:425px;min-height:425px}}
+@media(max-width:360px){.hero h1{font-size:55px}.logo{font-size:13px}.btn{padding:12px 15px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
-
-/* Editorial photos: preserve subtle blush accents in the original campaign artwork */
-.hero-photo img{filter:saturate(.78) contrast(1.06);object-position:27% center}
-.image-assembly>.real-photo{filter:saturate(.8) contrast(1.04);object-position:24% center}
-.coach-editorial-media{position:relative;min-height:540px;overflow:hidden;background:#a5a0a2;isolation:isolate}
-.coach-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:31% 50%;filter:saturate(.8) contrast(1.05)}
-.coach-editorial-media:before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(180deg,transparent 22%,#14141447 100%)}
-.coach-editorial-media .coach-window{position:absolute;z-index:2;right:17px;bottom:16px;width:min(78%,400px);min-height:0;padding:7px;background:#f8f7f4;box-shadow:0 16px 38px #1119}
-.coach-editorial-media .coach-window-head{padding:7px 10px;font-size:8px}
-.coach-editorial-media .coach-window-head span:first-child{width:21px;height:21px}
-.coach-editorial-media .coach-window-body{grid-template-columns:33px 1fr;min-height:220px}
-.coach-editorial-media .coach-window-nav{padding:12px 3px;gap:12px;font-size:13px}
-.coach-editorial-media .coach-window-main{padding:12px}
-.coach-editorial-media .coach-window-main small{font-size:8px}
-.coach-editorial-media .coach-window-main h4{font-size:20px;margin:5px 0 10px}
-.coach-editorial-media .coach-metrics{gap:4px}
-.coach-editorial-media .coach-metrics>div{min-height:49px;padding:5px}
-.coach-editorial-media .coach-metrics b{font-size:20px}
-.coach-editorial-media .coach-metrics span{font-size:7px}
-.coach-editorial-media .coach-record{padding:7px 0;font-size:10px}
-.coach-editorial-media .coach-window-foot{font-size:8px;padding-top:4px}
-.process-photo{height:365px;overflow:hidden;position:relative;margin:51px 0 0;background:#c8c6c3}
-.process-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:saturate(.8)}
-.process-photo:after{position:absolute;content:"";inset:0;background:linear-gradient(90deg,transparent 25%,#16161665 100%)}
-.process-photo figcaption{position:absolute;z-index:1;right:5%;top:50%;transform:translateY(-50%);color:#fff;max-width:36%;display:grid;gap:15px}
-.process-photo figcaption span{font-size:11px;letter-spacing:.15em;font-weight:800}
-.process-photo figcaption strong{font:400 italic clamp(32px,4vw,62px)/1 "Instrument Serif",Georgia,serif}
-.contact{overflow:hidden;padding:0;background:#e6b1c0}
-.contact-inner{display:grid;grid-template-columns:1.05fr .95fr;align-items:stretch;gap:45px}
-.contact-copy{display:flex;flex-direction:column;justify-content:center;padding:80px 0}
-.contact-copy .btn{align-self:flex-start;margin-top:22px}
-.contact-image{margin:0;min-height:510px;overflow:hidden;position:relative}
-.contact-image img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:37% center;filter:saturate(.76)}
-@media(max-width:760px){
- .hero-photo img{object-position:30% center}
- .image-assembly>.real-photo{object-position:24% center}
- .coach-editorial-media{min-height:400px}
- .coach-editorial-media .coach-window{width:min(76%,300px);right:12px;bottom:12px}
- .coach-editorial-media .coach-window-body{min-height:188px}
- .coach-editorial-media .coach-window-main h4{font-size:16px}
- .coach-editorial-media .coach-metrics b{font-size:18px}
- .process-photo{height:300px;margin-top:35px}
- .process-photo img{object-position:35% 50%}
- .process-photo figcaption{right:6%;max-width:42%}
- .process-photo figcaption strong{font-size:32px}
- .contact-inner{grid-template-columns:1fr;gap:0}
- .contact-copy{padding:66px 0 40px}
- .contact-image{min-height:380px}
- .contact-image img{object-position:36% 45%}
-}
-@media(max-width:410px){
- .coach-editorial-media .coach-window{width:80%}
- .process-photo{height:275px}
- .process-photo figcaption strong{font-size:29px}
-}
-
-
-/* Clean editorial campaign photographs: no UI cards, gradients or caption overlays. */
-.hero-photo:after,.coach-editorial-media:before,.process-photo:after{content:none!important;display:none!important}
-.hero-photo img,.image-assembly>.real-photo,.coach-photo,.process-photo img,.contact-image img{filter:none!important}
-.coach-editorial-media{isolation:auto}
-.coach-photo{object-fit:cover;object-position:28% center}
-.image-assembly>.real-photo{object-fit:cover;object-position:29% center}
-.hero-photo img{object-position:28% center}
-@media(max-width:760px){
-.coach-photo{object-position:24% center}
-.image-assembly>.real-photo{object-position:22% center}
-.hero-photo img{object-position:25% center}
-}
-
-.demo-lazy{padding:clamp(26px,4vw,55px);background:#f2e5e9;border:1px solid #dfd2d6;display:flex;justify-content:space-between;align-items:center;gap:30px}
-.demo-lazy strong{letter-spacing:.08em;font-weight:900;font-size:12px}.demo-lazy p{max-width:520px;color:#60575a}
-.coach-demo-dialog{width:min(1230px,96vw);height:min(900px,94dvh);max-width:none;max-height:none;padding:0;border:0;background:#fff;box-shadow:0 28px 90px #0008}
-.coach-demo-dialog::backdrop{background:#090909d9}.coach-demo-toolbar{height:64px;background:#171717;color:white;padding:9px 17px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.coach-demo-toolbar strong{font-size:11px;letter-spacing:.08em}.coach-demo-toolbar span{display:flex;align-items:center;gap:12px}
-.coach-demo-toolbar a{color:#fff;font-size:11px;text-decoration:none;font-weight:800}
-.coach-demo-toolbar button{background:#fff;border:0;font-size:19px;height:39px;width:39px}
-.coach-demo-mount{height:calc(100% - 64px)}.coach-demo-mount iframe{width:100%;height:100%;border:0;background:#fff}
-@media(max-width:760px){.demo-lazy{display:block}.demo-lazy .btn{width:100%;margin-top:16px}
-.coach-demo-dialog{width:100vw;height:100dvh;margin:0}.coach-demo-toolbar{height:62px;padding:7px}.coach-demo-toolbar strong,.coach-demo-toolbar a{font-size:9px}.coach-demo-mount{height:calc(100% - 62px)}}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content / Ir al contenido</a>
-<div class="announcement" data-en="THE MOVEMENT IS YOURS · FREE WORKOUTS IN ENGLISH & SPANISH" data-es="EL MOVIMIENTO ES TUYO · RUTINAS GRATIS EN INGLÉS Y ESPAÑOL">THE MOVEMENT IS YOURS · FREE WORKOUTS IN ENGLISH & SPANISH</div>
-<header class="site-header"><div class="shell head">
-<a class="wordmark" href="#top" aria-label="Self Love Gym"><span class="wm-seal">SL</span><span>SELF LOVE GYM<small>MOVE FOR YOU</small></span></a>
-<nav class="header-menu" aria-label="Main navigation">
-<a href="#free-app" data-en="FREE APP" data-es="APP GRATIS">FREE APP</a>
-<a href="#coach" data-en="COACH DESK" data-es="COACH DESK">COACH DESK</a>
-<a href="#preview" data-en="THE EXPERIENCE" data-es="LA EXPERIENCIA">THE EXPERIENCE</a>
-<a href="#contact" data-en="CONTACT" data-es="CONTACTO">CONTACT</a>
-<div class="lang" aria-label="Select language"><button type="button" data-language="en" aria-pressed="true">EN</button><button type="button" data-language="es" aria-pressed="false">ES</button></div>
-</nav>
-</div></header>
+<a class="skip" href="#main" data-en="Skip to content" data-es="Ir al contenido">Skip to content</a>
+<header class="header"><div class="shell header-inner">
+<a class="logo" href="#top" aria-label="Self Love Gym"><span class="logo-symbol">SL</span><span>SELF LOVE GYM</span></a>
+<nav class="nav" aria-label="Navigation">
+<a href="#free-app" data-en="Free workouts" data-es="Ejercicios gratis">Free workouts</a>
+<a href="#coach" data-en="Coach Desk" data-es="Coach Desk">Coach Desk</a>
+<a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+<div class="lang" aria-label="Language"><button type="button" data-language="en" aria-pressed="true">EN</button><button type="button" data-language="es" aria-pressed="false">ES</button></div>
+</nav></div></header>
 <main id="main">
 <section class="hero" id="top">
-<div class="hero-copy-panel">
-<div class="eyebrow" data-en="SELF LOVE GYM / THE MOVEMENT" data-es="SELF LOVE GYM / EL MOVIMIENTO">SELF LOVE GYM / THE MOVEMENT</div>
-<h1 data-en="MOVE<span class='serif-line'>for you.</span>" data-es="MUÉVETE<span class='serif-line'>por ti.</span>">MOVE<span class="serif-line">for you.</span></h1>
-<p class="hero-description" data-en="This is your space to start. No pressure to be perfect. Just beginner-friendly movement, whenever you're ready." data-es="Este es tu espacio para empezar. Sin la presión de hacerlo perfecto. Solo ejercicios para principiantes, cuando tú quieras.">This is your space to start. No pressure to be perfect. Just beginner-friendly movement, whenever you're ready.</p>
-<div class="actions">
-<a class="btn inverse" href="https://app.thelaunchera.com/self-love-gym/" target="_blank" rel="noopener" data-en="START FREE ↗" data-es="EMPIEZA GRATIS ↗">START FREE ↗</a>
-<a class="btn line-light" href="#free-app" data-en="DISCOVER THE APP ↓" data-es="DESCUBRE LA APP ↓">DISCOVER THE APP ↓</a>
+<div class="hero-content">
+<div class="kicker" data-en="TWO APPS. ONE SELF LOVE GYM." data-es="DOS APPS. UNA MISMA MARCA.">TWO APPS. ONE SELF LOVE GYM.</div>
+<h1 data-en="MOVE <i>your way.</i>" data-es="MUÉVETE <i>a tu ritmo.</i>">MOVE <i>your way.</i></h1>
+<p class="intro" data-en="Beginner workouts are free. Coach Desk is a separate workspace for trainers at $2.99 USD per month, plus applicable tax." data-es="Los ejercicios para principiantes son gratis. Coach Desk es una aplicación aparte para entrenadores por $2.99 USD al mes, más los impuestos aplicables.">Beginner workouts are free. Coach Desk is a separate workspace for trainers at $2.99 USD per month, plus applicable tax.</p>
+<div class="actions"><a class="btn light" href="#coach" data-en="COACH DESK · $2.99 / MONTH" data-es="COACH DESK · $2.99 / MES">COACH DESK · $2.99 / MONTH</a><a class="btn outline-light" href="#free-app" data-en="FREE WORKOUT APP" data-es="APP DE EJERCICIOS GRATIS">FREE WORKOUT APP</a></div>
+<p class="price-note" data-en="Only Coach Desk requires a paid subscription." data-es="Solo Coach Desk requiere una suscripción de pago.">Only Coach Desk requires a paid subscription.</p>
 </div>
-<div class="hero-stamp"><span data-en="NO MEMBERSHIP NEEDED" data-es="SIN MEMBRESÍA">NO MEMBERSHIP NEEDED</span><span data-en="ENGLISH + ESPAÑOL" data-es="INGLÉS + ESPAÑOL">ENGLISH + ESPAÑOL</span></div>
-</div>
-<div class="hero-photo">
-<img src="/self-love-gym/photos/hero.webp" alt="Athlete practicing fitness movement in a minimalist studio" fetchpriority="high">
-
-
-</div>
+<div class="hero-image"><img src="/self-love-gym/photos/hero.webp" alt="Athlete in a minimalist fitness studio" fetchpriority="high"></div>
 </section>
-<div class="ticker"><div class="shell ticker-inner"><span data-en="YOUR BODY. YOUR PACE." data-es="TU CUERPO. TU RITMO.">YOUR BODY. YOUR PACE.</span><b>✳</b><span data-en="EVERY BEGINNING COUNTS." data-es="CADA COMIENZO CUENTA.">EVERY BEGINNING COUNTS.</span><b>✳</b><span data-en="MOVE WITH LOVE." data-es="MUÉVETE CON AMOR.">MOVE WITH LOVE.</span></div></div>
-
-<section class="block" id="free-app"><div class="shell">
-<div class="section-intro"><div><p class="eyebrow" data-en="01 / FOR YOU" data-es="01 / PARA TI">01 / FOR YOU</p><h2 data-en="THE FREE<br><i>MOVEMENT.</i>" data-es="MUÉVETE<br><i>GRATIS.</i>">THE FREE<br><i>MOVEMENT.</i></h2></div><p data-en="Fitness doesn't have to be complicated. A few minutes, a little intention, a moment that's yours." data-es="Moverte no tiene que ser complicado. Unos minutos, una intención y un momento solo para ti.">Fitness doesn't have to be complicated. A few minutes, a little intention, a moment that's yours.</p></div>
-<div class="product-row"><div class="product-lead">
-<span class="product-code" data-en="BEGINNER WORKOUTS · 100% FREE" data-es="RUTINAS PARA PRINCIPIANTES · 100% GRATIS">BEGINNER WORKOUTS · 100% FREE</span>
-<h3 data-en="Start where<br>you are." data-es="Empieza<br>donde estás.">Start where<br>you are.</h3>
-<p data-en="Easy-to-follow workouts for real life. Find gentle strength, mobility and low-impact movement you can do at home. No account or payment needed." data-es="Rutinas que puedes seguir desde casa. Encuentra fuerza suave, movilidad y ejercicios de bajo impacto. Sin cuenta y sin pagar.">Easy-to-follow workouts for real life. Find gentle strength, mobility and low-impact movement you can do at home. No account or payment needed.</p>
-<ul><li data-en="Three beginner-friendly workout routines" data-es="Tres rutinas para principiantes">Three beginner-friendly workout routines</li><li data-en="Exercise guidance and a simple timer" data-es="Instrucciones y temporizador sencillo">Exercise guidance and a simple timer</li><li data-en="Your recent workouts and streaks saved on this device" data-es="Tus rutinas y constancia se guardan en este dispositivo">Your recent workouts and streaks saved on this device</li></ul>
-<div class="actions"><a class="btn" href="https://app.thelaunchera.com/self-love-gym/" target="_blank" rel="noopener" data-en="OPEN THE FREE APP ↗" data-es="ABRIR APP GRATIS ↗">OPEN THE FREE APP ↗</a><a class="btn outline" href="https://app.thelaunchera.com/self-love-gym/" target="_blank" rel="noopener" data-en="SEE WORKOUTS ↗" data-es="VER RUTINAS ↗">SEE WORKOUTS ↗</a></div>
-<small class="sub-note" data-en="Free to use. Progress is saved locally on the device where you exercise; it does not sync across devices." data-es="Es gratis. El progreso se guarda en el dispositivo que usas; no se sincroniza entre dispositivos.">Free to use. Progress is saved locally on the device where you exercise; it does not sync across devices.</small>
+<section class="section" id="free-app"><div class="shell feature">
+<div class="feature-content">
+<div class="kicker label" data-en="01 / FREE WORKOUT APP" data-es="01 / APP DE EJERCICIOS GRATIS">01 / FREE WORKOUT APP</div>
+<h2 data-en="MOVE FOR <i>YOU.</i>" data-es="MUÉVETE <i>POR TI.</i>">MOVE FOR <i>YOU.</i></h2>
+<p class="summary" data-en="Beginner-friendly routines, simple exercise guidance and progress saved on your device. Train at home, at your pace." data-es="Rutinas para principiantes, instrucciones sencillas y progreso guardado en tu dispositivo. Entrena desde casa y a tu ritmo.">Beginner-friendly routines, simple exercise guidance and progress saved on your device. Train at home, at your pace.</p>
+<a class="btn" href="https://app.thelaunchera.com/self-love-gym/" target="_blank" rel="noopener" data-en="OPEN FREE WORKOUT APP" data-es="ABRIR APP GRATIS">OPEN FREE WORKOUT APP</a>
 </div>
-<div><div class="image-assembly">
-<img class="real-photo" src="/self-love-gym/photos/workouts.webp" loading="lazy" alt="Woman taking a rest on an exercise mat">
-
-
+<img class="feature-image" src="/self-love-gym/photos/workouts.webp" alt="Woman doing gentle movement on a workout mat" loading="lazy" decoding="async">
+</div></section>
+<section class="section coach" id="coach"><div class="shell feature">
+<img class="feature-image" src="/self-love-gym/photos/coach.webp" alt="Fitness coach planning client sessions at her desk" loading="lazy" decoding="async">
+<div class="feature-content">
+<div class="kicker" data-en="02 / COACH DESK · PAID SUBSCRIPTION" data-es="02 / COACH DESK · SUSCRIPCIÓN DE PAGO">02 / COACH DESK · PAID SUBSCRIPTION</div>
+<h2 data-en="THE COACH <i>DESK.</i>" data-es="TU PANEL <i>DE COACH.</i>">THE COACH <i>DESK.</i></h2>
+<div class="price">$2.99 <small data-en="/ month" data-es="/ mes">/ month</small></div>
+<p class="summary" data-en="Your private coaching workspace for clients, sessions, memberships and manual payment notes. One simple place to stay organized." data-es="Tu espacio privado para clientas, sesiones, membresías y registro manual de pagos. Todo organizado en un solo lugar.">Your private coaching workspace for clients, sessions, memberships and manual payment notes. One simple place to stay organized.</p>
+<div class="actions">
+<a class="btn light" href="https://buy.stripe.com/8x23cu32L6Dn0lPgDG93y10" target="_blank" rel="noopener" data-en="SUBSCRIBE FOR $2.99 / MONTH" data-es="SUSCRIBIRME POR $2.99 / MES">SUBSCRIBE FOR $2.99 / MONTH</a>
+<button type="button" class="btn outline-light" data-open-coach-demo data-en="VIEW INTERACTIVE DEMO" data-es="VER DEMO INTERACTIVO">VIEW INTERACTIVE DEMO</button>
 </div>
-<small class="photo-attribution">SELF LOVE GYM · ORIGINAL EDITORIAL SERIES</small>
+<p class="micro" data-en="Applicable sales tax is calculated at checkout. Register using the same email you paid with. An active subscription unlocks access automatically." data-es="Stripe calcula los impuestos aplicables al pagar. Regístrate con el mismo correo de compra. La suscripción activa habilita tu acceso automáticamente.">Applicable sales tax is calculated at checkout. Register using the same email you paid with. An active subscription unlocks access automatically.</p>
+<a class="sign-in" href="https://thelaunchera.com/apps/self-love-gym/" target="_blank" rel="noopener" data-en="Already subscribed? Sign in" data-es="¿Ya te suscribiste? Iniciar sesión">Already subscribed? Sign in</a>
 </div>
-</div></div></section>
-
-<section class="block dark-product" id="coach"><div class="shell">
-<div class="section-intro"><div><p class="eyebrow" data-en="02 / FOR THE COACH" data-es="02 / PARA EL COACH">02 / FOR THE COACH</p><h2 data-en="THE COACH<br><i>DESK.</i>" data-es="TU PANEL<br><i>DE COACH.</i>">THE COACH<br><i>DESK.</i></h2></div><p data-en="A calmer back office for the people who help others move. Organized, personal and made for small coaching businesses." data-es="Un espacio organizado para quienes ayudan a otros a moverse. Personal, sencillo y pensado para tu negocio de entrenamiento.">A calmer back office for the people who help others move. Organized, personal and made for small coaching businesses.</p></div>
-<div class="product-row">
-<div class="coach-editorial-media">
-<img class="coach-photo" src="/self-love-gym/photos/coach.webp" alt="Fitness coach organizing her work with a laptop and notebook" loading="lazy" decoding="async">
+</div></section>
+<section class="contact" id="contact"><div class="shell contact-grid">
+<div class="contact-content">
+<div class="kicker" data-en="QUESTIONS?" data-es="¿PREGUNTAS?">QUESTIONS?</div>
+<h2 data-en="LET'S <i>talk.</i>" data-es="HABLEMOS <i>hoy.</i>">LET'S <i>talk.</i></h2>
+<p data-en="Need help choosing a product, signing in, or managing a subscription? Write to The Launch Era." data-es="¿Necesitas ayuda para elegir una app, entrar a tu cuenta o gestionar tu suscripción? Escríbele a The Launch Era.">Need help choosing a product, signing in, or managing a subscription? Write to The Launch Era.</p>
+<a class="btn" href="mailto:hello@thelaunchera.com?subject=Self%20Love%20Gym%20support" data-en="CONTACT ME" data-es="CONTÁCTAME">CONTACT ME</a>
 </div>
-<div class="product-lead"><span class="product-code" data-en="THE PRIVATE COACHING WORKSPACE" data-es="TU ESPACIO PRIVADO DE COACHING">THE PRIVATE COACHING WORKSPACE</span>
-<div class="price-lockup"><strong>$2.99</strong><span data-en="/ month" data-es="/ mes">/ month</span></div>
-<p data-en="Keep your clients, sessions, memberships and payment notes in one private place. Less searching, more time for the work you love." data-es="Organiza clientas, sesiones, membresías y registros manuales de pago en un solo lugar privado. Menos búsqueda y más tiempo para lo que te gusta.">Keep your clients, sessions, memberships and payment notes in one private place. Less searching, more time for the work you love.</p>
-<ul><li data-en="Clients, appointments and memberships" data-es="Clientas, citas y membresías">Clients, appointments and memberships</li><li data-en="Manual payment records and follow-up notes" data-es="Registro manual de pagos y notas de seguimiento">Manual payment records and follow-up notes</li><li data-en="Bilingual private workspace for active subscribers" data-es="Panel privado bilingüe para suscriptores activos">Bilingual private workspace for active subscribers</li></ul>
-<div class="actions"><a class="btn inverse" href="https://buy.stripe.com/8x23cu32L6Dn0lPgDG93y10" target="_blank" rel="noopener" data-en="SUBSCRIBE · $2.99/MO ↗" data-es="SUSCRIBIRME · $2.99/MES ↗">SUBSCRIBE · $2.99/MO ↗</a><button class="btn line-light" type="button" data-open-coach-demo data-en="TRY THE LIVE DEMO ↗" data-es="PROBAR EL DEMO ↗">TRY THE LIVE DEMO ↗</button></div>
-<a class="sub-note" style="color:#ddd;display:inline-block;text-decoration:underline" href="https://thelaunchera.com/apps/self-love-gym/" target="_blank" rel="noopener" data-en="Already subscribed? Sign in to Coach Desk ↗" data-es="¿Ya te suscribiste? Entra a Coach Desk ↗">Already subscribed? Sign in to Coach Desk ↗</a>
-<small class="sub-note" data-en="$2.99/month plus applicable sales taxes. Use the same email for checkout and your Coach Desk account. Active subscribers enter automatically." data-es="$2.99/mes más los impuestos aplicables. Usa el mismo correo para pagar y crear tu cuenta. Los suscriptores activos entran automáticamente.">$2.99/month plus applicable sales taxes. Use the same email for checkout and your Coach Desk account. Active subscribers enter automatically.</small>
-</div>
-</div></div></section>
-
-<section class="block how" id="how"><div class="shell">
-<div class="section-intro"><div><p class="eyebrow" data-en="THE PROCESS" data-es="EL PROCESO">THE PROCESS</p><h2 data-en="KEEP IT<br><i>SIMPLE.</i>" data-es="TODO MÁS<br><i>FÁCIL.</i>">KEEP IT<br><i>SIMPLE.</i></h2></div><p data-en="We keep the next step clear, whether you're new to workouts or looking after your coaching business." data-es="Cada paso está claro, ya sea que estés empezando a entrenar o administrando tu negocio.">We keep the next step clear, whether you're new to workouts or looking after your coaching business.</p></div>
-<div class="how-grid">
-<div class="how-item"><span>01</span><h3 data-en="PICK YOUR SPACE." data-es="ELIGE TU ESPACIO.">PICK YOUR SPACE.</h3><p data-en="Open the free workout app now, or discover Coach Desk for your coaching work." data-es="Entra a la app de ejercicios gratis o descubre Coach Desk para tu trabajo como coach.">Open the free workout app now, or discover Coach Desk for your coaching work.</p></div>
-<div class="how-item"><span>02</span><h3 data-en="SEE IT IN ACTION." data-es="MIRA CÓMO FUNCIONA.">SEE IT IN ACTION.</h3><p data-en="Explore the sample preview below. The actual workout app opens without a signup." data-es="Explora la vista de ejemplo. La app de ejercicios abre sin registro.">Explore the sample preview below. The actual workout app opens without a signup.</p></div>
-<div class="how-item"><span>03</span><h3 data-en="MAKE IT YOURS." data-es="HAZLO TUYO.">MAKE IT YOURS.</h3><p data-en="Move at your pace. Coaches can subscribe through Stripe and sign up with their purchase email." data-es="Entrena a tu ritmo. Los coaches pueden suscribirse con Stripe y registrarse con su correo de compra.">Move at your pace. Coaches can subscribe through Stripe and sign up with their purchase email.</p></div>
-</div>
-<figure class="process-photo">
-<img src="/self-love-gym/photos/how.webp" alt="Athlete preparing for a workout by tying her shoes on a pink mat" loading="lazy" decoding="async">
-
-</figure></div></section>
-
-<section class="block preview" id="preview"><div class="shell"><div class="section-intro"><div><p class="eyebrow" data-en="INTERACTIVE COACH DESK" data-es="DEMO DE COACH DESK">INTERACTIVE COACH DESK</p><h2 data-en="TAKE A<br><i>LOOK.</i>" data-es="MIRA POR<br><i>DENTRO.</i>">TAKE A<br><i>LOOK.</i></h2></div><p data-en="Explore the complete Coach Desk app with fictional clients. The demo loads only after you press its button." data-es="Explora la app completa de Coach Desk con clientas ficticias. El demo solo carga cuando pulsas el botón.">Explore the complete Coach Desk app with fictional clients. The demo loads only after you press its button.</p></div>
-<div class="demo-lazy"><div><strong data-en="TRY THE FULL INTERACTIVE WORKSPACE" data-es="PRUEBA EL PANEL INTERACTIVO COMPLETO">TRY THE FULL INTERACTIVE WORKSPACE</strong><p data-en="Clients, sessions, payments and settings. Sample information only." data-es="Clientas, sesiones, pagos y ajustes. Solo datos de ejemplo.">Clients, sessions, payments and settings. Sample information only.</p></div><button class="btn" type="button" data-open-coach-demo data-en="OPEN THE COACH DESK DEMO ↗" data-es="ABRIR DEMO DE COACH DESK ↗">OPEN THE COACH DESK DEMO ↗</button></div></div></section>
-<dialog id="coach-demo-dialog" class="coach-demo-dialog" aria-label="Coach Desk interactive public demo"><div class="coach-demo-toolbar"><strong>SELF LOVE GYM / COACH DESK</strong><span><a target="_blank" rel="noopener" href="https://thelaunchera.com/apps/self-love-gym/?demo=1" data-en="FULL SCREEN ↗" data-es="PANTALLA COMPLETA ↗">FULL SCREEN ↗</a><button type="button" data-close-coach-demo aria-label="Close demo">✕</button></span></div><div id="coach-demo-mount" class="coach-demo-mount"></div></dialog>
-<section class="block" id="questions"><div class="shell">
-<div class="section-intro"><div><p class="eyebrow" data-en="YOUR QUESTIONS" data-es="TUS PREGUNTAS">YOUR QUESTIONS</p><h2 data-en="GOOD TO<br><i>KNOW.</i>" data-es="ES BUENO<br><i>SABER.</i>">GOOD TO<br><i>KNOW.</i></h2></div></div>
-<div class="faq-grid">
-<details class="faq"><summary data-en="Is Self Love Gym free?" data-es="¿Self Love Gym es gratis?">Is Self Love Gym free?</summary><p data-en="Yes. The workout app is free to use without an account or payment." data-es="Sí. La app de ejercicios es gratuita y no requiere cuenta ni pago.">Yes. The workout app is free to use without an account or payment.</p></details>
-<details class="faq"><summary data-en="Who is Coach Desk for?" data-es="¿Para quién es Coach Desk?">Who is Coach Desk for?</summary><p data-en="For trainers and coaches who want to organize clients, sessions, memberships and notes. It currently records payments manually; it does not collect client payments." data-es="Para entrenadores que quieren organizar clientas, sesiones, membresías y notas. Actualmente registra pagos manualmente; no cobra pagos de clientas.">For trainers and coaches who want to organize clients, sessions, memberships and notes. It currently records payments manually; it does not collect client payments.</p></details>
-<details class="faq"><summary data-en="How will I access my $2.99 subscription?" data-es="¿Cómo entraré con mi suscripción de $2.99?">How will I access my $2.99 subscription?</summary><p data-en="Subscribe securely through Stripe. Use the purchase email when creating your account. Active subscribers can sign in without manual approval." data-es="Suscríbete mediante Stripe y crea tu cuenta con el mismo correo de compra. No necesitas aprobación manual.">Subscribe securely through Stripe. Use the purchase email when creating your account. Active subscribers can sign in without manual approval.</p></details>
-<details class="faq"><summary data-en="Are both apps bilingual?" data-es="¿Ambas apps son bilingües?">Are both apps bilingual?</summary><p data-en="Yes, English and Spanish are supported in both apps." data-es="Sí, ambas apps permiten elegir inglés y español.">Yes, English and Spanish are supported in both apps.</p></details>
-</div></div></section>
-<section id="contact" class="contact"><div class="shell contact-inner"><div class="contact-copy"><div class="eyebrow" data-en="QUESTIONS? WE'RE HERE." data-es="¿PREGUNTAS? AQUÍ ESTAMOS.">QUESTIONS? WE'RE HERE.</div>
-<h2 data-en="LET'S TALK<br><i>about it.</i>" data-es="HABLEMOS<br><i>de eso.</i>">LET'S TALK<br><i>about it.</i></h2><p data-en="Need help with either app or private access? Reach out to The Launch Era." data-es="¿Necesitas ayuda con alguna app o con tu acceso privado? Escríbele a The Launch Era.">Need help with either app or private access? Reach out to The Launch Era.</p>
-<a class="btn" href="mailto:hello@thelaunchera.com?subject=Self%20Love%20Gym%20question" data-en="CONTACT ME ↗" data-es="CONTÁCTAME ↗">CONTACT ME ↗</a></div>
-<figure class="contact-image"><img src="/self-love-gym/photos/contact.webp" loading="lazy" decoding="async" alt="Fitness coach smiling while holding her phone in a minimalist studio"></figure>
+<img class="contact-image" src="/self-love-gym/photos/contact.webp" alt="Fitness coach portrait in a minimalist studio" loading="lazy" decoding="async">
 </div></section>
 </main>
-<footer class="footer"><div class="shell footer-inner">
-<span>© 2026 SELF LOVE GYM · POWERED BY THE LAUNCH ERA</span>
-<nav aria-label="Legal and support"><a href="https://thelaunchera.com/apps/self-love-gym/terms.html" target="_blank" rel="noopener" data-en="TERMS" data-es="TÉRMINOS">TERMS</a><a href="https://thelaunchera.com/apps/self-love-gym/privacy.html" target="_blank" rel="noopener" data-en="PRIVACY" data-es="PRIVACIDAD">PRIVACY</a><a href="mailto:hello@thelaunchera.com" data-en="HELP" data-es="AYUDA">HELP</a></nav>
-</div></footer>
-<script>(function(){
+<footer class="footer"><div class="shell footer-content"><span>SELF LOVE GYM · POWERED BY THE LAUNCH ERA</span>
+<div><a href="https://thelaunchera.com/apps/self-love-gym/terms.html" target="_blank" rel="noopener" data-en="Terms" data-es="Términos">Terms</a><a href="https://thelaunchera.com/apps/self-love-gym/privacy.html" target="_blank" rel="noopener" data-en="Privacy" data-es="Privacidad">Privacy</a><a href="mailto:hello@thelaunchera.com" data-en="Support" data-es="Ayuda">Support</a></div></div></footer>
+<dialog class="demo-dialog" id="coach-demo-dialog" aria-label="Coach Desk interactive sample">
+<div class="demo-bar"><strong>SELF LOVE GYM / COACH DESK</strong><div class="demo-controls">
+<a href="https://thelaunchera.com/apps/self-love-gym/?demo=1" target="_blank" rel="noopener" data-en="FULL SCREEN" data-es="PANTALLA COMPLETA">FULL SCREEN</a>
+<button type="button" data-close-coach-demo aria-label="Close demo">X</button>
+</div></div><div class="demo-holder" id="coach-demo-holder"></div></dialog>
+<script>
+(function(){
 let lang="en";
-function setLang(v){lang=v;document.documentElement.lang=v;document.querySelectorAll("[data-en][data-es]").forEach(el=>el.innerHTML=el.getAttribute("data-"+v));document.querySelectorAll("[data-language]").forEach(el=>el.setAttribute("aria-pressed",String(el.dataset.language===v)));try{localStorage.setItem("slg-site-lang",v)}catch(_){}}
-document.querySelectorAll("[data-language]").forEach(el=>el.addEventListener("click",()=>setLang(el.dataset.language)));
-try{if(localStorage.getItem("slg-site-lang")==="es")setLang("es")}catch(_){}
-const dialog=document.getElementById("coach-demo-dialog"),mount=document.getElementById("coach-demo-mount");
-function openDemo(){if(!dialog.showModal){window.open("https://thelaunchera.com/apps/self-love-gym/?demo=1","_blank","noopener");return}dialog.showModal();if(!mount.querySelector("iframe")){const f=document.createElement("iframe");f.title="Coach Desk interactive sample";f.referrerPolicy="strict-origin-when-cross-origin";f.src="https://thelaunchera.com/apps/self-love-gym/?demo=1";mount.appendChild(f)}}
-document.querySelectorAll("[data-open-coach-demo]").forEach(el=>el.addEventListener("click",openDemo));
+function setLanguage(v){lang=v;document.documentElement.lang=v;document.querySelectorAll("[data-en][data-es]").forEach(el=>{el.innerHTML=el.getAttribute("data-"+v)});document.querySelectorAll("[data-language]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.language===v)));try{localStorage.setItem("slg-site-lang",v)}catch(_){}}
+document.querySelectorAll("[data-language]").forEach(b=>b.addEventListener("click",()=>setLanguage(b.dataset.language)));
+try{if(localStorage.getItem("slg-site-lang")==="es")setLanguage("es")}catch(_){}
+const dialog=document.getElementById("coach-demo-dialog");
+const holder=document.getElementById("coach-demo-holder");
+function openDemo(){if(typeof dialog.showModal!=="function"){window.open("https://thelaunchera.com/apps/self-love-gym/?demo=1","_blank","noopener");return}dialog.showModal();if(!holder.querySelector("iframe")){const frame=document.createElement("iframe");frame.title="Coach Desk interactive sample";frame.src="https://thelaunchera.com/apps/self-love-gym/?demo=1";frame.referrerPolicy="strict-origin-when-cross-origin";holder.appendChild(frame)}}
+document.querySelectorAll("[data-open-coach-demo]").forEach(b=>b.addEventListener("click",openDemo));
 document.querySelector("[data-close-coach-demo]").addEventListener("click",()=>dialog.close());
-dialog.addEventListener("close",()=>mount.replaceChildren());
+dialog.addEventListener("close",()=>holder.replaceChildren());
 dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
-})();</script></body></html>
+})();
+</script>
+</body>
+</html>
