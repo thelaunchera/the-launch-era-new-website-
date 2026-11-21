@@ -14,9 +14,9 @@ permissions:
 
 concurrency:
   group: github-pages
-  # Cancel obsolete deployments on new pushes so a stalled historical build cannot block the latest commit.
-  # A 30-minute build timeout also bounds each individual release.
-  cancel-in-progress: true
+  # Allow the running deployment to finish so frequent demo commits cannot cancel every Pages release.
+  # GitHub keeps only the newest pending run; each build still has a 30-minute timeout.
+  cancel-in-progress: false
 
 jobs:
   build:
