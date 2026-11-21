@@ -1009,7 +1009,7 @@ function App() {
                       </button>}
                       {needsAttention === 0 && workspace.clients.length === 0 && <button className="attention-row" type="button" onClick={() => openModal('client')}>
                         <span className="attention-icon"><UsersRound size={20}/></span>
-                        <span className="attention-details"><strong>{language === 'es' ? 'Añade tu primera cliente' : 'Add your first client'}</strong><small>{language === 'es' ? 'Abre su ficha y empieza a llevar sus registros.' : 'Create a profile to start keeping records.'}</small></span>
+                        <span className="attention-details"><strong>{language === 'es' ? 'Añade tu primer cliente' : 'Add your first client'}</strong><small>{language === 'es' ? 'Abre su ficha y empieza a llevar sus registros.' : 'Create a profile to start keeping records.'}</small></span>
                         <ArrowRight size={18} className="attention-arrow" />
                       </button>}
                       {needsAttention === 0 && workspace.clients.length > 0 && <button className="attention-row" type="button" onClick={() => navigate('Clients')}>
@@ -1022,7 +1022,7 @@ function App() {
                   <section className="dashboard-shortcuts" aria-label={language === 'es' ? 'Acciones rápidas' : 'Quick actions'}>
                     <div className="dashboard-shortcuts-title">{language === 'es' ? 'Acciones rápidas' : 'Quick actions'}</div>
                     <div className="dashboard-shortcuts-grid">
-                      <button type="button" onClick={() => openModal('client')}><UsersRound size={19}/><span>{language === 'es' ? 'Nueva cliente' : 'New client'}</span><Plus size={15}/></button>
+                      <button type="button" onClick={() => openModal('client')}><UsersRound size={19}/><span>{language === 'es' ? 'Nuevo cliente' : 'New client'}</span><Plus size={15}/></button>
                       <button type="button" onClick={() => openModal('session')} disabled={!workspace.clients.length}><CalendarDays size={19}/><span>{language === 'es' ? 'Registrar sesión' : 'Log session'}</span><Plus size={15}/></button>
                       <button type="button" onClick={() => openModal('payment')} disabled={!workspace.clients.length}><CircleDollarSign size={19}/><span>{language === 'es' ? 'Anotar pago' : 'Record payment'}</span><Plus size={15}/></button>
                     </div>
