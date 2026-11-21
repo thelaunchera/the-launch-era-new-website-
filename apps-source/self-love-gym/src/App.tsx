@@ -220,6 +220,7 @@ const nav: { name: Section; Icon: typeof LayoutDashboard }[] = [
 ];
 
 function App() {
+  const isPublicPreview = new URLSearchParams(window.location.search).get('demo') === '1';
   const [workspace, setWorkspace] = useState<Workspace>(loadDemo);
   const [account, setAccount] = useState<Account | null>(null);
   const [loginEmail, setLoginEmail] = useState('');
@@ -259,6 +260,14 @@ function App() {
   async function restore() {
     setReady(false);
     setErrorMessage('');
+    if (isPublicPreview) {
+      setAccount({ userId: 'public-preview', name: 'Preview Coach' });
+      setWorkspace(loadDemo());
+      setIsOwner(false);
+      setMode('demo');
+      setReady(true);
+      return;
+    }
     try {
       const user = await auth.getUser();
       if (user) {
@@ -574,6 +583,7 @@ function App() {
   }
 
   async function signOut() {
+    if (isPublicPreview) { window.location.href = '/self-love-gym/'; return; }
     await auth.signOut();
     setAccount(null);
     setIsOwner(false);
@@ -699,7 +709,7 @@ function App() {
           <div className="brand-mark" style={{ margin: '0 auto 20px' }}><span>SL</span></div>
           <span className="eyebrow">SELF LOVE GYM · COACH DESK</span>
           <h1>{language === 'es' ? 'Tu espacio de entrenamiento, organizado.' : 'Your coaching space, beautifully organized.'}</h1>
-          <p>{creatingAccount ? (language === 'es' ? '¿Es tu primera vez? Crea tu cuenta privada y confirma tu correo. Solo las personas autorizadas pueden entrar al panel.' : 'First time here? Create your private account, then confirm your email. Only owner-approved users can open the dashboard.') : (language === 'es' ? 'Entra para gestionar clientas, sesiones, membresías y pagos desde un solo lugar.' : 'Sign in to manage clients, sessions, memberships and payments in one place.')}</p>
+          <p>{creatingAccount ? (language === 'es' ? '¿Es tu primera vez? Usa el mismo correo de tu compra, crea tu cuenta y confírmala. Tu suscripción activa permitirá entrar.' : 'First time here? Create your account with the same email used at checkout, then confirm it. An active subscription unlocks your workspace.') : (language === 'es' ? 'Entra para gestionar clientas, sesiones, membresías y pagos desde un solo lugar.' : 'Sign in to manage clients, sessions, memberships and payments in one place.')}</p>
           {errorMessage && <p role="alert">{errorMessage}</p>}
           {authNotice && <p role="status">{authNotice}</p>}
           <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
@@ -726,7 +736,7 @@ function App() {
               setAuthNotice(language === 'es' ? 'Si existe una cuenta con ese correo, recibirás instrucciones para restablecer la contraseña.' : 'If an account exists for this email, you will receive password reset instructions.');
             } catch (cause) { setErrorMessage(cause instanceof Error ? cause.message : 'Could not request password reset'); }
           }} style={{ margin: '0 auto 14px' }}>{language === 'es' ? '¿Olvidaste tu contraseña?' : 'Forgot your password?'}</button>}
-          <p style={{ fontSize: 12, marginTop: 8 }}>{language === 'es' ? 'Acceso privado: solo la administradora y las personas autorizadas pueden utilizar la app.' : 'Private access: only the owner and approved members can use this app.'}</p>
+          <p style={{ fontSize: 12, marginTop: 8 }}>{language === 'es' ? 'Acceso privado: usa el mismo correo de tu compra. Solo las suscripciones activas y la administradora pueden entrar.' : 'Private access: use your purchase email. Only active subscribers and the owner can sign in.'}</p>
           <p style={{ marginTop: 20, fontSize: 12 }}><a href="./terms.html">{language === 'es' ? 'Términos' : 'Terms'}</a> · <a href="./privacy.html">{language === 'es' ? 'Privacidad' : 'Privacy'}</a></p>
           <p style={{ fontSize: 11 }}>POWERED BY THE LAUNCH ERA</p>
         </main>
@@ -804,11 +814,11 @@ function App() {
           <div className="loading">Opening your workspace…</div>
         ) : (
           <>
-            {false && (
+            {isPublicPreview && (
               <div className="demo-strip">
                 <span className="demo-dot" />
                 <span>
-                  <strong>Interactive preview</strong> · Fictional clients.
+                  <strong>{language === 'es' ? 'Demostración interactiva' : 'Interactive preview'}</strong> · {language === 'es' ? 'Clientas ficticias. Los cambios se guardan solo en este navegador.' : 'Fictional clients. Changes stay in this browser.'}
                   Changes stay in this browser.
                 </span>
                 <button
@@ -820,7 +830,7 @@ function App() {
                     }
                   }}
                 >
-                  Reset preview
+                  {language === 'es' ? 'Reiniciar demo' : 'Reset preview'}
                 </button>
               </div>
             )}
@@ -1297,7 +1307,7 @@ function App() {
 
               {section === 'Settings' && (
                 <div className="settings-grid">
-                  {isOwner && <section className="panel settings-panel" style={{ gridColumn: '1 / -1' }}>
+                  {false && isOwner && <section className="panel settings-panel" style={{ gridColumn: '1 / -1' }}>
                     <span className="eyebrow">OWNER · ADMIN ACCESS</span>
                     <h2>{language === 'es' ? 'Controla quién puede entrar' : 'Control who can join'}</h2>
                     <p>{language === 'es' ? 'Solo las personas que autorices aquí podrán acceder a su espacio. Crear una cuenta no da acceso automáticamente.' : 'Only people you approve here can access a workspace. Creating an account does not grant access.'}</p>
