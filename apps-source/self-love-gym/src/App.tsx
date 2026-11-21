@@ -556,7 +556,7 @@ function App() {
         : `this ${kind === 'checkin' ? 'check-in' : kind}`;
     const prompt = language === 'es'
       ? kind === 'client'
-        ? '¿Borrar esta clienta y todas sus sesiones, membresías, pagos, recordatorios y seguimientos? No se puede deshacer.'
+        ? '¿Borrar esta cliente y todas sus sesiones, membresías, pagos, recordatorios y seguimientos? No se puede deshacer.'
         : '¿Borrar este registro? No se puede deshacer.'
       : `Delete ${label}? This cannot be undone.`;
     if (!window.confirm(prompt)) return;
@@ -807,7 +807,7 @@ function App() {
           <div className="brand-mark" style={{ margin: '0 auto 20px' }}><span>SL</span></div>
           <span className="eyebrow">SELF LOVE GYM · COACH DESK</span>
           <h1>{language === 'es' ? 'Tu espacio de entrenamiento, organizado.' : 'Your coaching space, beautifully organized.'}</h1>
-          <p>{creatingAccount ? (language === 'es' ? '¿Es tu primera vez? Usa el mismo correo de tu compra, crea tu cuenta y confírmala. Tu suscripción activa permitirá entrar.' : 'First time here? Create your account with the same email used at checkout, then confirm it. An active subscription unlocks your workspace.') : (language === 'es' ? 'Entra para gestionar clientas, sesiones, membresías y pagos desde un solo lugar.' : 'Sign in to manage clients, sessions, memberships and payments in one place.')}</p>
+          <p>{creatingAccount ? (language === 'es' ? '¿Es tu primera vez? Usa el mismo correo de tu compra, crea tu cuenta y confírmala. Tu suscripción activa permitirá entrar.' : 'First time here? Create your account with the same email used at checkout, then confirm it. An active subscription unlocks your workspace.') : (language === 'es' ? 'Entra para gestionar clientes, sesiones, membresías y pagos desde un solo lugar.' : 'Sign in to manage clients, sessions, memberships and payments in one place.')}</p>
           {errorMessage && <p role="alert">{errorMessage}</p>}
           {authNotice && <p role="status">{authNotice}</p>}
           <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
@@ -916,7 +916,7 @@ function App() {
               <div className="demo-strip">
                 <span className="demo-dot" />
                 <span>
-                  <strong>{language === 'es' ? 'Demostración interactiva' : 'Interactive preview'}</strong> · {language === 'es' ? 'Explora con clientas ficticias. Los cambios se quedan en tu navegador.' : 'Explore with fictional clients. Changes stay in your browser.'}
+                  <strong>{language === 'es' ? 'Demostración interactiva' : 'Interactive preview'}</strong> · {language === 'es' ? 'Explora con clientes ficticias. Los cambios se quedan en tu navegador.' : 'Explore with fictional clients. Changes stay in your browser.'}
                 </span>
                 <button
                   onClick={() => {
@@ -953,7 +953,7 @@ function App() {
                   </h1>
                   <p>
                     {section === 'Overview'
-                       ? (language === 'es' ? 'Todo lo importante de tus clientas, en un lugar.' : 'Your clients, sessions and follow-ups in one place.')
+                       ? (language === 'es' ? 'Todo lo importante de tus clientes, en un lugar.' : 'Your clients, sessions and follow-ups in one place.')
                        : section === 'Clients'
                         ? 'Every client, their focus and their next step.'
                         : section === 'Sessions'
@@ -1009,7 +1009,7 @@ function App() {
                       </button>}
                       {needsAttention === 0 && workspace.clients.length === 0 && <button className="attention-row" type="button" onClick={() => openModal('client')}>
                         <span className="attention-icon"><UsersRound size={20}/></span>
-                        <span className="attention-details"><strong>{language === 'es' ? 'Añade tu primera clienta' : 'Add your first client'}</strong><small>{language === 'es' ? 'Abre su ficha y empieza a llevar sus registros.' : 'Create a profile to start keeping records.'}</small></span>
+                        <span className="attention-details"><strong>{language === 'es' ? 'Añade tu primera cliente' : 'Add your first client'}</strong><small>{language === 'es' ? 'Abre su ficha y empieza a llevar sus registros.' : 'Create a profile to start keeping records.'}</small></span>
                         <ArrowRight size={18} className="attention-arrow" />
                       </button>}
                       {needsAttention === 0 && workspace.clients.length > 0 && <button className="attention-row" type="button" onClick={() => navigate('Clients')}>
@@ -1022,7 +1022,7 @@ function App() {
                   <section className="dashboard-shortcuts" aria-label={language === 'es' ? 'Acciones rápidas' : 'Quick actions'}>
                     <div className="dashboard-shortcuts-title">{language === 'es' ? 'Acciones rápidas' : 'Quick actions'}</div>
                     <div className="dashboard-shortcuts-grid">
-                      <button type="button" onClick={() => openModal('client')}><UsersRound size={19}/><span>{language === 'es' ? 'Nueva clienta' : 'New client'}</span><Plus size={15}/></button>
+                      <button type="button" onClick={() => openModal('client')}><UsersRound size={19}/><span>{language === 'es' ? 'Nueva cliente' : 'New client'}</span><Plus size={15}/></button>
                       <button type="button" onClick={() => openModal('session')} disabled={!workspace.clients.length}><CalendarDays size={19}/><span>{language === 'es' ? 'Registrar sesión' : 'Log session'}</span><Plus size={15}/></button>
                       <button type="button" onClick={() => openModal('payment')} disabled={!workspace.clients.length}><CircleDollarSign size={19}/><span>{language === 'es' ? 'Anotar pago' : 'Record payment'}</span><Plus size={15}/></button>
                     </div>
