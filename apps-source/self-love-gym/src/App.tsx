@@ -28,6 +28,8 @@ import {
   UsersRound,
   X,
 } from 'lucide-react';
+import CoachCalendar, { formatStart } from './CoachCalendar';
+import ClientProfile from './ClientProfile';
 import { api, auth, ownerAccess } from './supabaseClient';
 import { translateUi } from './i18n';
 import type { Language } from './i18n';
@@ -46,6 +48,7 @@ type Session = {
   id: string;
   clientId: string;
   date: string;
+  startTime?: string;
   minutes: number;
   type: string;
   note: string;
@@ -95,7 +98,7 @@ type Workspace = {
   revision: number;
 };
 type Account = { userId: string; name?: string; email?: string };
-type Section = 'Overview' | 'Clients' | 'Sessions' | 'Memberships' | 'Payments' | 'Messages' | 'Check-ins' | 'Settings';
+type Section = 'Overview' | 'Clients' | 'Calendar' | 'Sessions' | 'Memberships' | 'Payments' | 'Messages' | 'Check-ins' | 'Settings';
 type Kind = 'client' | 'session' | 'payment' | 'checkin' | 'membership' | 'reminder';
 
 const today = () => new Date().toLocaleDateString('en-CA');
@@ -153,6 +156,7 @@ const sample: Workspace = {
       id: 'demo-session-1',
       clientId: 'demo-maya',
       date: shifted(-1),
+      startTime: '09:00',
       minutes: 45,
       type: 'Strength',
       note: 'Great session.',
@@ -161,6 +165,7 @@ const sample: Workspace = {
       id: 'demo-session-2',
       clientId: 'demo-sofia',
       date: shifted(1),
+      startTime: '14:30',
       minutes: 30,
       type: 'Mobility',
       note: '',
@@ -211,7 +216,8 @@ function loadDemo(): Workspace {
 const nav: { name: Section; Icon: typeof LayoutDashboard }[] = [
   { name: 'Overview', Icon: LayoutDashboard },
   { name: 'Clients', Icon: UsersRound },
-  { name: 'Sessions', Icon: CalendarDays },
+  { name: 'Calendar', Icon: CalendarDays },
+  { name: 'Sessions', Icon: Clock3 },
   { name: 'Memberships', Icon: CreditCard },
   { name: 'Payments', Icon: CircleDollarSign },
   { name: 'Messages', Icon: MessageCircle },
@@ -274,6 +280,8 @@ function App() {
   const busy = useRef(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [section, setSection] = useState<Section>('Overview');
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const [calendarFocusDate, setCalendarFocusDate] = useState(today());
   const [modal, setModal] = useState<Kind | null>(null);
   const [form, setForm] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState('');
@@ -289,6 +297,7 @@ function App() {
 
   function navigate(next: Section) {
     setSection(next);
+    if (next !== 'Clients') setSelectedClientId(null);
     setMoreOpen(false);
     setSearch('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -384,7 +393,7 @@ function App() {
     }
   }
 
-  function openModal(kind: Kind, item?: Client | Session | Payment | CheckIn | Membership | Reminder, clientId?: string) {
+  function openModal(kind: Kind, item?: Client | Session | Payment | CheckIn | Membership | Reminder, clientId?: string, sessionDate?: string) {
     if (kind === 'client') {
       const current = item as Client | undefined;
       setForm({
@@ -401,8 +410,9 @@ function App() {
       const current = item as Session | undefined;
       setForm({
         id: current?.id ?? '',
-        clientId: current?.clientId ?? workspace.clients[0]?.id ?? '',
-        date: current?.date ?? today(),
+        clientId: current?.clientId ?? clientId ?? workspace.clients[0]?.id ?? '',
+        date: current?.date ?? sessionDate ?? today(),
+        startTime: current?.startTime ?? '',
         minutes: String(current?.minutes ?? 45),
         type: current?.type ?? 'Strength',
         note: current?.note ?? '',
@@ -450,9 +460,17 @@ function App() {
       setFormError('Add a client first.');
       return;
     }
+    if (modal === 'session' && (!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(form.startTime || '')) && !form.id) {
+      setFormError('Choose a start time to place this session on the calendar.');
+      return;
+    }
+    if (modal === 'session' && form.startTime && !/^([01]\\d|2[0-3]):[0-5]\\d$/.test(form.startTime)) {
+      setFormError('Enter a valid session start time.');
+      return;
+    }
     if (
       modal === 'session' &&
-      (!Number.isFinite(Number(form.minutes)) || Number(form.minutes) < 1)
+      (!Number.isFinite(Number(form.minutes)) || Number(form.minutes) < 1 || Number(form.minutes) > 600)
     ) {
       setFormError('Enter a valid session length.');
       return;
@@ -507,6 +525,7 @@ function App() {
         id: recordId,
         clientId: form.clientId,
         date: form.date,
+        startTime: form.startTime || undefined,
         minutes: Number(form.minutes),
         type: form.type,
         note: form.note.trim(),
@@ -546,7 +565,10 @@ function App() {
         ? next.checkins.map(row => (row.id === form.id ? item : row))
         : [...next.checkins, item];
     }
-    if (await save(next)) setModal(null);
+    if (await save(next)) {
+      setModal(null);
+      if (modal === 'session') setCalendarFocusDate(form.date);
+    }
   }
 
   async function remove(kind: Kind, recordId: string) {
@@ -731,7 +753,7 @@ function App() {
     .filter(item => item.date >= today())
     .sort((a, b) => a.date.localeCompare(b.date));
   const sortedSessions = [...workspace.sessions].sort((a, b) =>
-    b.date.localeCompare(a.date)
+    b.date.localeCompare(a.date) || (b.startTime || '').localeCompare(a.startTime || '')
   );
   const sortedPayments = [...workspace.payments].sort((a, b) =>
     b.due.localeCompare(a.due)
@@ -747,11 +769,12 @@ function App() {
   const remindersToReview = pendingReminders.filter(item => item.due <= todayKey);
   const sessionsToday = upcoming.filter(item => item.date === todayKey);
   const needsAttention = paymentsToReview.length + remindersToReview.length + sessionsToday.length;
+  const selectedClient = workspace.clients.find(item => item.id === selectedClientId);
 
   const action =
     section === 'Overview' || section === 'Clients'
       ? 'client'
-      : section === 'Sessions'
+      : section === 'Calendar' || section === 'Sessions'
         ? 'session'
         : section === 'Memberships'
           ? 'membership'
@@ -763,7 +786,7 @@ function App() {
   const actionLabel =
     section === 'Overview' || section === 'Clients'
       ? 'Add client'
-      : section === 'Sessions'
+      : section === 'Calendar' || section === 'Sessions'
         ? 'Log session'
         : section === 'Memberships'
           ? 'Add membership'
