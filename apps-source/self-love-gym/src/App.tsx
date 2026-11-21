@@ -287,6 +287,7 @@ function App() {
   const [form, setForm] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState('');
   const [search, setSearch] = useState('');
+  const [clientFilter, setClientFilter] = useState<'all' | 'active' | 'paused'>('all');
   const [language, setLanguage] = useState<Language>(() => localStorage.getItem('selflovegym-language') === 'es' ? 'es' : 'en');
   const [moreOpen, setMoreOpen] = useState(false);
 
@@ -739,11 +740,12 @@ function App() {
   const visibleClients = useMemo(
     () =>
       workspace.clients.filter(item =>
+        (clientFilter === 'all' || item.status.toLowerCase() === clientFilter) &&
         `${item.name} ${item.focus}`
           .toLowerCase()
           .includes(search.toLowerCase())
       ),
-    [workspace.clients, search]
+    [workspace.clients, search, clientFilter]
   );
   const due = workspace.payments.filter(item => item.status === 'Due');
   const dueTotal = due.reduce((sum, item) => sum + item.amount, 0);
@@ -1232,6 +1234,17 @@ function App() {
                         <ArrowDownToLine size={17} /> Export CSV
                       </button>
                     </div>
+                  </div>
+                  <div className="coach-client-filter" role="group" aria-label={language === 'es' ? 'Filtrar clientes por estado' : 'Filter clients by status'}>
+                    {(['all', 'active', 'paused'] as const).map(value => (
+                      <button type="button" key={value} aria-pressed={clientFilter === value}
+                        className={clientFilter === value ? 'active' : ''}
+                        onClick={() => setClientFilter(value)}>
+                        {value === 'all' ? (language === 'es' ? 'Todos' : 'All')
+                          : value === 'active' ? (language === 'es' ? 'Activos' : 'Active')
+                          : (language === 'es' ? 'En pausa' : 'Paused')}
+                      </button>
+                    ))}
                   </div>
                   {visibleClients.length ? (
                     visibleClients.map(item => (
