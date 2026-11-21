@@ -1179,7 +1179,32 @@ function App() {
                 </>
               )}
 
-              {section === 'Clients' && (
+              {section === 'Calendar' && (
+                <CoachCalendar
+                  language={language}
+                  sessions={workspace.sessions}
+                  clients={workspace.clients}
+                  focusDate={calendarFocusDate}
+                  onNewSession={date => openModal('session', undefined, undefined, date)}
+                  onEditSession={item => openModal('session', item)}
+                  onOpenClient={id => { navigate('Clients'); setSelectedClientId(id); }}
+                />
+              )}
+
+              {section === 'Clients' && (selectedClient ? (
+                <ClientProfile
+                  language={language}
+                  client={selectedClient}
+                  sessions={workspace.sessions.filter(item => item.clientId === selectedClient.id)}
+                  payments={workspace.payments.filter(item => item.clientId === selectedClient.id)}
+                  memberships={workspace.memberships.filter(item => item.clientId === selectedClient.id)}
+                  checkins={workspace.checkins.filter(item => item.clientId === selectedClient.id)}
+                  onBack={() => setSelectedClientId(null)}
+                  onEdit={() => openModal('client', selectedClient)}
+                  onNewSession={() => openModal('session', undefined, selectedClient.id)}
+                  onOpenCalendar={date => { setCalendarFocusDate(date); navigate('Calendar'); }}
+                />
+              ) : (
                 <section className="panel list-panel">
                   <div className="list-toolbar">
                     <div>
@@ -1224,6 +1249,9 @@ function App() {
                             {item.focus || 'No focus added'} · Check-in{' '}
                             {item.checkInDay}
                           </span>
+                          <button type="button" className="coach-profile-link" onClick={() => setSelectedClientId(item.id)}>
+                            {language === 'es' ? 'Ver ficha' : 'View profile'} <ArrowRight size={14}/>
+                          </button>
                         </div>
                         <span
                           className={`badge ${item.status === 'Active' ? 'green' : 'muted'}`}
@@ -1254,7 +1282,7 @@ function App() {
                     </div>
                   )}
                 </section>
-              )}
+              ))}
 
               {section === 'Sessions' && (
                 <section className="panel list-panel">
@@ -1276,7 +1304,7 @@ function App() {
                         <div className="record-main">
                           <strong>{clientName(item.clientId)}</strong>
                           <span>
-                            {item.type} · {item.minutes} minutes
+                            {formatStart(item.startTime, language)} · {item.type} · {item.minutes} minutes
                             {item.note ? ` · ${item.note}` : ''}
                           </span>
                         </div>
@@ -1523,9 +1551,9 @@ function App() {
         )}
       </main>
 
-      {moreOpen && <div className="more-menu" role="menu" aria-label={language === 'es' ? 'Otras secciones' : 'More sections'}>{nav.filter(item => ['Memberships', 'Messages', 'Check-ins', 'Settings'].includes(item.name)).map(({ name, Icon }) => <button key={name} role="menuitem" onClick={() => navigate(name)}><Icon size={18} />{language === 'es' ? ({ Memberships: 'Membresías', Messages: 'Mensajes', 'Check-ins': 'Seguimientos', Settings: 'Ajustes' } as Record<string, string>)[name] : name}</button>)}</div>}
+      {moreOpen && <div className="more-menu" role="menu" aria-label={language === 'es' ? 'Otras secciones' : 'More sections'}>{nav.filter(item => ['Sessions', 'Memberships', 'Messages', 'Check-ins', 'Settings'].includes(item.name)).map(({ name, Icon }) => <button key={name} role="menuitem" onClick={() => navigate(name)}><Icon size={18} />{language === 'es' ? ({ Sessions: 'Sesiones', Memberships: 'Membresías', Messages: 'Mensajes', 'Check-ins': 'Seguimientos', Settings: 'Ajustes' } as Record<string, string>)[name] : name}</button>)}</div>}
       <nav className="bottom-nav" aria-label="Mobile navigation">
-        {nav.filter(item => ['Overview', 'Clients', 'Sessions', 'Payments'].includes(item.name)).map(({ name, Icon }) => (
+        {nav.filter(item => ['Overview', 'Clients', 'Calendar', 'Payments'].includes(item.name)).map(({ name, Icon }) => (
           <button
             key={name}
             className={section === name ? 'active' : ''}
@@ -1535,7 +1563,7 @@ function App() {
             <span>{name}</span>
           </button>
         ))}
-        <button className={moreOpen || ['Memberships', 'Messages', 'Check-ins', 'Settings'].includes(section) ? 'active' : ''} onClick={() => setMoreOpen(value => !value)} aria-expanded={moreOpen} aria-label={language === 'es' ? 'Más secciones' : 'More sections'}><MoreHorizontal size={20} /><span>{language === 'es' ? 'Más' : 'More'}</span></button>
+        <button className={moreOpen || ['Sessions', 'Memberships', 'Messages', 'Check-ins', 'Settings'].includes(section) ? 'active' : ''} onClick={() => setMoreOpen(value => !value)} aria-expanded={moreOpen} aria-label={language === 'es' ? 'Más secciones' : 'More sections'}><MoreHorizontal size={20} /><span>{language === 'es' ? 'Más' : 'More'}</span></button>
       </nav>
 
       {modal && (
