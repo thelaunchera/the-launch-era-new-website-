@@ -205,12 +205,92 @@ body{background:var(--canvas)}
 .demo-holder{height:calc(100% - 104px)}
 }
 @media(max-width:365px){.hero h1{font-size:42px}}
+
+
+/* Self Love Gym / Warm analogous pink campaign
+   Reference palette: creamy ivory, blush, cherry pink, citrus orange and sun yellow.
+   Preserves the minimal image-first layout and the separate free/paid funnels. */
+:root{
+  --ink:#191919;
+  --paper:#FAF6EF;
+  --canvas:#FAF6EF;
+  --rose:#F7D8E1;
+  --hot:#DC4178;
+  --blush:#F1C7D4;
+  --berry:#8E123F;
+  --cherry:#D93735;
+  --orange:#EE8C33;
+  --sun:#F3D748;
+  --line:#E7D7D7;
+  --muted:#6E5960;
+}
+body{background:var(--canvas);color:var(--ink)}
+.header{background:rgba(250,246,239,.97);color:var(--ink);border-bottom:1px solid #e9ded7}
+.header:after{content:"";position:absolute;bottom:-3px;left:0;right:0;height:3px;background:linear-gradient(90deg,#F3D748 0 24%,#EE8C33 24% 48%,#D93735 48% 72%,#DC4178 72% 100%)}
+.logo,.nav>a{color:var(--ink)}
+.logo-symbol{border-color:var(--ink);color:var(--ink)}
+.logo em{color:var(--hot);font:inherit;font-style:normal}
+.nav>a:hover{color:var(--berry)}
+.lang{border-color:#d9c5c8;background:#fffaf8}
+.lang button{color:#452a32}
+.lang button[aria-pressed=true]{background:var(--berry);color:#fff}
+.hero{background:var(--canvas)}
+.hero-content{background:var(--canvas)}
+.hero .kicker{color:var(--berry)}
+.hero h1{color:var(--ink)}
+.hero h1 strong{color:var(--hot);background:linear-gradient(104deg,#8E123F 2%,#D93735 44%,#DC4178 84%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero .intro{color:#594c4b}
+.hero .price-note{color:var(--berry)}
+.hero .btn.light{background:var(--berry);border-color:var(--berry);color:#fff}
+.hero .btn.light:hover{background:#67102e}
+.hero .btn.outline-light{background:#fffaf7;color:var(--berry);border-color:#a66c7e}
+.hero .btn.outline-light:hover{background:#f7d8e1}
+.btn{border-radius:11px}
+.section{border-color:var(--line)}
+#free-app{background:linear-gradient(180deg,#FFF9EE 0%,#FAF6EF 100%);}
+#free-app .label{color:var(--berry)}
+#free-app .feature h2 i{color:var(--hot)}
+#free-app .btn{background:#191919;border-color:#191919;color:#fff}
+#free-app .btn:hover{background:var(--berry);border-color:var(--berry)}
+#free-app .feature-image{background:#F6E9E7}
+.coach{background:#4B122B;color:#fff}
+.coach .kicker{color:#FFD0D9}
+.coach .feature h2 i{color:#F5A3C2}
+.coach .price{color:#fff}
+.coach .price small{color:#F8C6D8}
+.coach .feature p{color:#F6E8EC}
+.coach .micro{color:#E6C9D1}
+.coach .btn.light{background:#EE87AB;border-color:#EE87AB;color:#3A0A21}
+.coach .btn.light:hover{background:#FAC1D5;border-color:#FAC1D5;color:#3A0A21}
+.coach .btn.outline-light{border-color:#F1BACB;color:#fff;background:transparent}
+.coach .btn.outline-light:hover{background:#6B2944}
+.coach .sign-in{color:#fff}
+.contact{background:radial-gradient(circle at 100% 15%,rgba(243,215,72,.28),transparent 30%),linear-gradient(120deg,#F5CAD8 0%,#F9DFE2 65%,#FFE8CC 100%);color:var(--ink)}
+.contact .kicker{color:#8E123F}
+.contact h2{color:var(--ink)}
+.contact h2 i{color:var(--berry)}
+.contact p{color:#5B4148}
+.contact .btn{background:var(--berry);border-color:var(--berry);color:#fff}
+.contact .btn:hover{background:#61102c}
+.footer{background:var(--ink);color:#fff4f4}
+.footer-content a{color:#F9D5E0}
+.demo-bar{background:#4B122B;color:#fff}
+.demo-brand small{color:#FFC3D5}
+.demo-guide{background:#FFF1E8;color:#77354D}
+.demo-controls button{background:#F8C8D8;color:#4B122B}
+.demo-loading{background:#FFF9F7;color:#7A3351}
+@media(max-width:720px){
+.header{background:rgba(250,246,239,.98)}
+.hero .btn.light{background:var(--berry);border-color:var(--berry)}
+.contact{background:linear-gradient(125deg,#F5CBD9,#FFE9D8)}
+}
+
 </style>
 </head>
 <body>
 <a class="skip" href="#main" data-en="Skip to content" data-es="Ir al contenido">Skip to content</a>
 <header class="header"><div class="shell header-inner">
-<a class="logo" href="#top" aria-label="Self Love Gym"><span class="logo-symbol">SL</span><span>SELF LOVE GYM</span></a>
+<a class="logo" href="#top" aria-label="Self Love Gym"><span class="logo-symbol">SL</span><span>SELF LOVE <em>GYM</em></span></a>
 <nav class="nav" aria-label="Navigation">
 <a href="#free-app" data-en="Free workouts" data-es="Ejercicios gratis">Free workouts</a>
 <a href="#coach" data-en="Coach Desk" data-es="Coach Desk">Coach Desk</a>
