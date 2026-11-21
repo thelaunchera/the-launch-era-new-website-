@@ -246,7 +246,7 @@ function translate(source: string): string {
 }
 
 export function translateUi(root: HTMLElement, language: Language) {
-  document.documentElement.lang = language === 'es' ? 'es-419' : 'en';
+  document.documentElement.lang = language === 'es' ? 'es' : 'en';
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let node: Node | null;
   while ((node = walker.nextNode())) {
