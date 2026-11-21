@@ -335,6 +335,7 @@ function App() {
   const [clientFilter, setClientFilter] = useState<'all' | 'active' | 'paused'>('all');
   const [language, setLanguage] = useState<Language>(() => localStorage.getItem('selflovegym-language') === 'es' ? 'es' : 'en');
   const [moreOpen, setMoreOpen] = useState(false);
+  const [copiedPaymentLink, setCopiedPaymentLink] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.setItem('selflovegym-language', language);
@@ -1394,36 +1395,53 @@ function App() {
 
               {section === 'Memberships' && (
                 <>
-                  <section className="stripe-connection-panel" aria-label={language === 'es' ? 'Cobros online con Stripe' : 'Stripe online payments'}>
+                  <section className="stripe-connection-panel" aria-label={language === 'es' ? 'Cobrar con Stripe' : 'Collect payments with Stripe'}>
                     <div className="stripe-connection-summary">
                       <div>
-                        <span className="eyebrow">{language === 'es' ? 'COBROS ONLINE' : 'ONLINE PAYMENTS'}</span>
-                        <h2>{language === 'es' ? 'Stripe de tu negocio' : 'Your business Stripe account'}</h2>
+                        <span className="eyebrow">{language === 'es' ? 'MEMBRESÍAS ONLINE' : 'ONLINE MEMBERSHIPS'}</span>
+                        <h2>{language === 'es' ? 'Cobra con tu enlace de Stripe' : 'Get paid with your Stripe link'}</h2>
                         <p>{language === 'es'
-                          ? 'La suscripción a Coach Desk es independiente de los cobros que recibes de tus clientes. Actualmente puedes guardar enlaces de pago creados en tu propia cuenta de Stripe.'
-                          : 'Your Coach Desk subscription is separate from the payments you collect from clients. You can currently save payment links created in your own Stripe account.'}</p>
+                          ? 'Crea un enlace de suscripción recurrente en tu propia cuenta de Stripe, pégalo en la membresía y compártelo con tu cliente. Stripe realizará los cobros recurrentes y enviará tus fondos a la cuenta bancaria que tengas configurada en Stripe.'
+                          : 'Create a recurring subscription link in your own Stripe account, paste it into a membership and share it with your client. Stripe will handle recurring charges and pay out to the bank account configured in your Stripe account.'}</p>
                       </div>
-                      <span className="stripe-connection-status"><CircleDollarSign size={16}/>{language === 'es' ? 'Conexión directa no disponible' : 'Direct connection not available'}</span>
+                      <span className="stripe-connection-status"><Check size={16}/>{language === 'es' ? 'Cobros por enlace disponibles' : 'Payment Links supported'}</span>
+                    </div>
+                    <div className="stripe-manual-actions stripe-primary-actions">
+                      <button type="button" className="primary-button" onClick={() => openModal('membership')} disabled={!workspace.clients.length}>
+                        {language === 'es' ? 'Añadir enlace a una membresía' : 'Add link to a membership'} <Plus size={16}/>
+                      </button>
+                      <a className="secondary-button" href="https://dashboard.stripe.com/payment-links/create/standard-pricing" target="_blank" rel="noopener noreferrer">
+                        {language === 'es' ? 'Crear enlace en Stripe' : 'Create link in Stripe'} <ExternalLink size={16}/>
+                      </a>
                     </div>
                     <details className="stripe-manual-details">
-                      <summary>{language === 'es' ? 'Usar enlaces de Stripe (opción manual)' : 'Use Stripe Payment Links (manual option)'} <ChevronRight size={17}/></summary>
+                      <summary>{language === 'es' ? 'Cómo funcionan los cobros' : 'How payments work'} <ChevronRight size={17}/></summary>
                       <div className="stripe-manual-body">
                         <p>{language === 'es'
-                          ? 'Si ya tienes Stripe, crea allí tu enlace de pago recurrente y pégalo al añadir una membresía. Si todavía no tienes Stripe, tendrás que configurar tu cuenta de negocio directamente en Stripe. Comprueba que el enlace sea de tu propia cuenta de Stripe. Coach Desk no solicita datos bancarios, no verifica a quién pertenece un enlace ni confirma automáticamente los pagos.'
-                          : 'If you already have Stripe, create a recurring payment link there and paste it when adding a membership. If you do not have Stripe yet, set up your business account directly with Stripe. Make sure the link belongs to your own Stripe account. Coach Desk never requests bank details, verifies link ownership or automatically confirms payments.'}</p>
-                        <div className="stripe-manual-actions">
-                          <a className="secondary-button" href="https://dashboard.stripe.com/payment-links" target="_blank" rel="noopener noreferrer">{language === 'es' ? 'Abrir Stripe' : 'Open Stripe'} <ExternalLink size={16}/></a>
-                          <button type="button" className="primary-button" onClick={() => openModal('membership')} disabled={!workspace.clients.length}>{language === 'es' ? 'Añadir membresía' : 'Add membership'} <Plus size={16}/></button>
-                        </div>
+                          ? 'El enlace debe pertenecer a tu cuenta de Stripe y usar un precio recurrente (semanal o mensual), no un cobro único. El cliente paga en una página segura de Stripe. El cobro, las renovaciones y las transferencias se administran en Stripe. Coach Desk guarda y comparte el enlace, pero no verifica pagos ni conecta directamente cuentas bancarias.'
+                          : 'The link must belong to your Stripe account and use a recurring weekly or monthly price, not a one-time price. Your client pays on Stripe’s secure checkout page. Stripe manages the payment, renewals and payouts. Coach Desk stores and shares the link but does not verify charges or directly connect bank accounts.'}</p>
                       </div>
                     </details>
                   </section>
-                  <section className="panel list-panel"><div className="list-toolbar"><div><span className="eyebrow">YOUR PLANS</span><h2>Client memberships</h2></div><span className="helper">Online charges and payouts are checked in Stripe</span></div>
+                  <section className="panel list-panel"><div className="list-toolbar"><div><span className="eyebrow">YOUR PLANS</span><h2>Client memberships</h2></div><span className="helper">{language === 'es' ? 'Los pagos se reciben directamente en tu Stripe' : 'Payments go directly to your Stripe account'}</span></div>
                     {sortedMemberships.length ? sortedMemberships.map(item => {
                       const client = workspace.clients.find(row => row.id === item.clientId);
                       return <div className="record-row" key={item.id}><div className="record-icon lavender"><CreditCard size={20} /></div><div className="record-main"><strong>{item.name} · {client?.name ?? 'Client'}</strong><span>{money(item.amount)} / {item.interval.toLowerCase()} · Next review {prettyDate(item.nextDue, language)} · {item.status}</span></div>
                         <div className="row-actions membership-actions">
-                          {item.paymentLink && mode === 'account' ? <><a href={item.paymentLink} target="_blank" rel="noopener noreferrer">Open checkout</a><button onClick={() => client && compose(client, `Hi ${client.name.split(' ')[0]}! Here is the link for your ${item.name} membership: ${item.paymentLink}`, `${item.name} membership`)}>Open email draft</button><button onClick={() => client && compose(client, `Hi ${client.name.split(' ')[0]}! Here is your ${item.name} membership link: ${item.paymentLink}`, '', 'sms')}>Open SMS draft</button></> : <span className="helper">{mode === 'demo' ? 'Preview only' : 'Add Stripe link'}</span>}
+                          {item.paymentLink && mode === 'account' ? <>
+                            <a href={item.paymentLink} target="_blank" rel="noopener noreferrer">{language === 'es' ? 'Abrir cobro' : 'Open checkout'}</a>
+                            <button type="button" onClick={async () => {
+                              try {
+                                await navigator.clipboard.writeText(item.paymentLink);
+                                setCopiedPaymentLink(item.id);
+                              } catch {
+                                setErrorMessage(language === 'es' ? 'No se pudo copiar. Abre el enlace y cópialo desde Stripe.' : 'Could not copy. Open the link and copy it from Stripe.');
+                              }
+                            }}>{copiedPaymentLink === item.id ? (language === 'es' ? 'Copiado ✓' : 'Copied ✓') : (language === 'es' ? 'Copiar enlace' : 'Copy link')}</button>
+                            <button type="button" onClick={() => client && compose(client, `Hi ${client.name.split(' ')[0]}! Here is the link for your ${item.name} membership: ${item.paymentLink}`, `${item.name} membership`)}>{language === 'es' ? 'Enviar correo' : 'Email link'}</button>
+                            <button type="button" onClick={() => client && compose(client, `Hi ${client.name.split(' ')[0]}! Here is your ${item.name} membership link: ${item.paymentLink}`, '', 'sms')}>{language === 'es' ? 'Enviar SMS' : 'Text link'}</button>
+                          </> : mode === 'demo' ? <span className="helper">{language === 'es' ? 'Vista de prueba' : 'Preview only'}</span>
+                          : <button type="button" onClick={() => openModal('membership', item)}>{language === 'es' ? 'Pegar enlace de cobro' : 'Add payment link'}</button>}
                           <button onClick={() => openModal('membership', item)}>Edit</button><button onClick={() => void remove('membership', item.id)} aria-label="Delete membership"><Trash2 size={17} /></button>
                         </div></div>;
                     }) : <div className="empty-large">Create the first membership for a client.</div>}
@@ -1873,7 +1891,7 @@ function App() {
                       </p>
                     </>
                   )}
-                  {modal === 'membership' && <><label>Membership name<input maxLength={80} value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} placeholder="e.g. Strong Start" required /></label><div className="form-grid"><label>Price (USD)<input type="number" step="0.01" min="0.01" max="100000" value={form.amount} onChange={event => setForm({ ...form, amount: event.target.value })} required /></label><label>Frequency<select value={form.interval} onChange={event => setForm({ ...form, interval: event.target.value })}><option>Monthly</option><option>Weekly</option></select></label></div><div className="form-grid"><label>Next review date<input type="date" value={form.nextDue} onChange={event => setForm({ ...form, nextDue: event.target.value })} required /></label><label>Status<select value={form.status} onChange={event => setForm({ ...form, status: event.target.value })}><option>Active</option><option>Paused</option></select></label></div><label>Stripe Payment Link (optional, manual)<input type="url" maxLength={500} value={form.paymentLink} onChange={event => setForm({ ...form, paymentLink: event.target.value })} placeholder="https://buy.stripe.com/..." /></label><p className="form-hint">Optional: paste a recurring payment link created in your Stripe account. This app does not connect Stripe, verify charges, move funds or cancel subscriptions.</p></>}
+                  {modal === 'membership' && <><label>Membership name<input maxLength={80} value={form.name} onChange={event => setForm({ ...form, name: event.target.value })} placeholder="e.g. Strong Start" required /></label><div className="form-grid"><label>Price (USD)<input type="number" step="0.01" min="0.01" max="100000" value={form.amount} onChange={event => setForm({ ...form, amount: event.target.value })} required /></label><label>Frequency<select value={form.interval} onChange={event => setForm({ ...form, interval: event.target.value })}><option>Monthly</option><option>Weekly</option></select></label></div><div className="form-grid"><label>Next review date<input type="date" value={form.nextDue} onChange={event => setForm({ ...form, nextDue: event.target.value })} required /></label><label>Status<select value={form.status} onChange={event => setForm({ ...form, status: event.target.value })}><option>Active</option><option>Paused</option></select></label></div><label>Stripe Payment Link (recurring subscription)<input type="url" maxLength={500} value={form.paymentLink} onChange={event => setForm({ ...form, paymentLink: event.target.value })} placeholder="https://buy.stripe.com/..." /></label><p className="form-hint">Paste a recurring subscription link from your own Stripe account. When clients pay, Stripe charges them and pays out to your configured bank. Coach Desk does not verify payments automatically.</p></>}
                   {modal === 'reminder' && <><label>Subject<input maxLength={100} value={form.subject} onChange={event => setForm({ ...form, subject: event.target.value })} placeholder="e.g. Session tomorrow" required /></label><label>Message<textarea maxLength={1000} value={form.message} onChange={event => setForm({ ...form, message: event.target.value })} placeholder="Write a personal note..." required /></label><label>Remind me on<input type="date" value={form.due} onChange={event => setForm({ ...form, due: event.target.value })} required /></label><label>Status<select value={form.status} onChange={event => setForm({ ...form, status: event.target.value })}><option>Pending</option><option>Done</option></select></label><p className="form-hint">Appears in your reminder list. You must open the email or text composer and send it yourself.</p></>}
                   {modal === 'checkin' && (
                     <>
