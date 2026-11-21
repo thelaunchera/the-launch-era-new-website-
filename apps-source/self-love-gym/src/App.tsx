@@ -1318,7 +1318,7 @@ function App() {
                       <span>{item.email}</span>
                       <button type="button" onClick={async () => { try { await ownerAccess.revoke(item.email); setInvites(await ownerAccess.listInvites()); setInviteNotice(language === 'es' ? 'Acceso revocado' : 'Access revoked'); } catch (cause) { setInviteNotice(cause instanceof Error ? cause.message : 'Could not revoke access'); } }}>{language === 'es' ? 'Revocar' : 'Revoke'}</button>
                     </div>)}
-                  </section>
+                  </section>}
                   <section className="panel settings-panel">
                     <span className="eyebrow">{language === 'es' ? 'IDIOMA' : 'LANGUAGE'}</span>
                     <h2>{language === 'es' ? 'Elige cómo quieres ver la app' : 'Choose your language'}</h2>
