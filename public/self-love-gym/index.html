@@ -285,6 +285,34 @@ body{background:var(--canvas);color:var(--ink)}
 .contact{background:linear-gradient(125deg,#F5CBD9,#FFE9D8)}
 }
 
+
+/* Contact inquiries — light modal, opened only when the contact CTA is pressed. */
+.contact-dialog{width:min(650px,calc(100vw - 24px));max-width:none;max-height:min(92dvh,940px);padding:clamp(22px,4vw,43px);overflow:auto;background:#faf6ef;border:1px solid #e4d0d5;border-radius:19px;box-shadow:0 30px 90px #1a0a1450;color:#20171d}
+.contact-dialog::backdrop{background:#1b1117c9;backdrop-filter:blur(4px)}
+.contact-modal-head{display:flex;justify-content:space-between;align-items:start;gap:20px}
+.contact-modal-head h2{font:400 clamp(42px,6vw,63px)/1 "Anton",Impact,sans-serif;letter-spacing:0;margin:10px 0}
+.contact-modal-head h2 i{font:400 italic 1.05em "Instrument Serif",serif;color:#b6376e}
+.contact-modal-head button{width:39px;height:39px;border:1px solid #bdabb1;border-radius:50%;background:white;font-weight:800}
+.contact-form-intro{font-size:13px;color:#6a535d;line-height:1.8;max-width:480px;margin:0 0 25px}
+.contact-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.contact-field{display:grid;gap:8px;margin-bottom:15px}
+.contact-field>span{font-size:10px;letter-spacing:.08em;font-weight:800}
+.contact-field input,.contact-field select,.contact-field textarea{width:100%;background:#fff;border:1px solid #d9cbd0;color:#271e22;border-radius:10px;padding:12px 13px;min-height:46px;font:500 13px "DM Sans",sans-serif;outline:none}
+.contact-field textarea{resize:vertical;min-height:123px}
+.contact-field input:focus,.contact-field select:focus,.contact-field textarea:focus{border-color:#bd3f70;box-shadow:0 0 0 3px #f0d0dc}
+.contact-form-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.contact-form-actions .btn{background:#8e123f;color:white;border-color:#8e123f}
+.contact-form-help{font-size:11px;color:#7e6e73}
+#contact-feedback{font-size:12px;font-weight:700;min-height:0;margin:13px 0 0;color:#6e2c4c}
+#contact-feedback:empty{display:none}
+.contact-fallback{display:block;margin-top:19px;color:#83717a;font-size:11px}
+.contact-fallback a{color:#84304e;text-underline-offset:3px}
+.contact-trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media(max-width:600px){.contact-dialog{width:calc(100vw - 18px);max-height:94dvh;padding:22px 18px;border-radius:15px}
+.contact-two{grid-template-columns:1fr;gap:0}
+.contact-modal-head h2{font-size:48px}
+.contact-form-actions{display:grid}.contact-form-actions .btn{width:100%}
+}
 </style>
 </head>
 <body>
@@ -337,13 +365,37 @@ body{background:var(--canvas);color:var(--ink)}
 <div class="kicker" data-en="QUESTIONS?" data-es="¿PREGUNTAS?">QUESTIONS?</div>
 <h2 data-en="LET'S <i>talk.</i>" data-es="HABLEMOS <i>hoy.</i>">LET'S <i>talk.</i></h2>
 <p data-en="Need help choosing a product, signing in, or managing a subscription? Write to The Launch Era." data-es="¿Necesitas ayuda para elegir una app, entrar a tu cuenta o gestionar tu suscripción? Escríbele a The Launch Era.">Need help choosing a product, signing in, or managing a subscription? Write to The Launch Era.</p>
-<a class="btn" href="mailto:hello@thelaunchera.com?subject=Self%20Love%20Gym%20support" data-en="CONTACT ME" data-es="CONTÁCTAME">CONTACT ME</a>
+<button type="button" class="btn" data-open-contact data-en="CONTACT ME" data-es="CONTÁCTAME">CONTACT ME</button>
 </div>
 <img class="contact-image" src="/self-love-gym/photos/contact.webp" alt="Fitness coach portrait in a minimalist studio" loading="lazy" decoding="async">
 </div></section>
 </main>
 <footer class="footer"><div class="shell footer-content"><span>SELF LOVE GYM · POWERED BY THE LAUNCH ERA</span>
 <div><a href="https://thelaunchera.com/apps/self-love-gym/terms.html" target="_blank" rel="noopener" data-en="Terms" data-es="Términos">Terms</a><a href="https://thelaunchera.com/apps/self-love-gym/privacy.html" target="_blank" rel="noopener" data-en="Privacy" data-es="Privacidad">Privacy</a><a href="mailto:hello@thelaunchera.com" data-en="Support" data-es="Ayuda">Support</a></div></div></footer>
+<dialog class="contact-dialog" id="contact-dialog" aria-label="Contact Self Love Gym">
+<div class="contact-modal-head"><div><span class="kicker" data-en="SELF LOVE GYM / CONTACT" data-es="SELF LOVE GYM / CONTACTO">SELF LOVE GYM / CONTACT</span><h2 data-en="LET'S <i>talk.</i>" data-es="HABLEMOS <i>hoy.</i>">LET'S <i>talk.</i></h2></div>
+<button type="button" id="close-contact" aria-label="Close contact form">X</button></div>
+<p class="contact-form-intro" data-en="Questions about the free workouts, Coach Desk or billing? Send us a message. Your inquiry goes to our private Studio." data-es="¿Tienes preguntas sobre los ejercicios gratis, Coach Desk o los pagos? Envíanos un mensaje. Tu consulta llega a nuestro Studio privado.">Questions about the free workouts, Coach Desk or billing? Send us a message. Your inquiry goes to our private Studio.</p>
+<form id="slg-contact-form" autocomplete="on">
+<div class="contact-two">
+<label class="contact-field"><span data-en="YOUR NAME" data-es="TU NOMBRE">YOUR NAME</span><input name="name" type="text" maxlength="120" minlength="2" autocomplete="name" required></label>
+<label class="contact-field"><span data-en="EMAIL" data-es="CORREO">EMAIL</span><input name="email" type="email" maxlength="180" autocomplete="email" required></label></div>
+<div class="contact-two">
+<label class="contact-field"><span data-en="PHONE (OPTIONAL)" data-es="TELÉFONO (OPCIONAL)">PHONE (OPTIONAL)</span><input name="phone" type="tel" maxlength="50" autocomplete="tel"></label>
+<label class="contact-field"><span data-en="WHAT CAN WE HELP WITH?" data-es="¿EN QUÉ PODEMOS AYUDARTE?">WHAT CAN WE HELP WITH?</span>
+<select name="topic" required><option value="general" data-en="General question" data-es="Consulta general">General question</option>
+<option value="free_workout" data-en="Free workout app" data-es="App de ejercicios gratis">Free workout app</option>
+<option value="coach_desk" data-en="Coach Desk" data-es="Coach Desk">Coach Desk</option>
+<option value="billing" data-en="Billing / subscription" data-es="Pagos / suscripción">Billing / subscription</option>
+<option value="other" data-en="Something else" data-es="Otro tema">Something else</option></select></label></div>
+<label class="contact-field"><span data-en="YOUR MESSAGE" data-es="TU MENSAJE">YOUR MESSAGE</span><textarea name="message" rows="4" minlength="10" maxlength="2500" required data-en-placeholder="Tell us how we can help..." data-es-placeholder="Cuéntanos cómo podemos ayudarte..." placeholder="Tell us how we can help..."></textarea></label>
+<div class="contact-trap" aria-hidden="true"><label>Website <input tabindex="-1" autocomplete="off" type="text" name="website"></label></div>
+<div class="contact-form-actions"><button type="submit" class="btn" id="contact-submit" data-en="SEND MY MESSAGE" data-es="ENVIAR MENSAJE">SEND MY MESSAGE</button>
+<span class="contact-form-help" data-en="We'll reply to your email." data-es="Te responderemos por correo.">We'll reply to your email.</span></div>
+<p id="contact-feedback" role="status" aria-live="polite"></p>
+<small class="contact-fallback"><span data-en="Form not working? You can also" data-es="¿No funciona el formulario? También puedes">Form not working? You can also</span> <a href="mailto:hello@thelaunchera.com?subject=Self%20Love%20Gym%20inquiry" data-en="email us directly." data-es="escribirnos por correo.">email us directly.</a></small>
+</form>
+</dialog>
 <dialog class="demo-dialog" id="coach-demo-dialog" aria-label="Coach Desk interactive sample" aria-modal="true">
 <div class="demo-bar"><div class="demo-brand"><strong>SELF LOVE GYM / COACH DESK</strong><small data-en="INTERACTIVE PREVIEW · SAMPLE DATA" data-es="DEMO INTERACTIVO · DATOS FICTICIOS">INTERACTIVE PREVIEW · SAMPLE DATA</small></div><div class="demo-controls">
 <a href="https://thelaunchera.com/apps/self-love-gym/?demo=1" target="_blank" rel="noopener" data-en="FULL SCREEN" data-es="PANTALLA COMPLETA">FULL SCREEN</a>
@@ -352,7 +404,7 @@ body{background:var(--canvas);color:var(--ink)}
 <script>
 (function(){
 let lang="en";
-function setLanguage(v){lang=v;document.documentElement.lang=v;document.querySelectorAll("[data-en][data-es]").forEach(el=>{el.innerHTML=el.getAttribute("data-"+v)});document.querySelectorAll("[data-language]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.language===v)));try{localStorage.setItem("slg-site-lang",v)}catch(_){}}
+function setLanguage(v){lang=v;document.documentElement.lang=v;document.querySelectorAll("[data-en][data-es]").forEach(el=>{el.innerHTML=el.getAttribute("data-"+v)});document.querySelectorAll("[data-language]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.language===v)));document.querySelectorAll("[data-en-placeholder][data-es-placeholder]").forEach(el=>el.setAttribute("placeholder",el.getAttribute("data-"+v+"-placeholder")));try{localStorage.setItem("slg-site-lang",v)}catch(_){}}
 document.querySelectorAll("[data-language]").forEach(b=>b.addEventListener("click",()=>setLanguage(b.dataset.language)));
 try{if(localStorage.getItem("slg-site-lang")==="es")setLanguage("es")}catch(_){}
 const dialog=document.getElementById("coach-demo-dialog");
@@ -363,6 +415,48 @@ document.querySelectorAll("[data-open-coach-demo]").forEach(b=>b.addEventListene
 document.querySelector("[data-close-coach-demo]").addEventListener("click",()=>dialog.close());
 dialog.addEventListener("close",()=>{holder.querySelector("iframe")?.remove();loading.hidden=false;document.body.classList.remove("demo-open");lastDemoTrigger?.focus()});
 dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
+
+const contactDialog=document.getElementById("contact-dialog");
+const contactForm=document.getElementById("slg-contact-form");
+const feedback=document.getElementById("contact-feedback");
+let contactTrigger=null;
+function openContact(e){contactTrigger=e.currentTarget;feedback.textContent="";
+ if(typeof contactDialog.showModal==="function")contactDialog.showModal();
+ else{document.getElementById("contact").scrollIntoView({behavior:"smooth"});}
+}
+document.querySelectorAll("[data-open-contact]").forEach(b=>b.addEventListener("click",openContact));
+document.getElementById("close-contact").addEventListener("click",()=>contactDialog.close());
+contactDialog.addEventListener("click",e=>{if(e.target===contactDialog)contactDialog.close()});
+contactDialog.addEventListener("close",()=>contactTrigger?.focus());
+contactForm.addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(!contactForm.reportValidity())return;
+ const submit=document.getElementById("contact-submit");
+ submit.disabled=true;
+ feedback.textContent=lang==="es"?"Enviando consulta…":"Sending your inquiry…";
+ const data=new FormData(contactForm);
+ const id=crypto.randomUUID();
+ const payload={
+   submission_id:id,name:String(data.get("name")||"").trim(),
+   email:String(data.get("email")||"").trim(),phone:String(data.get("phone")||"").trim(),
+   topic:String(data.get("topic")||"general"),message:String(data.get("message")||"").trim(),
+   website:String(data.get("website")||""),locale:lang
+ };
+ try{
+   const res=await fetch("https://atrkarecooxkzmpkxrdu.supabase.co/functions/v1/slg-studio-inquiry",{
+     method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)
+   });
+   const out=await res.json().catch(()=>null);
+   if(!res.ok||!out?.ok)throw new Error(res.status===429?"rate_limit":"delivery_failed");
+   contactForm.reset();
+   feedback.textContent=lang==="es"?"Tu consulta llegó a nuestro Studio. Te responderemos por correo.":"Your inquiry reached our Studio. We'll reply by email.";
+ }catch(err){
+   feedback.textContent=err.message==="rate_limit"?
+     (lang==="es"?"Ya recibimos varias consultas de este correo. Intenta de nuevo más tarde.":"Several inquiries were received from this email. Please try again later."):
+     (lang==="es"?"No se pudo enviar. Intenta otra vez o usa el enlace de correo.":"Could not send the message. Please retry or use the email link.");
+ }finally{submit.disabled=false}
+});
+
 })();
 </script>
 </body>
