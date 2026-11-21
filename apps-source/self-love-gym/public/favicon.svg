@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Self Love Gym">
+  <defs>
+    <linearGradient id="blush" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7cfe8"/>
+      <stop offset="1" stop-color="#e8c6f4"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="19" fill="url(#blush)"/>
+  <path d="M10 31a22 22 0 0 1 44 0" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="32" y="42" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="800" letter-spacing="-2" fill="#702b91">SL</text>
+</svg>
