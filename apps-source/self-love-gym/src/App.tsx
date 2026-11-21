@@ -578,7 +578,7 @@ function App() {
         : `this ${kind === 'checkin' ? 'check-in' : kind}`;
     const prompt = language === 'es'
       ? kind === 'client'
-        ? '¿Borrar esta cliente y todas sus sesiones, membresías, pagos, recordatorios y seguimientos? No se puede deshacer.'
+        ? '¿Borrar este cliente y todas sus sesiones, membresías, pagos, recordatorios y seguimientos? No se puede deshacer.'
         : '¿Borrar este registro? No se puede deshacer.'
       : `Delete ${label}? This cannot be undone.`;
     if (!window.confirm(prompt)) return;
@@ -939,7 +939,7 @@ function App() {
               <div className="demo-strip">
                 <span className="demo-dot" />
                 <span>
-                  <strong>{language === 'es' ? 'Demostración interactiva' : 'Interactive preview'}</strong> · {language === 'es' ? 'Explora con clientes ficticias. Los cambios se quedan en tu navegador.' : 'Explore with fictional clients. Changes stay in your browser.'}
+                  <strong>{language === 'es' ? 'Demostración interactiva' : 'Interactive preview'}</strong> · {language === 'es' ? 'Explora con clientes ficticios. Los cambios se quedan en tu navegador.' : 'Explore with fictional clients. Changes stay in your browser.'}
                 </span>
                 <button
                   onClick={() => {
@@ -962,7 +962,7 @@ function App() {
             )}
 
             <div className="content">
-              <div className={section === 'Overview' ? 'page-heading overview-heading' : 'page-heading'}>
+              <div className={section === 'Overview' ? 'page-heading overview-heading' : (section === 'Clients' && selectedClient ? 'page-heading coach-profile-page-title' : 'page-heading')}>
                 <div>
                   <div className="eyebrow">
                     {section === 'Overview'
@@ -972,11 +972,14 @@ function App() {
                   <h1>
                     {section === 'Overview'
                        ? (language === 'es' ? 'Resumen de hoy' : "Today's overview")
+                       : section === 'Calendar' ? (language === 'es' ? 'Calendario de clientes' : 'Client calendar')
                        : section}
                   </h1>
                   <p>
                     {section === 'Overview'
                        ? (language === 'es' ? 'Todo lo importante de tus clientes, en un lugar.' : 'Your clients, sessions and follow-ups in one place.')
+                       : section === 'Calendar'
+                        ? (language === 'es' ? 'Todas las citas de tus clientes, con horarios y detalles.' : 'Every client appointment, time and detail in one calendar.')
                        : section === 'Clients'
                         ? 'Every client, their focus and their next step.'
                         : section === 'Sessions'
@@ -992,7 +995,7 @@ function App() {
                             : 'The conversations that keep your coaching personal.'}
                   </p>
                 </div>
-                {section !== 'Settings' && section !== 'Overview' && <button
+                {section !== 'Settings' && section !== 'Overview' && !(section === 'Clients' && selectedClient) && <button
                   className="primary-button"
                   onClick={() => openModal(action)}
                   disabled={
@@ -1099,14 +1102,14 @@ function App() {
                         </div>
                         <button
                           className="arrow-button"
-                          onClick={() => setSection('Sessions')}
+                          onClick={() => navigate('Calendar')}
                         >
                           View all <ArrowRight size={16} />
                         </button>
                       </div>
                       {upcoming.length ? (
                         upcoming.slice(0, 4).map(item => (
-                          <div className="list-row" key={item.id}>
+                          <button className="list-row coach-upcoming-action" type="button" onClick={() => { setCalendarFocusDate(item.date); navigate('Calendar'); }} key={item.id}>
                             <div className="date-tile">
                               <b>
                                 {new Date(
@@ -1126,11 +1129,11 @@ function App() {
                             <div className="row-main">
                               <strong>{clientName(item.clientId)}</strong>
                               <small>
-                                {item.type} · {item.minutes} min
+                                {formatStart(item.startTime, language)} · {item.type} · {item.minutes} min
                               </small>
                             </div>
                             <ChevronRight size={17} />
-                          </div>
+                          </button>
                         ))
                       ) : (
                         <div className="empty-mini">
