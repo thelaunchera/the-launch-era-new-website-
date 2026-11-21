@@ -557,6 +557,7 @@ function App() {
         if (!response.session) {
           setAuthNotice(language === 'es' ? 'Revisa tu correo para confirmar tu cuenta. Después inicia sesión.' : 'Check your email to confirm your account, then sign in.');
           setCreatingAccount(false);
+          setLoginPassword('');
           return;
         }
       } else {
@@ -567,7 +568,7 @@ function App() {
     } catch (cause) {
       const message = cause instanceof Error ? cause.message : 'Sign-in failed. Please try again.';
       setErrorMessage(!creatingAccount && /invalid login credentials/i.test(message)
-        ? (language === 'es' ? 'Todavía no tienes una cuenta. Toca «Crear una cuenta nueva» y regístrate primero.' : 'No account found with those credentials. Select “Create a new account” to register first.')
+        ? (language === 'es' ? 'No pudimos iniciar sesión. Si es tu primera vez, toca «Crear una cuenta nueva». Si ya te registraste, revisa o restablece tu contraseña.' : 'Unable to sign in. If this is your first visit, select “Create a new account”. Otherwise, check your password or reset it.')
         : message);
     }
   }
@@ -698,7 +699,7 @@ function App() {
           <div className="brand-mark" style={{ margin: '0 auto 20px' }}><span>SL</span></div>
           <span className="eyebrow">SELF LOVE GYM · COACH DESK</span>
           <h1>{language === 'es' ? 'Tu espacio de entrenamiento, organizado.' : 'Your coaching space, beautifully organized.'}</h1>
-          <p>{creatingAccount ? (language === 'es' ? 'Crea tu cuenta privada. Solo los correos autorizados pueden utilizar el panel.' : 'Create your private account. Only approved email addresses can use the dashboard.') : (language === 'es' ? 'Entra para gestionar clientas, sesiones, membresías y pagos desde un solo lugar.' : 'Sign in to manage clients, sessions, memberships and payments in one place.')}</p>
+          <p>{creatingAccount ? (language === 'es' ? '¿Es tu primera vez? Crea tu cuenta privada y confirma tu correo. Solo las personas autorizadas pueden entrar al panel.' : 'First time here? Create your private account, then confirm your email. Only owner-approved users can open the dashboard.') : (language === 'es' ? 'Entra para gestionar clientas, sesiones, membresías y pagos desde un solo lugar.' : 'Sign in to manage clients, sessions, memberships and payments in one place.')}</p>
           {errorMessage && <p role="alert">{errorMessage}</p>}
           {authNotice && <p role="status">{authNotice}</p>}
           <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
