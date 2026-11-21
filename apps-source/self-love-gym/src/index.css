@@ -1326,3 +1326,142 @@ input, select, textarea { font-size:16px; }
   .dashboard-shortcuts-grid button { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { .attention-row { transition: none; } }
+
+/* Self Love Gym Coach Desk · focused mobile dashboard, November 2026 */
+.topbar-private-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7e6c82;
+  letter-spacing: .025em;
+}
+.account-identity {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  font-weight: 700;
+  color: #5b4763;
+  margin: 0 0 14px;
+}
+.signout-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff !important;
+  border: 1px solid #e7dce9 !important;
+  color: #604c68 !important;
+  min-height: 44px;
+  padding: 11px 15px;
+  box-shadow: none !important;
+}
+.signout-button:hover { background: #faf7fa !important; }
+@media (max-width: 800px) {
+  .topbar { height: 56px; border-bottom: 1px solid #eee5ef; }
+  .topbar-private-label { font-size: 10px; }
+  .bottom-nav {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: 8px 10px max(11px, env(safe-area-inset-bottom));
+    border-top-color: #eadcea;
+    box-shadow: 0 -7px 24px rgba(47,26,53,.06);
+  }
+  .bottom-nav button {
+    min-height: 54px;
+    justify-content: center;
+    align-content: center;
+    font-size: 10px;
+    font-weight: 750;
+    color: #a081a6;
+    border-radius: 12px;
+  }
+  .bottom-nav button.active {
+    color: #71378c;
+    background: #f7eff9;
+  }
+  .bottom-nav button svg { width: 21px; height: 21px; }
+  .more-menu {
+    width: min(270px, calc(100vw - 24px));
+    bottom: calc(76px + env(safe-area-inset-bottom));
+    right: 12px;
+    z-index: 8;
+    padding: 10px;
+    gap: 3px;
+    border-radius: 18px;
+  }
+  .more-menu button { min-height: 48px; font-size: 13px; }
+  .page-heading { align-items: center; }
+  .overview-heading {
+    display: block;
+    margin-bottom: 16px;
+  }
+  .overview-heading h1 {
+    font-size: clamp(24px, 5.6vw, 30px);
+    letter-spacing: -.055em;
+    margin: 4px 0 4px;
+  }
+  .overview-heading p { color: #7e7084; font-size: 12px; line-height: 1.5; }
+  .overview-heading .eyebrow { color: #a273b0; }
+  .action-center {
+    border-radius: 18px;
+    padding: 16px 17px 15px;
+    margin-bottom: 15px;
+    background: #fff;
+  }
+  .action-center-heading { padding: 0 0 11px; }
+  .action-center-heading h2 { font-size: 17px; }
+  .attention-count {
+    height: 32px; flex-basis: 32px;
+    border-radius: 10px; font-size: 13px;
+  }
+  .attention-row { min-height: 60px; padding: 9px 10px; }
+  .attention-icon { flex-basis: 36px; height: 36px; }
+  .attention-icon svg { width: 18px; height: 18px; }
+  .attention-details strong { font-size: 12px; }
+  .attention-details small { font-size: 10px; }
+  .dashboard-shortcuts { margin-bottom: 16px; }
+  .dashboard-shortcuts-grid button {
+    min-height: 64px;
+    border-radius: 13px;
+    box-shadow: none;
+  }
+  .stats {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .stat {
+    min-height: 94px;
+    border-radius: 14px;
+    padding: 12px 13px;
+    box-shadow: none;
+  }
+  .stat > span { font-size: 9px; letter-spacing: .04em; line-height: 1.2; }
+  .stat > div { margin: 6px 0 0; }
+  .stat strong { font-size: 22px; }
+  .stat svg { width: 20px; height: 20px; }
+  .stat small { display: none; }
+}
+@media (max-width: 550px) {
+  .content { padding: 16px 15px calc(95px + env(safe-area-inset-bottom)); }
+  .overview-heading { margin-bottom: 15px; }
+  .overview-heading h1 { font-size: 26px; line-height: 1.12; }
+  .overview-heading p { font-size: 11px; max-width: none; }
+  .overview-heading .eyebrow { font-size: 10px; }
+  .action-center { padding: 15px 12px 13px; margin-bottom: 13px; }
+  .action-center-heading { gap: 7px; }
+  .action-center-heading h2 { font-size: 16px; }
+  .attention-row { gap: 10px; min-height: 58px; }
+  .dashboard-shortcuts-title { margin-bottom: 8px; letter-spacing: .05em; }
+  .dashboard-shortcuts-grid button { min-height: 62px; font-size: 10px; padding: 9px 5px; }
+  .dashboard-shortcuts-grid button svg:first-child { width: 19px; height: 19px; }
+  .stat { min-height: 91px; padding: 12px 11px; }
+  .stat > span { font-size: 9px; }
+  .stat strong { font-size: 21px; }
+  .bottom-nav { gap: 2px; }
+  .bottom-nav button { padding: 5px 0; font-size: 9px; min-height: 52px; }
+  .bottom-nav button svg { width: 21px; height: 21px; }
+}
+@media (max-width: 360px) {
+  .stat > span { font-size: 8px; }
+  .stat strong { font-size: 20px; }
+  .dashboard-shortcuts-grid { gap: 5px; }
+  .dashboard-shortcuts-grid button { font-size: 9px; }
+}
