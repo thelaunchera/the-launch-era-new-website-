@@ -3,7 +3,7 @@
   "brand": "Self Love Gym",
   "updated_at": "2026-11-21",
   "public_landing": "https://thelaunchera.com/self-love-gym/",
-  "public_demo": "https://thelaunchera.com/self-love-gym/#preview",
+  "public_demo": "https://thelaunchera.com/apps/self-love-gym/?demo=1",
   "contact_email": "hello@thelaunchera.com",
   "language_options": [
     "en",
@@ -28,15 +28,19 @@
       "price_usd": 2.99,
       "billing_period": "month",
       "public_app": "https://thelaunchera.com/apps/self-love-gym/",
-      "demo": "https://thelaunchera.com/self-love-gym/#preview",
-      "checkout_url": null,
-      "billing_status": "checkout_not_configured",
-      "purchase_email_matching": "not_yet_enforced",
-      "account_access": "admin_invite_gated",
-      "status": "app_published_checkout_pending"
+      "demo": "https://thelaunchera.com/apps/self-love-gym/?demo=1",
+      "checkout_url": "https://buy.stripe.com/8x23cu32L6Dn0lPgDG93y10",
+      "billing_status": "stripe_live_payment_link_configured",
+      "purchase_email_matching": "enforced_by_supabase_auth_email_and_subscription",
+      "account_access": "paid_subscription_or_owner",
+      "status": "checkout_live_after_deployment_verification",
+      "subscription_price_id": "price_1UeFfsCnlGzKRSIMSwIvk1Y4",
+      "stripe_product_id": "prod_VfarvqZIixQvYy",
+      "stripe_tax_automatic": true,
+      "tax_registration_status": "none_configured"
     }
   ],
-  "studio_note": "Product metadata for Studio integration; this file does not itself synchronize a CRM record or unlock paid access.",
+  "studio_note": "Product metadata for Studio; external Studio CRM sync is separate. Real Stripe checkout & webhook entitlement are configured; automatic tax currently calculates zero in jurisdictions without registered collection obligations.",
   "media": {
     "campaign": "Fitness Editorial",
     "source_folder": "https://drive.google.com/drive/folders/1wui7lyJM3Ax3ASrlJswJgl_NWjD-Cq21",
