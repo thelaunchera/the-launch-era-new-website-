@@ -871,7 +871,7 @@ function App() {
           </span>
           <div className="top-actions">
             <span className="today-tag">{prettyDate(today(), language)}</span>
-            <button className="text-action" onClick={() => void signOut()}><LogOut size={17} /> Sign out</button>
+            <span className="topbar-private-label">{language === 'es' ? 'Espacio privado' : 'Private workspace'}</span>
           </div>
         </header>
 
@@ -907,21 +907,21 @@ function App() {
             )}
 
             <div className="content">
-              <div className="page-heading">
+              <div className={section === 'Overview' ? 'page-heading overview-heading' : 'page-heading'}>
                 <div>
                   <div className="eyebrow">
                     {section === 'Overview'
-                      ? 'YOUR DAY AT A GLANCE'
+                      ? 'COACH DESK'
                       : 'COACHING WORKSPACE'}
                   </div>
                   <h1>
                     {section === 'Overview'
-                       ? (language === 'es' ? 'Tu panel de coaching.' : 'Your coaching dashboard.')
+                       ? (language === 'es' ? 'Resumen de hoy' : "Today's overview")
                        : section}
                   </h1>
                   <p>
                     {section === 'Overview'
-                       ? (language === 'es' ? 'Clientas, sesiones, pagos y recordatorios, de un vistazo.' : 'Clients, sessions, payments and follow-ups at a glance.')
+                       ? (language === 'es' ? 'Todo lo importante de tus clientas, en un lugar.' : 'Your clients, sessions and follow-ups in one place.')
                        : section === 'Clients'
                         ? 'Every client, their focus and their next step.'
                         : section === 'Sessions'
@@ -937,7 +937,7 @@ function App() {
                             : 'The conversations that keep your coaching personal.'}
                   </p>
                 </div>
-                {section !== 'Settings' && <button
+                {section !== 'Settings' && section !== 'Overview' && <button
                   className="primary-button"
                   onClick={() => openModal(action)}
                   disabled={
@@ -951,46 +951,6 @@ function App() {
 
               {section === 'Overview' && (
                 <>
-                  <div className="stats">
-                    <div className="stat stat-feature">
-                      <span>ACTIVE CLIENTS</span>
-                      <div>
-                        <strong>
-                          {
-                            workspace.clients.filter(
-                              item => item.status === 'Active'
-                            ).length
-                          }
-                        </strong>
-                        <UsersRound size={25} />
-                      </div>
-                      <small>People in your care</small>
-                    </div>
-                    <div className="stat">
-                      <span>UPCOMING SESSIONS</span>
-                      <div>
-                        <strong>{upcoming.length}</strong>
-                        <CalendarDays size={24} />
-                      </div>
-                      <small>On your calendar</small>
-                    </div>
-                    <div className="stat">
-                      <span>PAYMENTS DUE</span>
-                      <div>
-                        <strong>{money(dueTotal)}</strong>
-                        <CircleDollarSign size={24} />
-                      </div>
-                      <small>{`${due.length} ${due.length === 1 ? 'open entry' : 'open entries'}`}</small>
-                    </div>
-                    <div className="stat">
-                      <span>RECORDED AS PAID</span>
-                      <div>
-                        <strong>{money(paidTotal)}</strong>
-                        <Check size={24} />
-                      </div>
-                      <small>Manual records only</small>
-                    </div>
-                  </div>
                   <section className="action-center" aria-label={language === 'es' ? 'Prioridades de hoy' : "Today's priorities"}>
                     <div className="action-center-heading">
                       <div>
@@ -1035,6 +995,46 @@ function App() {
                       <button type="button" onClick={() => openModal('payment')} disabled={!workspace.clients.length}><CircleDollarSign size={19}/><span>{language === 'es' ? 'Anotar pago' : 'Record payment'}</span><Plus size={15}/></button>
                     </div>
                   </section>
+                  <div className="stats">
+                    <div className="stat stat-feature">
+                      <span>ACTIVE CLIENTS</span>
+                      <div>
+                        <strong>
+                          {
+                            workspace.clients.filter(
+                              item => item.status === 'Active'
+                            ).length
+                          }
+                        </strong>
+                        <UsersRound size={25} />
+                      </div>
+                      <small>People in your care</small>
+                    </div>
+                    <div className="stat">
+                      <span>UPCOMING SESSIONS</span>
+                      <div>
+                        <strong>{upcoming.length}</strong>
+                        <CalendarDays size={24} />
+                      </div>
+                      <small>On your calendar</small>
+                    </div>
+                    <div className="stat">
+                      <span>PAYMENTS DUE</span>
+                      <div>
+                        <strong>{money(dueTotal)}</strong>
+                        <CircleDollarSign size={24} />
+                      </div>
+                      <small>{`${due.length} ${due.length === 1 ? 'open entry' : 'open entries'}`}</small>
+                    </div>
+                    <div className="stat">
+                      <span>RECORDED AS PAID</span>
+                      <div>
+                        <strong>{money(paidTotal)}</strong>
+                        <Check size={24} />
+                      </div>
+                      <small>Manual records only</small>
+                    </div>
+                  </div>
                   <div className="overview-grid">
                     <section className="panel">
                       <div className="panel-heading">
@@ -1433,6 +1433,17 @@ function App() {
                     <p className="settings-hint">{language === 'es' ? 'Tus registros privados se guardan en tu cuenta.' : 'Your private records are saved to your account.'}</p>
                   </section>
                   <section className="panel settings-panel">
+                    <span className="eyebrow">{language === 'es' ? 'ACCESO A TU CUENTA' : 'YOUR ACCOUNT'}</span>
+                    <h2>{language === 'es' ? 'Tu sesión se mantiene iniciada' : 'Stay signed in on this device'}</h2>
+                    <p>{language === 'es' ? 'Coach Desk recordará tu acceso en este dispositivo mientras la sesión esté vigente. Si cierras sesión, borras los datos del navegador o cambias de navegador, tendrás que entrar otra vez.' : "Coach Desk remembers your login on this device while your session remains valid. Signing out, clearing browser data or switching browsers requires another sign-in."}</p>
+                    <span className="account-identity">{account.email}</span>
+                    <button className="secondary-button signout-button" type="button" onClick={() => {
+                      if (window.confirm(language === 'es' ? '¿Cerrar sesión? Tendrás que volver a iniciar sesión con tu contraseña.' : 'Sign out? You will need your password the next time you sign in.')) {
+                        void signOut();
+                      }
+                    }}><LogOut size={17}/>{language === 'es' ? 'Cerrar sesión' : 'Sign out'}</button>
+                  </section>
+                  <section className="panel settings-panel">
                     <span className="eyebrow">{language === 'es' ? 'LEGALES' : 'LEGAL'}</span>
                     <h2>{language === 'es' ? 'Tus datos y condiciones' : 'Your data and terms'}</h2>
                     <p>{language === 'es' ? 'Consulta cómo funciona este servicio y qué información guarda.' : 'Read how the service works and what information it keeps.'}</p>
@@ -1454,9 +1465,9 @@ function App() {
         )}
       </main>
 
-      {moreOpen && <div className="more-menu" role="menu" aria-label="More sections">{nav.filter(item => ['Sessions', 'Payments', 'Check-ins'].includes(item.name)).map(({ name, Icon }) => <button key={name} role="menuitem" onClick={() => navigate(name)}><Icon size={17} />{name}</button>)}</div>}
+      {moreOpen && <div className="more-menu" role="menu" aria-label={language === 'es' ? 'Otras secciones' : 'More sections'}>{nav.filter(item => ['Memberships', 'Messages', 'Check-ins', 'Settings'].includes(item.name)).map(({ name, Icon }) => <button key={name} role="menuitem" onClick={() => navigate(name)}><Icon size={18} />{language === 'es' ? ({ Memberships: 'Membresías', Messages: 'Mensajes', 'Check-ins': 'Seguimientos', Settings: 'Ajustes' } as Record<string, string>)[name] : name}</button>)}</div>}
       <nav className="bottom-nav" aria-label="Mobile navigation">
-        {nav.filter(item => ['Overview', 'Clients', 'Memberships', 'Messages', 'Settings'].includes(item.name)).map(({ name, Icon }) => (
+        {nav.filter(item => ['Overview', 'Clients', 'Sessions', 'Payments'].includes(item.name)).map(({ name, Icon }) => (
           <button
             key={name}
             className={section === name ? 'active' : ''}
@@ -1466,7 +1477,7 @@ function App() {
             <span>{name}</span>
           </button>
         ))}
-        <button className={moreOpen || ['Sessions', 'Payments', 'Check-ins'].includes(section) ? 'active' : ''} onClick={() => setMoreOpen(value => !value)} aria-expanded={moreOpen} aria-label="More sections"><MoreHorizontal size={20} /><span>More</span></button>
+        <button className={moreOpen || ['Memberships', 'Messages', 'Check-ins', 'Settings'].includes(section) ? 'active' : ''} onClick={() => setMoreOpen(value => !value)} aria-expanded={moreOpen} aria-label={language === 'es' ? 'Más secciones' : 'More sections'}><MoreHorizontal size={20} /><span>{language === 'es' ? 'Más' : 'More'}</span></button>
       </nav>
 
       {modal && (
