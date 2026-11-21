@@ -1514,7 +1514,6 @@ function App() {
                   <label>
                     Client name
                     <input
-                      autoFocus
                       maxLength={80}
                       value={form.name}
                       onChange={event =>
