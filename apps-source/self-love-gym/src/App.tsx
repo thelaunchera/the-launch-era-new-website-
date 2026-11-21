@@ -751,7 +751,7 @@ function App() {
     .reduce((sum, item) => sum + item.amount, 0);
   const upcoming = [...workspace.sessions]
     .filter(item => item.date >= today())
-    .sort((a, b) => a.date.localeCompare(b.date));
+    .sort((a, b) => a.date.localeCompare(b.date) || (a.startTime || '99:99').localeCompare(b.startTime || '99:99'));
   const sortedSessions = [...workspace.sessions].sort((a, b) =>
     b.date.localeCompare(a.date) || (b.startTime || '').localeCompare(a.startTime || '')
   );
@@ -1698,6 +1698,16 @@ function App() {
                               setForm({ ...form, date: event.target.value })
                             }
                             required
+                          />
+                        </label>
+                        <label>
+                          {language === 'es' ? 'Hora de inicio' : 'Start time'}
+                          <input
+                            type="time"
+                            step="900"
+                            value={form.startTime || ''}
+                            onChange={event => setForm({ ...form, startTime: event.target.value })}
+                            required={!form.id}
                           />
                         </label>
                         <label>
