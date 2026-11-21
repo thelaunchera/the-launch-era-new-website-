@@ -3,6 +3,16 @@ const supabase = createClient('https://atrkarecooxkzmpkxrdu.supabase.co', 'sb_pu
 const AUTH_RETURN_URL = 'https://thelaunchera.com/apps/self-love-gym/';
 const empty = () => ({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] });
 export const auth = {
+  onPasswordRecovery(callback: () => void) {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') callback();
+    });
+    return () => subscription.unsubscribe();
+  },
+  async updatePassword(password: string) {
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) throw error;
+  },
   async getUser() {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) return null;
