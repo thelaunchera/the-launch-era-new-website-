@@ -8,7 +8,7 @@ export const auth = {
     if (error || !data.user) return null;
     const { data: approved, error: approvalError } = await supabase.rpc('coach_is_approved');
     if (approvalError) throw approvalError;
-    if (!approved) throw new Error('Your account is awaiting an invitation from the owner. / Tu cuenta necesita una invitación de la administradora.');
+    if (!approved) throw new Error('No active Coach Desk subscription was found for your verified email. Please use the same email as your Stripe purchase, or subscribe at thelaunchera.com/self-love-gym. / No hay una suscripción activa para este correo. Usa el mismo correo de compra o suscríbete en thelaunchera.com/self-love-gym.');
     return { userId: data.user.id, name: data.user.user_metadata?.name || data.user.email || 'Coach', email: data.user.email };
   },
   async signInWithPassword(email: string, password: string) {
