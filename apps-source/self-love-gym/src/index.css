@@ -1465,3 +1465,111 @@ input, select, textarea { font-size:16px; }
   .dashboard-shortcuts-grid { gap: 5px; }
   .dashboard-shortcuts-grid button { font-size: 9px; }
 }
+
+
+/* Coach Desk form mobile overflow and iOS input-zoom correction */
+.modal-backdrop {
+  width: 100%;
+  max-width: 100vw;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  padding: max(10px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom));
+  overscroll-behavior: contain;
+}
+.modal {
+  width: min(470px, 100%);
+  max-width: 100%;
+  min-width: 0;
+  max-height: calc(100dvh - max(20px, env(safe-area-inset-top) + env(safe-area-inset-bottom) + 12px));
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 22px;
+}
+.modal-heading {
+  position: sticky;
+  top: -22px;
+  z-index: 2;
+  background: #fff;
+  margin: 0 0 15px;
+  padding: 2px 0 14px;
+  border-bottom: 1px solid #f0e7f1;
+}
+.modal-heading > div { min-width: 0; }
+.modal-heading h2 { font-size: clamp(19px, 5vw, 23px); line-height: 1.2; overflow-wrap: anywhere; }
+.modal .icon-button { flex: 0 0 38px; width: 38px; height: 38px; }
+.modal form,
+.modal form > *,
+.modal form label,
+.modal .form-grid,
+.modal .form-grid > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.modal .form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.modal input,
+.modal textarea,
+.modal select {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  font-size: 16px; /* iOS Safari zooms automatically when an input is smaller than 16px */
+  line-height: 1.35;
+  min-height: 46px;
+  padding: 11px 12px;
+  border-radius: 12px;
+}
+.modal select { padding-right: 20px; }
+.modal input[type="date"] { min-width: 0; width: 100%; }
+.modal form label { font-size: 12px; line-height: 1.35; }
+.modal-actions {
+  position: sticky;
+  bottom: -22px;
+  z-index: 3;
+  flex-wrap: wrap;
+  border-top: 1px solid #f0e7f1;
+  background: #fff;
+  margin: 4px -1px -22px;
+  padding: 14px 0 max(22px, env(safe-area-inset-bottom) + 12px);
+}
+.modal-actions button { min-height: 44px; white-space: normal; }
+@media (max-width: 600px) {
+  .modal-backdrop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: max(8px, env(safe-area-inset-top)) 10px max(8px, env(safe-area-inset-bottom));
+  }
+  .modal {
+    flex: 0 1 auto;
+    width: 100%;
+    max-width: min(100%, 470px);
+    max-height: calc(100dvh - max(20px, env(safe-area-inset-top) + env(safe-area-inset-bottom) + 12px));
+    margin: 0;
+    padding: 18px 16px 20px;
+    border-radius: 20px;
+  }
+  .modal-heading { top: -18px; margin-bottom: 14px; }
+  .modal .form-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .modal form { gap: 12px; }
+  .modal form label { gap: 6px; }
+  .modal input,
+  .modal select,
+  .modal textarea { font-size: 16px; min-height: 47px; }
+  .modal-actions {
+    bottom: -20px;
+    margin-bottom: -20px;
+    padding: 13px 0 max(20px, env(safe-area-inset-bottom) + 10px);
+  }
+  .modal-actions button { flex: 1 1 0; min-width: 0; font-size: 12px; padding: 11px 10px; }
+}
+@media (max-width: 360px) {
+  .modal { padding: 16px 13px 18px; }
+  .modal-actions button { font-size: 11px; }
+}
