@@ -225,7 +225,14 @@ function App() {
   const [account, setAccount] = useState<Account | null>(null);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [creatingAccount, setCreatingAccount] = useState(true);
+  const [creatingAccount, setCreatingAccount] = useState(false);
+  const [recoveringPassword, setRecoveringPassword] = useState(() => {
+    const query = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    return query.get('type') === 'recovery' || hash.get('type') === 'recovery';
+  });
+  const [newPassword, setNewPassword] = useState('');
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
   const [authNotice, setAuthNotice] = useState('');
   const [isOwner, setIsOwner] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
@@ -295,7 +302,13 @@ function App() {
   }
 
   useEffect(() => {
+    const unsubscribe = auth.onPasswordRecovery(() => {
+      setRecoveringPassword(true);
+      setCreatingAccount(false);
+      setErrorMessage('');
+    });
     void restore();
+    return unsubscribe;
   }, []);
 
   async function save(next: Workspace) {
@@ -582,6 +595,29 @@ function App() {
     }
   }
 
+  async function finishPasswordRecovery() {
+    setErrorMessage('');
+    if (newPassword.length < 8) {
+      setErrorMessage(language === 'es' ? 'Usa una contraseña de al menos 8 caracteres.' : 'Use a password with at least 8 characters.');
+      return;
+    }
+    if (newPassword !== newPasswordConfirm) {
+      setErrorMessage(language === 'es' ? 'Las contraseñas no coinciden.' : 'The passwords do not match.');
+      return;
+    }
+    try {
+      await auth.updatePassword(newPassword);
+      setNewPassword('');
+      setNewPasswordConfirm('');
+      setRecoveringPassword(false);
+      setCreatingAccount(false);
+      setAuthNotice(language === 'es' ? 'Contraseña actualizada. Ya puedes entrar a tu cuenta.' : 'Password updated. You can now sign in.');
+      await restore();
+    } catch (cause) {
+      setErrorMessage(cause instanceof Error ? cause.message : 'Could not update password');
+    }
+  }
+
   async function signOut() {
     if (isPublicPreview) { window.location.href = '/self-love-gym/'; return; }
     await auth.signOut();
@@ -702,6 +738,30 @@ function App() {
             ? 'Plan reminder'
           : 'Add check-in';
 
+  if (recoveringPassword) {
+    return (
+      <div className="shell" style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', padding: 24 }}>
+        <main className="panel" style={{ width: '100%', maxWidth: 470, padding: 32, textAlign: 'center' }}>
+          <div className="brand-mark" style={{ margin: '0 auto 20px' }}><span>SL</span></div>
+          <span className="eyebrow">SELF LOVE GYM · COACH DESK</span>
+          <h1>{language === 'es' ? 'Crea una contraseña nueva' : 'Create a new password'}</h1>
+          <p>{language === 'es' ? 'Escribe tu nueva contraseña para recuperar tu acceso.' : 'Set your new password to regain access to your account.'}</p>
+          <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
+            <button className={language === 'en' ? 'selected' : ''} onClick={() => setLanguage('en')}>English</button>
+            <button className={language === 'es' ? 'selected' : ''} onClick={() => setLanguage('es')}>Español</button>
+          </div>
+          {errorMessage && <p role="alert">{errorMessage}</p>}
+          <form onSubmit={event => { event.preventDefault(); void finishPasswordRecovery(); }} style={{ display: 'grid', gap: 12, textAlign: 'left' }}>
+            <label>{language === 'es' ? 'Nueva contraseña' : 'New password'}<input type="password" minLength={8} required autoComplete="new-password" value={newPassword} onChange={event => setNewPassword(event.target.value)} style={{ width: '100%', padding: 12 }} /></label>
+            <label>{language === 'es' ? 'Confirmar contraseña' : 'Confirm password'}<input type="password" minLength={8} required autoComplete="new-password" value={newPasswordConfirm} onChange={event => setNewPasswordConfirm(event.target.value)} style={{ width: '100%', padding: 12 }} /></label>
+            <button className="primary-button" type="submit" style={{ width: '100%', justifyContent: 'center', padding: 15 }}>{language === 'es' ? 'Guardar contraseña' : 'Save new password'}</button>
+          </form>
+          <p style={{ fontSize: 11, marginTop: 20 }}>POWERED BY THE LAUNCH ERA</p>
+        </main>
+      </div>
+    );
+  }
+
   if (!ready || !account) {
     return (
       <div className="shell" style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', padding: 24 }}>
@@ -714,7 +774,7 @@ function App() {
           {authNotice && <p role="status">{authNotice}</p>}
           <div className="language-switch" role="group" aria-label="Language / Idioma" style={{ justifyContent: 'center', margin: '20px 0' }}>
             <button className={language === 'en' ? 'selected' : ''} onClick={() => setLanguage('en')}>English</button>
-            <button className={language === 'es' ? 'selected' : ''} onClick={() => setLanguage('es')}>Español latino</button>
+            <button className={language === 'es' ? 'selected' : ''} onClick={() => setLanguage('es')}>Español</button>
           </div>
           <p style={{ fontWeight: 700, marginBottom: 8 }}>{creatingAccount ? (language === 'es' ? 'CREAR TU CUENTA' : 'CREATE YOUR ACCOUNT') : (language === 'es' ? 'ENTRAR A TU CUENTA' : 'SIGN IN')}</p>
           <form onSubmit={event => { event.preventDefault(); void signIn(); }} style={{ display: 'grid', gap: 12, textAlign: 'left' }}>
@@ -1335,7 +1395,7 @@ function App() {
                     <p>{language === 'es' ? 'Puedes cambiarlo cuando quieras. Tu preferencia se guarda en este dispositivo.' : 'Switch whenever you like. Your choice is saved on this device.'}</p>
                     <div className="language-switch" role="group" aria-label="Language / Idioma">
                       <button className={language === 'en' ? 'selected' : ''} aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>English</button>
-                      <button className={language === 'es' ? 'selected' : ''} aria-pressed={language === 'es'} onClick={() => setLanguage('es')}>Español latino</button>
+                      <button className={language === 'es' ? 'selected' : ''} aria-pressed={language === 'es'} onClick={() => setLanguage('es')}>Español</button>
                     </div>
                   </section>
                   <section className="panel settings-panel">
