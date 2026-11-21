@@ -1260,7 +1260,7 @@ function App() {
                         <div className="client-info">
                           <button type="button" className="coach-client-name-button" onClick={() => setSelectedClientId(item.id)}><strong>{item.name}</strong></button>
                           <span>
-                            {item.focus || 'No focus added'} · Check-in{' '
+                            {item.focus || 'No focus added'} · Check-in{' '}
                             {item.checkInDay}
                           </span>
                           <button type="button" className="coach-profile-link" onClick={() => setSelectedClientId(item.id)}>
