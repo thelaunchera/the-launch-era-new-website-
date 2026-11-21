@@ -27,5 +27,24 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/apps/self-love-gym
-          git diff --cached --quiet || (git commit -m 'Publish Self Love Gym private app' && git push)
+          mkdir -p /tmp/coach-desk-deploy
+          cp -R apps-source/self-love-gym/dist/. /tmp/coach-desk-deploy/
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p public/apps/self-love-gym
+            cp -R /tmp/coach-desk-deploy/. public/apps/self-love-gym/
+            git add public/apps/self-love-gym
+            if git diff --cached --quiet; then
+              echo "Coach Desk compiled output already up to date"
+              exit 0
+            fi
+            git commit -m 'Publish Self Love Gym private app'
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Concurrent push detected; retrying (attempt $attempt)"
+            sleep 3
+          done
+          echo "::error::Could not publish Coach Desk after five attempts"
+          exit 1
