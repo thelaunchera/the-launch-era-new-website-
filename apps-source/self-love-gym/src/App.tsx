@@ -712,6 +712,11 @@ function App() {
   const sortedMemberships = [...workspace.memberships].sort((a, b) => a.nextDue.localeCompare(b.nextDue));
   const sortedReminders = [...workspace.reminders].sort((a, b) => a.due.localeCompare(b.due));
   const pendingReminders = sortedReminders.filter(item => item.status === 'Pending');
+  const todayKey = today();
+  const paymentsToReview = due.filter(item => item.due <= todayKey);
+  const remindersToReview = pendingReminders.filter(item => item.due <= todayKey);
+  const sessionsToday = upcoming.filter(item => item.date === todayKey);
+  const needsAttention = paymentsToReview.length + remindersToReview.length + sessionsToday.length;
 
   const action =
     section === 'Overview' || section === 'Clients'
@@ -911,13 +916,13 @@ function App() {
                   </div>
                   <h1>
                     {section === 'Overview'
-                      ? 'A little more room to coach.'
-                      : section}
+                       ? (language === 'es' ? 'Tu panel de coaching.' : 'Your coaching dashboard.')
+                       : section}
                   </h1>
                   <p>
                     {section === 'Overview'
-                      ? 'Keep the people and the details close, without the busywork.'
-                      : section === 'Clients'
+                       ? (language === 'es' ? 'Clientas, sesiones, pagos y recordatorios, de un vistazo.' : 'Clients, sessions, payments and follow-ups at a glance.')
+                       : section === 'Clients'
                         ? 'Every client, their focus and their next step.'
                         : section === 'Sessions'
                           ? 'A clear record of the work you do together.'
@@ -946,17 +951,6 @@ function App() {
 
               {section === 'Overview' && (
                 <>
-                  {workspace.clients.length === 0 && <section className="panel" style={{ padding: 24, marginBottom: 20, borderRadius: 20 }}>
-                    <span className="eyebrow">{language === 'es' ? 'EMPIEZA AQUÍ' : 'GET STARTED'}</span>
-                    <h2 style={{ margin: '10px 0 8px' }}>{language === 'es' ? 'Tu espacio está listo para organizarse' : 'Make this space yours'}</h2>
-                    <p style={{ color: '#6e6375', lineHeight: 1.65 }}>{language === 'es' ? 'Comienza agregando tu primera clienta. Después podrás registrar sesiones, membresías, pagos y recordatorios sin perderte entre pantallas.' : 'Start by adding your first client. Then track sessions, memberships, payments and follow-ups in one simple workspace.'}</p>
-                    <button className="primary-button" type="button" onClick={() => openModal('client')} style={{ marginTop: 12, minHeight: 48 }}><Plus size={18}/>{language === 'es' ? 'Agregar mi primera clienta' : 'Add my first client'}</button>
-                    {isOwner && <p style={{ marginTop: 16, fontSize: 13 }}>{language === 'es' ? 'Para autorizar a otras personas, abre Configuración → Acceso de administrador.' : 'To approve other members, open Settings → Owner access.'}</p>}
-                  </section>}
-                  <div className="focus-banner">
-                    <div className="focus-copy"><span className="eyebrow">TODAY IN FOCUS</span><h2>Stay close to your people.</h2><p>{pendingReminders.length ? `${pendingReminders.length} personal follow-up${pendingReminders.length === 1 ? '' : 's'} waiting for you.` : 'Your follow-ups are all caught up.'} Keep the next step simple.</p></div>
-                    <div className="focus-actions"><button onClick={() => navigate('Messages')}>Review reminders</button><button onClick={() => navigate('Memberships')}>See memberships</button></div>
-                  </div>
                   <div className="stats">
                     <div className="stat stat-feature">
                       <span>ACTIVE CLIENTS</span>
@@ -997,6 +991,50 @@ function App() {
                       <small>Manual records only</small>
                     </div>
                   </div>
+                  <section className="action-center" aria-label={language === 'es' ? 'Prioridades de hoy' : "Today's priorities"}>
+                    <div className="action-center-heading">
+                      <div>
+                        <span className="eyebrow">{language === 'es' ? 'TU AGENDA' : 'YOUR WORKLIST'}</span>
+                        <h2>{language === 'es' ? 'Lo que necesita tu atención' : 'What needs your attention'}</h2>
+                      </div>
+                      <span className="attention-count">{needsAttention > 0 ? needsAttention : (workspace.clients.length === 0 ? '01' : '✓')}</span>
+                    </div>
+                    <div className="attention-list">
+                      {paymentsToReview.length > 0 && <button className="attention-row" type="button" onClick={() => navigate('Payments')}>
+                        <span className="attention-icon"><CircleDollarSign size={20}/></span>
+                        <span className="attention-details"><strong>{language === 'es' ? 'Pagos por revisar' : 'Payments to review'}</strong><small>{language === 'es' ? `${paymentsToReview.length} ${paymentsToReview.length === 1 ? 'registro pendiente' : 'registros pendientes'} · pagos manuales` : `${paymentsToReview.length} outstanding manual ${paymentsToReview.length === 1 ? 'record' : 'records'}`}</small></span>
+                        <ArrowRight size={18} className="attention-arrow" />
+                      </button>}
+                      {remindersToReview.length > 0 && <button className="attention-row" type="button" onClick={() => navigate('Messages')}>
+                        <span className="attention-icon"><Bell size={20}/></span>
+                        <span className="attention-details"><strong>{language === 'es' ? 'Recordatorios listos para revisar' : 'Reminders ready to review'}</strong><small>{language === 'es' ? `${remindersToReview.length} para hoy o antes · envío manual` : `${remindersToReview.length} due today or earlier · send manually`}</small></span>
+                        <ArrowRight size={18} className="attention-arrow" />
+                      </button>}
+                      {sessionsToday.length > 0 && <button className="attention-row" type="button" onClick={() => navigate('Sessions')}>
+                        <span className="attention-icon"><CalendarDays size={20}/></span>
+                        <span className="attention-details"><strong>{language === 'es' ? 'Sesiones de hoy' : "Today's sessions"}</strong><small>{language === 'es' ? `${sessionsToday.length} ${sessionsToday.length === 1 ? 'sesión registrada' : 'sesiones registradas'}` : `${sessionsToday.length} ${sessionsToday.length === 1 ? 'scheduled session' : 'scheduled sessions'}`}</small></span>
+                        <ArrowRight size={18} className="attention-arrow" />
+                      </button>}
+                      {needsAttention === 0 && workspace.clients.length === 0 && <button className="attention-row" type="button" onClick={() => openModal('client')}>
+                        <span className="attention-icon"><UsersRound size={20}/></span>
+                        <span className="attention-details"><strong>{language === 'es' ? 'Añade tu primera clienta' : 'Add your first client'}</strong><small>{language === 'es' ? 'Abre su ficha y empieza a llevar sus registros.' : 'Create a profile to start keeping records.'}</small></span>
+                        <ArrowRight size={18} className="attention-arrow" />
+                      </button>}
+                      {needsAttention === 0 && workspace.clients.length > 0 && <button className="attention-row" type="button" onClick={() => navigate('Clients')}>
+                        <span className="attention-icon"><Check size={20}/></span>
+                        <span className="attention-details"><strong>{language === 'es' ? 'Todo al día' : 'All caught up'}</strong><small>{language === 'es' ? 'No hay pagos vencidos, recordatorios pendientes ni sesiones para hoy.' : 'No overdue payments, due reminders or sessions today.'}</small></span>
+                        <ArrowRight size={18} className="attention-arrow" />
+                      </button>}
+                    </div>
+                  </section>
+                  <section className="dashboard-shortcuts" aria-label={language === 'es' ? 'Acciones rápidas' : 'Quick actions'}>
+                    <div className="dashboard-shortcuts-title">{language === 'es' ? 'Acciones rápidas' : 'Quick actions'}</div>
+                    <div className="dashboard-shortcuts-grid">
+                      <button type="button" onClick={() => openModal('client')}><UsersRound size={19}/><span>{language === 'es' ? 'Nueva clienta' : 'New client'}</span><Plus size={15}/></button>
+                      <button type="button" onClick={() => openModal('session')} disabled={!workspace.clients.length}><CalendarDays size={19}/><span>{language === 'es' ? 'Registrar sesión' : 'Log session'}</span><Plus size={15}/></button>
+                      <button type="button" onClick={() => openModal('payment')} disabled={!workspace.clients.length}><CircleDollarSign size={19}/><span>{language === 'es' ? 'Anotar pago' : 'Record payment'}</span><Plus size={15}/></button>
+                    </div>
+                  </section>
                   <div className="overview-grid">
                     <section className="panel">
                       <div className="panel-heading">
@@ -1079,21 +1117,6 @@ function App() {
                         </div>
                       )}
                     </section>
-                  </div>
-                  <div className="quick-panel">
-                    <div className="quick-icon">
-                      <Heart size={22} />
-                    </div>
-                    <div>
-                      <strong>Made for the human side of coaching.</strong>
-                      <span>
-                        Keep the admin light, so your attention stays with your
-                        clients.
-                      </span>
-                    </div>
-                    <button onClick={() => setSection('Clients')}>
-                      See clients <ArrowRight size={17} />
-                    </button>
                   </div>
                 </>
               )}
