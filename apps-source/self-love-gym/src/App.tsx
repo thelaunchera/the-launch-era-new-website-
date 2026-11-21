@@ -871,7 +871,7 @@ function App() {
           </span>
           <div className="top-actions">
             <span className="today-tag">{prettyDate(today(), language)}</span>
-            <span className="topbar-private-label">{language === 'es' ? 'Espacio privado' : 'Private workspace'}</span>
+            <span className="topbar-private-label">{isPublicPreview ? (language === 'es' ? 'Modo de demostración' : 'Sample preview') : (language === 'es' ? 'Espacio privado' : 'Private workspace')}</span>
           </div>
         </header>
 
@@ -883,8 +883,7 @@ function App() {
               <div className="demo-strip">
                 <span className="demo-dot" />
                 <span>
-                  <strong>{language === 'es' ? 'Demostración interactiva' : 'Interactive preview'}</strong> · {language === 'es' ? 'Clientas ficticias. Los cambios se guardan solo en este navegador.' : 'Fictional clients. Changes stay in this browser.'}
-                  Changes stay in this browser.
+                  <strong>{language === 'es' ? 'Demostración interactiva' : 'Interactive preview'}</strong> · {language === 'es' ? 'Explora con clientas ficticias. Los cambios se quedan en tu navegador.' : 'Explore with fictional clients. Changes stay in your browser.'}
                 </span>
                 <button
                   onClick={() => {
