@@ -29,8 +29,10 @@ import {
   X,
 } from 'lucide-react';
 import CoachCalendar, { formatStart } from './CoachCalendar';
+import VisitResponse from './VisitResponse';
 import ClientProfile from './ClientProfile';
-import { api, auth, ownerAccess } from './supabaseClient';
+import { api, auth, ownerAccess, visitConfirmation } from './supabaseClient';
+import type { VisitStatus } from './supabaseClient';
 import { translateUi } from './i18n';
 import type { Language } from './i18n';
 
@@ -336,6 +338,11 @@ function App() {
   const [language, setLanguage] = useState<Language>(() => localStorage.getItem('selflovegym-language') === 'es' ? 'es' : 'en');
   const [moreOpen, setMoreOpen] = useState(false);
   const [copiedPaymentLink, setCopiedPaymentLink] = useState<string | null>(null);
+  const [visitStatuses, setVisitStatuses] = useState<VisitStatus[]>([]);
+  const [visitUrls, setVisitUrls] = useState<Record<string, string>>({});
+  const [visitBusy, setVisitBusy] = useState<string | null>(null);
+  const [visitNotice, setVisitNotice] = useState('');
+  const visitorToken = new URLSearchParams(window.location.search).get('visit');
 
   useEffect(() => {
     localStorage.setItem('selflovegym-language', language);
@@ -372,6 +379,7 @@ function App() {
         if (owner) setInvites(await ownerAccess.listInvites());
         setWorkspace(withDefaults(result.data as Workspace));
         setMode('account');
+        try { setVisitStatuses(await visitConfirmation.list()); } catch { setVisitStatuses([]); }
       } else {
         setAccount(null);
         setWorkspace(withDefaults({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] }));
@@ -397,6 +405,76 @@ function App() {
     void restore();
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (!account || mode !== 'account' || visitorToken) return;
+    const handle = window.setInterval(() => {
+      void visitConfirmation.list().then(setVisitStatuses).catch(() => {});
+    }, 30000);
+    return () => window.clearInterval(handle);
+  }, [account, mode, visitorToken]);
+
+  function visitFor(session: Session): VisitStatus | undefined {
+    return visitStatuses.find(row =>
+      row.sessionId === session.id &&
+      row.clientId === session.clientId &&
+      row.date === session.date &&
+      row.startTime === session.startTime
+    );
+  }
+
+  async function loadVisitStatuses() {
+    try { setVisitStatuses(await visitConfirmation.list()); }
+    catch { setErrorMessage('Could not refresh appointment confirmations. Try again.'); }
+  }
+
+  async function issueVisit(session: Session) {
+    if (mode !== 'account') {
+      setVisitNotice(language === 'es' ? 'Los enlaces privados se crean en el Coach Desk real, no en la vista de prueba.' : 'Private RSVP links are created in your real Coach Desk, not in sample preview.');
+      return;
+    }
+    setVisitBusy(session.id);
+    setErrorMessage('');
+    try {
+      const url = await visitConfirmation.issue(session.id);
+      setVisitUrls(current => ({ ...current, [session.id]: url }));
+      setVisitNotice(language === 'es' ? 'Enlace privado creado. Puedes copiarlo o abrir un mensaje para enviarlo.' : 'Private link created. Copy it or open a message to send it.');
+      await loadVisitStatuses();
+    } catch (cause) {
+      setErrorMessage(cause instanceof Error ? cause.message : 'Could not create your visit invitation.');
+    } finally { setVisitBusy(null); }
+  }
+
+  async function copyVisit(session: Session) {
+    const url = visitUrls[session.id];
+    if (!url) return;
+    try {
+      await navigator.clipboard.writeText(url);
+      setVisitNotice(language === 'es' ? 'Enlace copiado. Puedes enviarlo a tu cliente.' : 'Link copied. You can send it to your client.');
+    } catch {
+      setVisitNotice(language === 'es' ? 'Mantén presionado el enlace visible para copiarlo.' : 'Select the visible link to copy it manually.');
+    }
+  }
+
+  function shareVisit(session: Session, channel: 'email' | 'sms') {
+    const url = visitUrls[session.id];
+    const client = workspace.clients.find(item => item.id === session.clientId);
+    if (!url || !client) return;
+    const firstName = client.name.split(' ')[0];
+    const message = `Hi ${firstName}! Your ${session.type} session is scheduled for ${prettyDate(session.date)} at ${formatStart(session.startTime, language)}. Please confirm whether you will attend using this link: ${url}`;
+    compose(client, message, 'Please confirm your training visit', channel);
+  }
+
+  async function markVisit(session: Session, status: 'Attended' | 'NoShow') {
+    if (mode !== 'account') { setVisitNotice('Attendance changes are available in your private workspace.'); return; }
+    setVisitBusy(session.id);
+    try {
+      await visitConfirmation.mark(session.id, status);
+      await loadVisitStatuses();
+      setVisitNotice(status === 'Attended' ? 'Attendance recorded.' : 'No-show recorded.');
+    } catch (cause) { setErrorMessage(cause instanceof Error ? cause.message : 'Could not save attendance.'); }
+    finally { setVisitBusy(null); }
+  }
 
   async function save(next: Workspace) {
     if (busy.current || !ready || errorMessage.includes('could not load'))
@@ -845,6 +923,9 @@ function App() {
             ? 'Plan reminder'
           : 'Add check-in';
 
+  // A guest invitation is deliberately outside the private coach sign-in.
+  if (visitorToken) return <VisitResponse token={visitorToken} language={language} />;
+
   // Keep the branded loader on screen until Supabase has restored the session.
   if (!ready) return <CoachDeskSplash language={language} />;
 
@@ -1237,6 +1318,13 @@ function App() {
                   onNewSession={date => openModal('session', undefined, undefined, date)}
                   onEditSession={item => openModal('session', item)}
                   onOpenClient={id => { navigate('Clients'); setSelectedClientId(id); }}
+                  visitFor={visitFor}
+                  inviteUrlFor={item => visitUrls[item.id]}
+                  onIssueVisit={item => void issueVisit(item)}
+                  onCopyVisit={item => void copyVisit(item)}
+                  onShareVisit={(item, channel) => shareVisit(item, channel)}
+                  onMarkVisit={(item, status) => void markVisit(item, status)}
+                  visitBusy={visitBusy}
                 />
               )}
 
@@ -1352,9 +1440,10 @@ function App() {
                       <h2>Session log</h2>
                     </div>
                     <span className="helper">
-                      Scheduled and completed sessions
+                      {language === 'es' ? 'Confirmación antes de cada visita. Enviar por correo/SMS abre tu aplicación de mensajes; el envío automático aún no está conectado.' : 'RSVP before each visit. Email/SMS opens a message draft; automatic delivery is not connected yet.'}
                     </span>
                   </div>
+                  {visitNotice && <p role="status" className="form-hint">{visitNotice}</p>}
                   {sortedSessions.length ? (
                     sortedSessions.map(item => (
                       <div className="record-row" key={item.id}>
@@ -1367,11 +1456,23 @@ function App() {
                             {formatStart(item.startTime, language)} · {item.type} · {item.minutes} minutes
                             {item.note ? ` · ${item.note}` : ''}
                           </span>
+                          <small style={{ display: 'block', marginTop: 6 }}>
+                            RSVP: {visitFor(item)?.status === 'Confirmed' ? (language === 'es' ? 'Confirmado ✓' : 'Confirmed ✓') : visitFor(item)?.status === 'CannotAttend' ? (language === 'es' ? 'No puede asistir' : 'Cannot attend') : (language === 'es' ? 'Pendiente' : 'Pending')} · {visitFor(item)?.attendanceStatus === 'Attended' ? 'Attended' : visitFor(item)?.attendanceStatus === 'NoShow' ? 'No show' : 'Not marked'}
+                            {item.date === shifted(1) ? (language === 'es' ? ' · Enviar recordatorio hoy' : ' · Send reminder today') : ''}
+                          </small>
+                          {visitUrls[item.id] && <p style={{ overflowWrap: 'anywhere', marginTop: 6, fontSize: 11 }}><a href={visitUrls[item.id]} target="_blank" rel="noreferrer">Private RSVP link</a> · {visitUrls[item.id]}</p>}
                         </div>
                         <span className="record-date">
                           {prettyDate(item.date, language)}
                         </span>
-                        <div className="row-actions">
+                        <div className="row-actions" style={{ flexWrap: 'wrap' }}>
+                          <button onClick={() => void issueVisit(item)} disabled={visitBusy === item.id}>{visitBusy === item.id ? 'Working…' : visitFor(item) ? 'New RSVP link' : 'Create RSVP link'}</button>
+                          {visitUrls[item.id] && <>
+                            <button onClick={() => void copyVisit(item)}>Copy link</button>
+                            <button onClick={() => shareVisit(item, 'email')}>Email</button>
+                            <button onClick={() => shareVisit(item, 'sms')}>SMS</button>
+                          </>}
+                          {visitFor(item) && <><button onClick={() => void markVisit(item, 'Attended')} disabled={visitBusy === item.id}>Attended</button><button onClick={() => void markVisit(item, 'NoShow')} disabled={visitBusy === item.id}>No-show</button></>}
                           <button onClick={() => openModal('session', item)}>
                             Edit
                           </button>
