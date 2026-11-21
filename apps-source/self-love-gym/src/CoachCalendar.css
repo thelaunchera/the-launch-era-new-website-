@@ -1,0 +1,74 @@
+
+/* Calendar and appointment detail — Coach Desk */
+.coach-calendar-layout { display: grid; grid-template-columns: minmax(0,1.04fr) minmax(0,.96fr); align-items: start; gap: 18px; }
+.coach-calendar-card,.coach-day-agenda { min-width:0; background:#fff; border:1px solid #eee1ef; border-radius:22px; padding:23px; box-shadow:0 10px 30px rgba(60,32,70,.035); }
+.coach-calendar-head,.coach-agenda-header { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.coach-calendar-kicker { display:block; font-size:10px; color:#97549f; font-weight:800; letter-spacing:.12em; }
+.coach-calendar-head h2,.coach-agenda-header h2 { margin:7px 0 0; font-size:clamp(18px,2.1vw,24px); color:#27192e; text-transform:capitalize; }
+.coach-calendar-arrows { display:flex; align-items:center; gap:4px; flex:0 0 auto; }
+.coach-calendar-arrows button,.coach-session-detail-head button { width:38px; height:38px; border:1px solid #eee1f0; border-radius:12px; background:#fff; color:#643375; display:grid; place-items:center; cursor:pointer; }
+.coach-calendar-arrows .coach-calendar-today { width:auto; min-width:50px; padding:0 10px; font-size:12px; font-weight:800; }
+.coach-calendar-filter { display:flex; align-items:center; gap:10px; margin:19px 0 18px; color:#79667f; font-size:12px; font-weight:700; }
+.coach-calendar-filter select { width:100%; min-width:0; max-width:290px; border:1px solid #e9daef; border-radius:12px; font-size:14px; color:#3d2b44; background:#faf7fc; padding:10px 12px; }
+.coach-calendar-weekdays,.coach-calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:5px; }
+.coach-calendar-weekdays { margin-bottom:7px; text-align:center; }
+.coach-calendar-weekdays span { color:#907798; font-size:11px; font-weight:800; padding:7px 0; }
+.coach-calendar-day { position:relative; min-width:0; aspect-ratio:1; display:grid; place-items:center; gap:0; border:1px solid transparent; background:#fff; border-radius:13px; color:#322238; font-size:14px; font-weight:750; cursor:pointer; padding:0; }
+.coach-calendar-day:hover { background:#faf4fc; border-color:#edd9f0; }
+.coach-calendar-day.outside { color:#c4b7c9; }
+.coach-calendar-day.today { border-color:#cda6dd; }
+.coach-calendar-day.selected { background:#73388b; color:#fff; border-color:#73388b; box-shadow:0 4px 12px #6a338833; }
+.coach-day-count { position:absolute; right:3px; bottom:2px; border-radius:99px; min-width:13px; padding:2px 3px; font-size:8px; line-height:1; font-weight:800; background:#f1d8f5; color:#78328e; }
+.coach-calendar-day.selected .coach-day-count { background:#fff; color:#713089; }
+.coach-calendar-help { margin:16px 0 0; font-size:11px; color:#9c8ba3; line-height:1.5; }
+.coach-agenda-header { margin-bottom:19px; }
+.coach-agenda-header p { color:#957d9f; font-size:12px; margin:6px 0 0; }
+.coach-agenda-add { min-height:42px; flex:0 0 auto; display:flex; align-items:center; gap:6px; border:0; border-radius:12px; background:#78348f; color:#fff; font-weight:800; padding:10px 13px; font-size:12px; cursor:pointer; }
+.coach-agenda-add:disabled { opacity:.4; cursor:not-allowed; }
+.coach-day-appointments { display:grid; gap:10px; }
+.coach-appointment { display:grid; width:100%; gap:9px; text-align:left; border:1px solid #efe3f0; border-radius:16px; background:#fdfafd; padding:12px 14px; cursor:pointer; color:#2a1a30; }
+.coach-appointment:hover { border-color:#c99bd8; background:#faf4fb; }
+.coach-appointment-time { display:flex; align-items:center; gap:8px; color:#83508f; font-size:12px; }
+.coach-appointment-time strong { font-size:13px; }
+.coach-appointment-main { display:flex; align-items:center; gap:12px; }
+.coach-appointment-avatar { flex:0 0 40px; width:40px; height:40px; display:grid; place-items:center; border-radius:13px; background:linear-gradient(145deg,#f4d5ed,#e9ddfa); color:#813a95; font-size:12px; font-weight:800; }
+.coach-appointment-main > div { flex:1; min-width:0; }
+.coach-appointment-main strong { display:block; font-size:13px; }
+.coach-appointment-main small { display:block; margin-top:4px; font-size:11px; color:#917e96; }
+.coach-appointment-main > svg { color:#a27cad; }
+.coach-calendar-empty { min-height:185px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; text-align:center; color:#947c9b; padding:20px; border:1px dashed #eddfef; border-radius:16px; }
+.coach-calendar-empty strong { color:#4a3851; font-size:13px; }
+.coach-calendar-empty p { font-size:12px; line-height:1.5; max-width:270px; margin:0; }
+.coach-session-overlay { position:fixed; inset:0; z-index:15; display:flex; align-items:center; justify-content:center; background:#211329aa; padding:20px; overscroll-behavior:contain; }
+.coach-session-detail { background:#fff; border-radius:24px; width:min(100%,485px); max-height:min(88dvh,770px); padding:25px; overflow-y:auto; box-shadow:0 28px 95px #1c0d2380; }
+.coach-session-detail-head { display:flex; align-items:start; justify-content:space-between; gap:10px; }
+.coach-session-detail-head h2 { margin:7px 0 20px; font-size:24px; }
+.coach-session-client { width:100%; display:flex; align-items:center; gap:12px; background:#faf6fc; border:1px solid #eddff0; padding:14px; border-radius:16px; text-align:left; color:#281d30; cursor:pointer; }
+.coach-session-client > span:nth-child(2) { display:grid; flex:1; min-width:0; gap:4px; }
+.coach-session-client strong { font-size:14px; }
+.coach-session-client small { font-size:11px; color:#8c7395; }
+.coach-session-client > svg { color:#9057a1; }
+.coach-session-details-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:17px 0; }
+.coach-session-details-grid > div { min-width:0; padding:14px; background:#fdfbfd; border:1px solid #f0e6f2; border-radius:14px; }
+.coach-session-details-grid dt { font-size:10px; color:#917a9a; margin-bottom:7px; font-weight:700; }
+.coach-session-details-grid dd { font-size:13px; color:#30203a; font-weight:750; margin:0; overflow-wrap:anywhere; }
+.coach-session-note { border-top:1px solid #eee4f0; padding-top:15px; }
+.coach-session-note strong { font-size:12px; color:#4b3256; }
+.coach-session-note p { margin:8px 0 19px; font-size:13px; line-height:1.6; white-space:pre-wrap; overflow-wrap:anywhere; color:#705e76; }
+.coach-session-edit { min-height:48px; width:100%; display:flex; align-items:center; justify-content:center; gap:9px; background:#75318e; color:#fff; border:0; border-radius:14px; font-size:13px; font-weight:800; cursor:pointer; }
+@media(max-width:1050px){ .coach-calendar-layout { grid-template-columns:1fr; } }
+@media(max-width:650px){
+  .coach-calendar-layout { gap:13px; }
+  .coach-calendar-card,.coach-day-agenda { border-radius:18px; padding:17px 13px; }
+  .coach-calendar-head { align-items:center; }
+  .coach-calendar-head h2,.coach-agenda-header h2 { font-size:19px; }
+  .coach-calendar-arrows button { width:34px; height:34px; border-radius:10px; }
+  .coach-calendar-day { border-radius:11px; font-size:13px; min-height:39px; }
+  .coach-calendar-weekdays,.coach-calendar-grid { gap:3px; }
+  .coach-calendar-filter { margin:15px 0 13px; }
+  .coach-agenda-add { font-size:11px; padding:9px 10px; min-height:39px; }
+  .coach-session-overlay { align-items:flex-end; padding:0; }
+  .coach-session-detail { max-height:calc(94dvh - env(safe-area-inset-top)); width:100%; border-radius:24px 24px 0 0; padding:22px 18px max(25px,env(safe-area-inset-bottom)); animation:coach-slide-up .23s ease-out; }
+  @keyframes coach-slide-up { from { transform:translateY(30px); opacity:.8; } to { transform:translateY(0); opacity:1; } }
+}
+@media(prefers-reduced-motion: reduce) { .coach-session-detail { animation:none; } }
