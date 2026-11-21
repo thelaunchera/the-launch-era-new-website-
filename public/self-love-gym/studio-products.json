@@ -1,0 +1,40 @@
+{
+  "schema": "tle.product-showcase.v1",
+  "brand": "Self Love Gym",
+  "updated_at": "2026-11-21",
+  "public_landing": "https://thelaunchera.com/self-love-gym/",
+  "public_demo": "https://thelaunchera.com/self-love-gym/#preview",
+  "contact_email": "hello@thelaunchera.com",
+  "language_options": [
+    "en",
+    "es"
+  ],
+  "products": [
+    {
+      "id": "self-love-gym-free",
+      "name": "Self Love Gym",
+      "type": "free_web_app",
+      "price_usd": 0,
+      "billing_period": null,
+      "public_app": "https://app.thelaunchera.com/self-love-gym/",
+      "demo": "https://thelaunchera.com/self-love-gym/#preview",
+      "access": "open_no_account",
+      "status": "published"
+    },
+    {
+      "id": "self-love-gym-coach-desk",
+      "name": "Coach Desk",
+      "type": "monthly_subscription",
+      "price_usd": 2.99,
+      "billing_period": "month",
+      "public_app": "https://thelaunchera.com/apps/self-love-gym/",
+      "demo": "https://thelaunchera.com/self-love-gym/#preview",
+      "checkout_url": null,
+      "billing_status": "checkout_not_configured",
+      "purchase_email_matching": "not_yet_enforced",
+      "account_access": "admin_invite_gated",
+      "status": "app_published_checkout_pending"
+    }
+  ],
+  "studio_note": "Product metadata for Studio integration; this file does not itself synchronize a CRM record or unlock paid access."
+}
