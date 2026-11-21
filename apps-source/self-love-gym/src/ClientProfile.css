@@ -1,0 +1,57 @@
+
+/* Self Love Gym — client profile */
+.coach-profile { min-width:0; }
+.coach-profile-back { min-height:38px; display:inline-flex; align-items:center; gap:8px; border:0; background:transparent; color:#855493; font-size:12px; font-weight:800; padding:8px 4px; margin-bottom:11px; cursor:pointer; }
+.coach-profile-hero { background:linear-gradient(130deg,#fff,#fcf5fc); display:flex; align-items:center; justify-content:space-between; gap:15px; border:1px solid #eaddee; border-radius:23px; padding:25px; }
+.coach-profile-identity { display:flex; align-items:center; gap:16px; min-width:0; }
+.coach-profile-avatar { flex:0 0 66px; display:grid; place-items:center; height:66px; border-radius:22px; color:#772f93; font-size:20px; font-weight:800; background:linear-gradient(135deg,#f2cce6,#e9d9f5); }
+.coach-profile-overline { display:block; color:#8f5b9d; font-size:10px; letter-spacing:.11em; font-weight:800; }
+.coach-profile-identity h2 { font-size:25px; margin:6px 0; overflow-wrap:anywhere; }
+.coach-profile-status { display:inline-block; border-radius:999px; background:#f4eef6; color:#7c6c81; padding:5px 10px; font-size:10px; font-weight:800; }
+.coach-profile-status.active { color:#703888; background:#f0dcf4; }
+.coach-profile-hero-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.coach-profile-hero-actions button { display:flex; align-items:center; gap:6px; justify-content:center; border:1px solid #e7d6ee; background:#fff; border-radius:12px; min-height:44px; color:#703f7f; padding:11px 14px; font-weight:800; font-size:12px; cursor:pointer; }
+.coach-profile-hero-actions button.accent { background:#75328e; border-color:#75328e; color:#fff; }
+.coach-profile-metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:11px; margin:15px 0 17px; }
+.coach-profile-metrics>div { background:#fff; border:1px solid #eddfef; border-radius:16px; padding:16px; }
+.coach-profile-metrics span { font-size:11px; color:#987d9b; font-weight:700; display:block; }
+.coach-profile-metrics strong { display:block; font-size:23px; font-weight:800; margin-top:9px; color:#281d2e; }
+.coach-profile-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.coach-profile-card { background:#fff; min-width:0; border:1px solid #eee0f0; border-radius:20px; padding:21px; }
+.coach-profile-card h3 { color:#2a1c30; font-size:16px; margin:0 0 13px; }
+.coach-profile-card > p { display:flex; gap:15px; justify-content:space-between; border-bottom:1px solid #f3eaf4; padding:11px 0; margin:0; font-size:12px; }
+.coach-profile-card > p strong { color:#907495; }
+.coach-profile-card > p span { color:#36243b; text-align:right; overflow-wrap:anywhere; }
+.coach-profile-card > a { display:flex; align-items:center; gap:9px; color:#753d8b; padding:12px 0; border-bottom:1px solid #f3eaf4; font-size:12px; font-weight:750; text-decoration:none; overflow-wrap:anywhere; }
+.coach-profile-card > a svg:last-child { margin-left:auto; flex-shrink:0; }
+.coach-profile-card > small { color:#9f8ca4; font-size:11px; display:block; margin-top:12px; }
+.coach-profile-card-heading { display:flex; justify-content:space-between; gap:10px; align-items:center; color:#88499a; }
+.coach-profile-card-heading h3 { margin:0 0 13px; }
+.coach-profile-entry { display:flex; gap:12px; align-items:center; text-align:left; padding:12px 0; border:0; border-top:1px solid #f2eaf3; background:none; width:100%; color:#38273c; }
+button.coach-profile-entry { cursor:pointer; }
+.coach-profile-entry-icon { display:grid; place-items:center; width:39px; height:39px; flex:0 0 39px; border-radius:12px; background:#f5eaf8; color:#82419a; }
+.coach-profile-entry>span:nth-child(2) { flex:1; min-width:0; }
+.coach-profile-entry strong { display:block; font-size:12px; overflow-wrap:anywhere; }
+.coach-profile-entry small { display:block; color:#94809a; margin-top:5px; font-size:11px; }
+.coach-profile-entry>svg { color:#9a7fa6; flex-shrink:0; }
+.coach-profile-empty { color:#98849f; padding:20px 0; font-size:12px; line-height:1.5; }
+.coach-profile-inline-action { display:flex; align-items:center; justify-content:center; gap:7px; min-height:41px; width:100%; border:1px solid #e9d4ef; border-radius:11px; font-size:12px; background:#fcf8fd; color:#75398b; font-weight:800; cursor:pointer; }
+.coach-profile-card p.coach-profile-footnote { display:block; border:none; color:#98899c; font-size:10px; padding:10px 0 0; margin:0; line-height:1.5; }
+.coach-profile-checkin { padding:12px 0; border-top:1px solid #f1e6f3; }
+.coach-profile-checkin span { font-size:10px; color:#9d87a4; font-weight:750; }
+.coach-profile-checkin p { margin:7px 0 0; font-size:12px; color:#4d4055; line-height:1.5; white-space:pre-wrap; }
+@media(max-width:900px) {
+  .coach-profile-hero { padding:18px; }
+  .coach-profile-grid { grid-template-columns:1fr; }
+}
+@media(max-width:600px) {
+  .coach-profile-hero { flex-direction:column; align-items:stretch; border-radius:19px; padding:17px; }
+  .coach-profile-identity h2 { font-size:21px; }
+  .coach-profile-avatar { flex-basis:56px; width:56px; height:56px; border-radius:17px; }
+  .coach-profile-hero-actions button { flex:1; }
+  .coach-profile-metrics { gap:7px; }
+  .coach-profile-metrics>div { padding:11px; min-height:88px; border-radius:13px; }
+  .coach-profile-metrics span { font-size:10px; line-height:1.35; }
+  .coach-profile-metrics strong { font-size:19px; }
+  .coach-profile-card { padding:17px; border-radius:17px; }
+}
