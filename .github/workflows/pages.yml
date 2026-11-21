@@ -292,7 +292,8 @@ jobs:
                   print(f"{name}: {src.stat().st_size} -> {dst.stat().st_size} bytes")
               src.unlink()
           html=Path(".output/public/self-love-gym/index.html").read_text(encoding="utf-8")
-          for name in ("hero","workouts","coach","how","contact"):
+          # The streamlined landing has four photo-led sections; the optional how photo is kept in the asset archive.
+          for name in ("hero","workouts","coach","contact"):
               if f"/self-love-gym/photos/{name}.webp" not in html:
                   raise RuntimeError(f"Editorial photo not referenced on landing: {name}")
           PY
