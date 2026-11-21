@@ -1638,3 +1638,21 @@ input, select, textarea { font-size:16px; }
   }
 }
 @media (prefers-reduced-motion:reduce) { .modal { animation:none; } }
+
+/* Coach Desk client list: touch-friendly profile navigation and compact filters */
+.coach-client-avatar-button { border:0; cursor:pointer; font:inherit; }
+.coach-client-avatar-button:hover { box-shadow:0 0 0 3px #e5c8ed; }
+.coach-client-name-button { display:block; padding:0; margin:0; border:0; background:none; color:#2d2234; text-align:left; cursor:pointer; font:inherit; max-width:100%; }
+.coach-client-name-button:hover strong { color:#824197; }
+.coach-client-name-button strong { overflow-wrap:anywhere; }
+.coach-client-filter { display:flex; flex-wrap:wrap; gap:7px; margin:14px 0 5px; }
+.coach-client-filter button { min-height:36px; border-radius:99px; border:1px solid #e7d7ec; background:#fff; color:#806b87; padding:8px 15px; font-size:11px; font-weight:750; cursor:pointer; }
+.coach-client-filter button.active { background:#f2e2f6; border-color:#d8b3e4; color:#68337c; }
+.coach-client-filter button:focus-visible,.coach-client-name-button:focus-visible,.coach-client-avatar-button:focus-visible { outline:3px solid #a46fbb; outline-offset:3px; }
+@media(max-width:650px) {
+  .coach-client-filter { padding:0 0 9px; gap:6px; }
+  .coach-client-filter button { font-size:11px; min-height:36px; }
+  .client-row { gap:11px; flex-wrap:wrap; }
+  .client-row .client-info { flex:1 1 calc(100% - 70px); }
+  .client-row .row-actions { margin-left:auto; }
+}
