@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 const supabase = createClient('https://atrkarecooxkzmpkxrdu.supabase.co', 'sb_publishable_1gFrwfVfMlw1JkA1DRGb6g_eSLokc7H');
+const AUTH_RETURN_URL = 'https://thelaunchera.com/apps/self-love-gym/';
 const empty = () => ({ revision: 0, clients: [], sessions: [], payments: [], checkins: [], memberships: [], reminders: [] });
 export const auth = {
   async getUser() {
@@ -15,12 +16,12 @@ export const auth = {
     if (error) throw error;
   },
   async signUp(email: string, password: string) {
-    const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/apps/self-love-gym/` } });
+    const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: AUTH_RETURN_URL } });
     if (error) throw error;
     return { session: data.session };
   },
   async resetPassword(email: string) {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/apps/self-love-gym/` });
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: AUTH_RETURN_URL });
     if (error) throw error;
   },
   async signOut() {
