@@ -1263,3 +1263,66 @@ input, select, textarea { font-size:16px; }
   .main { padding-bottom:calc(95px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto !important; transition-duration:.01ms !important; animation-duration:.01ms !important; } }
+
+
+/* Coach Desk: actionable dashboard — compact, buyer-first and mobile-first */
+.action-center {
+  background: #fff;
+  border: 1px solid #eadfeb;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(45,20,59,.045);
+  margin-bottom: 17px;
+  padding: 22px 24px;
+}
+.action-center-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 12px; }
+.action-center-heading .eyebrow { color: #9a589f; }
+.action-center-heading h2 { font-size: clamp(17px, 2.2vw, 21px); margin: 6px 0 0; letter-spacing: -.045em; }
+.attention-count { display: grid; place-items: center; flex: 0 0 37px; height: 37px; border: 1px solid #e9d9ea; border-radius: 12px; font-size: 15px; font-weight: 800; color: #71427f; background: #fcf8fc; }
+.attention-list { display: grid; gap: 9px; }
+.attention-row {
+  display: flex; width: 100%; align-items: center; gap: 14px; text-align: left;
+  padding: 13px 14px; min-height: 72px; border: 1px solid #f0e7f1; border-radius: 14px;
+  background: linear-gradient(110deg, #fcf9fd, #fff); color: #241a2d; cursor: pointer;
+  transition: border-color .18s ease, transform .18s ease, background .18s ease;
+}
+.attention-row:hover { border-color: #d8bbdc; background: #faf5fb; }
+.attention-row:active { transform: scale(.99); }
+.attention-icon { flex: 0 0 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: #f2e2f4; color: #82389a; }
+.attention-details { display: grid; gap: 4px; min-width: 0; flex: 1; }
+.attention-details strong { font-size: 13px; line-height: 1.35; font-weight: 800; }
+.attention-details small { font-size: 11px; line-height: 1.45; color: #776b7d; }
+.attention-arrow { flex: 0 0 auto; color: #875c99; }
+.dashboard-shortcuts { margin: 0 0 21px; }
+.dashboard-shortcuts-title { font-size: 11px; color: #7b5388; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+.dashboard-shortcuts-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.dashboard-shortcuts-grid button {
+  border-radius: 14px; border: 1px solid #e9d8ed; background: #fff;
+  color: #493051; display: flex; align-items: center; justify-content: center;
+  gap: 9px; min-height: 54px; padding: 12px 11px; font-size: 12px; line-height: 1.3;
+  font-weight: 800; cursor: pointer; box-shadow: 0 5px 16px rgba(61,22,77,.045);
+}
+.dashboard-shortcuts-grid button svg { color: #8940a0; flex: 0 0 auto; }
+.dashboard-shortcuts-grid button svg:last-child { margin-left: auto; width: 15px; }
+.dashboard-shortcuts-grid button span { flex: 1; text-align: left; }
+.dashboard-shortcuts-grid button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+.dashboard-shortcuts-grid button:not(:disabled):active { transform: translateY(1px); }
+@media (max-width: 800px) {
+  .action-center { padding: 17px; border-radius: 18px; }
+  .dashboard-shortcuts-grid button { flex-direction: column; justify-content: center; gap: 5px; padding: 10px 6px; min-height: 74px; }
+  .dashboard-shortcuts-grid button span { flex: unset; text-align: center; }
+  .dashboard-shortcuts-grid button svg:last-child { display: none; }
+}
+@media (max-width: 550px) {
+  .page-heading .primary-button { font-size: 11px; white-space: normal; line-height: 1.2; max-width: 142px; padding: 9px 11px; min-height: 44px; }
+  .page-heading .primary-button svg { flex: 0 0 auto; }
+  .action-center { margin-bottom: 16px; padding: 16px 13px; }
+  .action-center-heading { padding: 0 3px 12px; }
+  .action-center-heading h2 { font-size: 17px; }
+  .attention-row { padding: 11px 9px; min-height: 68px; gap: 10px; }
+  .attention-icon { flex-basis: 38px; height: 38px; border-radius: 11px; }
+  .attention-details strong { font-size: 12px; }
+  .attention-details small { font-size: 10px; }
+  .dashboard-shortcuts-grid { gap: 7px; }
+  .dashboard-shortcuts-grid button { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .attention-row { transition: none; } }
