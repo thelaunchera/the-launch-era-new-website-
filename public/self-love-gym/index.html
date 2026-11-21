@@ -203,6 +203,62 @@ section.block{padding:72px 0}
 }
 @media(max-width:375px){.hero h1{font-size:72px}.hero-stamp{gap:9px}.hero-stamp span{font-size:8px}.btn{padding:13px 16px}.hero-photo{min-height:420px}.image-assembly,.image-assembly>.real-photo{height:425px;min-height:425px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+
+/* Editorial photos: preserve subtle blush accents in the original campaign artwork */
+.hero-photo img{filter:saturate(.78) contrast(1.06);object-position:27% center}
+.image-assembly>.real-photo{filter:saturate(.8) contrast(1.04);object-position:24% center}
+.coach-editorial-media{position:relative;min-height:540px;overflow:hidden;background:#a5a0a2;isolation:isolate}
+.coach-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:31% 50%;filter:saturate(.8) contrast(1.05)}
+.coach-editorial-media:before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(180deg,transparent 22%,#14141447 100%)}
+.coach-editorial-media .coach-window{position:absolute;z-index:2;right:17px;bottom:16px;width:min(78%,400px);min-height:0;padding:7px;background:#f8f7f4;box-shadow:0 16px 38px #1119}
+.coach-editorial-media .coach-window-head{padding:7px 10px;font-size:8px}
+.coach-editorial-media .coach-window-head span:first-child{width:21px;height:21px}
+.coach-editorial-media .coach-window-body{grid-template-columns:33px 1fr;min-height:220px}
+.coach-editorial-media .coach-window-nav{padding:12px 3px;gap:12px;font-size:13px}
+.coach-editorial-media .coach-window-main{padding:12px}
+.coach-editorial-media .coach-window-main small{font-size:8px}
+.coach-editorial-media .coach-window-main h4{font-size:20px;margin:5px 0 10px}
+.coach-editorial-media .coach-metrics{gap:4px}
+.coach-editorial-media .coach-metrics>div{min-height:49px;padding:5px}
+.coach-editorial-media .coach-metrics b{font-size:20px}
+.coach-editorial-media .coach-metrics span{font-size:7px}
+.coach-editorial-media .coach-record{padding:7px 0;font-size:10px}
+.coach-editorial-media .coach-window-foot{font-size:8px;padding-top:4px}
+.process-photo{height:365px;overflow:hidden;position:relative;margin:51px 0 0;background:#c8c6c3}
+.process-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:saturate(.8)}
+.process-photo:after{position:absolute;content:"";inset:0;background:linear-gradient(90deg,transparent 25%,#16161665 100%)}
+.process-photo figcaption{position:absolute;z-index:1;right:5%;top:50%;transform:translateY(-50%);color:#fff;max-width:36%;display:grid;gap:15px}
+.process-photo figcaption span{font-size:11px;letter-spacing:.15em;font-weight:800}
+.process-photo figcaption strong{font:400 italic clamp(32px,4vw,62px)/1 "Instrument Serif",Georgia,serif}
+.contact{overflow:hidden;padding:0;background:#e6b1c0}
+.contact-inner{display:grid;grid-template-columns:1.05fr .95fr;align-items:stretch;gap:45px}
+.contact-copy{display:flex;flex-direction:column;justify-content:center;padding:80px 0}
+.contact-copy .btn{align-self:flex-start;margin-top:22px}
+.contact-image{margin:0;min-height:510px;overflow:hidden;position:relative}
+.contact-image img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:37% center;filter:saturate(.76)}
+@media(max-width:760px){
+ .hero-photo img{object-position:30% center}
+ .image-assembly>.real-photo{object-position:24% center}
+ .coach-editorial-media{min-height:400px}
+ .coach-editorial-media .coach-window{width:min(76%,300px);right:12px;bottom:12px}
+ .coach-editorial-media .coach-window-body{min-height:188px}
+ .coach-editorial-media .coach-window-main h4{font-size:16px}
+ .coach-editorial-media .coach-metrics b{font-size:18px}
+ .process-photo{height:300px;margin-top:35px}
+ .process-photo img{object-position:35% 50%}
+ .process-photo figcaption{right:6%;max-width:42%}
+ .process-photo figcaption strong{font-size:32px}
+ .contact-inner{grid-template-columns:1fr;gap:0}
+ .contact-copy{padding:66px 0 40px}
+ .contact-image{min-height:380px}
+ .contact-image img{object-position:36% 45%}
+}
+@media(max-width:410px){
+ .coach-editorial-media .coach-window{width:80%}
+ .process-photo{height:275px}
+ .process-photo figcaption strong{font-size:29px}
+}
+
 </style>
 </head>
 <body>
@@ -231,8 +287,8 @@ section.block{padding:72px 0}
 <div class="hero-stamp"><span data-en="NO MEMBERSHIP NEEDED" data-es="SIN MEMBRESÍA">NO MEMBERSHIP NEEDED</span><span data-en="ENGLISH + ESPAÑOL" data-es="INGLÉS + ESPAÑOL">ENGLISH + ESPAÑOL</span></div>
 </div>
 <div class="hero-photo">
-<img src="https://images.unsplash.com/photo-1552196603-d02485940b9f?auto=format&fit=crop&w=1500&q=82" alt="Athlete practicing fitness movement in a minimalist studio" fetchpriority="high">
-<div class="photo-credit">Photo: <a href="https://unsplash.com/photos/woman-doing-fitness-I7FsT6N94io" target="_blank" rel="noopener">Dane Wetton / Unsplash</a></div>
+<img src="/self-love-gym/photos/hero.webp" alt="Athlete practicing fitness movement in a minimalist studio" fetchpriority="high">
+<div class="photo-credit">SELF LOVE GYM · EDITORIAL COLLECTION</div>
 <div class="hero-photo-label"><b data-en="SHOW UP AS YOU ARE." data-es="PRESÉNTATE TAL COMO ERES.">SHOW UP AS YOU ARE.</b><span>Self Love Gym / 01</span></div>
 </div>
 </section>
@@ -249,7 +305,7 @@ section.block{padding:72px 0}
 <small class="sub-note" data-en="Free to use. Progress is saved locally on the device where you exercise; it does not sync across devices." data-es="Es gratis. El progreso se guarda en el dispositivo que usas; no se sincroniza entre dispositivos.">Free to use. Progress is saved locally on the device where you exercise; it does not sync across devices.</small>
 </div>
 <div><div class="image-assembly">
-<img class="real-photo" src="https://images.unsplash.com/photo-1593358578736-186f3d13c789?auto=format&fit=crop&w=1250&q=82" loading="lazy" alt="Woman taking a rest on an exercise mat">
+<img class="real-photo" src="/self-love-gym/photos/workouts.webp" loading="lazy" alt="Woman taking a rest on an exercise mat">
 <span class="image-badge" data-en="FEEL GOOD. KEEP GOING." data-es="SIÉNTETE BIEN. SIGUE.">FEEL GOOD. KEEP GOING.</span>
 <div class="app-screen" aria-label="Illustrative app preview, not a live workout record">
 <div class="screen-top"><b>SELF LOVE GYM</b><i>♥</i></div>
@@ -259,13 +315,15 @@ section.block{padding:72px 0}
 <div class="screen-row"><span data-en="GENTLE FULL BODY" data-es="CUERPO COMPLETO">GENTLE FULL BODY</span><b>20 MIN</b></div>
 </div>
 </div>
-<small class="photo-attribution">Photo: <a href="https://unsplash.com/photos/woman-in-white-sports-bra-and-black-shorts-lying-on-green-yoga-mat-MHX1XkQyZVE" target="_blank" rel="noopener">LOGAN WEAVER / Unsplash</a></small>
+<small class="photo-attribution">SELF LOVE GYM · ORIGINAL EDITORIAL SERIES</small>
 </div>
 </div></div></section>
 
 <section class="block dark-product" id="coach"><div class="shell">
 <div class="section-intro"><div><p class="eyebrow" data-en="02 / FOR THE COACH" data-es="02 / PARA EL COACH">02 / FOR THE COACH</p><h2 data-en="THE COACH<br><i>DESK.</i>" data-es="TU PANEL<br><i>DE COACH.</i>">THE COACH<br><i>DESK.</i></h2></div><p data-en="A calmer back office for the people who help others move. Organized, personal and made for small coaching businesses." data-es="Un espacio organizado para quienes ayudan a otros a moverse. Personal, sencillo y pensado para tu negocio de entrenamiento.">A calmer back office for the people who help others move. Organized, personal and made for small coaching businesses.</p></div>
 <div class="product-row">
+<div class="coach-editorial-media">
+<img class="coach-photo" src="/self-love-gym/photos/coach.webp" alt="Fitness coach organizing her work with a laptop and notebook" loading="lazy" decoding="async">
 <div class="coach-window" aria-label="Illustrative Coach Desk dashboard with sample figures">
 <div class="coach-window-head"><span>SL</span><strong>SELF LOVE GYM / COACH DESK</strong><span>◯</span></div>
 <div class="coach-window-body"><div class="coach-window-nav"><span>⌂</span><span>♧</span><span>▦</span><span>◷</span></div>
@@ -274,7 +332,7 @@ section.block{padding:72px 0}
 <div class="coach-record"><span data-en="Upcoming appointment" data-es="Próxima cita">Upcoming appointment</span><span>↗</span></div>
 <div class="coach-record"><span data-en="Membership review" data-es="Revisar membresía">Membership review</span><span>↗</span></div>
 </div></div><div class="coach-window-foot" data-en="DESIGN PREVIEW · SAMPLE DATA" data-es="VISTA DE DISEÑO · DATOS DE EJEMPLO">DESIGN PREVIEW · SAMPLE DATA</div>
-</div>
+</div></div>
 <div class="product-lead"><span class="product-code" data-en="THE PRIVATE COACHING WORKSPACE" data-es="TU ESPACIO PRIVADO DE COACHING">THE PRIVATE COACHING WORKSPACE</span>
 <div class="price-lockup"><strong>$2.99</strong><span data-en="/ month" data-es="/ mes">/ month</span></div>
 <p data-en="Keep your clients, sessions, memberships and payment notes in one private place. Less searching, more time for the work you love." data-es="Organiza clientas, sesiones, membresías y registros manuales de pago en un solo lugar privado. Menos búsqueda y más tiempo para lo que te gusta.">Keep your clients, sessions, memberships and payment notes in one private place. Less searching, more time for the work you love.</p>
@@ -291,7 +349,11 @@ section.block{padding:72px 0}
 <div class="how-item"><span>01</span><h3 data-en="PICK YOUR SPACE." data-es="ELIGE TU ESPACIO.">PICK YOUR SPACE.</h3><p data-en="Open the free workout app now, or discover Coach Desk for your coaching work." data-es="Entra a la app de ejercicios gratis o descubre Coach Desk para tu trabajo como coach.">Open the free workout app now, or discover Coach Desk for your coaching work.</p></div>
 <div class="how-item"><span>02</span><h3 data-en="SEE IT IN ACTION." data-es="MIRA CÓMO FUNCIONA.">SEE IT IN ACTION.</h3><p data-en="Explore the sample preview below. The actual workout app opens without a signup." data-es="Explora la vista de ejemplo. La app de ejercicios abre sin registro.">Explore the sample preview below. The actual workout app opens without a signup.</p></div>
 <div class="how-item"><span>03</span><h3 data-en="MAKE IT YOURS." data-es="HAZLO TUYO.">MAKE IT YOURS.</h3><p data-en="Move at your pace. Coaches can request access while subscription checkout is being prepared." data-es="Entrena a tu ritmo. Los coaches pueden solicitar acceso mientras preparamos el checkout.">Move at your pace. Coaches can request access while subscription checkout is being prepared.</p></div>
-</div></div></section>
+</div>
+<figure class="process-photo">
+<img src="/self-love-gym/photos/how.webp" alt="Athlete preparing for a workout by tying her shoes on a pink mat" loading="lazy" decoding="async">
+<figcaption><span data-en="ONE STEP AT A TIME" data-es="UN PASO A LA VEZ">ONE STEP AT A TIME</span><strong data-en="Every beginning matters." data-es="Cada comienzo importa.">Every beginning matters.</strong></figcaption>
+</figure></div></section>
 
 <section class="block preview" id="preview"><div class="shell">
 <div class="section-intro"><div><p class="eyebrow" data-en="INSIDE THE EXPERIENCE" data-es="DENTRO DE LA EXPERIENCIA">INSIDE THE EXPERIENCE</p><h2 data-en="TAKE A<br><i>LOOK.</i>" data-es="MIRA POR<br><i>DENTRO.</i>">TAKE A<br><i>LOOK.</i></h2></div><p data-en="Explore illustrative screens to understand both products. All figures shown are examples, not customer records." data-es="Explora pantallas ilustrativas de ambos productos. Todas las cifras son ejemplos, no registros de clientas reales.">Explore illustrative screens to understand both products. All figures shown are examples, not customer records.</p></div>
@@ -315,9 +377,10 @@ section.block{padding:72px 0}
 <details class="faq"><summary data-en="How will I access my $2.99 subscription?" data-es="¿Cómo entraré con mi suscripción de $2.99?">How will I access my $2.99 subscription?</summary><p data-en="When billing is activated, the plan will require the same email used to purchase. Online checkout and payment verification are not yet active, so you can contact us for access information." data-es="Cuando activemos los cobros, deberás usar el mismo correo de compra. El checkout y la verificación de pagos todavía no están activos; puedes contactarnos para consultar el acceso.">When billing is activated, the plan will require the same email used to purchase. Online checkout and payment verification are not yet active, so you can contact us for access information.</p></details>
 <details class="faq"><summary data-en="Are both apps bilingual?" data-es="¿Ambas apps son bilingües?">Are both apps bilingual?</summary><p data-en="Yes, English and Latin American Spanish are supported in both apps." data-es="Sí, ambas apps permiten elegir inglés y español latino.">Yes, English and Latin American Spanish are supported in both apps.</p></details>
 </div></div></section>
-<section id="contact" class="contact"><div class="shell contact-inner"><div><div class="eyebrow" data-en="QUESTIONS? WE'RE HERE." data-es="¿PREGUNTAS? AQUÍ ESTAMOS.">QUESTIONS? WE'RE HERE.</div>
-<h2 data-en="LET'S TALK<br><i>about it.</i>" data-es="HABLEMOS<br><i>de eso.</i>">LET'S TALK<br><i>about it.</i></h2><p data-en="Need help with either app or private access? Reach out to The Launch Era." data-es="¿Necesitas ayuda con alguna app o con tu acceso privado? Escríbele a The Launch Era.">Need help with either app or private access? Reach out to The Launch Era.</p></div>
-<a class="btn" href="mailto:hello@thelaunchera.com?subject=Self%20Love%20Gym%20question" data-en="CONTACT ME ↗" data-es="CONTÁCTAME ↗">CONTACT ME ↗</a>
+<section id="contact" class="contact"><div class="shell contact-inner"><div class="contact-copy"><div class="eyebrow" data-en="QUESTIONS? WE'RE HERE." data-es="¿PREGUNTAS? AQUÍ ESTAMOS.">QUESTIONS? WE'RE HERE.</div>
+<h2 data-en="LET'S TALK<br><i>about it.</i>" data-es="HABLEMOS<br><i>de eso.</i>">LET'S TALK<br><i>about it.</i></h2><p data-en="Need help with either app or private access? Reach out to The Launch Era." data-es="¿Necesitas ayuda con alguna app o con tu acceso privado? Escríbele a The Launch Era.">Need help with either app or private access? Reach out to The Launch Era.</p>
+<a class="btn" href="mailto:hello@thelaunchera.com?subject=Self%20Love%20Gym%20question" data-en="CONTACT ME ↗" data-es="CONTÁCTAME ↗">CONTACT ME ↗</a></div>
+<figure class="contact-image"><img src="/self-love-gym/photos/contact.webp" loading="lazy" decoding="async" alt="Fitness coach smiling while holding her phone in a minimalist studio"></figure>
 </div></section>
 </main>
 <footer class="footer"><div class="shell footer-inner">

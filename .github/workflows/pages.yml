@@ -246,6 +246,34 @@ jobs:
           test -d .output/public/apps/self-love-gym/assets
           echo "Private Self Love Gym included in GitHub Pages artifact."
 
+      - name: Optimize original Self Love Gym editorial photography
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageOps
+          folder=Path(".output/public/self-love-gym/photos")
+          for name in ("hero","workouts","coach","how","contact"):
+              src=folder/(name+".png")
+              dst=folder/(name+".webp")
+              if not src.is_file():
+                  raise RuntimeError(f"Missing Self Love Gym editorial source: {src}")
+              with Image.open(src) as original:
+                  im=ImageOps.exif_transpose(original)
+                  im.thumbnail((1500,1100),Image.Resampling.LANCZOS)
+                  im=im.convert("RGB")
+                  im.save(dst,format="WEBP",quality=74,method=6)
+                  if not dst.is_file() or dst.stat().st_size>src.stat().st_size*.8:
+                      raise RuntimeError(f"Image optimization failed: {name}")
+                  print(f"{name}: {src.stat().st_size} -> {dst.stat().st_size} bytes")
+              src.unlink()
+          html=Path(".output/public/self-love-gym/index.html").read_text(encoding="utf-8")
+          for name in ("hero","workouts","coach","how","contact"):
+              if f"/self-love-gym/photos/{name}.webp" not in html:
+                  raise RuntimeError(f"Editorial photo not referenced on landing: {name}")
+          PY
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

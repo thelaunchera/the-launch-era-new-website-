@@ -36,5 +36,17 @@
       "status": "app_published_checkout_pending"
     }
   ],
-  "studio_note": "Product metadata for Studio integration; this file does not itself synchronize a CRM record or unlock paid access."
+  "studio_note": "Product metadata for Studio integration; this file does not itself synchronize a CRM record or unlock paid access.",
+  "media": {
+    "campaign": "Fitness Editorial",
+    "source_folder": "https://drive.google.com/drive/folders/1wui7lyJM3Ax3ASrlJswJgl_NWjD-Cq21",
+    "public_assets": {
+      "hero": "https://thelaunchera.com/self-love-gym/photos/hero.webp",
+      "workouts": "https://thelaunchera.com/self-love-gym/photos/workouts.webp",
+      "coach": "https://thelaunchera.com/self-love-gym/photos/coach.webp",
+      "how": "https://thelaunchera.com/self-love-gym/photos/how.webp",
+      "contact": "https://thelaunchera.com/self-love-gym/photos/contact.webp"
+    },
+    "images_generated": true
+  }
 }
