@@ -1,3 +1,69 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="theme-color" content="#1d1425"/><meta name="apple-mobile-web-app-capable" content="yes"/><link rel="manifest" href="./manifest.json"/><title>Self Love Gym | Coach Desk</title>  <script type="module" crossorigin src="/apps/self-love-gym/assets/index-1IvSVSsO.js"></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#fbf8fc"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <link rel="manifest" href="./manifest.json"/>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg"/>
+  <title>Self Love Gym | Coach Desk</title>
+  <style>
+    /* Visible before React and its bundle finish loading. Shared by the React loading state. */
+    .coach-splash {
+      position: fixed; inset: 0; z-index: 100; min-height: 100dvh;
+      display: grid; place-items: center; padding: 26px;
+      box-sizing: border-box; background:
+      radial-gradient(ellipse 68% 40% at 20% 12%, #f9e7f3 0%, transparent 78%),
+      radial-gradient(ellipse 65% 43% at 91% 85%, #f0e4fa 0%, transparent 75%),
+      #fbf8fc;
+      color: #211729; text-align: center; font-family: system-ui, -apple-system, sans-serif;
+    }
+    .coach-splash-inner { display: flex; align-items: center; flex-direction: column; width: 100%; max-width: 360px; }
+    .coach-splash-mark {
+      position: relative; width: 92px; height: 92px; display: grid; place-items: center;
+      margin: 0 auto 22px;
+    }
+    .coach-splash-mark::before {
+      content: ""; position: absolute; inset: -7px;
+      border: 2px solid #eedced; border-top-color: #873ca3; border-right-color: #b86bc0;
+      border-radius: 31px; animation: coach-splash-turn 1.35s linear infinite;
+    }
+    .coach-splash-mark img { width: 78px; height: 78px; border-radius: 24px; display: block; box-shadow: 0 11px 28px #723b9030; }
+    .coach-splash-name { font-size: 15px; font-weight: 800; letter-spacing: .20em; line-height: 1.6; }
+    .coach-splash-label { font-size: 11px; font-weight: 800; letter-spacing: .23em; color: #9559a4; margin-top: 2px; }
+    .coach-splash-status { color: #7c6b83; font-size: 13px; line-height: 1.5; margin: 25px 0 0; }
+    .coach-splash-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+    .coach-splash-dots i { display: block; width: 6px; height: 6px; border-radius: 50%; background: #b37ac4; animation: coach-splash-pulse 1.2s ease-in-out infinite; }
+    .coach-splash-dots i:nth-child(2) { animation-delay: .18s; }
+    .coach-splash-dots i:nth-child(3) { animation-delay: .36s; }
+    .coach-splash-slow { margin-top: 25px; font-size: 12px; color: #76637d; line-height: 1.6; }
+    .coach-splash-retry { display: inline-flex; align-items: center; justify-content: center; margin-top: 12px; padding: 10px 18px; border: 1px solid #dcbfe5; border-radius: 12px; background: #fff; color: #71358d; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .coach-splash-fallback { opacity: 0; animation: coach-splash-reveal .1s linear 13s forwards; }
+    @keyframes coach-splash-turn { to { transform: rotate(360deg); } }
+    @keyframes coach-splash-pulse { 0%, 70%, 100% { opacity: .25; transform: scale(.8); } 35% { opacity: 1; transform: scale(1.15); } }
+    @keyframes coach-splash-reveal { to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .coach-splash-mark::before, .coach-splash-dots i { animation: none; }
+      .coach-splash-fallback { animation-delay: 13s; }
+    }
+  </style>
+  <script type="module" crossorigin src="/apps/self-love-gym/assets/index-1IvSVSsO.js"></script>
   <link rel="stylesheet" crossorigin href="/apps/self-love-gym/assets/index-CWHcmIp9.css">
-</head><body><div id="root"></div></body></html>
+</head>
+<body>
+  <div id="root">
+    <main class="coach-splash" role="status" aria-live="polite" aria-label="Loading Coach Desk">
+      <div class="coach-splash-inner">
+        <div class="coach-splash-mark"><img src="./favicon.svg" alt=""/></div>
+        <div class="coach-splash-name">SELF LOVE GYM</div>
+        <div class="coach-splash-label">COACH DESK</div>
+        <p class="coach-splash-status">Opening your workspace…</p>
+        <div class="coach-splash-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="coach-splash-fallback"><a class="coach-splash-retry" href="./">Reload app</a></div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
