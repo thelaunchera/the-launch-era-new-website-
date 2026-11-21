@@ -20,6 +20,16 @@ type Props = {
   onNewSession: (date: string) => void;
   onEditSession: (session: CalendarSession) => void;
   onOpenClient: (clientId: string) => void;
+  visitFor: (session: CalendarSession) => {
+    status: 'Pending' | 'Confirmed' | 'CannotAttend';
+    attendanceStatus: 'Scheduled' | 'Attended' | 'NoShow';
+  } | undefined;
+  inviteUrlFor: (session: CalendarSession) => string | undefined;
+  onIssueVisit: (session: CalendarSession) => void;
+  onCopyVisit: (session: CalendarSession) => void;
+  onShareVisit: (session: CalendarSession, channel: 'email' | 'sms') => void;
+  onMarkVisit: (session: CalendarSession, status: 'Attended' | 'NoShow') => void;
+  visitBusy: string | null;
 };
 
 const localKey = (date: Date) => [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
@@ -40,7 +50,7 @@ const endTime = (startTime: string | undefined, duration: number, language: 'en'
 };
 const dayNames = { en: ['S', 'M', 'T', 'W', 'T', 'F', 'S'], es: ['D', 'L', 'M', 'X', 'J', 'V', 'S'] };
 
-export default function CoachCalendar({ language, sessions, clients, focusDate, onNewSession, onEditSession, onOpenClient }: Props) {
+export default function CoachCalendar({ language, sessions, clients, focusDate, onNewSession, onEditSession, onOpenClient, visitFor, inviteUrlFor, onIssueVisit, onCopyVisit, onShareVisit, onMarkVisit, visitBusy }: Props) {
   const [selectedDate, setSelectedDate] = useState(focusDate || todayKey());
   const [month, setMonth] = useState(() => (focusDate || todayKey()).slice(0, 7));
   const [filter, setFilter] = useState('all');
@@ -143,7 +153,7 @@ export default function CoachCalendar({ language, sessions, clients, focusDate, 
               <div className="coach-appointment-time"><Clock3 size={15}/><strong>{formatStart(item.startTime, language)}</strong></div>
               <div className="coach-appointment-main">
                 <span className="coach-appointment-avatar">{(client?.name || '?').split(' ').slice(0, 2).map(x => x.charAt(0)).join('').toUpperCase()}</span>
-                <div><strong>{client?.name || (language === 'es' ? 'Cliente no disponible' : 'Client unavailable')}</strong><small>{item.type} · {item.minutes} min</small></div>
+                <div><strong>{client?.name || (language === 'es' ? 'Cliente no disponible' : 'Client unavailable')}</strong><small>{item.type} · {item.minutes} min</small><small style={{ display: 'block', marginTop: 3, color: visitFor(item)?.status === 'Confirmed' ? '#2d7959' : '#795982' }}>{visitFor(item)?.status === 'Confirmed' ? (language === 'es' ? 'Asistencia confirmada ✓' : 'RSVP confirmed ✓') : visitFor(item)?.status === 'CannotAttend' ? (language === 'es' ? 'No puede asistir' : 'Cannot attend') : (language === 'es' ? 'Sin confirmar' : 'Awaiting RSVP')}</small></div>
                 <ChevronRight size={18}/>
               </div>
             </button>;
@@ -171,6 +181,25 @@ export default function CoachCalendar({ language, sessions, clients, focusDate, 
             <div><dt>{language === 'es' ? 'Duración' : 'Duration'}</dt><dd>{selectedSession.minutes} min</dd></div>
             <div><dt>{language === 'es' ? 'Tipo' : 'Type'}</dt><dd>{selectedSession.type}</dd></div>
           </dl>
+          <div className="coach-session-note">
+            <strong>{language === 'es' ? 'Confirmación de asistencia' : 'Visit RSVP'}</strong>
+            <p>{visitFor(selectedSession)?.status === 'Confirmed' ? (language === 'es' ? 'Cliente confirmó que asistirá.' : 'Client confirmed they will attend.') : visitFor(selectedSession)?.status === 'CannotAttend' ? (language === 'es' ? 'El cliente no puede asistir.' : 'Client cannot attend.') : (language === 'es' ? 'Esperando la respuesta del cliente.' : 'Awaiting client response.')}</p>
+            <small>{language === 'es' ? 'El día anterior, envía el enlace único. La respuesta no equivale a asistencia presencial.' : 'Send the unique link the day before. RSVP is separate from attendance at the visit.'}</small>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, margin: '13px 0' }}>
+              <button type="button" disabled={visitBusy === selectedSession.id} onClick={() => onIssueVisit(selectedSession)}>{visitFor(selectedSession) ? (language === 'es' ? 'Nuevo enlace' : 'New link') : (language === 'es' ? 'Crear enlace' : 'Create RSVP link')}</button>
+              {inviteUrlFor(selectedSession) && <>
+                <button type="button" onClick={() => onCopyVisit(selectedSession)}>{language === 'es' ? 'Copiar' : 'Copy'}</button>
+                <button type="button" onClick={() => onShareVisit(selectedSession, 'email')}>{language === 'es' ? 'Correo' : 'Email'}</button>
+                <button type="button" onClick={() => onShareVisit(selectedSession, 'sms')}>SMS</button>
+              </>}
+              {visitFor(selectedSession) && <>
+                <button type="button" disabled={visitBusy === selectedSession.id} onClick={() => onMarkVisit(selectedSession, 'Attended')}>{language === 'es' ? 'Asistió' : 'Attended'}</button>
+                <button type="button" disabled={visitBusy === selectedSession.id} onClick={() => onMarkVisit(selectedSession, 'NoShow')}>{language === 'es' ? 'No asistió' : 'No-show'}</button>
+              </>}
+            </div>
+            {inviteUrlFor(selectedSession) && <p style={{ overflowWrap: 'anywhere', fontSize: 11 }}><a href={inviteUrlFor(selectedSession)} target="_blank" rel="noreferrer">{inviteUrlFor(selectedSession)}</a></p>}
+            <small>{language === 'es' ? 'Envío manual por ahora; los correos y SMS automáticos aún no están conectados.' : 'Manual send for now; automatic emails and SMS are not yet connected.'}</small>
+          </div>
           <div className="coach-session-note"><strong>{language === 'es' ? 'Nota privada' : 'Private note'}</strong><p>{selectedSession.note || (language === 'es' ? 'Sin notas registradas.' : 'No notes yet.')}</p></div>
           <button type="button" className="coach-session-edit" onClick={() => { setSelectedSessionId(null); onEditSession(selectedSession); }}>{language === 'es' ? 'Editar sesión u horario' : 'Edit session or time'} <ArrowRight size={17}/></button>
         </section>
