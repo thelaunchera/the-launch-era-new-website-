@@ -10,7 +10,7 @@
 <link rel="canonical" href="https://thelaunchera.com/self-love-gym/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Anton&family=Outfit:wght@500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <title>Self Love Gym | Move & Coach</title>
 <style>
 :root{--ink:#191919;--paper:#faf9f7;--rose:#eec6d4;--line:#dedbd8;--muted:#67625f}
@@ -135,6 +135,76 @@ html{scroll-padding-top:69px}
 }
 @media(max-width:360px){.hero h1{font-size:55px}.logo{font-size:13px}.btn{padding:12px 15px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+
+/* PHOTO-FIRST CAMPAIGN: condensed headline typography, airy blocks, clean photography */
+:root{--hot:#ca456e;--canvas:#faf8f4}
+body{background:var(--canvas)}
+.header{background:#191919;color:#fff;border-bottom-color:#343132}
+.logo{font:400 20px "Anton",Impact,sans-serif;letter-spacing:.015em}
+.logo-symbol{border-color:#fff;color:#fff;font:400 italic 25px "Instrument Serif",serif}
+.nav>a{color:#fff;font-weight:700}
+.nav>a:hover{color:#f2b2c5}
+.lang{border-color:#6d6668}
+.lang button{color:#fff}
+.lang button[aria-pressed=true]{background:#e9b5c6;color:#171717}
+.btn{border-radius:12px;letter-spacing:.02em;min-height:52px}
+.btn.light{background:#fff;color:#151515}
+.hero{display:flex;flex-direction:column;background:var(--canvas);color:#191919;min-height:0}
+.hero-image{height:clamp(320px,42vw,550px);width:100%;min-height:0}
+.hero-image img{object-position:center 42%;filter:none}
+.hero-content{position:relative;z-index:2;width:100%;margin:-23px auto 0;padding:42px max(34px,calc((100vw - 1200px)/2)) 65px;background:var(--canvas);border-radius:24px 24px 0 0;display:block}
+.hero .kicker{color:#9e536b;margin-bottom:18px;font-size:10px}
+.hero h1{font:400 clamp(68px,8.7vw,116px)/.98 "Anton",Impact,sans-serif;letter-spacing:-.025em;max-width:1150px;margin:0 0 23px;color:#171717}
+.hero h1 span,.hero h1 strong{display:block;font:inherit;letter-spacing:inherit}
+.hero h1 strong{color:var(--hot)}
+.hero .intro{color:#4e4948;max-width:560px;font-size:15px;line-height:1.75;margin-bottom:24px}
+.hero .price-note{color:#5f5357;margin-top:14px}
+.hero .actions{display:flex;gap:10px;max-width:650px}
+.hero .btn.light{background:var(--hot);border-color:var(--hot);color:#fff}
+.hero .btn.light:hover{background:#aa3459}
+.hero .btn.outline-light{background:transparent;color:#171717;border:1px solid #171717}
+.hero .btn.outline-light:hover{background:#f1e5e8}
+.feature h2,.contact h2{font:400 clamp(50px,6vw,85px)/1.05 "Anton",Impact,sans-serif;letter-spacing:-.015em}
+.feature h2 i,.contact h2 i{font:inherit;font-style:normal;letter-spacing:inherit;color:var(--hot)}
+.coach .feature h2 i{color:#eca4bc}
+.coach .price{font-family:"Anton",Impact,sans-serif;font-weight:400;letter-spacing:-.025em}
+.feature .kicker{letter-spacing:.11em}
+.contact h2{font-size:clamp(52px,6vw,89px)}
+.demo-open{overflow:hidden}
+.demo-dialog{border-radius:14px;overflow:hidden;height:min(900px,94dvh)}
+.demo-bar{height:72px;gap:15px;padding:10px 20px}
+.demo-brand{display:grid;gap:4px}
+.demo-brand strong{font:400 17px "Anton",Impact,sans-serif;letter-spacing:.03em}
+.demo-brand small{font-size:9px;letter-spacing:.09em;color:#eac6d2;font-weight:700}
+.demo-guide{min-height:37px;padding:9px 20px;background:#f4e8ed;color:#624854;font-size:11px;font-weight:600}
+.demo-holder{position:relative;height:calc(100% - 109px)}
+.demo-loading{position:absolute;inset:0;display:grid;place-items:center;background:#faf8f9;color:#705262;font-size:13px;font-weight:800}
+.demo-loading[hidden]{display:none!important}
+.demo-controls a{color:#fff;font-size:11px}
+.demo-controls button{background:#f1cad8;border-radius:9px;cursor:pointer}
+@media(max-width:720px){
+.header-inner{min-height:61px}
+.logo{font-size:17px}.logo-symbol{height:33px;width:33px;font-size:20px}
+.hero-image{height:clamp(245px,70vw,330px);min-height:0}
+.hero-image img{object-position:center 43%}
+.hero-content{margin-top:-19px;border-radius:21px 21px 0 0;padding:29px 19px 39px}
+.hero h1{font:400 clamp(43px,11.3vw,61px)/1.01 "Anton",Impact,sans-serif;letter-spacing:-.017em;margin:0 0 19px}
+.hero .kicker{font-size:9px;margin-bottom:16px}
+.hero .intro{font-size:14px;margin-bottom:20px}
+.hero .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hero .actions .btn{min-height:53px;padding:10px 9px;font-size:10px;border-radius:10px}
+.hero .price-note{font-size:11px}
+.feature h2,.contact h2{font:400 clamp(48px,12vw,67px)/1.05 "Anton",Impact,sans-serif}
+.feature h2 i,.contact h2 i{font:inherit;font-style:normal}
+.coach .price{font-size:66px}
+.demo-dialog{border-radius:0;height:100dvh}
+.demo-bar{height:60px;padding:7px 10px}
+.demo-brand strong{font-size:14px}.demo-brand small{font-size:8px}
+.demo-controls{gap:8px}.demo-controls a{font-size:9px}.demo-controls button{width:35px;min-width:35px;height:35px}
+.demo-guide{min-height:44px;padding:8px 12px;font-size:10px}
+.demo-holder{height:calc(100% - 104px)}
+}
+@media(max-width:365px){.hero h1{font-size:42px}}
 </style>
 </head>
 <body>
@@ -149,14 +219,14 @@ html{scroll-padding-top:69px}
 </nav></div></header>
 <main id="main">
 <section class="hero" id="top">
+<div class="hero-image"><img src="/self-love-gym/photos/hero.webp" alt="Athlete in a minimalist fitness studio" fetchpriority="high"></div>
 <div class="hero-content">
-<div class="kicker" data-en="TWO APPS. ONE SELF LOVE GYM." data-es="DOS APPS. UNA MISMA MARCA.">TWO APPS. ONE SELF LOVE GYM.</div>
-<h1 data-en="MOVE <i>your way.</i>" data-es="MUÉVETE <i>a tu ritmo.</i>">MOVE <i>your way.</i></h1>
-<p class="intro" data-en="Beginner workouts are free. Coach Desk is a separate workspace for trainers at $2.99 USD per month, plus applicable tax." data-es="Los ejercicios para principiantes son gratis. Coach Desk es una aplicación aparte para entrenadores por $2.99 USD al mes, más los impuestos aplicables.">Beginner workouts are free. Coach Desk is a separate workspace for trainers at $2.99 USD per month, plus applicable tax.</p>
-<div class="actions"><a class="btn light" href="#coach" data-en="COACH DESK · $2.99 / MONTH" data-es="COACH DESK · $2.99 / MES">COACH DESK · $2.99 / MONTH</a><a class="btn outline-light" href="#free-app" data-en="FREE WORKOUT APP" data-es="APP DE EJERCICIOS GRATIS">FREE WORKOUT APP</a></div>
+<div class="kicker" data-en="FITNESS THAT FITS YOUR LIFE" data-es="FITNESS A TU MANERA">FITNESS THAT FITS YOUR LIFE</div>
+<h1 data-en="MOVE YOUR WAY.<span>FEEL YOUR BEST.</span><strong>SELF LOVE GYM.</strong>" data-es="A TU RITMO.<span>SIÉNTETE BIEN.</span><strong>SELF LOVE GYM.</strong>">MOVE YOUR WAY.<span>FEEL YOUR BEST.</span><strong>SELF LOVE GYM.</strong></h1>
+<p class="intro" data-en="Start with free workouts at your own pace. For trainers, Coach Desk keeps your business organized for $2.99/month plus applicable tax." data-es="Empieza con ejercicios gratis a tu ritmo. Si eres coach, organiza tu negocio con Coach Desk por $2.99 al mes más impuestos aplicables.">Start with free workouts at your own pace. For trainers, Coach Desk keeps your business organized for $2.99/month plus applicable tax.</p>
+<div class="actions"><a class="btn light" href="#coach" data-en="COACH DESK · $2.99/MONTH" data-es="COACH DESK · $2.99/MES">COACH DESK · $2.99/MONTH</a><a class="btn outline-light" href="#free-app" data-en="FREE WORKOUT APP" data-es="APP DE EJERCICIOS GRATIS">FREE WORKOUT APP</a></div>
 <p class="price-note" data-en="Only Coach Desk requires a paid subscription." data-es="Solo Coach Desk requiere una suscripción de pago.">Only Coach Desk requires a paid subscription.</p>
 </div>
-<div class="hero-image"><img src="/self-love-gym/photos/hero.webp" alt="Athlete in a minimalist fitness studio" fetchpriority="high"></div>
 </section>
 <section class="section" id="free-app"><div class="shell feature">
 <div class="feature-content">
@@ -194,11 +264,11 @@ html{scroll-padding-top:69px}
 </main>
 <footer class="footer"><div class="shell footer-content"><span>SELF LOVE GYM · POWERED BY THE LAUNCH ERA</span>
 <div><a href="https://thelaunchera.com/apps/self-love-gym/terms.html" target="_blank" rel="noopener" data-en="Terms" data-es="Términos">Terms</a><a href="https://thelaunchera.com/apps/self-love-gym/privacy.html" target="_blank" rel="noopener" data-en="Privacy" data-es="Privacidad">Privacy</a><a href="mailto:hello@thelaunchera.com" data-en="Support" data-es="Ayuda">Support</a></div></div></footer>
-<dialog class="demo-dialog" id="coach-demo-dialog" aria-label="Coach Desk interactive sample">
-<div class="demo-bar"><strong>SELF LOVE GYM / COACH DESK</strong><div class="demo-controls">
+<dialog class="demo-dialog" id="coach-demo-dialog" aria-label="Coach Desk interactive sample" aria-modal="true">
+<div class="demo-bar"><div class="demo-brand"><strong>SELF LOVE GYM / COACH DESK</strong><small data-en="INTERACTIVE PREVIEW · SAMPLE DATA" data-es="DEMO INTERACTIVO · DATOS FICTICIOS">INTERACTIVE PREVIEW · SAMPLE DATA</small></div><div class="demo-controls">
 <a href="https://thelaunchera.com/apps/self-love-gym/?demo=1" target="_blank" rel="noopener" data-en="FULL SCREEN" data-es="PANTALLA COMPLETA">FULL SCREEN</a>
 <button type="button" data-close-coach-demo aria-label="Close demo">X</button>
-</div></div><div class="demo-holder" id="coach-demo-holder"></div></dialog>
+</div></div><div class="demo-guide" data-en="Explore clients, sessions and memberships. No account or payment needed to try the demo." data-es="Explora clientas, sesiones y membresías. No necesitas cuenta ni pagar para probar el demo.">Explore clients, sessions and memberships. No account or payment needed to try the demo.</div><div class="demo-holder" id="coach-demo-holder"><div class="demo-loading" id="coach-demo-loading" role="status" data-en="Opening sample workspace…" data-es="Abriendo el panel de ejemplo…">Opening sample workspace…</div></div></dialog>
 <script>
 (function(){
 let lang="en";
@@ -207,10 +277,11 @@ document.querySelectorAll("[data-language]").forEach(b=>b.addEventListener("clic
 try{if(localStorage.getItem("slg-site-lang")==="es")setLanguage("es")}catch(_){}
 const dialog=document.getElementById("coach-demo-dialog");
 const holder=document.getElementById("coach-demo-holder");
-function openDemo(){if(typeof dialog.showModal!=="function"){window.open("https://thelaunchera.com/apps/self-love-gym/?demo=1","_blank","noopener");return}dialog.showModal();if(!holder.querySelector("iframe")){const frame=document.createElement("iframe");frame.title="Coach Desk interactive sample";frame.src="https://thelaunchera.com/apps/self-love-gym/?demo=1";frame.referrerPolicy="strict-origin-when-cross-origin";holder.appendChild(frame)}}
+let lastDemoTrigger=null;const loading=document.getElementById("coach-demo-loading");
+function openDemo(e){lastDemoTrigger=e&&e.currentTarget?e.currentTarget:null;if(typeof dialog.showModal!=="function"){window.open("https://thelaunchera.com/apps/self-love-gym/?demo=1","_blank","noopener");return}dialog.showModal();document.body.classList.add("demo-open");loading.hidden=false;if(!holder.querySelector("iframe")){const frame=document.createElement("iframe");frame.title="Coach Desk interactive preview with sample data";frame.referrerPolicy="strict-origin-when-cross-origin";frame.addEventListener("load",()=>{loading.hidden=true});frame.src="https://thelaunchera.com/apps/self-love-gym/?demo=1";holder.appendChild(frame)}}
 document.querySelectorAll("[data-open-coach-demo]").forEach(b=>b.addEventListener("click",openDemo));
 document.querySelector("[data-close-coach-demo]").addEventListener("click",()=>dialog.close());
-dialog.addEventListener("close",()=>holder.replaceChildren());
+dialog.addEventListener("close",()=>{holder.querySelector("iframe")?.remove();loading.hidden=false;document.body.classList.remove("demo-open");lastDemoTrigger?.focus()});
 dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
 })();
 </script>
