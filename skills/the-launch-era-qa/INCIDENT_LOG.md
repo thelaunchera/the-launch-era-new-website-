@@ -1609,3 +1609,7 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 ## 2026-11-22 — Separate browser route for the Christmas Star game (release review)
 - The downloaded HTML edition could open as a noninteractive local preview on iPhone. The owner requested GitHub publication and live interaction. Add an isolated Pages route at `/games/missing-christmas-star/` for Safari/browser use, preserving the separate existing `/games/navidad/` game.
 - Source-only QA covers all four puzzles, wrong-answer feedback, hints, random code order, saved completion, name escaping and both languages in `scripts/qa-missing-christmas-star.mjs`. The review branch and Pages deployment remain separate gates; confirm the live route and iPhone behavior before reporting complete.
+
+## 2026-11-22 — Static QA ran before generated Self Love Gym photos (release review)
+- PR #650's Christmas and route workflows completed the game checks, then failed on five `/self-love-gym/photos/*.webp` paths. The source PNGs are present; the main Pages build generates the WebP files before its static link check. Independent PR workflows do not run that preparation.
+- `scripts/qa-route-integrity.mjs` now recognizes only those five WebP paths when each matching PNG exists and the Pages preparation step is present. Missing ordinary assets remain release failures. Re-run PR checks and the main Pages build before declaring publication.

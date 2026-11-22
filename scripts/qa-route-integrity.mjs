@@ -35,9 +35,17 @@ const BUILT_FLOW_IMAGES = new Set([
   ...['booking','command','hero','ai'].map(x=>'/assets/bundle-landing/optimized/'+x+'.webp'),
   ...['booking','command','hero'].map(x=>'/assets/bundle-landing/optimized/'+x+'-thumb.webp')
 ]);
+const BUILT_SELF_LOVE_IMAGES = new Set(
+  ['hero','workouts','coach','how','contact'].map(x=>'/self-love-gym/photos/'+x+'.webp')
+);
 const demoBuilder=readFileSync(join(root,'scripts/build_demo_photo_assets.py'),'utf8');
 const flowBuilder=readFileSync(join(root,'scripts/build_mobile_flow_assets.py'),'utf8');
 function isPlannedDemoImage(pathname){
+ if(BUILT_SELF_LOVE_IMAGES.has(pathname)){
+   const name=pathname.split('/').pop().replace(/\.webp$/,'');
+   return existsSync(join(pub,'self-love-gym/photos',name+'.png'))&&
+     readFileSync(join(root,'.github/workflows/pages.yml'),'utf8').includes('Prepare Self Love Gym editorial images before static link validation');
+ }
  if(BUILT_FLOW_IMAGES.has(pathname))
    return flowBuilder.includes('bundle-landing') && flowBuilder.includes('FLOW IMAGE QA');
  return BUILT_DEMO_IMAGES.has(pathname)&&
