@@ -50,9 +50,14 @@ const submit = id => listeners.get('submit')({ target: { id }, preventDefault() 
 const expectScreen = screen => assert.equal(state().screen, screen, `Expected ${screen} screen`);
 
 assert.match(element('#app').innerHTML, /The Missing Christmas Star/);
+assert.match(element('#app').innerHTML, /assets\/cover\.webp/);
+for (const scene of ['mailroom', 'toy-bench', 'cookie-kitchen', 'winter-sky']) {
+  assert.match(element('#app').innerHTML, new RegExp(`assets/${scene}\\.webp`));
+}
 element('#player-name').value = '<b>Star finder</b>';
 submit('start-form');
 expectScreen('game');
+assert.match(element('#app').innerHTML, /assets\/mailroom\.webp/);
 assert.equal(state().name, '<b>Star finder</b>');
 click('action', 'hint');
 assert.equal(state().hints[0], 1);
@@ -66,6 +71,7 @@ click('action', 'check1');
 expectScreen('reward');
 click('action', 'continue');
 assert.match(element('#app').innerHTML, /five flashes/);
+assert.match(element('#app').innerHTML, /assets\/toy-bench\.webp/);
 listeners.get('click')({ target: { closest: selector => selector === '#lang-btn' ? {} : null } });
 assert.match(element('#app').innerHTML, /cinco destellos/);
 listeners.get('click')({ target: { closest: selector => selector === '#lang-btn' ? {} : null } });
@@ -75,6 +81,7 @@ assert.equal(state().memoryReady, true);
 for (const light of [...state().memory]) click('light', light);
 expectScreen('reward');
 click('action', 'continue');
+assert.match(element('#app').innerHTML, /assets\/cookie-kitchen\.webp/);
 for (const tray of [2, 5, 7]) click('tray', tray);
 click('action', 'check3');
 assert.equal(state().feedback, 'tryAgain');
@@ -83,6 +90,7 @@ click('tray', 3);
 click('action', 'check3');
 expectScreen('reward');
 click('action', 'continue');
+assert.match(element('#app').innerHTML, /assets\/winter-sky\.webp/);
 for (const shape of ['tree', 'star', 'bell', 'moon', 'mitten']) click('sky', shape);
 click('action', 'check4');
 assert.equal(state().feedback, 'tryAgain');
@@ -91,6 +99,7 @@ for (const shape of ['bell', 'mitten', 'moon', 'star', 'tree']) click('sky', sha
 click('action', 'check4');
 expectScreen('reward');
 click('action', 'continue');
+assert.match(element('#app').innerHTML, /assets\/star-door\.webp/);
 element('#lock-code').value = '0000';
 submit('lock-form');
 assert.equal(state().feedback, 'codeWrong');
