@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - 'public/games/navidad/**'
+      - 'public/games/missing-christmas-star/**'
       - 'scripts/qa-christmas-game-bilingual.mjs'
+      - 'scripts/qa-missing-christmas-star.mjs'
       - '.github/workflows/qa-christmas-game-bilingual.yml'
   workflow_dispatch:
 
@@ -20,6 +22,8 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - name: Test Christmas game language and interactions
-        run: node scripts/qa-christmas-game-bilingual.mjs
+        run: |
+          node scripts/qa-christmas-game-bilingual.mjs
+          node scripts/qa-missing-christmas-star.mjs
       - name: Route integrity
         run: node scripts/qa-route-integrity.mjs --static
