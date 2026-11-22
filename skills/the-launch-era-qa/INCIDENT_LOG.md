@@ -1613,3 +1613,7 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 ## 2026-11-22 — Static QA ran before generated Self Love Gym photos (release review)
 - PR #650's Christmas and route workflows completed the game checks, then failed on five `/self-love-gym/photos/*.webp` paths. The source PNGs are present; the main Pages build generates the WebP files before its static link check. Independent PR workflows do not run that preparation.
 - `scripts/qa-route-integrity.mjs` now recognizes only those five WebP paths when each matching PNG exists and the Pages preparation step is present. Missing ordinary assets remain release failures. Re-run PR checks and the main Pages build before declaring publication.
+
+## 2026-11-22 — Christmas Star memory instruction used the wrong count
+- Live browser review of `/games/missing-christmas-star/` confirmed the mail puzzle, memory input and language switch. The toy instruction said to tap four lights while the generated pattern contains five flashes. The four refers to available colors, not taps.
+- Correct both English and Spanish copy to say five flashes; translate the footer license and progress label. Add a bilingual regression assertion and verify the replacement on the published page.

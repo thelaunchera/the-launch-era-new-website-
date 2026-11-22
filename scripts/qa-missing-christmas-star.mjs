@@ -65,6 +65,10 @@ for (const [gift, person] of [['book', 'ava'], ['mittens', 'noah'], ['cocoa', 'm
 click('action', 'check1');
 expectScreen('reward');
 click('action', 'continue');
+assert.match(element('#app').innerHTML, /five flashes/);
+listeners.get('click')({ target: { closest: selector => selector === '#lang-btn' ? {} : null } });
+assert.match(element('#app').innerHTML, /cinco destellos/);
+listeners.get('click')({ target: { closest: selector => selector === '#lang-btn' ? {} : null } });
 click('action', 'watch');
 await new Promise(resolve => setImmediate(resolve));
 assert.equal(state().memoryReady, true);
