@@ -1617,3 +1617,8 @@ Date | Tenant(s) impacted | actual steps | expected vs observed URL/state | file
 ## 2026-11-22 — Christmas Star memory instruction used the wrong count
 - Live browser review of `/games/missing-christmas-star/` confirmed the mail puzzle, memory input and language switch. The toy instruction said to tap four lights while the generated pattern contains five flashes. The four refers to available colors, not taps.
 - Correct both English and Spanish copy to say five flashes; translate the footer license and progress label. Add a bilingual regression assertion and verify the replacement on the published page.
+
+## 2026-11-22 — Christmas game presentation and room art (release review)
+- Owner iPhone screenshot showed a flat vector cover after the start controls and cream caption over pale snow, making the caption hard to read. The game rooms had no scene imagery.
+- Replace the inline cover SVG with original illustrated art, give the caption a dark image scrim, move the art into the mobile story presentation, add four room previews, and give all five rooms their own illustrated scene. Keep the separate `/games/navidad/` and the game rules unchanged.
+- Shorten duplicated offline-file help text for the online Pages game. Source QA passed for all puzzles and local links; final Pages and mobile browser visual verification follow the release.
