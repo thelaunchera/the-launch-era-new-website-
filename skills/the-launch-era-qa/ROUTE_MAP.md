@@ -1726,3 +1726,8 @@ On `/lead-private-preview.html` sample only, `tle-demo-enhancements-v12.js` owns
 - The `Open private app` action points to the separate authenticated AppDeploy app. Any actual Stripe subscription checkout there uses the coach's own Stripe Payment Link; cash/check are manual records; reminder composition requires manual sending.
 - Legal links and install manifest resolve inside this route. Keep the demo out of sales sitemap unless the owner chooses to promote it.
 
+## 2026-11-22 — The Missing Christmas Star interactive game
+- Source: `public/games/missing-christmas-star/index.html` in the active `thelaunchera/the-launch-era-new-website-` repository. Target URL after successful GitHub Pages deployment: `https://thelaunchera.com/games/missing-christmas-star/`.
+- This is a separate original family mystery. The existing `/games/navidad/` board game is unchanged. No checkout, account, backend, email, client or Studio data is connected.
+- Route is a self-contained, bilingual browser game: start form → mailroom → toy memory pattern → cookie trays → sky sequence → four-digit star door → printable certificate. The local browser key is `tle-missing-star-v1`; name and progress stay on the player's device. Header language and sound buttons are local controls. Hints and restart do not transmit data.
+- The full URL is public on GitHub Pages; it is a playable online game, not purchase-gated access. Etsy's PDF/ZIP downloads remain separate. Verify Pages deployment and direct mobile browser interaction before marking live.
