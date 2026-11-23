@@ -1,0 +1,30 @@
+name: Owner Center demo link contract
+
+on:
+  push:
+    paths:
+      - 'public/demos/index.html'
+      - 'public/demos/owner-center/index.html'
+      - 'scripts/qa-owner-center-links.mjs'
+      - '.github/workflows/owner-center-link-contract.yml'
+  pull_request:
+    paths:
+      - 'public/demos/index.html'
+      - 'public/demos/owner-center/index.html'
+      - 'scripts/qa-owner-center-links.mjs'
+      - '.github/workflows/owner-center-link-contract.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  owner-center-links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check Demo Library and Owner Center handoff
+        run: node scripts/qa-owner-center-links.mjs
