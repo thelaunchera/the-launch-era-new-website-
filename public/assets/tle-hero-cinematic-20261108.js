@@ -17,8 +17,9 @@
  const reduce=matchMedia("(prefers-reduced-motion: reduce)");
  const slow=!!navigator.connection?.saveData;
  let host=null,video=null,queued=false;
- const source=new URL("media/hero-motion-20261108.mp4",document.baseURI).href;
- const poster=new URL("media/hero-motion-poster-hq.webp",document.baseURI).href;
+ const preferred={ "sova":"media/hero-motion-framed-HD-20261108.mp4","marea-wigs-miami":"media/hero-motion-hq-20261108.mp4","casa-brownie":"media/hero-motion-hq-20261108.mp4" };
+ const source=new URL(preferred[brand]||"media/hero-motion-20261108.mp4",document.baseURI).href;
+ const poster=new URL(brand==="sova"?"resources/01-hero.png":brand==="marea-wigs-miami"?"resources/01-hero.png":"media/hero-motion-poster-hq.webp",document.baseURI).href;
  function visible(){
   if(!host||!video||!host.isConnected||document.hidden||reduce.matches)return false;
   const r=host.getBoundingClientRect();
@@ -60,6 +61,14 @@
   v.disablePictureInPicture=true;v.disableRemotePlayback=true;
   v.poster=poster;
   v.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:1;opacity:0;pointer-events:none;transition:opacity .24s ease;transform:translateZ(0);";
+  if(brand==="casa-brownie"||brand==="marea-wigs-miami"){
+    v.style.setProperty("object-fit","contain","important");
+    v.style.setProperty("scale","1","important");
+  }
+  if(brand==="sova"){
+    v.style.setProperty("object-fit","cover","important");
+    v.style.setProperty("scale","1","important");
+  }
   v.addEventListener("loadeddata",reveal);
   v.addEventListener("playing",reveal);
   v.addEventListener("error",()=>{v.pause();v.remove();if(video===v){video=null;host=null;}});
@@ -84,3 +93,5 @@
  }
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
 })();
+/* Approved original hero photos receive their own editorial section in the matching demo. */
+(()=>{const s=document.createElement("script");s.defer=true;s.src="/assets/tle-original-hero-moments-20261108.js?v=1";document.head.appendChild(s)})();
