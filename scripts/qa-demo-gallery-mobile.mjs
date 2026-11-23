@@ -26,6 +26,18 @@ await context.route(/^https:\/\/thelaunchera\.com\/demos\/sneekiefs(?:\/|$)/,asy
 
 const page=await context.newPage();
 
+// Keep the historical 16-card visual baseline deterministic. The Studio owner
+// can hide or reveal projects at any moment; live editorial choices are not QA failures.
+// The separate visibility regression test covers the actual hidden-demo behavior.
+await context.addInitScript(()=>{
+ const originalFetch=window.fetch.bind(window);
+ window.fetch=(resource,options)=>{
+  if(String(resource).includes('/rest/v1/tle_website_demo_visibility?'))
+   return Promise.resolve(new Response('[]',{status:200,headers:{'content-type':'application/json'}}));
+  return originalFetch(resource,options);
+ };
+});
+
 async function checkImage(slug){
  const card=page.locator('.demo-card[data-brand="'+slug+'"]');
  await card.scrollIntoViewIfNeeded();
