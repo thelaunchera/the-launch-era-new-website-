@@ -939,5 +939,215 @@
     "previewStyle": "clean-v1",
     "chunk": "pets-verified-01",
     "previewOnly": true
+  },
+  {
+    "id": "pet-feeding-bowls",
+    "title": "Feeding Bowls",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-02",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-grooming-brush",
+    "title": "Grooming Brush",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-02",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-happy-dog-bandana",
+    "title": "Happy Dog with Bandana",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-02",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-leash-and-collar",
+    "title": "Leash and Collar",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-02",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-lint-roller",
+    "title": "Pet Hair Lint Roller",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-02",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-paw-print-bouquet",
+    "title": "Paw Print Bouquet",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-03",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-paws-on-sofa",
+    "title": "Paws on the Sofa",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-03",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-essentials-basket",
+    "title": "Pet Essentials Basket",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-03",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-tag-bow",
+    "title": "Pet Tag and Bow",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-03",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-water-fountain",
+    "title": "Pet Water Fountain",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-03",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-wellness-tote",
+    "title": "Pet Wellness Tote",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-04",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-rainy-walk",
+    "title": "Rainy Pet Walk",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-04",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-toy-basket",
+    "title": "Toy Basket",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-04",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-travel-carrier",
+    "title": "Travel Carrier",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-04",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-treat-jar",
+    "title": "Treat Jar",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-04",
+    "previewOnly": true
   }
 ]
