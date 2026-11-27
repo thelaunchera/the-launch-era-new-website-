@@ -869,5 +869,75 @@
     "originalTransparencyVerified": true,
     "previewStyle": "clean-v1",
     "chunk": "avatars-verified-05"
+  },
+  {
+    "id": "pet-cat-cardboard-box",
+    "title": "Cat in a Cardboard Box",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-01",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-cat-dog-friendship",
+    "title": "Cat & Dog Friendship",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-01",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-cat-loaf-sunbeam",
+    "title": "Cat in a Sunbeam",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-01",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-cozy-bed",
+    "title": "Cozy Pet Bed",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-01",
+    "previewOnly": true
+  },
+  {
+    "id": "pet-dog-tennis-balls",
+    "title": "Dog with Tennis Balls",
+    "category": "pets",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "kind": "individual",
+    "originalTransparencyVerified": true,
+    "previewStyle": "clean-v1",
+    "chunk": "pets-verified-01",
+    "previewOnly": true
   }
 ]
