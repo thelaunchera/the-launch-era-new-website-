@@ -8,18 +8,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-1"
-  },
-  {
-    "id": "cuban-cafe-con-leche-and-toast",
-    "title": "Cuban Café con Leche and Toast",
-    "category": "cuban",
-    "originalSize": [
-      1122,
-      1402
-    ],
-    "kind": "collection",
-    "chunk": "cuban-1"
+    "chunk": "cuban-1",
+    "originalTransparencyVerified": true
   },
   {
     "id": "cuban-caramel-flan-sticker",
@@ -30,7 +20,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-2"
+    "chunk": "cuban-2",
+    "originalTransparencyVerified": true
   },
   {
     "id": "cuban-comfort-bowl-beans-rice-plantains",
@@ -41,7 +32,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-2"
+    "chunk": "cuban-2",
+    "originalTransparencyVerified": true
   },
   {
     "id": "cuban-espresso-and-dominoes",
@@ -52,7 +44,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-3"
+    "chunk": "cuban-3",
+    "originalTransparencyVerified": true
   },
   {
     "id": "cuban-moka-pot-espresso",
@@ -63,7 +56,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-3"
+    "chunk": "cuban-3",
+    "originalTransparencyVerified": true
   },
   {
     "id": "cuban-rice-cooker-and-black-beans",
@@ -74,7 +68,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-4"
+    "chunk": "cuban-4",
+    "originalTransparencyVerified": true
   },
   {
     "id": "cuban-ropa-vieja-feast",
@@ -85,18 +80,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-5"
-  },
-  {
-    "id": "golden-cuban-arroz-con-pollo",
-    "title": "Golden Cuban Arroz con Pollo",
-    "category": "cuban",
-    "originalSize": [
-      1122,
-      1402
-    ],
-    "kind": "collection",
-    "chunk": "cuban-6"
+    "chunk": "cuban-5",
+    "originalTransparencyVerified": true
   },
   {
     "id": "golden-cuban-croquetas-with-lime",
@@ -107,7 +92,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-6"
+    "chunk": "cuban-6",
+    "originalTransparencyVerified": true
   },
   {
     "id": "golden-cuban-sandwich-with-plantain-chips",
@@ -118,7 +104,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-7"
+    "chunk": "cuban-7",
+    "originalTransparencyVerified": true
   },
   {
     "id": "guava-cream-cheese-pastelitos",
@@ -129,7 +116,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-8"
+    "chunk": "cuban-8",
+    "originalTransparencyVerified": true
   },
   {
     "id": "hibiscus-apron-with-sunny-bow",
@@ -140,40 +128,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-9"
-  },
-  {
-    "id": "homemade-cuban-vanilla-flan",
-    "title": "Homemade Cuban vanilla flan",
-    "category": "cuban",
-    "originalSize": [
-      1122,
-      1402
-    ],
-    "kind": "collection",
-    "chunk": "cuban-9"
-  },
-  {
-    "id": "homestyle-cuban-black-beans-and-rice",
-    "title": "Homestyle Cuban Black Beans and Rice",
-    "category": "cuban",
-    "originalSize": [
-      1122,
-      1402
-    ],
-    "kind": "collection",
-    "chunk": "cuban-10"
-  },
-  {
-    "id": "homestyle-cuban-ropa-vieja-plate",
-    "title": "Homestyle Cuban Ropa Vieja Plate",
-    "category": "cuban",
-    "originalSize": [
-      1122,
-      1402
-    ],
-    "kind": "collection",
-    "chunk": "cuban-10"
+    "chunk": "cuban-9",
+    "originalTransparencyVerified": true
   },
   {
     "id": "tropical-fruit-market-basket",
@@ -184,7 +140,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-11"
+    "chunk": "cuban-11",
+    "originalTransparencyVerified": true
   },
   {
     "id": "turquoise-cuban-arroz-con-pollo",
@@ -195,7 +152,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cuban-12"
+    "chunk": "cuban-12",
+    "originalTransparencyVerified": true
   },
   {
     "id": "cheerful-clean-house-sticker",
@@ -206,7 +164,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-1"
+    "chunk": "cleaning-1",
+    "originalTransparencyVerified": true
   },
   {
     "id": "cleaning-ready-sneakers-and-gloves",
@@ -217,7 +176,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-1"
+    "chunk": "cleaning-1",
+    "originalTransparencyVerified": true
   },
   {
     "id": "dusty-to-sparkling-house",
@@ -228,18 +188,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-1"
-  },
-  {
-    "id": "freshly-reset-cleaning-sticker-set",
-    "title": "Freshly Reset Cleaning Sticker Set",
-    "category": "cleaning",
-    "originalSize": [
-      1312,
-      1199
-    ],
-    "kind": "collection",
-    "chunk": "cleaning-2"
+    "chunk": "cleaning-1",
+    "originalTransparencyVerified": true
   },
   {
     "id": "morning-route-tumbler-and-keys",
@@ -250,7 +200,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-2"
+    "chunk": "cleaning-2",
+    "originalTransparencyVerified": true
   },
   {
     "id": "powder-blue-cleaning-van-sticker",
@@ -261,7 +212,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-2"
+    "chunk": "cleaning-2",
+    "originalTransparencyVerified": true
   },
   {
     "id": "powder-blue-clipboard-checklist-sticker",
@@ -272,7 +224,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-3"
+    "chunk": "cleaning-3",
+    "originalTransparencyVerified": true
   },
   {
     "id": "powder-blue-planner-checkmark-sticker",
@@ -283,7 +236,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-3"
+    "chunk": "cleaning-3",
+    "originalTransparencyVerified": true
   },
   {
     "id": "professional-cleaning-apron-with-tools",
@@ -294,7 +248,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-3"
+    "chunk": "cleaning-3",
+    "originalTransparencyVerified": true
   },
   {
     "id": "ribbon-tied-house-keys-sticker",
@@ -305,7 +260,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-4"
+    "chunk": "cleaning-4",
+    "originalTransparencyVerified": true
   },
   {
     "id": "smartphone-calendar-checkmark-sticker",
@@ -316,7 +272,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-4"
+    "chunk": "cleaning-4",
+    "originalTransparencyVerified": true
   },
   {
     "id": "sparkling-checkmark-door-hanger-sticker",
@@ -327,7 +284,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-5"
+    "chunk": "cleaning-5",
+    "originalTransparencyVerified": true
   },
   {
     "id": "sparkling-powder-blue-cleaning-caddy",
@@ -338,7 +296,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-5"
+    "chunk": "cleaning-5",
+    "originalTransparencyVerified": true
   },
   {
     "id": "sparkling-victory-cleaning-gloves",
@@ -349,29 +308,8 @@
       1254
     ],
     "kind": "collection",
-    "chunk": "cleaning-5"
-  },
-  {
-    "id": "coquette-pilates-reformer-with-hibiscus",
-    "title": "Coquette Pilates Reformer with Hibiscus",
-    "category": "wellness",
-    "originalSize": [
-      1254,
-      1254
-    ],
-    "kind": "collection",
-    "chunk": "wellness-1"
-  },
-  {
-    "id": "pastel-pilates-princess-sticker-collection",
-    "title": "Pastel Pilates Princess Sticker Collection",
-    "category": "wellness",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "wellness-7"
+    "chunk": "cleaning-5",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-01",
@@ -382,7 +320,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-9"
+    "chunk": "wellness-9",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-02",
@@ -393,7 +332,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-9"
+    "chunk": "wellness-9",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-03",
@@ -404,7 +344,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-9"
+    "chunk": "wellness-9",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-04",
@@ -415,7 +356,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-10"
+    "chunk": "wellness-10",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-05",
@@ -426,7 +368,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-10"
+    "chunk": "wellness-10",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-06",
@@ -437,7 +380,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-10"
+    "chunk": "wellness-10",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-07",
@@ -448,7 +392,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-10"
+    "chunk": "wellness-10",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-08",
@@ -459,7 +404,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-10"
+    "chunk": "wellness-10",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-09",
@@ -470,7 +416,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-11"
+    "chunk": "wellness-11",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-10",
@@ -481,7 +428,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-11"
+    "chunk": "wellness-11",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-11",
@@ -492,7 +440,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-11"
+    "chunk": "wellness-11",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-12",
@@ -503,7 +452,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-11"
+    "chunk": "wellness-11",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-13",
@@ -514,7 +464,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-11"
+    "chunk": "wellness-11",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-14",
@@ -525,7 +476,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-11"
+    "chunk": "wellness-11",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-15",
@@ -536,7 +488,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-12"
+    "chunk": "wellness-12",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-16",
@@ -547,7 +500,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-12"
+    "chunk": "wellness-12",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-17",
@@ -558,7 +512,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-12"
+    "chunk": "wellness-12",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-18",
@@ -569,7 +524,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-12"
+    "chunk": "wellness-12",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-19",
@@ -580,7 +536,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-12"
+    "chunk": "wellness-12",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-20",
@@ -591,7 +548,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-13"
+    "chunk": "wellness-13",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-21",
@@ -602,7 +560,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-13"
+    "chunk": "wellness-13",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-22",
@@ -613,7 +572,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-13"
+    "chunk": "wellness-13",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-23",
@@ -624,7 +584,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-13"
+    "chunk": "wellness-13",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-24",
@@ -635,7 +596,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-13"
+    "chunk": "wellness-13",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-25",
@@ -646,7 +608,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-13"
+    "chunk": "wellness-13",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-26",
@@ -657,7 +620,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-13"
+    "chunk": "wellness-13",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-27",
@@ -668,7 +632,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-14"
+    "chunk": "wellness-14",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-28",
@@ -679,7 +644,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-14"
+    "chunk": "wellness-14",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-29",
@@ -690,7 +656,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-14"
+    "chunk": "wellness-14",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-30",
@@ -701,7 +668,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-14"
+    "chunk": "wellness-14",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-31",
@@ -712,7 +680,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-14"
+    "chunk": "wellness-14",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-32",
@@ -723,7 +692,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-14"
+    "chunk": "wellness-14",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-33",
@@ -734,7 +704,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-14"
+    "chunk": "wellness-14",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-34",
@@ -745,7 +716,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-14"
+    "chunk": "wellness-14",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-35",
@@ -756,7 +728,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-15"
+    "chunk": "wellness-15",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-36",
@@ -767,7 +740,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-15"
+    "chunk": "wellness-15",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-37",
@@ -778,7 +752,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-15"
+    "chunk": "wellness-15",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-38",
@@ -789,7 +764,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-15"
+    "chunk": "wellness-15",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-39",
@@ -800,7 +776,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-15"
+    "chunk": "wellness-15",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-40",
@@ -811,7 +788,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-15"
+    "chunk": "wellness-15",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-41",
@@ -822,7 +800,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-15"
+    "chunk": "wellness-15",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-42",
@@ -833,7 +812,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-15"
+    "chunk": "wellness-15",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-43",
@@ -844,7 +824,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-16"
+    "chunk": "wellness-16",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-44",
@@ -855,7 +836,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-16"
+    "chunk": "wellness-16",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-45",
@@ -866,7 +848,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-16"
+    "chunk": "wellness-16",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-46",
@@ -877,7 +860,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-16"
+    "chunk": "wellness-16",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-47",
@@ -888,7 +872,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-16"
+    "chunk": "wellness-16",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-48",
@@ -899,7 +884,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-16"
+    "chunk": "wellness-16",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-49",
@@ -910,7 +896,8 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-16"
+    "chunk": "wellness-16",
+    "originalTransparencyVerified": true
   },
   {
     "id": "pilates-princess-50",
@@ -921,160 +908,7 @@
       612
     ],
     "kind": "individual",
-    "chunk": "wellness-16"
-  },
-  {
-    "id": "cozy-christmas-sticker-collection",
-    "title": "Cozy Christmas Sticker Collection",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-1"
-  },
-  {
-    "id": "cozy-pink-christmas-sticker-sheet",
-    "title": "Cozy Pink Christmas Sticker Sheet",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-2"
-  },
-  {
-    "id": "lucky-st-patricks-day-sticker-set",
-    "title": "Lucky St. Patrick’s Day Sticker Set",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-2"
-  },
-  {
-    "id": "pastel-christmas-sticker-collection",
-    "title": "Pastel Christmas Sticker Collection",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-3"
-  },
-  {
-    "id": "pastel-coquette-halloween-sticker-collection",
-    "title": "Pastel Coquette Halloween Sticker Collection",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-4"
-  },
-  {
-    "id": "pastel-easter-sticker-sheet",
-    "title": "Pastel Easter Sticker Sheet",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-4"
-  },
-  {
-    "id": "pastel-mothers-day-sticker-collage",
-    "title": "Pastel Mother’s Day Sticker Collage",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-5"
-  },
-  {
-    "id": "pastel-spring-sticker-sheet",
-    "title": "Pastel Spring Sticker Sheet",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-5"
-  },
-  {
-    "id": "patriotic-summer-sticker-collection",
-    "title": "Patriotic Summer Sticker Collection",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-6"
-  },
-  {
-    "id": "patriotic-summer-sticker-sheet",
-    "title": "Patriotic Summer Sticker Sheet",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-7"
-  },
-  {
-    "id": "pink-and-gold-new-year-sticker-set",
-    "title": "Pink and Gold New Year Sticker Set",
-    "category": "seasonal",
-    "originalSize": [
-      1402,
-      1122
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-7"
-  },
-  {
-    "id": "valentines-day-sticker-collection",
-    "title": "Valentine’s Day Sticker Collection",
-    "category": "seasonal",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "seasonal-8"
-  },
-  {
-    "id": "friendly-robot-assistant-sticker-set",
-    "title": "Friendly Robot Assistant Sticker Set",
-    "category": "creator",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "creator-1"
-  },
-  {
-    "id": "kawaii-kitten-marketing-sticker-set",
-    "title": "Kawaii Kitten Marketing Sticker Set",
-    "category": "creator",
-    "originalSize": [
-      1536,
-      1024
-    ],
-    "kind": "collection",
-    "chunk": "creator-1"
+    "chunk": "wellness-16",
+    "originalTransparencyVerified": true
   }
 ]
