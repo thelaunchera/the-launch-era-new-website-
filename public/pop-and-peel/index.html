@@ -84,6 +84,11 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
 .access{grid-template-columns:1fr 1fr;align-items:start;background:#e6f2e7;gap:24px}.access h2{line-height:1.1}.access .checkout-note{font-size:13px;color:#514d48;font-weight:700;margin:14px 0}.access-list{list-style:none;padding:0;margin:0;counter-reset:delivery;display:grid;grid-template-columns:1fr;gap:10px}.access-list li{counter-increment:delivery;position:relative;min-width:0;padding:14px 12px 14px 49px;background:#fff;border:1px solid #d9e1d5;border-radius:14px}.access-list li:before{content:counter(delivery);position:absolute;left:12px;top:14px;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;background:#e6f2e7;color:#29221e;font-weight:900;font-size:13px}.access-list b{display:block;font-size:15px;line-height:1.25}.access-list p{margin:5px 0 0;color:#625a54;font-size:13px;line-height:1.5}.access a.button{display:inline-flex;align-items:center;justify-content:center}
 #reader .reader-controls{grid-template-columns:44px minmax(0,1fr) 44px!important;grid-template-rows:44px!important;gap:8px;align-items:center;width:100%;max-width:540px;min-width:0}#reader .reader-controls .prev{grid-column:1!important;grid-row:1!important;justify-self:start}#reader .reader-controls #readerCounter{grid-column:2!important;grid-row:1!important;white-space:nowrap;min-width:0;text-align:center}#reader .reader-controls .next{grid-column:3!important;grid-row:1!important;justify-self:end}
 @media(max-width:760px){.hero{grid-template-columns:1fr}.hero-copy{padding:23px 19px 6px}.hero h1{font-size:clamp(32px,8.5vw,46px)}.hero-art{padding:12px 16px 18px}.hero-curated{max-width:420px;gap:8px}.hero-feature{border-radius:14px}.access{grid-template-columns:1fr;gap:16px}.access-list li{padding-top:12px;padding-bottom:12px}}
+
+/* A brand-first hero with artwork on a shared surface; no preview cards or inventory metrics. */
+.hero{background:#fffaf4;border:1px solid #eaded5;grid-template-columns:1fr 1fr;gap:0}.hero-copy{padding:42px clamp(20px,4vw,56px)}.hero h1{font-size:clamp(34px,5vw,64px);line-height:1.02;letter-spacing:-.055em}.hero-art{padding:12px 24px 12px 0}.hero-gallery{background:#fffaf4;max-width:580px;margin:auto;padding:14px 0;display:grid;gap:10px}.hero-gallery-note,.hero-gallery-footer{display:flex;justify-content:space-between;align-items:center;font:900 10px/1.3 Nunito,system-ui,sans-serif;letter-spacing:.13em;color:#6d5d56}.hero-gallery-footer{border-top:1px solid #ecded3;padding-top:10px}.hero-gallery-footer span{color:#bd527c;font-size:24px}.hero-character-row{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;gap:0;min-width:0}.hero-character-row img{width:100%;height:auto;aspect-ratio:1;object-fit:contain;display:block;background:transparent;border:0;padding:0;box-shadow:none;border-radius:0;mix-blend-mode:multiply;transform:none;rotate:0!important;translate:0!important}.hero-character-row img:nth-child(2){transform:translateY(-9px)}.shop-benefits{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;padding:14px 4px 20px;margin:0 0 20px;border-bottom:1px solid #e9ded4;color:#635a53;font-size:12px;font-weight:800}.shop-benefits span:before{content:'✓';display:inline-block;color:#547a62;margin-right:6px}
+.collection-cover{display:grid;grid-template-rows:auto 1fr auto auto;gap:7px;aspect-ratio:1.12;min-width:0;padding:13px;background:var(--pack-color);color:var(--pack-ink);text-align:left;overflow:hidden}.collection-brand{font-size:9px;font-weight:900;letter-spacing:.12em}.collection-art{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;align-items:center;min-height:0;min-width:0}.collection-art img{width:100%;height:auto;aspect-ratio:1;max-height:100%;object-fit:contain;background:#fffaf4;border-radius:9px;display:block}.collection-name{font-weight:900;font-size:clamp(15px,2.4vw,25px);line-height:1.03;letter-spacing:-.04em}.collection-format{font-size:9px;font-weight:900;letter-spacing:.09em}.book-meta{justify-content:flex-start}.book-meta span:last-child{background:#f5eee7}.book-info{padding:13px}.book-info h3{font-size:19px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-copy{padding:24px 19px 10px}.hero h1{font-size:clamp(35px,9vw,48px)}.hero-art{padding:4px 17px 15px}.hero-gallery{padding:4px 0;gap:6px}.hero-gallery-note,.hero-gallery-footer{font-size:8px}.hero-gallery-footer{padding-top:5px}.hero-gallery-footer span{font-size:18px}.shop-benefits{justify-content:space-between;gap:5px;font-size:10px;padding:12px 1px 16px}.shop-benefits span:before{margin-right:3px}.collection-cover{padding:9px;gap:5px;aspect-ratio:1.05}.collection-brand,.collection-format{font-size:7px;letter-spacing:.04em}.collection-name{font-size:16px}.collection-art{gap:3px}.collection-art img{border-radius:5px}.book-info h3{font-size:16px}}
 </style>
 </head>
 <body>
@@ -106,11 +111,7 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
       <div class="hero-art" id="heroArt" aria-hidden="true"></div>
     </section>
 
-    <section class="stats" aria-label="Collection summary">
-      <div class="stat"><b id="categoryTotal">5</b><span data-i18n="statCategories"></span></div>
-      <div class="stat"><b id="total">0</b><span data-i18n="statDesigns"></span></div>
-      <div class="stat"><b data-i18n="noZip"></b><span data-i18n="statFormat"></span></div>
-    </section>
+    <div class="shop-benefits"><span data-i18n="benefit1"></span><span data-i18n="benefit2"></span><span data-i18n="benefit3"></span></div>
 
     <section id="books">
       <div class="section-head"><div><span class="eyebrow" data-i18n="shelfTag"></span><h2 data-i18n="shelfTitle"></h2></div><p data-i18n="shelfText"></p></div>
@@ -144,8 +145,8 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
 
   <script>
   const COPY={
-    en:{announce:'Little things. Big personality. · Digital sticker studio',navBooks:'Collections',navAll:'Sticker library',navAccess:'How it works',eyebrow:'The digital sticker shop',hero:'Little things. Big personality.',heroText:'Make your planners, journals and creative projects feel a little more you. Discover our digital sticker collections.',explore:'Explore collections',how:'Browse all stickers',statCategories:'organized categories',statDesigns:'sticker previews',noZip:'PNG',statFormat:'digital sticker format',shelfTag:'The digital shelf',shelfTitle:'Shop by collection',shelfText:'Original artwork, carefully checked for transparent backgrounds. Tap a collection to explore its designs.',allTag:'The sticker library',allTitle:'Find your favorites',allText:'Filter the complete collection or search by name. Every image here is a protected preview.',searchLabel:'Search stickers',searchPlaceholder:'Search stickers…',all:'All',open:'Open publication',designs:'designs',individual:'Individual sticker',collection:'Sticker sheet',empty:'No stickers found in this category.',accessTag:'Digital delivery',accessTitle:'From checkout to your inbox.',accessText:'Your digital sticker purchase will be delivered to the email address you enter at checkout. No shipping and no ZIP files to unpack.',checkoutNote:'Online checkout is coming soon. In the meantime, explore the collections.',notify:'Questions? Contact us',a1:'Choose your collection',d1:'Pick your favorite pack and enter your correct email address at checkout.',a2:'Check your inbox',d2:'After payment is confirmed, you will receive an email with a private access link. Check your spam folder if needed.',a3:'Open your sticker pack',d3:'Access your purchased collection and download individual transparent PNG stickers.',unlock:'Digital checkout coming soon',page:'Page'},
-    es:{announce:'Pequeños detalles. Mucha personalidad. · Estudio de stickers digitales',navBooks:'Colecciones',navAll:'Biblioteca',navAccess:'Cómo funciona',eyebrow:'Tienda de stickers digitales',hero:'Pequeños detalles. Mucha personalidad.',heroText:'Dale tu toque personal a tus agendas, diarios y proyectos creativos. Descubre nuestras colecciones de stickers digitales.',explore:'Explorar colecciones',how:'Ver todos los stickers',statCategories:'categorías organizadas',statDesigns:'vistas de stickers',noZip:'PNG',statFormat:'formato digital de stickers',shelfTag:'La biblioteca digital',shelfTitle:'Explora por colección',shelfText:'Diseños originales con fondo transparente comprobado. Toca una colección para explorar sus stickers.',allTag:'Biblioteca de stickers',allTitle:'Encuentra tus favoritos',allText:'Filtra la colección completa o busca por nombre. Todas las imágenes son vistas previas protegidas.',searchLabel:'Buscar stickers',searchPlaceholder:'Buscar stickers…',all:'Todos',open:'Abrir publicación',designs:'diseños',individual:'Sticker individual',collection:'Hoja de stickers',empty:'No encontramos stickers en esta categoría.',accessTag:'Entrega digital',accessTitle:'De tu compra a tu correo.',accessText:'Tu compra de stickers digitales llegará al correo electrónico que escribas en el checkout. Sin envíos físicos ni archivos ZIP que descomprimir.',checkoutNote:'El checkout online estará disponible próximamente. Mientras tanto, explora las colecciones.',notify:'¿Preguntas? Contáctanos',a1:'Elige tu colección',d1:'Selecciona tu pack favorito e introduce correctamente tu correo en el checkout.',a2:'Revisa tu correo',d2:'Después de confirmar el pago, recibirás un correo con un enlace de acceso privado. Revisa la carpeta de spam si es necesario.',a3:'Abre tu pack de stickers',d3:'Accede a la colección que compraste y descarga los stickers PNG individuales con fondo transparente.',unlock:'Checkout digital próximamente',page:'Página'}
+    en:{announce:'Little things. Big personality. · Digital sticker studio',navBooks:'Collections',navAll:'Sticker library',navAccess:'How it works',eyebrow:'The digital sticker shop',hero:'Little things. Big personality.',heroText:'Make your planners, journals and creative projects feel a little more you. Discover our digital sticker collections.',explore:'Explore sticker packs',benefit1:'Digital downloads',benefit2:'Transparent PNGs',benefit3:'Delivered by email',how:'Browse all stickers',statCategories:'organized categories',statDesigns:'sticker previews',noZip:'PNG',statFormat:'digital sticker format',shelfTag:'The digital shelf',shelfTitle:'Find your sticker pack',shelfText:'Themed digital packs for your favorite routines, creative projects and little moments. Explore a curated preview of each pack.',allTag:'The sticker library',allTitle:'Find your favorites',allText:'Filter the complete collection or search by name. Every image here is a protected preview.',searchLabel:'Search stickers',searchPlaceholder:'Search stickers…',all:'All',open:'Open publication',designs:'designs',individual:'Individual sticker',collection:'Sticker sheet',empty:'No stickers found in this category.',accessTag:'Digital delivery',accessTitle:'From checkout to your inbox.',accessText:'Your digital sticker purchase will be delivered to the email address you enter at checkout. No shipping and no ZIP files to unpack.',checkoutNote:'Online checkout is coming soon. In the meantime, explore the collections.',notify:'Questions? Contact us',a1:'Choose your collection',d1:'Pick your favorite pack and enter your correct email address at checkout.',a2:'Check your inbox',d2:'After payment is confirmed, you will receive an email with a private access link. Check your spam folder if needed.',a3:'Open your sticker pack',d3:'Access your purchased collection and download individual transparent PNG stickers.',unlock:'Digital checkout coming soon',page:'Page'},
+    es:{announce:'Pequeños detalles. Mucha personalidad. · Estudio de stickers digitales',navBooks:'Colecciones',navAll:'Biblioteca',navAccess:'Cómo funciona',eyebrow:'Tienda de stickers digitales',hero:'Pequeños detalles. Mucha personalidad.',heroText:'Dale tu toque personal a tus agendas, diarios y proyectos creativos. Descubre nuestras colecciones de stickers digitales.',explore:'Explorar packs',benefit1:'Descargas digitales',benefit2:'PNG transparentes',benefit3:'Entrega por correo',how:'Ver todos los stickers',statCategories:'categorías organizadas',statDesigns:'vistas de stickers',noZip:'PNG',statFormat:'formato digital de stickers',shelfTag:'La biblioteca digital',shelfTitle:'Encuentra tu pack de stickers',shelfText:'Packs digitales temáticos para tus rutinas, proyectos y pequeños momentos. Explora una selección de cada pack.',allTag:'Biblioteca de stickers',allTitle:'Encuentra tus favoritos',allText:'Filtra la colección completa o busca por nombre. Todas las imágenes son vistas previas protegidas.',searchLabel:'Buscar stickers',searchPlaceholder:'Buscar stickers…',all:'Todos',open:'Abrir publicación',designs:'diseños',individual:'Sticker individual',collection:'Hoja de stickers',empty:'No encontramos stickers en esta categoría.',accessTag:'Entrega digital',accessTitle:'De tu compra a tu correo.',accessText:'Tu compra de stickers digitales llegará al correo electrónico que escribas en el checkout. Sin envíos físicos ni archivos ZIP que descomprimir.',checkoutNote:'El checkout online estará disponible próximamente. Mientras tanto, explora las colecciones.',notify:'¿Preguntas? Contáctanos',a1:'Elige tu colección',d1:'Selecciona tu pack favorito e introduce correctamente tu correo en el checkout.',a2:'Revisa tu correo',d2:'Después de confirmar el pago, recibirás un correo con un enlace de acceso privado. Revisa la carpeta de spam si es necesario.',a3:'Abre tu pack de stickers',d3:'Accede a la colección que compraste y descarga los stickers PNG individuales con fondo transparente.',unlock:'Checkout digital próximamente',page:'Página'}
   };
   const CATS={
     cuban:{en:['Cuban Kitchen & Culture','Food, cafecito and nostalgic Cuban details.'],es:['Cocina y cultura cubana','Comida, cafecito y detalles cubanos llenos de nostalgia.'],color:'#ffd83d'},
@@ -156,38 +157,317 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
     avatars:{en:['Avatar Collection','Illustrated women, everyday moments and different professions.'],es:['Colección de avatares','Mujeres ilustradas, momentos cotidianos y diferentes profesiones.'],color:'#ffe2b8'}
   };
   const ORDER=['cuban','cleaning','wellness','creator','avatars'];
-  const TRANSPARENT_APPROVED=new Set(["cafe-con-leche-and-cuban-toast","cuban-caramel-flan-sticker","cuban-comfort-bowl-beans-rice-plantains","cuban-espresso-and-dominoes","cuban-moka-pot-espresso","cuban-rice-cooker-and-black-beans","cuban-ropa-vieja-feast","golden-cuban-croquetas-with-lime","golden-cuban-sandwich-with-plantain-chips","guava-cream-cheese-pastelitos","hibiscus-apron-with-sunny-bow","tropical-fruit-market-basket","turquoise-cuban-arroz-con-pollo","cheerful-clean-house-sticker","cleaning-ready-sneakers-and-gloves","dusty-to-sparkling-house","morning-route-tumbler-and-keys","powder-blue-cleaning-van-sticker","powder-blue-clipboard-checklist-sticker","powder-blue-planner-checkmark-sticker","professional-cleaning-apron-with-tools","ribbon-tied-house-keys-sticker","smartphone-calendar-checkmark-sticker","sparkling-checkmark-door-hanger-sticker","sparkling-powder-blue-cleaning-caddy","sparkling-victory-cleaning-gloves","pilates-princess-01","pilates-princess-02","pilates-princess-03","pilates-princess-04","pilates-princess-05","pilates-princess-06","pilates-princess-07","pilates-princess-08","pilates-princess-09","pilates-princess-10","pilates-princess-11","pilates-princess-12","pilates-princess-13","pilates-princess-14","pilates-princess-15","pilates-princess-16","pilates-princess-17","pilates-princess-18","pilates-princess-19","pilates-princess-20","pilates-princess-21","pilates-princess-22","pilates-princess-23","pilates-princess-24","pilates-princess-26","pilates-princess-28","pilates-princess-30","pilates-princess-31","pilates-princess-32","pilates-princess-33","pilates-princess-34","pilates-princess-35","pilates-princess-36","pilates-princess-37","pilates-princess-38","pilates-princess-39","pilates-princess-40","pilates-princess-41","pilates-princess-42","pilates-princess-43","pilates-princess-44","pilates-princess-45","pilates-princess-46","pilates-princess-47","pilates-princess-48","pilates-princess-49","pilates-princess-50","creator-coffee-on-the-go","creator-creative-wolf","creator-pink-pencil-girl","creator-blue-pencil-girl","creator-yellow-pencil-girl","creator-hello-creative-girl","creator-lavender-sitting-girl","creator-green-walking-girl","creator-laptop-girl","creator-camera-girl","creator-playful-puppy","creator-cream-bunny","creator-podcast-microphone","creator-lavender-kitten","creator-sitting-puppy","creator-little-rocket","creator-pink-checklist","creator-pink-goal","creator-lavender-idea","avatar-01-curly-coffee-woman","avatar-02-hijabi-grocery-woman","avatar-03-short-hair-book-woman","avatar-04-plus-size-phone-woman","avatar-05-redhead-plant-woman","avatar-06-senior-market-woman","avatar-07-pregnant-errand-woman","avatar-08-wheelchair-style-woman","avatar-09-afro-headphones-woman","avatar-10-camera-day-out-woman","avatar-11-bike-helmet-woman","avatar-12-long-gray-hair-tea-woman","avatar-13-curvy-dog-mom-woman","avatar-14-gamer-woman","avatar-15-city-commuter-woman","avatar-16-sketchbook-woman","avatar-17-curly-hair-backpack-woman","avatar-18-home-gardener-woman","avatar-19-rainy-day-umbrella-woman","avatar-20-confident-everyday-woman","avatar-founder-laptop","avatar-yoga-mat","avatar-florist-bouquet","avatar-senior-dog-walker"]);
-  const $=s=>document.querySelector(s);let items=[],lang=((/^\/es(?:\/|$)/.test(location.pathname)?'es':'')||localStorage.getItem('popPeelLang')||localStorage.getItem('popPeelStickerLang')||((navigator.language||'en').startsWith('es')?'es':'en'));if(!COPY[lang])lang='en';let active='all',query='',limit=24,galleryRun=0,readerItems=[],readerIndex=0,touchStart=0;window.POP_PEEL_PREVIEWS=window.POP_PEEL_PREVIEWS||{};const loadedChunks=new Set(),pendingChunks=new Map();
+  const TRANSPARENT_APPROVED=new Set(["cafe-con-leche-and-cuban-toast","cuban-caramel-flan-sticker","cuban-comfort-bowl-beans-rice-plantains","cuban-espresso-and-dominoes","cuban-moka-pot-espresso","cuban-rice-cooker-and-black-beans","cuban-ropa-vieja-feast","golden-cuban-croquetas-with-lime","golden-cuban-sandwich-with-plantain-chips","guava-cream-cheese-pastelitos","hibiscus-apron-with-sunny-bow","tropical-fruit-market-basket","turquoise-cuban-arroz-con-pollo","cheerful-clean-house-sticker","cleaning-ready-sneakers-and-gloves","dusty-to-sparkling-house","morning-route-tumbler-and-keys","powder-blue-cleaning-van-sticker","powder-blue-clipboard-checklist-sticker","powder-blue-planner-checkmark-sticker","professional-cleaning-apron-with-tools","ribbon-tied-house-keys-sticker","smartphone-calendar-checkmark-sticker","sparkling-checkmark-door-hanger-sticker","sparkling-powder-blue-cleaning-caddy","sparkling-victory-cleaning-gloves","pilates-princess-02","pilates-princess-03","pilates-princess-04","pilates-princess-05","pilates-princess-06","pilates-princess-07","pilates-princess-08","pilates-princess-09","pilates-princess-10","pilates-princess-11","pilates-princess-12","pilates-princess-13","pilates-princess-14","pilates-princess-15","pilates-princess-16","pilates-princess-17","pilates-princess-18","pilates-princess-19","pilates-princess-20","pilates-princess-21","pilates-princess-22","pilates-princess-23","pilates-princess-24","pilates-princess-26","pilates-princess-28","pilates-princess-30","pilates-princess-31","pilates-princess-32","pilates-princess-33","pilates-princess-34","pilates-princess-35","pilates-princess-36","pilates-princess-37","pilates-princess-38","pilates-princess-39","pilates-princess-40","pilates-princess-41","pilates-princess-42","pilates-princess-43","pilates-princess-44","pilates-princess-45","pilates-princess-46","pilates-princess-47","pilates-princess-48","pilates-princess-49","pilates-princess-50","creator-coffee-on-the-go","creator-creative-wolf","creator-pink-pencil-girl","creator-blue-pencil-girl","creator-yellow-pencil-girl","creator-hello-creative-girl","creator-lavender-sitting-girl","creator-green-walking-girl","creator-laptop-girl","creator-camera-girl","creator-playful-puppy","creator-cream-bunny","creator-podcast-microphone","creator-lavender-kitten","creator-sitting-puppy","creator-little-rocket","creator-pink-checklist","creator-pink-goal","creator-lavender-idea","avatar-01-curly-coffee-woman","avatar-02-hijabi-grocery-woman","avatar-03-short-hair-book-woman","avatar-04-plus-size-phone-woman","avatar-05-redhead-plant-woman","avatar-06-senior-market-woman","avatar-07-pregnant-errand-woman","avatar-08-wheelchair-style-woman","avatar-09-afro-headphones-woman","avatar-10-camera-day-out-woman","avatar-11-bike-helmet-woman","avatar-12-long-gray-hair-tea-woman","avatar-13-curvy-dog-mom-woman","avatar-14-gamer-woman","avatar-15-city-commuter-woman","avatar-16-sketchbook-woman","avatar-17-curly-hair-backpack-woman","avatar-18-home-gardener-woman","avatar-19-rainy-day-umbrella-woman","avatar-20-confident-everyday-woman","avatar-founder-laptop","avatar-yoga-mat","avatar-florist-bouquet","avatar-senior-dog-walker"]);
+  const $=s=>document.querySelector(s);let items=[],lang=((/^\/es(?:\/|$)/.test(location.pathname)?'es':'')||localStorage.getItem('popPeelLang')||localStorage.getItem('popPeelStickerLang')||((navigator.language||'en').startsWith('es')?'es':'en'));if(!COPY[lang])lang='en';let active='all',activePack='',readerPack='',query='',limit=24,galleryRun=0,readerItems=[],readerIndex=0,touchStart=0;window.POP_PEEL_PREVIEWS=window.POP_PEEL_PREVIEWS||{};const loadedChunks=new Set(),pendingChunks=new Map();
   const t=k=>COPY[lang][k];const catText=(key,index=0)=>CATS[key][lang][index];
   function esc(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
   const assetSrc=item=>item ? (window.POP_PEEL_PREVIEWS[item.id]||'') : '';
-  function loadChunk(name){if(loadedChunks.has(name))return Promise.resolve();if(pendingChunks.has(name))return pendingChunks.get(name);const request=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL(name+'.js?v=curated-hero-v5-20261127',new URL('/digital-stickers/assets/data/',location.origin)).href;script.onload=()=>{loadedChunks.add(name);pendingChunks.delete(name);resolve()};script.onerror=()=>{pendingChunks.delete(name);reject(new Error(`Could not load ${name}`))};document.head.appendChild(script)});pendingChunks.set(name,request);return request}
+  function loadChunk(name){if(loadedChunks.has(name))return Promise.resolve();if(pendingChunks.has(name))return pendingChunks.get(name);const request=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL(name+'.js?v=pack-shop-v6-20261127',new URL('/digital-stickers/assets/data/',location.origin)).href;script.onload=()=>{loadedChunks.add(name);pendingChunks.delete(name);resolve()};script.onerror=()=>{pendingChunks.delete(name);reject(new Error(`Could not load ${name}`))};document.head.appendChild(script)});pendingChunks.set(name,request);return request}
   function ensureCategory(category,all=true){const chunks=[...new Set(group(category).map(i=>i.chunk))];return Promise.all((all?chunks:chunks.slice(0,1)).map(loadChunk))}
   function ensureItems(list){const chunks=[...new Set(list.filter(Boolean).map(i=>i.chunk))];return Promise.all(chunks.map(loadChunk))}
   function ensureAll(){return Promise.all(ORDER.map(category=>ensureCategory(category,true)))}
   function applyLanguage(){document.documentElement.lang=lang;const use=lang==='es'?[['Agendas digitales','Personaliza tus rutinas y listas.'],['Diarios creativos','Decora tus recuerdos y momentos.'],['Diseños personales','Añade carácter a tus proyectos.']]:[['Digital planners','Personalize routines and lists.'],['Creative journals','Decorate memories and moments.'],['Personal designs','Add character to your projects.']];document.querySelectorAll('[data-use]').forEach(el=>el.textContent=use[+el.dataset.use][0]);document.querySelectorAll('[data-use-desc]').forEach(el=>el.textContent=use[+el.dataset.useDesc][1]);localStorage.setItem('popPeelStickerLang',lang);localStorage.setItem('popPeelLang',lang);document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>el.placeholder=t(el.dataset.i18nPlaceholder));$('#lang').textContent=lang==='en'?'ES':'EN';$('#homeLink').href=lang==='es'?'/es/':'/';renderHero();renderBooks();renderFilters();renderGallery();if($('#reader').open)renderReader()}
   function group(key){return items.filter(i=>i.category===key)}
-  const HERO_IDS=["creator-coffee-on-the-go","creator-pink-pencil-girl","creator-camera-girl","avatar-florist-bouquet"];
+  const HERO_IDS=["creator-pink-pencil-girl","creator-camera-girl","creator-coffee-on-the-go"];
   function heroItems(){return HERO_IDS.map(id=>items.find(i=>i.id===id)).filter(Boolean)}
-  function renderHero(){if(!items.length)return;const chosen=heroItems();$('#heroArt').innerHTML=`<div class="hero-curated">${chosen.map((i,n)=>`<div class="hero-feature feature-${n}"><img src="${assetSrc(i)}" alt="${esc(i.title)}" decoding="async"></div>`).join('')}</div>`}
+  function renderHero(){if(!items.length)return;$('#heroArt').innerHTML=`<div class="hero-gallery"><span class="hero-gallery-note">${lang==='es'?'PEQUEÑAS COSAS, GRANDES IDEAS':'MADE FOR YOUR CREATIVE DAYS'}</span><div class="hero-character-row">${heroItems().map(i=>`<img src="${assetSrc(i)}" alt="${esc(i.title)}" decoding="async">`).join('')}</div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO <span>✳</span></span></div>`}
   const PACKS={
-    cuban:{ids:['cuban-espresso-and-dominoes','cuban-caramel-flan-sticker','golden-cuban-sandwich-with-plantain-chips','guava-cream-cheese-pastelitos'],en:['Cafecito Club','A little taste of home','Recipe journals, food memories & everyday nostalgia'],es:['Club del Cafecito','Un pedacito de casa','Diarios de recetas, recuerdos y nostalgia'],bg:'#f5cb72',accent:'#a94027',style:'recipe'},
-    cleaning:{ids:['powder-blue-cleaning-van-sticker','powder-blue-clipboard-checklist-sticker','professional-cleaning-apron-with-tools','cheerful-clean-house-sticker'],en:['Fresh Start','Make every reset count','Cleaning planners, checklists & business journals'],es:['Fresh Start','Un nuevo comienzo','Agendas de limpieza, listas y diarios de negocio'],bg:'#c9e4ee',accent:'#315e76',style:'checklist'},
-    wellness:{ids:['pilates-princess-01','pilates-princess-05','pilates-princess-11','pilates-princess-21'],en:['Soft Life Club','A softer kind of routine','Fitness planners, self-care & daily rituals'],es:['Soft Life Club','Una rutina más suave','Agendas fitness, autocuidado y rituales diarios'],bg:'#f2cbd5',accent:'#a34c68',style:'planner'},
-    seasonal:{ids:['cozy-pink-christmas-sticker-sheet','cozy-christmas-sticker-collection','pink-and-gold-new-year-sticker-set','valentines-day-sticker-collection'],en:['Every Little Occasion','Celebrate the little things','Seasonal journals, holiday planning & creative cards'],es:['Cada pequeña ocasión','Celebra los pequeños momentos','Diarios de temporada, fiestas y tarjetas digitales'],bg:'#d1e5cb',accent:'#52764b',style:'calendar'},
-    creator:{ids:['creator-coffee-on-the-go','creator-pink-pencil-girl','creator-laptop-girl','creator-camera-girl'],en:['Creative Era','Make space for ideas','Creative dashboards, content plans & project notes'],es:['Creative Era','Haz espacio para tus ideas','Paneles creativos, planes de contenido y proyectos'],bg:'#dcd3ef',accent:'#6b50a1',style:'dashboard'},
-    avatars:{ids:['avatar-01-curly-coffee-woman','avatar-02-hijabi-grocery-woman','avatar-08-wheelchair-style-woman','avatar-founder-laptop'],en:['Little Characters','A little more personality','Personal journals, creative profiles & digital collages'],es:['Pequeños personajes','Un poco más de personalidad','Diarios personales, perfiles y collages digitales'],bg:'#f5d8bc',accent:'#9a654a',style:'profile'}
-  };
-  function packItems(key){const list=group(key);return PACKS[key].ids.map(id=>list.find(i=>i.id===id)).filter(Boolean)}
-  function packArt(key){const p=PACKS[key],pics=packItems(key),words=p[lang],label=lang==='es'?'VISTA DIGITAL':'DIGITAL PREVIEW';return `<span class="pack-scene scene-${p.style}" style="--scene:${p.bg};--accent:${p.accent}"><span class="scene-kicker">POP &amp; PEEL STUDIO <span>✳</span></span><span class="scene-backdrop"></span><span class="mock-tablet"><span class="tablet-camera"></span><span class="mock-screen"><span class="screen-brand">POP &amp; PEEL / ${label}</span><span class="screen-title">${esc(words[0])}</span><span class="screen-rule"></span><span class="screen-art">${pics.slice(0,3).map(i=>`<img src="${assetSrc(i)}" alt="" loading="lazy" decoding="async">`).join('')}</span><span class="screen-note">${esc(words[1])}</span></span></span>${pics[3]?`<span class="mock-mini"><img src="${assetSrc(pics[3])}" alt="" loading="lazy"></span>`:''}<span class="scene-caption">${esc(words[0])} <span> / ${label}</span></span></span>`}
-  function renderBooks(){if(!items.length)return;$('#bookShelf').innerHTML=ORDER.map(key=>{const list=group(key),p=PACKS[key],words=p[lang];return `<article class="book product-pack" style="--cover:${p.bg}"><button class="book-cover-button" type="button" data-book="${key}" aria-label="${esc(catText(key))}">${packArt(key)}</button><div class="book-info"><div class="book-meta"><span>${list.length} ${lang==='es'?'vistas previas':'previews'}</span><span>Digital</span></div><h3>${esc(words[0])}</h3><p class="pack-category">${esc(catText(key))}</p><p class="pack-use">${esc(words[2])}</p><div class="book-actions"><button type="button" class="book-browse" data-browse="${key}">${lang==='es'?'Ver diseños':'View designs'} <span aria-hidden="true">↗</span></button><button type="button" class="book-preview" data-book="${key}">${lang==='es'?'Ojear':'Preview'}</button></div></div></article>`}).join('')}
-  function renderFilters(){const buttons=['all',...ORDER];$('#filters').innerHTML=buttons.map(key=>`<button class="filter ${active===key?'on':''}" data-filter="${key}">${key==='all'?t('all'):esc(catText(key))}</button>`).join('')}
-  function visible(){return items.filter(i=>(active==='all'||i.category===active)&&(!query||i.title.toLowerCase().includes(query)))}
-  async function renderGallery(){if(!items.length)return;const run=++galleryRun;const all=visible(),list=all.slice(0,limit),more=$('#showMore');$('#resultCount').textContent=lang==='es'?list.length+' de '+all.length+' diseños':list.length+' of '+all.length+' designs';more.hidden=true;$('#gallery').setAttribute('aria-busy','true');try{await ensureItems(list);if(run!==galleryRun)return;$('#gallery').innerHTML=list.length?list.map(i=>`<button class="tile" data-open="${i.id}"><span class="tile-art" data-collection="${i.category}"><img src="${assetSrc(i)}" alt="${esc(i.title)}" loading="lazy" decoding="async"></span><b>${esc(i.title)}</b></button>`).join(''):`<p class="empty">${t('empty')}</p>`;more.hidden=all.length<=limit;more.textContent=lang==='es'?'Ver más diseños':'Show more designs'}catch(e){if(run===galleryRun)$('#gallery').innerHTML=`<p class="empty">${lang==='es'?'No se pudieron cargar los diseños.':'Could not load the designs.'}</p>`}finally{if(run===galleryRun)$('#gallery').setAttribute('aria-busy','false')}}
-  function openBook(category,startId){readerItems=group(category);if(!readerItems.length)return;readerIndex=Math.max(0,startId?readerItems.findIndex(i=>i.id===startId):0);if(readerIndex<0)readerIndex=0;if(!$('#reader').open)$('#reader').showModal();document.body.style.overflow='hidden';renderReader()}
+  "cuban": {
+    "members": [
+      "cafe-con-leche-and-cuban-toast",
+      "cuban-caramel-flan-sticker",
+      "cuban-comfort-bowl-beans-rice-plantains",
+      "cuban-espresso-and-dominoes",
+      "cuban-moka-pot-espresso",
+      "cuban-rice-cooker-and-black-beans",
+      "cuban-ropa-vieja-feast",
+      "golden-cuban-croquetas-with-lime",
+      "golden-cuban-sandwich-with-plantain-chips",
+      "guava-cream-cheese-pastelitos",
+      "hibiscus-apron-with-sunny-bow",
+      "tropical-fruit-market-basket",
+      "turquoise-cuban-arroz-con-pollo"
+    ],
+    "en": [
+      "Cafecito Club",
+      "A little taste of home",
+      "Cuban food & culture"
+    ],
+    "es": [
+      "Club del Cafecito",
+      "Un pedacito de casa",
+      "Comida y cultura cubana"
+    ],
+    "bg": "#f5cb72",
+    "accent": "#a94027",
+    "ids": [
+      "cuban-espresso-and-dominoes",
+      "cuban-caramel-flan-sticker",
+      "golden-cuban-sandwich-with-plantain-chips"
+    ]
+  },
+  "cleaning": {
+    "members": [
+      "cheerful-clean-house-sticker",
+      "cleaning-ready-sneakers-and-gloves",
+      "dusty-to-sparkling-house",
+      "morning-route-tumbler-and-keys",
+      "powder-blue-cleaning-van-sticker",
+      "powder-blue-clipboard-checklist-sticker",
+      "powder-blue-planner-checkmark-sticker",
+      "professional-cleaning-apron-with-tools",
+      "ribbon-tied-house-keys-sticker",
+      "smartphone-calendar-checkmark-sticker",
+      "sparkling-checkmark-door-hanger-sticker",
+      "sparkling-powder-blue-cleaning-caddy",
+      "sparkling-victory-cleaning-gloves"
+    ],
+    "en": [
+      "Fresh Start",
+      "Make every reset count",
+      "Cleaning & organization"
+    ],
+    "es": [
+      "Fresh Start",
+      "Un nuevo comienzo",
+      "Limpieza y organización"
+    ],
+    "bg": "#c9e4ee",
+    "accent": "#315e76",
+    "ids": [
+      "powder-blue-cleaning-van-sticker",
+      "sparkling-powder-blue-cleaning-caddy",
+      "professional-cleaning-apron-with-tools"
+    ]
+  },
+  "pilates-essentials": {
+    "members": [
+      "pilates-princess-02",
+      "pilates-princess-03",
+      "pilates-princess-04",
+      "pilates-princess-05",
+      "pilates-princess-06",
+      "pilates-princess-07",
+      "pilates-princess-08",
+      "pilates-princess-09",
+      "pilates-princess-10",
+      "pilates-princess-11",
+      "pilates-princess-12",
+      "pilates-princess-13",
+      "pilates-princess-14",
+      "pilates-princess-15",
+      "pilates-princess-16",
+      "pilates-princess-17",
+      "pilates-princess-18",
+      "pilates-princess-19",
+      "pilates-princess-20"
+    ],
+    "en": [
+      "Pilates Essentials",
+      "Small rituals, big energy",
+      "Fitness accessories & daily routines"
+    ],
+    "es": [
+      "Pilates Essentials",
+      "Pequeños rituales, gran energía",
+      "Accesorios fitness y rutinas"
+    ],
+    "bg": "#f2cbd5",
+    "accent": "#a34c68",
+    "ids": [
+      "pilates-princess-02",
+      "pilates-princess-05",
+      "pilates-princess-11"
+    ]
+  },
+  "pilates-moves": {
+    "members": [
+      "pilates-princess-31",
+      "pilates-princess-32",
+      "pilates-princess-33",
+      "pilates-princess-34",
+      "pilates-princess-35",
+      "pilates-princess-36",
+      "pilates-princess-37",
+      "pilates-princess-38",
+      "pilates-princess-39",
+      "pilates-princess-40"
+    ],
+    "en": [
+      "Pilates Moves",
+      "Move at your own pace",
+      "Pilates exercises & poses"
+    ],
+    "es": [
+      "Pilates Moves",
+      "Muévete a tu ritmo",
+      "Ejercicios y posiciones de Pilates"
+    ],
+    "bg": "#ead5ea",
+    "accent": "#8a507c",
+    "ids": [
+      "pilates-princess-31",
+      "pilates-princess-34",
+      "pilates-princess-38"
+    ]
+  },
+  "pretty-planner": {
+    "members": [
+      "pilates-princess-21",
+      "pilates-princess-22",
+      "pilates-princess-23",
+      "pilates-princess-24",
+      "pilates-princess-26",
+      "pilates-princess-28",
+      "pilates-princess-30",
+      "pilates-princess-41",
+      "pilates-princess-42",
+      "pilates-princess-43",
+      "pilates-princess-44",
+      "pilates-princess-45",
+      "pilates-princess-46",
+      "pilates-princess-47",
+      "pilates-princess-48",
+      "pilates-princess-49",
+      "pilates-princess-50"
+    ],
+    "en": [
+      "Pretty Planner",
+      "Make plans feel like you",
+      "Decorative accents & planner elements"
+    ],
+    "es": [
+      "Pretty Planner",
+      "Organiza a tu estilo",
+      "Elementos decorativos y de agenda"
+    ],
+    "bg": "#f3d5cb",
+    "accent": "#985b49",
+    "ids": [
+      "pilates-princess-21",
+      "pilates-princess-45",
+      "pilates-princess-49"
+    ]
+  },
+  "creative-girls": {
+    "members": [
+      "creator-coffee-on-the-go",
+      "creator-pink-pencil-girl",
+      "creator-blue-pencil-girl",
+      "creator-yellow-pencil-girl",
+      "creator-hello-creative-girl",
+      "creator-lavender-sitting-girl",
+      "creator-green-walking-girl",
+      "creator-laptop-girl",
+      "creator-camera-girl"
+    ],
+    "en": [
+      "Creative Girls",
+      "Make space for ideas",
+      "Playful illustrated characters"
+    ],
+    "es": [
+      "Creative Girls",
+      "Haz espacio para tus ideas",
+      "Personajes ilustrados"
+    ],
+    "bg": "#dcd3ef",
+    "accent": "#6b50a1",
+    "ids": [
+      "creator-coffee-on-the-go",
+      "creator-pink-pencil-girl",
+      "creator-camera-girl"
+    ]
+  },
+  "creative-desk": {
+    "members": [
+      "creator-creative-wolf",
+      "creator-playful-puppy",
+      "creator-cream-bunny",
+      "creator-podcast-microphone",
+      "creator-lavender-kitten",
+      "creator-sitting-puppy",
+      "creator-little-rocket",
+      "creator-pink-checklist",
+      "creator-pink-goal",
+      "creator-lavender-idea"
+    ],
+    "en": [
+      "Creative Desk",
+      "Little helpers for big ideas",
+      "Creative tools & cute companions"
+    ],
+    "es": [
+      "Creative Desk",
+      "Pequeños ayudantes para grandes ideas",
+      "Herramientas creativas y mascotas"
+    ],
+    "bg": "#dcead5",
+    "accent": "#52764b",
+    "ids": [
+      "creator-creative-wolf",
+      "creator-podcast-microphone",
+      "creator-lavender-kitten"
+    ]
+  },
+  "avatars": {
+    "members": [
+      "avatar-01-curly-coffee-woman",
+      "avatar-02-hijabi-grocery-woman",
+      "avatar-03-short-hair-book-woman",
+      "avatar-04-plus-size-phone-woman",
+      "avatar-05-redhead-plant-woman",
+      "avatar-06-senior-market-woman",
+      "avatar-07-pregnant-errand-woman",
+      "avatar-08-wheelchair-style-woman",
+      "avatar-09-afro-headphones-woman",
+      "avatar-10-camera-day-out-woman",
+      "avatar-11-bike-helmet-woman",
+      "avatar-12-long-gray-hair-tea-woman",
+      "avatar-13-curvy-dog-mom-woman",
+      "avatar-14-gamer-woman",
+      "avatar-15-city-commuter-woman",
+      "avatar-16-sketchbook-woman",
+      "avatar-17-curly-hair-backpack-woman",
+      "avatar-18-home-gardener-woman",
+      "avatar-19-rainy-day-umbrella-woman",
+      "avatar-20-confident-everyday-woman",
+      "avatar-founder-laptop",
+      "avatar-yoga-mat",
+      "avatar-florist-bouquet",
+      "avatar-senior-dog-walker"
+    ],
+    "en": [
+      "Little Characters",
+      "A little more personality",
+      "Everyday characters & professions"
+    ],
+    "es": [
+      "Pequeños personajes",
+      "Un poco más de personalidad",
+      "Personajes cotidianos y profesiones"
+    ],
+    "bg": "#f5d8bc",
+    "accent": "#9a654a",
+    "ids": [
+      "avatar-01-curly-coffee-woman",
+      "avatar-florist-bouquet",
+      "avatar-10-camera-day-out-woman"
+    ]
+  }
+};
+  const PACK_ORDER=Object.keys(PACKS);
+  function packItems(key){return PACKS[key].ids.map(id=>items.find(i=>i.id===id)).filter(Boolean)}
+  function packGroup(key){return PACKS[key]?PACKS[key].members.map(id=>items.find(i=>i.id===id)).filter(Boolean):group(key)}
+  function packArt(key){const p=PACKS[key],pics=packItems(key),words=p[lang];return `<span class="collection-cover" style="--pack-color:${p.bg};--pack-ink:${p.accent}"><span class="collection-brand">POP &amp; PEEL STUDIO</span><span class="collection-art">${pics.map(i=>`<img src="${assetSrc(i)}" alt="" loading="lazy" decoding="async">`).join('')}</span><span class="collection-name">${esc(words[0])}</span><span class="collection-format">${lang==='es'?'PACK DIGITAL':'DIGITAL STICKER PACK'}</span></span>`}
+  function renderBooks(){if(!items.length)return;$('#bookShelf').innerHTML=PACK_ORDER.map(key=>{const p=PACKS[key],words=p[lang];return `<article class="book product-pack"><button class="book-cover-button" type="button" data-book="${key}" aria-label="${esc(words[0])}">${packArt(key)}</button><div class="book-info"><div class="book-meta"><span>${lang==='es'?'Pack digital':'Digital pack'}</span></div><h3>${esc(words[0])}</h3><p class="pack-use">${esc(words[2])}</p><div class="book-actions"><button type="button" class="book-browse" data-pack-browse="${key}">${lang==='es'?'Ver pack':'View pack'} <span aria-hidden="true">↗</span></button><button type="button" class="book-preview" data-book="${key}">${lang==='es'?'Ojear':'Preview'}</button></div></div></article>`}).join('')}
+  function renderFilters(){const buttons=['all',...ORDER];$('#filters').innerHTML=(activePack?`<button class="filter on" data-filter="all">${esc(PACKS[activePack][lang][0])} ×</button>`:'')+buttons.map(key=>`<button class="filter ${!activePack&&active===key?'on':''}" data-filter="${key}">${key==='all'?t('all'):esc(catText(key))}</button>`).join('')}
+  function visible(){const source=activePack?packGroup(activePack):items;return source.filter(i=>(activePack||active==='all'||i.category===active)&&(!query||i.title.toLowerCase().includes(query)))}
+  async function renderGallery(){if(!items.length)return;const run=++galleryRun;const all=visible(),list=all.slice(0,limit),more=$('#showMore');$('#resultCount').textContent=activePack?PACKS[activePack][lang][0]:(lang==='es'?'Explora nuestras vistas previas':'Explore our previews');more.hidden=true;$('#gallery').setAttribute('aria-busy','true');try{await ensureItems(list);if(run!==galleryRun)return;$('#gallery').innerHTML=list.length?list.map(i=>`<button class="tile" data-open="${i.id}"><span class="tile-art" data-collection="${i.category}"><img src="${assetSrc(i)}" alt="${esc(i.title)}" loading="lazy" decoding="async"></span><b>${esc(i.title)}</b></button>`).join(''):`<p class="empty">${t('empty')}</p>`;more.hidden=all.length<=limit;more.textContent=lang==='es'?'Ver más diseños':'Show more designs'}catch(e){if(run===galleryRun)$('#gallery').innerHTML=`<p class="empty">${lang==='es'?'No se pudieron cargar los diseños.':'Could not load the designs.'}</p>`}finally{if(run===galleryRun)$('#gallery').setAttribute('aria-busy','false')}}
+  function openBook(category,startId){readerPack=PACKS[category]?category:'';readerItems=readerPack?packGroup(category):group(category);if(!readerItems.length)return;readerIndex=Math.max(0,startId?readerItems.findIndex(i=>i.id===startId):0);if(readerIndex<0)readerIndex=0;if(!$('#reader').open)$('#reader').showModal();document.body.style.overflow='hidden';renderReader()}
   let previewRun=0;
   async function renderReader(){if(!readerItems.length)return;const run=++previewRun,item=readerItems[readerIndex],image=$('#pageImage'),status=$('#previewStatus');
-  $('#readerHeading').textContent=item.title;$('#pageNumber').textContent=catText(item.category);$('#readerCounter').textContent=(readerIndex+1)+' / '+readerItems.length;$('#close').setAttribute('aria-label',lang==='es'?'Cerrar':'Close');$('#prev').setAttribute('aria-label',lang==='es'?'Anterior':'Previous');$('#next').setAttribute('aria-label',lang==='es'?'Siguiente':'Next');
+  $('#readerHeading').textContent=item.title;$('#pageNumber').textContent=readerPack?PACKS[readerPack][lang][0]:catText(item.category);$('#readerCounter').textContent=(readerIndex+1)+' / '+readerItems.length;$('#close').setAttribute('aria-label',lang==='es'?'Cerrar':'Close');$('#prev').setAttribute('aria-label',lang==='es'?'Anterior':'Previous');$('#next').setAttribute('aria-label',lang==='es'?'Siguiente':'Next');
   document.querySelector('.reader-page').dataset.previewLabel=lang==='es'?'VISTA PREVIA':'PREVIEW';$('#progress').style.width=((readerIndex+1)/readerItems.length*100)+'%';
   $('#prev').disabled=readerIndex===0;$('#next').disabled=readerIndex===readerItems.length-1;image.hidden=true;status.hidden=false;status.textContent=lang==='es'?'Cargando diseño…':'Loading design…';
   const from=Math.max(0,Math.min(readerIndex-3,readerItems.length-7)),neighbors=readerItems.slice(from,from+7);
@@ -196,13 +476,13 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
   image.src=src;image.alt=item.title;image.dataset.collection=item.category;image.hidden=false;status.hidden=true;
   }catch(e){if(run!==previewRun)return;status.textContent=lang==='es'?'No se pudo mostrar el diseño.':'This preview could not load.';const retry=document.createElement('button');retry.type='button';retry.textContent=lang==='es'?'Reintentar':'Try again';retry.onclick=renderReader;status.append(retry)}
   try{await ensureItems(neighbors);if(run!==previewRun)return;$('#thumbs').innerHTML=neighbors.map((i,j)=>'<button class="thumb '+(from+j===readerIndex?'on':'')+'" data-page="'+(from+j)+'" aria-label="'+esc(i.title)+'"><img src="'+assetSrc(i)+'" alt="" loading="lazy" decoding="async"></button>').join('')}catch(e){if(run===previewRun)$('#thumbs').replaceChildren()}
-  if(run===previewRun)history.replaceState(null,'','#'+item.category+'/'+item.id)}
+  if(run===previewRun)history.replaceState(null,'','#'+(readerPack||item.category)+'/'+item.id)}
   function closeReader(){previewRun++;if($('#reader').open)$('#reader').close();document.body.style.overflow='';history.replaceState(null,'',location.pathname+location.search+'#all')}
   function move(delta){const next=Math.min(readerItems.length-1,Math.max(0,readerIndex+delta));if(next!==readerIndex){readerIndex=next;renderReader()}}
-  document.addEventListener('click',async e=>{const browse=e.target.closest('[data-browse]');if(browse){active=browse.dataset.browse;query='';$('#search').value='';limit=24;renderFilters();renderGallery();$('#all').scrollIntoView({behavior:'smooth'});return}const book=e.target.closest('[data-book]');if(book){openBook(book.dataset.book);return}const filter=e.target.closest('[data-filter]');if(filter){active=filter.dataset.filter;limit=24;renderFilters();renderGallery();return}const open=e.target.closest('[data-open]');if(open){const item=items.find(i=>i.id===open.dataset.open);if(item){openBook(item.category,item.id)}return}const page=e.target.closest('[data-page]');if(page){readerIndex=Number(page.dataset.page);renderReader()}});
+  document.addEventListener('click',async e=>{const packBrowse=e.target.closest('[data-pack-browse]');if(packBrowse){activePack=packBrowse.dataset.packBrowse;active='all';query='';$('#search').value='';limit=24;renderFilters();renderGallery();$('#all').scrollIntoView({behavior:'smooth'});return}const browse=e.target.closest('[data-browse]');if(browse){activePack='';active=browse.dataset.browse;query='';$('#search').value='';limit=24;renderFilters();renderGallery();$('#all').scrollIntoView({behavior:'smooth'});return}const book=e.target.closest('[data-book]');if(book){openBook(book.dataset.book);return}const filter=e.target.closest('[data-filter]');if(filter){activePack='';active=filter.dataset.filter;limit=24;renderFilters();renderGallery();return}const open=e.target.closest('[data-open]');if(open){const item=items.find(i=>i.id===open.dataset.open);if(item){openBook(activePack||item.category,item.id)}return}const page=e.target.closest('[data-page]');if(page){readerIndex=Number(page.dataset.page);renderReader()}});
   $('#showMore').addEventListener('click',()=>{limit+=24;renderGallery()});$('#lang').addEventListener('click',()=>{lang=lang==='en'?'es':'en';if(location.pathname==='/'||location.pathname==='/es/')history.replaceState(null,'',(lang==='es'?'/es/':'/')+location.search+location.hash);applyLanguage()});$('#search').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();limit=24;renderGallery()});$('#close').addEventListener('click',closeReader);$('#prev').addEventListener('click',()=>move(-1));$('#next').addEventListener('click',()=>move(1));$('#unlock').addEventListener('click',closeReader);$('#reader').addEventListener('click',e=>{if(e.target===$('#reader'))closeReader()});$('#reader').addEventListener('cancel',e=>{e.preventDefault();closeReader()});document.addEventListener('keydown',e=>{if(!$('#reader').open)return;if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight')move(1);if(e.key==='Escape')closeReader()});$('#stage').addEventListener('touchstart',e=>touchStart=e.changedTouches[0].clientX,{passive:true});$('#stage').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchStart;if(Math.abs(dx)>45)move(dx<0?1:-1)},{passive:true});
   applyLanguage();
-  fetch('/digital-stickers/manifest.json?v=curated-hero-v5-20261127',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Manifest unavailable');return r.json()}).then(async data=>{items=data.filter(i=>i.originalTransparencyVerified===true&&ORDER.includes(i.category)&&TRANSPARENT_APPROVED.has(i.id));$('#total').textContent=items.length;$('#categoryTotal').textContent=new Set(items.map(i=>i.category)).size;await Promise.all(ORDER.map(category=>ensureCategory(category,false)));await ensureItems([...ORDER.flatMap(category=>packItems(category)),...heroItems()]);renderHero();applyLanguage();const hash=location.hash.slice(1).split('/');if(ORDER.includes(hash[0])){openBook(hash[0],hash[1])}}).catch(()=>{applyLanguage();$('#gallery').innerHTML=`<p class="empty">${lang==='es'?'No se pudo cargar la biblioteca. Actualiza la página para volver a intentarlo.':'The preview library could not load. Refresh the page to try again.'}</p>`});
+  fetch('/digital-stickers/manifest.json?v=pack-shop-v6-20261127',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Manifest unavailable');return r.json()}).then(async data=>{items=data.filter(i=>i.originalTransparencyVerified===true&&ORDER.includes(i.category)&&TRANSPARENT_APPROVED.has(i.id));await Promise.all(ORDER.map(category=>ensureCategory(category,false)));await ensureItems([...PACK_ORDER.flatMap(category=>packItems(category)),...heroItems()]);renderHero();applyLanguage();const hash=location.hash.slice(1).split('/');if(ORDER.includes(hash[0])||PACK_ORDER.includes(hash[0])){openBook(hash[0],hash[1])}}).catch(()=>{applyLanguage();$('#gallery').innerHTML=`<p class="empty">${lang==='es'?'No se pudo cargar la biblioteca. Actualiza la página para volver a intentarlo.':'The preview library could not load. Refresh the page to try again.'}</p>`});
   </script>
 </body>
 </html>
