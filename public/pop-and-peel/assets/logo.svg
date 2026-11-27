@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 280" role="img" aria-labelledby="title desc">
+  <title id="title">Pop &amp; Peel Studio</title>
+  <desc id="desc">A vibrant pink sticker-shaped logo with a peeled yellow corner and green sparkle.</desc>
+  <g transform="translate(18 20)">
+    <path d="M36 0h804c20 0 36 16 36 36v126l-80 78H36c-20 0-36-16-36-36V36C0 16 16 0 36 0Z" fill="#ff5fa2" stroke="#111" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M876 162v42c0 20-16 36-36 36h-44Z" fill="#ffd83d" stroke="#111" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M796 240v-42c0-20 16-36 36-36h44Z" fill="#fff8e7" stroke="#111" stroke-width="10" stroke-linejoin="round"/>
+    <path d="m90 39 12 29 31 3-24 20 8 30-27-16-27 16 8-30-24-20 31-3Z" fill="#3ddc84" stroke="#111" stroke-width="7" stroke-linejoin="round"/>
+    <text x="151" y="133" fill="#111" font-family="Arial Black,Arial,sans-serif" font-size="88" font-weight="900" letter-spacing="-5">POP &amp; PEEL</text>
+    <text x="154" y="187" fill="#111" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="900" letter-spacing="13">STUDIO</text>
+  </g>
+</svg>

@@ -184,7 +184,7 @@ jobs:
           grep -q '/auth-recovery.html' .output/public/command-center/assets/command-center-app.js
           node scripts/qa-auth-recovery.mjs --built
 
-      - name: Verify official bilingual website landing and publish it at the home routes
+      - name: Verify website routes and publish Pop & Peel Studio at the home routes
         shell: bash
         run: |
           set -euo pipefail
@@ -207,11 +207,13 @@ jobs:
           grep -q 'href="/website-checkout/?offer=website-plus&lang=es"' .output/public/es/website-for-your-business/index.html
           grep -q 'href="/website-checkout/?offer=website-plus&lang=en"' .output/public/website-for-your-business/index.html
           grep -q 'Website' .output/public/website-for-your-business/index.html
-          cp .output/public/website-for-your-business/index.html .output/public/index.html
+          test -s .output/public/pop-and-peel/index.html
+          test -s .output/public/pop-and-peel/assets/logo.svg
+          test -s .output/public/pop-and-peel/assets/favicon.svg
+          cp .output/public/pop-and-peel/index.html .output/public/index.html
           mkdir -p .output/public/es
-          cp .output/public/es/website-for-your-business/index.html .output/public/es/index.html
-          node scripts/prepare-homepage-seo.mjs .output/public
-          echo "Official website packages: root, Spanish root and direct landing routes prepared."
+          cp .output/public/pop-and-peel/index.html .output/public/es/index.html
+          echo "Pop & Peel Studio: root, Spanish root and existing direct routes prepared."
 
       - name: Create GitHub Pages route fallbacks
         run: |
