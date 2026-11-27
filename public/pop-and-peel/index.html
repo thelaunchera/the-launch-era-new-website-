@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pop &amp; Peel Studio | Custom Stickers &amp; Personalized Paper Goods</title>
+<meta name="description" content="Custom stickers, labels, sticker sheets and personalized paper goods for small businesses, birthdays and events. Bilingual service in English and Spanish.">
+<meta name="theme-color" content="#ff5fa2">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/pop-and-peel/assets/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--pk:#ff5fa2;--pk2:#ff9bc7;--yl:#ffd83d;--gr:#3ddc84;--gr2:#bff4d5;--bg:#fff8e7;--ink:#111;--card:#fff;box-sizing:border-box;color-scheme:light}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth;scroll-padding-top:74px}
+body{margin:0;background:var(--bg);color:var(--ink);font:600 16px/1.5 Nunito,system-ui,sans-serif;overflow-x:hidden}
+body.menu-open{overflow:hidden}
+button,input,select,textarea{font:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:4px solid #246bfd;outline-offset:3px}
+h1,h2,h3,.logo{font-family:'Bowlby One',Impact,sans-serif;font-weight:400;line-height:1.02;margin:0;color:var(--ink)}
+h1{font-size:clamp(42px,13vw,92px);-webkit-text-stroke:9px #fff;paint-order:stroke fill;text-shadow:0 5px 0 rgba(0,0,0,.15);color:#111}
+h2{font-size:clamp(30px,8vw,54px);margin-bottom:14px}
+section{padding:48px 16px;max-width:1100px;margin:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;border:2px solid #111;border-radius:999px;background:#fff;padding:6px 12px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#111;margin-bottom:12px}
+.ann{background:#111;color:#fff8e7;text-align:center;padding:8px 10px;font-size:13px;font-weight:800;padding-top:max(8px,env(safe-area-inset-top,0px))}
+header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:3px solid var(--ink);display:flex;align-items:center;gap:6px;padding:8px 10px}
+.logo{font-size:17px;text-decoration:none;background:var(--yl);color:#111;padding:7px 11px;border:3px solid #111;border-radius:14px;transform:rotate(-2deg);box-shadow:3px 3px 0 #111;position:relative;white-space:nowrap}
+.logo:after{content:"";position:absolute;right:-3px;bottom:-3px;width:15px;height:15px;background:linear-gradient(135deg,var(--yl) 0 48%,#fff 49% 68%,#111 69% 78%,transparent 79%);border-bottom-right-radius:9px}
+.brand-logo{display:block;line-height:0;transform:rotate(-1deg)}.brand-logo img{display:block;width:clamp(132px,24vw,194px);height:auto}.footer-logo{width:min(260px,76vw);height:auto;display:block;margin:0 auto 18px}
+nav{display:none;gap:16px;margin-left:12px}nav a,.mn a{color:var(--ink);text-decoration:none;font-weight:800}
+@media(min-width:860px){nav{display:flex}#mb{display:none}}
+.sp{flex:1}.ic{background:none;border:0;color:var(--ink);padding:7px;cursor:pointer;position:relative;min-width:40px;min-height:40px}
+.ic svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round}
+#cc{position:absolute;top:0;right:0;background:var(--pk);color:#111;border-radius:99px;font-size:11px;padding:0 6px;border:2px solid #111}
+.lang{display:flex;border:3px solid var(--ink);border-radius:99px;overflow:hidden}
+.lang button{border:0;background:var(--card);color:var(--ink);font:800 13px Nunito;padding:6px 10px;cursor:pointer}.lang button.on{background:var(--gr);color:#111}
+.btn{display:inline-block;font:800 16px Nunito;padding:14px 22px;border:3px solid #111;border-radius:99px;box-shadow:4px 4px 0 #111;text-decoration:none;color:#111;background:var(--yl);cursor:pointer;min-height:48px}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #111}.btn.p{background:var(--pk)}.btn.g{background:var(--gr)}.btn[disabled]{opacity:.5;box-shadow:none}
+#sbar{display:none;padding:8px 12px;background:var(--bg);border-bottom:3px solid var(--ink)}#sbar.o{display:block}
+.mn{position:fixed;inset:0;z-index:30;background:var(--pk);padding:70px 22px 22px;display:none;flex-direction:column;gap:6px;overflow:auto}.mn.o{display:flex}
+.mn a{font:400 28px 'Bowlby One',Impact,sans-serif;color:#111;padding:6px 0;text-decoration:none}.mn .x{position:absolute;top:12px;right:14px}
+.hero{max-width:1100px;width:calc(100% - 20px);margin:12px auto 0;border-radius:32px;border:3px solid #111;background-color:var(--pk);background-image:linear-gradient(rgba(255,255,255,.35) 2px,transparent 2px),linear-gradient(90deg,rgba(255,255,255,.35) 2px,transparent 2px);background-size:32px 32px;position:relative;overflow:hidden;text-align:center;padding:52px 14px 30px;color:#111;box-shadow:7px 7px 0 #111}
+.hero p{font-size:clamp(17px,4.4vw,20px);max-width:570px;margin:16px auto;color:#111}.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.col{display:flex;justify-content:center;align-items:flex-end;margin-top:22px}.col svg{width:36%;max-width:240px;margin:0 -4%;filter:drop-shadow(4px 0 0 #fff) drop-shadow(-4px 0 0 #fff) drop-shadow(0 4px 0 #fff) drop-shadow(0 -4px 0 #fff) drop-shadow(0 9px 8px rgba(0,0,0,.3))}
+.col svg:nth-child(odd){transform:rotate(-6deg)}.col svg:nth-child(even){transform:rotate(5deg) translateY(-12px)}
+.fl{position:absolute;width:64px;filter:drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff);animation:fl 4s ease-in-out infinite}
+@keyframes fl{50%{translate:0 -9px}}@media(prefers-reduced-motion:reduce){.fl{animation:none}}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}@media(min-width:860px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cat{border:3px solid #111;border-radius:22px;background:var(--c);padding:8px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font:400 14px/1.1 'Bowlby One',Impact,sans-serif;color:#111;cursor:pointer;box-shadow:4px 4px 0 #111;min-height:44px}
+.cat svg{width:78%;transition:transform .2s}.cat:hover svg{transform:rotate(-4deg) scale(1.04)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 14px;-webkit-overflow-scrolling:touch}.chip{flex:none;border:3px solid var(--ink);border-radius:99px;padding:6px 14px;font:800 14px Nunito;background:var(--card);color:var(--ink);cursor:pointer}.chip.on{background:#111;color:#fff8e7}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:4px 4px 0 var(--ink);transition:transform .18s,box-shadow .18s}.card:hover{transform:translateY(-3px);box-shadow:6px 7px 0 var(--ink)}
+.ph{margin:8px 8px 0;border-radius:999px 999px 16px 16px;border:3px solid var(--ink);display:grid;place-items:end center;aspect-ratio:1/1.05;padding-top:14%}.ph svg{width:88%;filter:drop-shadow(0 7px 6px rgba(0,0,0,.25))}
+.card .b{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}.card h3{font-size:14px;line-height:1.15}
+.tag{align-self:flex-start;font-size:11px;font-weight:800;background:var(--yl);color:#111;border:2px solid #111;border-radius:99px;padding:1px 8px}
+.card .btn{padding:9px 10px;font-size:14px;margin-top:auto;box-shadow:3px 3px 0 #111;min-height:44px}
+.ed{border-radius:30px;border:3px solid #111;color:#111;display:grid;gap:10px;padding:26px 18px;box-shadow:6px 6px 0 #111;overflow:hidden}.ed h2{color:#111}.ed p{margin:0 0 10px}
+@media(min-width:860px){.ed{grid-template-columns:1fr 1.1fr;align-items:center;padding:36px}}
+.benefits{display:grid;gap:12px}.benefit{background:#fff;border:3px solid #111;border-radius:20px;padding:18px;color:#111;box-shadow:4px 4px 0 #111}.benefit b{display:block;font-family:'Bowlby One',Impact,sans-serif;font-weight:400;font-size:19px;margin-bottom:5px}@media(min-width:760px){.benefits{grid-template-columns:repeat(3,1fr)}}
+.pill{border:3px solid #111;border-radius:99px;padding:8px 16px;font-weight:800;background:#fff;color:#111;cursor:pointer}.pill.on{background:#111;color:#fff}
+.steps{counter-reset:s;display:grid;gap:10px;padding:0;list-style:none}
+.steps li{counter-increment:s;background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:12px 14px 12px 58px;position:relative;font-weight:800}
+.steps li:before{content:counter(s);position:absolute;left:12px;top:8px;width:34px;height:34px;border-radius:50%;background:var(--pk);color:#111;display:grid;place-items:center;border:3px solid #111;font:400 15px 'Bowlby One'}
+@media(min-width:860px){.steps{grid-template-columns:repeat(4,1fr)}}
+form.fm{display:grid;gap:12px;background:var(--card);border:3px solid var(--ink);border-radius:26px;padding:18px}
+label{display:grid;gap:4px;font-weight:800;font-size:14px}
+input,select,textarea{font:600 16px Nunito;padding:12px;border:3px solid var(--ink);border-radius:14px;background:var(--bg);color:var(--ink);width:100%}
+.two{display:grid;gap:12px}@media(min-width:600px){.two{grid-template-columns:1fr 1fr}}
+.note{font-size:14px;opacity:.8;margin:0}#pv{display:flex;gap:12px;align-items:center}#pv img{width:84px;height:84px;object-fit:cover;border-radius:14px;border:3px solid var(--ink)}
+.est{background:var(--yl);color:#111;border:3px solid #111;border-radius:16px;padding:10px 14px;font-weight:800}
+details{background:var(--card);border:3px solid var(--ink);border-radius:16px;padding:12px 16px;margin-bottom:10px}summary{font-weight:800;cursor:pointer}
+footer{background:#111;color:#fff8e7;padding:34px 18px calc(24px + env(safe-area-inset-bottom,0px));text-align:center}
+footer button{color:#fff8e7;margin:4px 8px;font-size:14px;background:none;border:0;text-decoration:underline;cursor:pointer}footer small{display:block;margin-top:16px;opacity:.7;font-size:12px}
+#dr{position:fixed;inset:0 0 0 auto;width:min(390px,100%);background:var(--bg);border-left:3px solid var(--ink);z-index:40;transform:translateX(105%);transition:.25s;padding:18px;padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));overflow:auto}#dr.o{transform:none}
+.ci{display:flex;gap:8px;align-items:center;border-bottom:2px dashed var(--ink);padding:8px 0}.ci span:first-child{flex:1;font-size:14px}.qb{width:32px;height:32px;border-radius:50%;border:3px solid var(--ink);background:var(--card);color:var(--ink);font-weight:800;cursor:pointer}
+#ts{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));translate:-50% 0;background:#111;color:#fff8e7;padding:10px 18px;border-radius:99px;z-index:50;font-weight:800;font-size:14px;opacity:0;pointer-events:none;transition:.25s;max-width:90%;text-align:center}#ts.o{opacity:1}
+.policy{border:3px solid #111;border-radius:24px;background:var(--bg);color:var(--ink);width:min(680px,calc(100% - 24px));max-height:84vh;padding:0;box-shadow:8px 8px 0 #111}.policy::backdrop{background:rgba(0,0,0,.65)}.policy-in{padding:24px}.policy-head{display:flex;align-items:start;gap:12px}.policy-head h2{font-size:clamp(26px,7vw,40px);flex:1}.policy-close{width:44px;height:44px;border:3px solid #111;border-radius:50%;background:var(--yl);font-size:24px;font-weight:800;cursor:pointer}.policy-body{white-space:pre-line}
+@media(max-width:520px){header{gap:3px}.brand-logo img{width:124px}.logo{font-size:14px;padding:7px 8px}.lang button{padding:6px 8px}.ic{min-width:38px;padding:6px}.hero{box-shadow:5px 5px 0 #111}.card h3{font-size:13px}.card .btn{font-size:12px}.ph{aspect-ratio:1/1.15}.footer-links{display:grid;grid-template-columns:1fr 1fr}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="s-fl" viewBox="0 0 100 100"><g fill="#ff7a6b" stroke="#111" stroke-width="3"><circle cx="50" cy="22" r="18"/><circle cx="78" cy="42" r="18"/><circle cx="67" cy="76" r="18"/><circle cx="33" cy="76" r="18"/><circle cx="22" cy="42" r="18"/></g><circle cx="50" cy="50" r="14" fill="#ffd83d" stroke="#111" stroke-width="3"/></symbol>
+<symbol id="s-sm" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#ffd83d" stroke="#111" stroke-width="4"/><circle cx="36" cy="40" r="5"/><circle cx="64" cy="40" r="5"/><path d="M30 60q20 22 40 0" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/></symbol>
+<symbol id="s-st" viewBox="0 0 100 100"><polygon points="50,5 62,38 96,38 68,58 79,92 50,72 21,92 32,58 4,38 38,38" fill="#3ddc84" stroke="#111" stroke-width="4" stroke-linejoin="round"/></symbol>
+<symbol id="s-ht" viewBox="0 0 100 100"><path d="M50 90C8 58 6 28 27 17c12-6 23 2 23 13 0-11 11-19 23-13 21 11 19 41-23 73z" fill="#ff5fa2" stroke="#111" stroke-width="4" stroke-linejoin="round"/></symbol>
+<symbol id="s-pl" viewBox="0 0 120 60"><rect x="3" y="6" width="114" height="48" rx="24" fill="#ffd83d" stroke="#111" stroke-width="4"/><text x="60" y="41" text-anchor="middle" font-family="Bowlby One,Impact" font-size="26">PEEL!</text></symbol>
+<symbol id="m-jar" viewBox="0 0 200 200"><rect x="62" y="20" width="76" height="28" rx="8" fill="#ffd83d" stroke="#111" stroke-width="5"/><rect x="48" y="44" width="104" height="140" rx="26" fill="#ffd0e2" stroke="#111" stroke-width="5"/><rect x="60" y="84" width="80" height="62" rx="12" fill="#fff" stroke="#111" stroke-width="4"/><text x="100" y="112" text-anchor="middle" font-family="Bowlby One,Impact" font-size="19">HONEY</text><text x="100" y="134" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="12">small batch</text></symbol>
+<symbol id="m-cup" viewBox="0 0 200 200"><path d="M122 6l6 24" stroke="#111" stroke-width="7" fill="none"/><rect x="46" y="28" width="108" height="20" rx="8" fill="#fff" stroke="#111" stroke-width="5"/><path d="M54 48h92l-12 136H66z" fill="#3ddc84" stroke="#111" stroke-width="5" stroke-linejoin="round"/><circle cx="100" cy="112" r="34" fill="#ffd83d" stroke="#fff" stroke-width="6"/><circle cx="100" cy="112" r="34" fill="none" stroke="#111" stroke-width="3"/><text x="100" y="122" text-anchor="middle" font-family="Bowlby One,Impact" font-size="26">HI!</text></symbol>
+<symbol id="m-bag" viewBox="0 0 200 200"><path d="M72 58q0-34 28-34t28 34" fill="none" stroke="#111" stroke-width="6"/><path d="M40 58h120l8 124H32z" fill="#e8c28f" stroke="#111" stroke-width="5" stroke-linejoin="round"/><ellipse cx="100" cy="126" rx="48" ry="30" fill="#ff5fa2" stroke="#fff" stroke-width="5"/><ellipse cx="100" cy="126" rx="48" ry="30" fill="none" stroke="#111" stroke-width="3"/><text x="100" y="122" text-anchor="middle" font-family="Bowlby One,Impact" font-size="17">THANK</text><text x="100" y="142" text-anchor="middle" font-family="Bowlby One,Impact" font-size="17">YOU</text></symbol>
+<symbol id="m-box" viewBox="0 0 200 200"><rect x="26" y="68" width="148" height="110" rx="10" fill="#fff" stroke="#111" stroke-width="5"/><rect x="18" y="50" width="164" height="32" rx="8" fill="#ffd83d" stroke="#111" stroke-width="5"/><circle cx="100" cy="86" r="30" fill="#ff5fa2" stroke="#fff" stroke-width="5"/><circle cx="100" cy="86" r="30" fill="none" stroke="#111" stroke-width="3"/><path d="M100 102c-22-16-22-30-10-32 6 0 10 4 10 8 0-4 4-8 10-8 12 2 12 16-10 32z" fill="#fff" stroke="#111" stroke-width="3"/><text x="100" y="152" text-anchor="middle" font-family="Bowlby One,Impact" font-size="15">MADE WITH LOVE</text></symbol>
+<symbol id="m-sheet" viewBox="0 0 200 200"><g transform="rotate(-4 100 100)"><rect x="30" y="14" width="140" height="172" rx="12" fill="#fff" stroke="#111" stroke-width="5"/><use href="#s-sm" x="42" y="28" width="46" height="46"/><use href="#s-st" x="110" y="28" width="46" height="46"/><use href="#s-ht" x="42" y="88" width="46" height="46"/><use href="#s-fl" x="110" y="88" width="46" height="46"/><use href="#s-pl" x="52" y="148" width="96" height="30"/></g></symbol>
+<symbol id="m-card" viewBox="0 0 200 200"><g transform="rotate(4 100 100)"><rect x="38" y="20" width="124" height="162" rx="10" fill="#fff8e7" stroke="#111" stroke-width="5"/><text x="100" y="76" text-anchor="middle" font-family="Bowlby One,Impact" font-size="26">THANK</text><text x="100" y="106" text-anchor="middle" font-family="Bowlby One,Impact" font-size="26">YOU</text><use href="#s-ht" x="72" y="118" width="56" height="56"/></g></symbol>
+<symbol id="m-inv" viewBox="0 0 200 200"><g transform="rotate(-3 100 100)"><rect x="36" y="18" width="128" height="164" rx="12" fill="#ff5fa2" stroke="#111" stroke-width="5"/><rect x="50" y="32" width="100" height="136" rx="8" fill="#fff8e7"/><text x="100" y="76" text-anchor="middle" font-family="Bowlby One,Impact" font-size="19">YOU’RE</text><text x="100" y="100" text-anchor="middle" font-family="Bowlby One,Impact" font-size="19">INVITED</text><use href="#s-st" x="72" y="112" width="56" height="48"/></g></symbol>
+<symbol id="m-bday" viewBox="0 0 200 200"><circle cx="100" cy="104" r="80" fill="#ffd83d" stroke="#111" stroke-width="5"/><path d="M100 18l26 48H74z" fill="#ff5fa2" stroke="#111" stroke-width="4" stroke-linejoin="round"/><circle cx="100" cy="16" r="7" fill="#3ddc84" stroke="#111" stroke-width="3"/><text x="100" y="108" text-anchor="middle" font-family="Bowlby One,Impact" font-size="22">HAPPY</text><text x="100" y="134" text-anchor="middle" font-family="Bowlby One,Impact" font-size="22">BIRTHDAY</text><circle cx="50" cy="150" r="6" fill="#ff5fa2"/><circle cx="152" cy="148" r="6" fill="#3ddc84"/></symbol>
+</defs></svg>
+<div class="ann" data-t="ann"></div>
+<header>
+<button class="ic" id="mb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+<a class="brand-logo" href="#top" aria-label="Pop &amp; Peel Studio home"><img src="/pop-and-peel/assets/logo.svg" alt="Pop &amp; Peel Studio"></a>
+<nav><a href="#shop" data-t="n1"></a><a href="#create" data-t="n2"></a><a href="#digital" data-t="n3"></a><a href="#faq" data-t="n4"></a></nav>
+<span class="sp"></span>
+<div class="lang" role="group" aria-label="Language"><button data-l="es">ES</button><button data-l="en">EN</button></div>
+<button class="ic" id="sb" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+<button class="ic" id="cb" aria-label="Cart"><svg viewBox="0 0 24 24"><path d="M3 4h3l3 11h10l2-8H7"/><circle cx="10" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg><span id="cc">0</span></button>
+</header>
+<div id="sbar"><input id="q" type="search"></div>
+<div class="mn" id="mn"><button class="btn x" id="mx" aria-label="Close">×</button><a href="#shop" data-t="n1"></a><a href="#create" data-t="n2"></a><a href="#digital" data-t="n3"></a><a href="#faq" data-t="n4"></a><div id="mc" style="display:grid;gap:2px;margin-top:8px"></div></div>
+<aside id="dr" aria-label="Saved items"><button class="btn" id="cx" aria-label="Close">×</button><h2 data-t="cart" style="margin:14px 0 4px"></h2><p class="note" data-t="saved_note"></p><div id="cl"></div><p><a class="btn g" href="#launch" id="join-launch" data-t="join_launch"></a></p></aside>
+<div id="ts" role="status"></div>
+<main id="top">
+<div class="hero"><svg class="fl" style="left:3%;top:3%;rotate:-12deg"><use href="#s-fl"/></svg><svg class="fl" style="right:4%;top:4%;rotate:10deg;animation-delay:.8s"><use href="#s-sm"/></svg>
+<span class="eyebrow" data-t="hero_tag"></span><h1 data-t="h1"></h1><p data-t="hp"></p><div class="row"><a class="btn p" href="#shop" data-t="b1"></a><a class="btn" href="#create" data-t="b2"></a></div>
+<div class="col" data-m="m-jar,m-sheet,m-cup,m-card"></div></div>
+<section><h2 data-t="h_cat"></h2><div class="grid" id="cats"></div></section>
+<section id="shop"><h2 data-t="h_feat"></h2><div class="chips" id="chips"></div><div class="grid" id="gr"></div></section>
+<section><div class="ed" style="background:var(--pk)"><div><h2 data-t="h_biz"></h2><p data-t="p_biz"></p><a class="btn" href="#create" data-t="b2"></a></div><div class="col" data-m="m-jar,m-cup,m-bag,m-box"></div></div></section>
+<section><div class="ed" style="background:var(--yl)"><div><h2 data-t="h_ev"></h2><p data-t="p_ev"></p><button class="btn p" data-c="1" data-t="b1"></button></div><div class="col" data-m="m-bday,m-inv,m-sheet"></div></div></section>
+<section><div class="ed" style="background:var(--gr)"><div><h2 data-t="h_mix"></h2><p data-t="p_mix"></p><div class="row" style="justify-content:flex-start"><span class="pill on" data-t="pk5"></span><span class="pill" data-t="pk10"></span></div></div><div class="col" data-m="m-sheet,m-bday,m-card"></div></div></section>
+<section id="digital"><h2 data-t="h_dig"></h2><p data-t="p_dig"></p><div class="grid" id="dg"></div></section>
+<section><span class="eyebrow" data-t="why_tag"></span><h2 data-t="h_why"></h2><div class="benefits" id="benefits"></div></section>
+<section><h2 data-t="h_how"></h2><ol class="steps" id="st"></ol></section>
+<section id="create"><h2 data-t="h_cr"></h2><p data-t="p_cr"></p>
+<form class="fm" id="f"><div class="two">
+<label><span data-t="f_prod"></span><select id="fp"></select></label><label><span data-t="f_shape"></span><select id="fs"></select></label>
+<label><span data-t="f_size"></span><select id="fz"></select></label><label><span data-t="f_mat"></span><select id="fm"></select></label>
+<label><span data-t="f_fin"></span><select id="ff"></select></label><label><span data-t="f_qty"></span><select id="fq"></select></label></div>
+<label><span data-t="f_up"></span><input id="fu" type="file" accept="image/*,.pdf"></label><div id="pv"></div>
+<label><span data-t="f_ins"></span><textarea id="fi" rows="3"></textarea></label>
+<label style="display:flex;gap:8px;align-items:center"><input id="fh" type="checkbox" style="width:auto"><span data-t="f_help"></span></label>
+<div class="est" data-t="f_note"></div>
+<button class="btn p" type="submit" data-t="f_go"></button><p id="fo" class="note"></p></form></section>
+<section id="faq"><h2 data-t="h_faq"></h2><div id="fq2"></div></section>
+<section id="launch"><div class="ed" style="background:var(--yl)"><div><span class="eyebrow" data-t="launch_tag"></span><h2 data-t="h_nl"></h2><p data-t="p_nl"></p></div><form id="nl" style="display:grid;gap:10px"><label><span class="sr-only" data-t="email_label"></span><input id="ne" type="email" required autocomplete="email" placeholder="email@example.com"></label><button class="btn p" data-t="sub"></button><p class="note" data-t="nl_note"></p></form></div></section>
+</main>
+<footer><img class="footer-logo" src="/pop-and-peel/assets/logo.svg" alt="Pop &amp; Peel Studio"><p class="footer-links"><button type="button" data-policy="shipping" data-t="l1"></button><button type="button" data-policy="returns" data-t="l2"></button><button type="button" data-policy="privacy" data-t="l3"></button><button type="button" data-policy="terms" data-t="l4"></button></p><p><a style="color:#fff8e7" href="mailto:hello@thelaunchera.com?subject=Pop%20%26%20Peel%20Studio">hello@thelaunchera.com</a></p><small>Powered by The Launch Era</small></footer>
+<dialog class="policy" id="policy"><div class="policy-in"><div class="policy-head"><h2 id="policy-title"></h2><button class="policy-close" type="button" aria-label="Close">×</button></div><div class="policy-body" id="policy-body"></div></div></dialog>
+<script>
+const T={en:{
+ann:"Opening soon · Custom stickers, labels and paper goods",n1:"Shop",n2:"Create Your Own",n3:"Digital",n4:"FAQ",
+hero_tag:"For businesses, birthdays & big little moments",h1:"Peel. Stick. Celebrate.",hp:"Custom stickers, labels and paper goods made to help your business stand out and your celebrations feel personal.",b1:"Explore the collection",b2:"Create Your Own",
+h_cat:"Shop by category",h_feat:"What’s coming",all:"All",none:"Nothing found.",h_biz:"Custom stickers for your business",p_biz:"Picture your logo on jars, cups, bags, boxes and packaging. Choose the shape, size, material and finish, then approve a digital proof before anything is printed.",
+h_ev:"Birthday & event collection",p_ev:"Sticker sheets, favor labels, invitations and thank-you cards for birthdays, showers and parties.",
+h_mix:"Mix your pack: pick 5 or 10",p_mix:"Build a pack around your mood, your business or your celebration. Mix designs and repeat your favorites.",pk5:"Pack of 5",pk10:"Pack of 10",
+h_dig:"Digital downloads · Coming soon",p_dig:"Printable sticker sheets, cards and tags are being prepared for instant download at launch.",why_tag:"Designed with intention",h_why:"Small details. Big personality.",
+h_how:"How custom orders will work",h_cr:"Tell us what you want to create",p_cr:"Use this form to prepare an email request. Your file stays on your device until you attach it to the email yourself.",
+f_prod:"Product",f_shape:"Shape",f_size:"Size",f_mat:"Material",f_fin:"Finish",f_qty:"Quantity",f_up:"Preview your logo, photo or design",f_ins:"Tell us about your idea",f_help:"I don’t have a finished design yet. I need design help",
+est:"Planning estimate:",f_note:"Planning estimate only. Final pricing and production times will be confirmed before launch.",f_go:"Prepare my request",f_ok:"Your email draft is ready. Remember to attach your artwork before sending.",nofile:"No file chosen",
+launch_tag:"Be first to know",h_nl:"Join the launch list",p_nl:"Get an email when custom orders and digital downloads officially open.",sub:"Prepare signup email",email_label:"Email address",nl_note:"This opens an email draft. Your address is not stored on this preview website.",nl_ok:"Your signup email is ready.",
+h_faq:"Questions before launch",cart:"Saved for launch",saved_note:"Keep track of the products you want to revisit. Saved items stay only in this browser.",join_launch:"Join the launch list",empty:"You haven’t saved anything yet.",
+add:"Save for launch",added:"Saved for launch",soon:"Coming soon",prev:"Preview",from:"planned from",acct:"Customer accounts will be added when ordering opens.",
+l1:"Shipping",l2:"Returns",l3:"Privacy",l4:"Terms",
+shapes:["Circle","Square","Rounded rectangle","Die-cut"],sizes:['1"','2"','3"','4"'],mats:["Matte vinyl","Glossy vinyl","Paper","Clear"],fins:["Matte","Glossy","Holographic"],
+prods:["Business stickers","Jar & cup labels","Bag & box labels","Birthday stickers","Sticker sheet","Greeting card","Invitation","Thank-you card"],
+cats:["Business Stickers","Birthday & Event Stickers","Custom Sticker Sheets","Personalized Cards","Invitations & Thank-You Cards","Ready-to-Ship Packs","Digital Downloads","Create Your Own"],
+benefits:[["Proof before print","Custom orders will include a digital proof so you can review the design before production."],["Made for real use","Options are planned for products, packaging, celebrations and everyday creative projects."],["Bilingual support","Browse and prepare your request in English or Spanish without mixing languages."]],
+steps:["Choose your product","Select size, shape, material and quantity","Preview your logo or artwork","Add instructions","Send your request","Receive a digital proof","Approve the design","Production and shipping"],
+faq:[["Can I order today?","Not yet. The website is open as a preview while production, final pricing and payments are being prepared."],["How will the proof work?","Before a custom item is printed, you’ll receive a digital proof to review and approve."],["Will you ship outside the U.S.?","The launch plan currently includes U.S. shipping and a local-pickup option. Final delivery details will be posted before ordering opens."],["Can you help with the design?","Yes. Select the design-help option in the request form and describe what you have in mind."]],
+policies:{shipping:["Shipping","U.S. shipping and local pickup are planned for launch. Exact rates, free-shipping thresholds, processing times and pickup instructions will be published before checkout opens."],returns:["Returns","Because personalized items are made for one customer, the final return policy will distinguish custom products from ready-made products. Nothing will be printed before proof approval."],privacy:["Privacy","This preview website stores only your language choice and saved-product list in your browser. It does not collect payment details or upload your files. Email buttons open your own email app."],terms:["Terms","Products, prices, materials, timelines and availability shown before launch are previews and may change. A final order is not created until ordering and payment are officially enabled."]}},
+es:{
+ann:"Próximamente · Stickers, etiquetas y papelería personalizada",n1:"Tienda",n2:"Crea el tuyo",n3:"Digitales",n4:"Preguntas",
+hero_tag:"Para negocios, cumpleaños y momentos especiales",h1:"Pega. Celebra. Repite.",hp:"Stickers, etiquetas y papelería personalizada para hacer que tu negocio resalte y tus celebraciones se sientan realmente tuyas.",b1:"Explorar la colección",b2:"Crea el tuyo",
+h_cat:"Compra por categoría",h_feat:"Lo que viene",all:"Todos",none:"No encontramos nada.",h_biz:"Stickers personalizados para tu negocio",p_biz:"Imagina tu logo en frascos, vasos, bolsas, cajas y empaques. Elige forma, tamaño, material y acabado, y aprueba una prueba digital antes de imprimir.",
+h_ev:"Colección de cumpleaños y eventos",p_ev:"Hojas de stickers, etiquetas para recuerditos, invitaciones y tarjetas de agradecimiento para cumpleaños, baby showers y fiestas.",
+h_mix:"Arma tu pack: elige 5 o 10",p_mix:"Crea un pack para tu estilo, negocio o celebración. Mezcla diseños y repite tus favoritos.",pk5:"Pack de 5",pk10:"Pack de 10",
+h_dig:"Descargas digitales · Próximamente",p_dig:"Estamos preparando hojas de stickers, tarjetas y etiquetas imprimibles para descarga inmediata al lanzar.",why_tag:"Diseñado con intención",h_why:"Pequeños detalles. Mucha personalidad.",
+h_how:"Cómo funcionarán los pedidos personalizados",h_cr:"Cuéntanos qué quieres crear",p_cr:"Usa este formulario para preparar una solicitud por correo. Tu archivo permanece en tu dispositivo hasta que tú misma lo adjuntes al email.",
+f_prod:"Producto",f_shape:"Forma",f_size:"Tamaño",f_mat:"Material",f_fin:"Acabado",f_qty:"Cantidad",f_up:"Previsualiza tu logo, foto o diseño",f_ins:"Cuéntanos tu idea",f_help:"Todavía no tengo el diseño terminado. Necesito ayuda",
+est:"Estimado de planificación:",f_note:"Estimado de planificación. Los precios finales y tiempos de producción se confirmarán antes del lanzamiento.",f_go:"Preparar mi solicitud",f_ok:"Tu borrador de correo está listo. Recuerda adjuntar tu diseño antes de enviarlo.",nofile:"Ningún archivo elegido",
+launch_tag:"Entérate primero",h_nl:"Únete a la lista de lanzamiento",p_nl:"Recibe un correo cuando abramos oficialmente los pedidos personalizados y las descargas digitales.",sub:"Preparar correo de registro",email_label:"Correo electrónico",nl_note:"Esto abre un borrador en tu aplicación de correo. Tu dirección no se guarda en este website de vista previa.",nl_ok:"Tu correo de registro está listo.",
+h_faq:"Preguntas antes del lanzamiento",cart:"Guardados para el lanzamiento",saved_note:"Guarda los productos que quieras volver a ver. Solo se almacenan en este navegador.",join_launch:"Unirme a la lista",empty:"Todavía no has guardado ningún producto.",
+add:"Guardar para el lanzamiento",added:"Guardado para el lanzamiento",soon:"Próximamente",prev:"Vista previa",from:"precio previsto desde",acct:"Las cuentas estarán disponibles cuando abramos los pedidos.",
+l1:"Envíos",l2:"Devoluciones",l3:"Privacidad",l4:"Términos",
+shapes:["Círculo","Cuadrado","Rectángulo redondeado","Corte especial"],sizes:['1"','2"','3"','4"'],mats:["Vinilo mate","Vinilo brillante","Papel","Transparente"],fins:["Mate","Brillante","Holográfico"],
+prods:["Stickers para negocio","Etiquetas para frascos y vasos","Etiquetas para bolsas y cajas","Stickers de cumpleaños","Hoja de stickers","Tarjeta de felicitación","Invitación","Tarjeta de agradecimiento"],
+cats:["Stickers para negocios","Cumpleaños y eventos","Hojas de stickers personalizadas","Tarjetas personalizadas","Invitaciones y tarjetas de agradecimiento","Packs listos para enviar","Descargas digitales","Crea el tuyo"],
+benefits:[["Prueba antes de imprimir","Los pedidos personalizados incluirán una prueba digital para revisar el diseño antes de producirlo."],["Pensado para uso real","Habrá opciones para productos, empaques, celebraciones y proyectos creativos de todos los días."],["Atención bilingüe","Explora y prepara tu solicitud en español o inglés sin mezclar los dos idiomas."]],
+steps:["Elige tu producto","Selecciona tamaño, forma, material y cantidad","Previsualiza tu logo o diseño","Agrega instrucciones","Envía tu solicitud","Recibe una prueba digital","Aprueba el diseño","Producción y envío"],
+faq:[["¿Puedo comprar hoy?","Todavía no. El website está abierto como vista previa mientras preparamos la producción, los precios finales y los pagos."],["¿Cómo funcionará la prueba?","Antes de imprimir un producto personalizado recibirás una prueba digital para revisar y aprobar."],["¿Enviarán fuera de EE. UU.?","El plan inicial incluye envíos dentro de Estados Unidos y recogida local. Publicaremos los detalles finales antes de abrir los pedidos."],["¿Pueden ayudarme con el diseño?","Sí. Selecciona la opción de ayuda con el diseño y cuéntanos lo que tienes en mente."]],
+policies:{shipping:["Envíos","Planeamos ofrecer envíos dentro de EE. UU. y recogida local. Las tarifas, mínimos para envío gratis, tiempos de preparación e instrucciones se publicarán antes de activar el checkout."],returns:["Devoluciones","Como los productos personalizados se fabrican para una sola persona, la política final distinguirá entre productos personalizados y productos listos para enviar. Nada se imprimirá sin aprobar primero la prueba."],privacy:["Privacidad","Este website de vista previa solo guarda en tu navegador el idioma y la lista de productos guardados. No recopila pagos ni sube tus archivos. Los botones de correo abren tu propia aplicación de email."],terms:["Términos","Los productos, precios, materiales, tiempos y disponibilidad mostrados antes del lanzamiento son preliminares y pueden cambiar. No se crea un pedido hasta que activemos oficialmente las órdenes y los pagos."]}}
+};
+// [mockup, category, price, preview?, pastel, EN, ES]
+const PR=[["m-jar",0,12,0,"#ffc9dd","Jar Label Set","Set de etiquetas para frascos"],["m-cup",0,8,0,"#fff1a8","Cup & Tumbler Stickers","Stickers para vasos"],["m-bag",0,9,0,"#c8f5dc","Kraft Bag Seals","Sellos para bolsas kraft"],["m-box",0,9,0,"#ffe7d6","Box Seal Stickers","Stickers para cajas"],["m-bday",1,8,0,"#fff1a8","Birthday Sticker Pack","Pack de stickers de cumpleaños"],["m-sheet",2,6,0,"#c8f5dc","Confetti Sticker Sheet","Hoja de stickers confeti"],["m-sheet",2,14,0,"#ffc9dd","Custom Sticker Sheet","Hoja de stickers personalizada"],["m-card",3,5,0,"#ffe7d6","Greeting Card","Tarjeta de felicitación"],["m-card",4,14,0,"#ffc9dd","Thank-You Cards, 10 pack","Tarjetas de agradecimiento, 10 pzs"],["m-inv",4,12,0,"#fff1a8","Party Invitations","Invitaciones de fiesta"],["m-sheet",5,15,0,"#c8f5dc","Ready-to-Ship Starter Pack","Pack inicial listo para enviar"],["m-bday",6,8,1,"#fff1a8","Birthday Sticker Printable","Stickers de cumpleaños imprimibles"],["m-card",6,9,1,"#ffc9dd","Thank-You Tag Templates","Plantillas de etiquetas de agradecimiento"]];
+const CC=["#ff5fa2","#ffd83d","#3ddc84","#ffc9dd","#fff1a8","#c8f5dc","#ffe7d6","#ffd83d"],CM=["m-jar","m-bday","m-sheet","m-card","m-inv","m-box","m-card","m-cup"];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const mk=id=>`<svg viewBox="0 0 200 200"><use href="#${id}"/></svg>`;
+const routeLang=location.pathname.startsWith('/es')?'es':'';
+let L=(localStorage.getItem('lang')||routeLang||(navigator.language||'en').slice(0,2)).toLowerCase();if(!T[L])L='en';
+let F=-1,Q='',saved={},tt;
+try{saved=JSON.parse(localStorage.getItem('popPeelSaved')||'{}')||{}}catch(_){saved={}}
+function toast(m){const e=$('#ts');e.textContent=m;e.classList.add('o');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('o'),2200)}
+function card(i){const t=T[L],p=PR[i];return `<article class="card"><div class="ph" style="background:${p[4]}">${mk(p[0])}</div><div class="b"><span class="tag">${p[3]?t.prev:t.soon}</span><h3>${p[L=='es'?6:5]}</h3><button class="btn" data-a="${i}">${t.add}</button></div></article>`}
+function shop(){const t=T[L],n=PR.map((p,i)=>i).filter(i=>(F<0||PR[i][1]==F)&&(!Q||PR[i][L=='es'?6:5].toLowerCase().includes(Q)));
+$('#chips').innerHTML=[t.all,...t.cats.slice(0,7)].map((c,i)=>`<button class="chip ${i-1==F?'on':''}" data-f="${i-1}">${c}</button>`).join('');
+$('#gr').innerHTML=n.length?n.map(card).join(''):`<p>${t.none}</p>`}
+function drawSaved(){const t=T[L],k=Object.keys(saved).filter(i=>PR[i]);$('#cc').textContent=k.length;
+$('#cl').innerHTML=k.length?k.map(i=>`<div class="ci"><span>${PR[i][L=='es'?6:5]}</span><button class="qb" data-remove="${i}" aria-label="Remove">×</button></div>`).join(''):`<p>${t.empty}</p>`}
+function persistSaved(){localStorage.setItem('popPeelSaved',JSON.stringify(saved));drawSaved()}
+function render(){const t=T[L];document.documentElement.lang=L;localStorage.setItem('lang',L);
+$$('[data-t]').forEach(e=>e.textContent=t[e.dataset.t]);$$('[data-l]').forEach(b=>b.classList.toggle('on',b.dataset.l==L));
+$$('[data-m]').forEach(e=>e.innerHTML=e.dataset.m.split(',').map(mk).join(''));
+const cats=t.cats.map((n,i)=>`<button class="cat" style="--c:${CC[i]}" data-c="${i}">${mk(CM[i])}${n}</button>`).join('');$('#cats').innerHTML=cats;$('#mc').innerHTML=t.cats.map((n,i)=>`<a href="#shop" data-c="${i}" style="font-size:18px">${n}</a>`).join('');
+shop();$('#dg').innerHTML=[11,12].map(card).join('');
+$('#benefits').innerHTML=t.benefits.map(x=>`<article class="benefit"><b>${x[0]}</b><span>${x[1]}</span></article>`).join('');
+$('#st').innerHTML=t.steps.map(s=>`<li>${s}</li>`).join('');$('#fq2').innerHTML=t.faq.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('');
+$('#q').placeholder=L=='es'?'Buscar stickers…':'Search stickers…';
+[['#fp','prods'],['#fs','shapes'],['#fz','sizes'],['#fm','mats'],['#ff','fins']].forEach(([id,k])=>{const i=Math.max($(id).selectedIndex,0);$(id).innerHTML=t[k].map(x=>`<option>${x}</option>`).join('');$(id).selectedIndex=i});
+const q=Math.max($('#fq').selectedIndex,0);$('#fq').innerHTML=['25','50','100','250','500'].map(n=>`<option>${n}</option>`).join('');$('#fq').selectedIndex=q;
+if(!$('#fu').files.length)$('#pv').textContent=t.nofile;drawSaved();if($('#policy').open){$('#policy').close()}}
+function go(id){$(id).scrollIntoView({behavior:'smooth'})}
+document.addEventListener('click',e=>{const t=e.target,l=t.closest('[data-l]');if(l){L=l.dataset.l;render();return}
+const a=t.closest('[data-a]');if(a){saved[a.dataset.a]=1;persistSaved();toast(T[L].added);return}
+const c=t.closest('[data-c]');if(c){const i=+c.dataset.c;$('#mn').classList.remove('o');document.body.classList.remove('menu-open');if(i==7){$('#fp').selectedIndex=0;go('#create')}else{F=i==6?6:i;Q='';$('#q').value='';shop();go('#shop')}return}
+const f=t.closest('[data-f]');if(f){F=+f.dataset.f;shop();return}
+const r=t.closest('[data-remove]');if(r){delete saved[r.dataset.remove];persistSaved();return}
+if(t.closest('#cb'))$('#dr').classList.add('o');if(t.closest('#cx')||t.closest('#join-launch'))$('#dr').classList.remove('o');
+if(t.closest('#mb')){$('#mn').classList.add('o');document.body.classList.add('menu-open')}if(t.closest('#mx')||t.closest('.mn>a')){$('#mn').classList.remove('o');document.body.classList.remove('menu-open')}
+if(t.closest('#sb')){$('#sbar').classList.toggle('o');$('#q').focus()}if(t.closest('#ab'))toast(T[L].acct);
+const pb=t.closest('[data-policy]');if(pb){const p=T[L].policies[pb.dataset.policy];$('#policy-title').textContent=p[0];$('#policy-body').textContent=p[1];$('#policy').showModal();return}
+if(t.closest('.policy-close')){$('#policy').close();return}
+const p=t.closest('.pill');if(p){$$('.pill').forEach(x=>x.classList.remove('on'));p.classList.add('on')}});
+$('#q').addEventListener('input',e=>{Q=e.target.value.trim().toLowerCase();F=-1;shop();if(Q)go('#shop')});
+$('#fu').addEventListener('change',e=>{const f=e.target.files[0],v=$('#pv');v.textContent='';if(!f){v.textContent=T[L].nofile;return}
+if(f.type.startsWith('image/')){const im=new Image();im.src=URL.createObjectURL(f);im.alt='Selected artwork preview';v.appendChild(im)}v.append(document.createTextNode(f.name))});
+$('#f').addEventListener('submit',e=>{e.preventDefault();const g=i=>$(i).value,f=$('#fu').files[0];
+const b=[`Language: ${L.toUpperCase()}`,g('#fp'),g('#fs'),g('#fz'),g('#fm'),g('#ff'),'Qty '+g('#fq'),f?`Artwork to attach: ${f.name}`:'No artwork selected',$('#fh').checked?'NEED DESIGN HELP':'',g('#fi')].filter(Boolean).join('\n');
+location.href='mailto:hello@thelaunchera.com?subject='+encodeURIComponent('Pop & Peel custom request')+'&body='+encodeURIComponent(b);$('#fo').textContent=T[L].f_ok});
+$('#nl').addEventListener('submit',e=>{e.preventDefault();const email=$('#ne').value.trim();location.href='mailto:hello@thelaunchera.com?subject='+encodeURIComponent('Join the Pop & Peel launch list')+'&body='+encodeURIComponent(`Please add ${email} to the Pop & Peel Studio launch list.`);toast(T[L].nl_ok)});
+$('#policy').addEventListener('click',e=>{if(e.target===$('#policy'))$('#policy').close()});
+render();
+</script></body></html>
