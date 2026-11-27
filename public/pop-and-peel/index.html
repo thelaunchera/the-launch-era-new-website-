@@ -384,13 +384,179 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
       "avatar-florist-bouquet",
       "avatar-10-camera-day-out-woman"
     ]
+  },
+  "cozy-paws": {
+    "members": [
+      "pet-cat-cardboard-box",
+      "pet-cat-dog-friendship",
+      "pet-cat-loaf-sunbeam",
+      "pet-cozy-bed",
+      "pet-dog-tennis-balls",
+      "pet-happy-dog-bandana",
+      "pet-paw-print-bouquet",
+      "pet-paws-on-sofa",
+      "pet-toy-basket",
+      "pet-treat-jar"
+    ],
+    "en": [
+      "Cozy Paws",
+      "Little moments with furry friends",
+      "Cats, dogs & cozy moments"
+    ],
+    "es": [
+      "Huellitas acogedoras",
+      "Momentos tiernos con mascotas",
+      "Gatos, perros y momentos acogedores"
+    ],
+    "bg": "#dce8cc",
+    "accent": "#466445",
+    "ids": [
+      "pet-cat-dog-friendship",
+      "pet-happy-dog-bandana",
+      "pet-cat-loaf-sunbeam"
+    ]
+  },
+  "pet-care-club": {
+    "members": [
+      "pet-essentials-basket",
+      "pet-feeding-bowls",
+      "pet-grooming-brush",
+      "pet-leash-and-collar",
+      "pet-lint-roller",
+      "pet-rainy-walk",
+      "pet-tag-bow",
+      "pet-travel-carrier",
+      "pet-water-fountain",
+      "pet-wellness-tote"
+    ],
+    "en": [
+      "Pet Care Club",
+      "Make room for little routines",
+      "Pet care & everyday essentials"
+    ],
+    "es": [
+      "Club de mascotas",
+      "Pequeñas rutinas de cuidado",
+      "Cuidados y accesorios para mascotas"
+    ],
+    "bg": "#ebd9e9",
+    "accent": "#76527b",
+    "ids": [
+      "pet-essentials-basket",
+      "pet-tag-bow",
+      "pet-rainy-walk"
+    ]
+  },
+  "slow-mornings": {
+    "members": [
+      "avatar-01-curly-coffee-woman",
+      "avatar-03-short-hair-book-woman",
+      "avatar-12-long-gray-hair-tea-woman",
+      "avatar-05-redhead-plant-woman",
+      "avatar-yoga-mat"
+    ],
+    "en": [
+      "Slow Mornings",
+      "A little time for yourself",
+      "Coffee, books & gentle routines"
+    ],
+    "es": [
+      "Mañanas tranquilas",
+      "Un ratito para ti",
+      "Café, libros y rutinas tranquilas"
+    ],
+    "bg": "#f6deca",
+    "accent": "#86563d",
+    "ids": [
+      "avatar-01-curly-coffee-woman",
+      "avatar-03-short-hair-book-woman",
+      "avatar-12-long-gray-hair-tea-woman"
+    ]
+  },
+  "city-days": {
+    "members": [
+      "avatar-10-camera-day-out-woman",
+      "avatar-11-bike-helmet-woman",
+      "avatar-15-city-commuter-woman",
+      "avatar-17-curly-hair-backpack-woman",
+      "avatar-19-rainy-day-umbrella-woman"
+    ],
+    "en": [
+      "City Days",
+      "Little adventures out and about",
+      "Everyday adventures & city style"
+    ],
+    "es": [
+      "Días de ciudad",
+      "Pequeñas aventuras cotidianas",
+      "Paseos y estilo urbano"
+    ],
+    "bg": "#c9dfe7",
+    "accent": "#38576a",
+    "ids": [
+      "avatar-15-city-commuter-woman",
+      "avatar-11-bike-helmet-woman",
+      "avatar-10-camera-day-out-woman"
+    ]
+  },
+  "ideas-in-bloom": {
+    "members": [
+      "creator-pink-checklist",
+      "creator-pink-goal",
+      "creator-lavender-idea",
+      "creator-little-rocket",
+      "creator-laptop-girl"
+    ],
+    "en": [
+      "Ideas in Bloom",
+      "Make your next idea happen",
+      "Planning & creative projects"
+    ],
+    "es": [
+      "Ideas en flor",
+      "Dale vida a tu próxima idea",
+      "Planificación y proyectos creativos"
+    ],
+    "bg": "#f4d0df",
+    "accent": "#8c3e61",
+    "ids": [
+      "creator-lavender-idea",
+      "creator-pink-checklist",
+      "creator-laptop-girl"
+    ]
+  },
+  "sweet-cafecito": {
+    "members": [
+      "cafe-con-leche-and-cuban-toast",
+      "cuban-caramel-flan-sticker",
+      "cuban-moka-pot-espresso",
+      "guava-cream-cheese-pastelitos",
+      "cuban-espresso-and-dominoes"
+    ],
+    "en": [
+      "Sweet Cafecito",
+      "A little sweetness for your day",
+      "Coffee, desserts & Cuban treats"
+    ],
+    "es": [
+      "Cafecito dulce",
+      "Un poquito de dulzura",
+      "Café, postres y dulces cubanos"
+    ],
+    "bg": "#f5de9e",
+    "accent": "#8d542c",
+    "ids": [
+      "cuban-moka-pot-espresso",
+      "cuban-caramel-flan-sticker",
+      "guava-cream-cheese-pastelitos"
+    ]
   }
 };
   const PACK_ORDER=Object.keys(PACKS);
   function packItems(key){return PACKS[key].ids.map(id=>items.find(i=>i.id===id)).filter(Boolean)}
   function packGroup(key){return PACKS[key]?PACKS[key].members.map(id=>items.find(i=>i.id===id)).filter(Boolean):group(key)}
   function packArt(key){const p=PACKS[key],pics=packItems(key),words=p[lang];return `<span class="collection-cover" style="--pack-color:${p.bg};--pack-ink:${p.accent}"><span class="collection-brand">POP &amp; PEEL STUDIO</span><span class="collection-art">${pics.map(i=>`<img src="${assetSrc(i)}" alt="" loading="lazy" decoding="async">`).join('')}</span><span class="collection-name">${esc(words[0])}</span><span class="collection-format">${lang==='es'?'PACK DIGITAL':'DIGITAL STICKER PACK'}</span></span>`}
-  function renderBooks(){if(!items.length){$('#bookShelf').replaceChildren();return;}$('#bookShelf').innerHTML=PACK_ORDER.filter(key=>packGroup(key).length===PACKS[key].members.length).map(key=>{const p=PACKS[key],words=p[lang];return `<article class="book product-pack"><button class="book-cover-button" type="button" data-book="${key}" aria-label="${esc(words[0])}">${packArt(key)}</button><div class="book-info"><div class="book-meta"><span>${lang==='es'?'Pack digital':'Digital pack'}</span></div><h3>${esc(words[0])}</h3><p class="pack-use">${esc(words[2])}</p><div class="book-actions"><button type="button" class="book-browse" data-pack-browse="${key}">${lang==='es'?'Ver pack':'View pack'} <span aria-hidden="true">↗</span></button><button type="button" class="book-preview" data-book="${key}">${lang==='es'?'Ojear':'Preview'}</button></div><button type="button" class="pack-add" data-add-pack="${key}" aria-pressed="${bag.packs.includes(key)}">${bag.packs.includes(key)?tr('✓ Pack added','✓ Pack añadido'):tr('+ Add pack','+ Añadir pack')}</button></div></article>`}).join('')}
+  function renderBooks(){if(!items.length){$('#bookShelf').replaceChildren();return;}$('#bookShelf').innerHTML=PACK_ORDER.filter(key=>packGroup(key).length===PACKS[key].members.length).map(key=>{const p=PACKS[key],words=p[lang];return `<article class="book product-pack"><button class="book-cover-button" type="button" data-book="${key}" aria-label="${esc(words[0])}">${packArt(key)}</button><div class="book-info"><div class="book-meta"><span>${p.members.length} ${lang==='es'?'stickers digitales':'digital stickers'}</span></div><h3>${esc(words[0])}</h3><p class="pack-use">${esc(words[2])}</p><div class="book-actions"><button type="button" class="book-browse" data-pack-browse="${key}">${lang==='es'?'Ver pack':'View pack'} <span aria-hidden="true">↗</span></button><button type="button" class="book-preview" data-book="${key}">${lang==='es'?'Ojear':'Preview'}</button></div><button type="button" class="pack-add" data-add-pack="${key}" aria-pressed="${bag.packs.includes(key)}">${bag.packs.includes(key)?tr('✓ Pack added','✓ Pack añadido'):tr('+ Add pack','+ Añadir pack')}</button></div></article>`}).join('')}
   function renderFilters(){const buttons=['all',...ORDER];$('#filters').innerHTML=(activePack?`<button class="filter on" data-filter="all">${esc(PACKS[activePack][lang][0])} ×</button>`:'')+buttons.map(key=>`<button class="filter ${!activePack&&active===key?'on':''}" data-filter="${key}">${key==='all'?t('all'):esc(catText(key))}</button>`).join('')}
   function visible(){const source=activePack?packGroup(activePack):items;return source.filter(i=>(activePack||active==='all'||i.category===active)&&(!query||(i.title.toLowerCase().includes(query)||catText(i.category).toLowerCase().includes(query))))}
   function stickerTile(i){return `<article class="tile shopping-tile"><button type="button" class="tile-view" data-open="${i.id}"><span class="tile-art" data-collection="${i.category}"><img src="${assetSrc(i)}" alt="${esc(i.title)}" loading="lazy" decoding="async"></span><b>${esc(i.title)}</b></button><button type="button" class="sticker-add" data-add-sticker="${i.id}" aria-pressed="${isSelected(i.id)}" ${i.previewOnly||packIncluded(i.id)?'disabled':''}>${stickerLabel(i.id)}</button></article>`}
