@@ -181,23 +181,23 @@ const PR=[["m-jar",0,12,0,"#ffc9dd","Jar Label Set","Set de etiquetas para frasc
 const CC=["#ff5fa2","#ffd83d","#3ddc84","#ffc9dd","#fff1a8","#c8f5dc","#ffe7d6","#ffd83d"],CM=["m-jar","m-bday","m-sheet","m-card","m-inv","m-box","m-card","m-cup"];
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const mk=id=>`<svg viewBox="0 0 200 200"><use href="#${id}"/></svg>`;
-const routeLang=location.pathname.startsWith('/es')?'es':'';
-let L=(localStorage.getItem('lang')||routeLang||(navigator.language||'en').slice(0,2)).toLowerCase();if(!T[L])L='en';
+const routeLang=/^\/es(?:\/|$)/.test(location.pathname)?'es':'';
+let L=(routeLang||localStorage.getItem('popPeelLang')||(navigator.language||'en').slice(0,2)).toLowerCase();if(!T[L])L='en';
 let F=-1,Q='',saved={},tt;
 try{saved=JSON.parse(localStorage.getItem('popPeelSaved')||'{}')||{}}catch(_){saved={}}
 function toast(m){const e=$('#ts');e.textContent=m;e.classList.add('o');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('o'),2200)}
 function card(i){const t=T[L],p=PR[i];return `<article class="card"><div class="ph" style="background:${p[4]}">${mk(p[0])}</div><div class="b"><span class="tag">${p[3]?t.prev:t.soon}</span><h3>${p[L=='es'?6:5]}</h3><button class="btn" data-a="${i}">${t.add}</button></div></article>`}
-function shop(){const t=T[L],n=PR.map((p,i)=>i).filter(i=>(F<0||PR[i][1]==F)&&(!Q||PR[i][L=='es'?6:5].toLowerCase().includes(Q)));
-$('#chips').innerHTML=[t.all,...t.cats.slice(0,7)].map((c,i)=>`<button class="chip ${i-1==F?'on':''}" data-f="${i-1}">${c}</button>`).join('');
+function shop(){const t=T[L],n=PR.map((p,i)=>i).filter(i=>PR[i][1]!==6&&(F<0||PR[i][1]==F)&&(!Q||PR[i][L=='es'?6:5].toLowerCase().includes(Q)));
+$('#chips').innerHTML=[t.all,...t.cats.slice(0,6)].map((c,i)=>`<button class="chip ${i-1==F?'on':''}" data-f="${i-1}">${c}</button>`).join('');
 $('#gr').innerHTML=n.length?n.map(card).join(''):`<p>${t.none}</p>`}
 function drawSaved(){const t=T[L],k=Object.keys(saved).filter(i=>PR[i]);$('#cc').textContent=k.length;
 $('#cl').innerHTML=k.length?k.map(i=>`<div class="ci"><span>${PR[i][L=='es'?6:5]}</span><button class="qb" data-remove="${i}" aria-label="Remove">×</button></div>`).join(''):`<p>${t.empty}</p>`}
 function persistSaved(){localStorage.setItem('popPeelSaved',JSON.stringify(saved));drawSaved()}
-function render(){const t=T[L];document.documentElement.lang=L;localStorage.setItem('lang',L);
+function render(){const t=T[L];document.documentElement.lang=L;localStorage.setItem('popPeelLang',L);localStorage.setItem('popPeelStickerLang',L);
 $$('[data-t]').forEach(e=>e.textContent=t[e.dataset.t]);$$('[data-l]').forEach(b=>b.classList.toggle('on',b.dataset.l==L));
 $$('[data-m]').forEach(e=>e.innerHTML=e.dataset.m.split(',').map(mk).join(''));
 const cats=t.cats.map((n,i)=>`<button class="cat" style="--c:${CC[i]}" data-c="${i}">${mk(CM[i])}${n}</button>`).join('');$('#cats').innerHTML=cats;$('#mc').innerHTML=t.cats.map((n,i)=>`<a href="#shop" data-c="${i}" style="font-size:18px">${n}</a>`).join('');
-shop();$('#dg').innerHTML=[11,12].map(card).join('');
+shop();$('#dg').innerHTML='';$('#dg').hidden=true;
 $('#benefits').innerHTML=t.benefits.map(x=>`<article class="benefit"><b>${x[0]}</b><span>${x[1]}</span></article>`).join('');
 $('#st').innerHTML=t.steps.map(s=>`<li>${s}</li>`).join('');$('#fq2').innerHTML=t.faq.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('');
 $('#q').placeholder=L=='es'?'Buscar stickers…':'Search stickers…';
@@ -205,9 +205,9 @@ $('#q').placeholder=L=='es'?'Buscar stickers…':'Search stickers…';
 const q=Math.max($('#fq').selectedIndex,0);$('#fq').innerHTML=['25','50','100','250','500'].map(n=>`<option>${n}</option>`).join('');$('#fq').selectedIndex=q;
 if(!$('#fu').files.length)$('#pv').textContent=t.nofile;drawSaved();if($('#policy').open){$('#policy').close()}}
 function go(id){$(id).scrollIntoView({behavior:'smooth'})}
-document.addEventListener('click',e=>{const t=e.target,l=t.closest('[data-l]');if(l){L=l.dataset.l;render();return}
+document.addEventListener('click',e=>{const t=e.target,l=t.closest('[data-l]');if(l){L=l.dataset.l;if(location.pathname==='/'||location.pathname==='/es/')history.replaceState(null,'',(L==='es'?'/es/':'/')+location.search+location.hash);render();return}
 const a=t.closest('[data-a]');if(a){saved[a.dataset.a]=1;persistSaved();toast(T[L].added);return}
-const c=t.closest('[data-c]');if(c){const i=+c.dataset.c;$('#mn').classList.remove('o');document.body.classList.remove('menu-open');if(i==7){$('#fp').selectedIndex=0;go('#create')}else{F=i==6?6:i;Q='';$('#q').value='';shop();go('#shop')}return}
+const c=t.closest('[data-c]');if(c){const i=+c.dataset.c;$('#mn').classList.remove('o');document.body.classList.remove('menu-open');if(i===6){location.href='/digital-stickers/';return}if(i==7){$('#fp').selectedIndex=0;go('#create')}else{F=i;Q='';$('#q').value='';shop();go('#shop')}return}
 const f=t.closest('[data-f]');if(f){F=+f.dataset.f;shop();return}
 const r=t.closest('[data-remove]');if(r){delete saved[r.dataset.remove];persistSaved();return}
 if(t.closest('#cb'))$('#dr').classList.add('o');if(t.closest('#cx')||t.closest('#join-launch'))$('#dr').classList.remove('o');
