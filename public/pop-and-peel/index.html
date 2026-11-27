@@ -205,6 +205,9 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
   function stickerCode(id){let a=2166136261,b=0x9e3779b9;for(let j=0;j<id.length;j++){const c=id.charCodeAt(j);a=Math.imul(a^c,16777619);b=Math.imul(b^c,2246822519);b^=b>>>13}return 'PP-'+(a>>>0).toString(16).padStart(8,'0').toUpperCase()+(b>>>0).toString(16).padStart(8,'0').slice(0,4).toUpperCase()}
   function esc(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
   const assetSrc=item=>item ? (window.POP_PEEL_PREVIEWS[item.id]||'') : '';
+  let hdIndexPromise;
+  function getHDIndex(){return hdIndexPromise||(hdIndexPromise=fetch('/digital-stickers/assets/hd/index.json',{cache:'no-store'}).then(r=>r.ok?r.json():[]).then(a=>new Set(Array.isArray(a)?a:[])).catch(()=>new Set()))}
+  async function readerAsset(item){const thumb=assetSrc(item);try{const index=await getHDIndex();if(!index.has(item.id))return thumb;const url='/digital-stickers/assets/hd/'+encodeURIComponent(item.id)+'.png?v=hd1';await new Promise((resolve,reject)=>{const probe=new Image();probe.onload=resolve;probe.onerror=reject;probe.src=url;if(probe.complete&&probe.naturalWidth)resolve()});return url}catch{return thumb}}
   function loadChunk(name){if(loadedChunks.has(name))return Promise.resolve();if(pendingChunks.has(name))return pendingChunks.get(name);const request=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL(name+'.js?v=pick-mix-v9-20261127',new URL('/digital-stickers/assets/data/',location.origin)).href;script.onload=()=>{loadedChunks.add(name);pendingChunks.delete(name);resolve()};script.onerror=()=>{pendingChunks.delete(name);reject(new Error(`Could not load ${name}`))};document.head.appendChild(script)});pendingChunks.set(name,request);return request}
   function ensureCategory(category,all=true){const chunks=[...new Set(group(category).map(i=>i.chunk))];return Promise.all((all?chunks:chunks.slice(0,1)).map(loadChunk))}
   function ensureItems(list){const chunks=[...new Set(list.filter(Boolean).map(i=>i.chunk))];return Promise.all(chunks.map(loadChunk))}
@@ -419,7 +422,7 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
   document.querySelector('.reader-page').dataset.previewLabel=lang==='es'?'VISTA PREVIA':'PREVIEW';$('#progress').style.width=((readerIndex+1)/readerItems.length*100)+'%';
   $('#prev').disabled=readerIndex===0;$('#next').disabled=readerIndex===readerItems.length-1;image.hidden=true;status.hidden=false;status.textContent=lang==='es'?'Cargando diseño…':'Loading design…';
   const from=Math.max(0,Math.min(readerIndex-3,readerItems.length-7)),neighbors=readerItems.slice(from,from+7);
-  try{await ensureItems([item]);if(run!==previewRun)return;const src=assetSrc(item);if(!src)throw Error('Missing preview');
+  try{await ensureItems([item]);if(run!==previewRun)return;const src=await readerAsset(item);if(run!==previewRun)return;if(!src)throw Error('Missing preview');
   await new Promise((resolve,reject)=>{const probe=new Image();probe.onload=resolve;probe.onerror=reject;probe.src=src;if(probe.complete&&probe.naturalWidth)resolve()});if(run!==previewRun)return;
   image.src=src;image.alt=item.title;image.dataset.collection=item.category;image.hidden=false;status.hidden=true;
   }catch(e){if(run!==previewRun)return;status.textContent=lang==='es'?'No se pudo mostrar el diseño.':'This preview could not load.';const retry=document.createElement('button');retry.type='button';retry.textContent=lang==='es'?'Reintentar':'Try again';retry.onclick=renderReader;status.append(retry)}
