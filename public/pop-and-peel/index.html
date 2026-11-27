@@ -164,13 +164,13 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
     creator:{en:['Creative Characters','Playful illustrated girls, creative tools and little companions.'],es:['Personajes creativos','Chicas ilustradas, herramientas creativas y pequeños compañeros.'],color:'#dfccff'},
     avatars:{en:['Avatar Collection','Illustrated women, everyday moments and different professions.'],es:['Colección de avatares','Mujeres ilustradas, momentos cotidianos y diferentes profesiones.'],color:'#ffe2b8'}
   };
-  const ORDER=['cuban','cleaning','wellness','creator','avatars'];
-  const TRANSPARENT_APPROVED=new Set(["cafe-con-leche-and-cuban-toast","cuban-caramel-flan-sticker","cuban-comfort-bowl-beans-rice-plantains","cuban-espresso-and-dominoes","cuban-moka-pot-espresso","cuban-rice-cooker-and-black-beans","cuban-ropa-vieja-feast","golden-cuban-croquetas-with-lime","golden-cuban-sandwich-with-plantain-chips","guava-cream-cheese-pastelitos","hibiscus-apron-with-sunny-bow","tropical-fruit-market-basket","turquoise-cuban-arroz-con-pollo","cheerful-clean-house-sticker","cleaning-ready-sneakers-and-gloves","dusty-to-sparkling-house","morning-route-tumbler-and-keys","powder-blue-cleaning-van-sticker","powder-blue-clipboard-checklist-sticker","powder-blue-planner-checkmark-sticker","professional-cleaning-apron-with-tools","ribbon-tied-house-keys-sticker","smartphone-calendar-checkmark-sticker","sparkling-checkmark-door-hanger-sticker","sparkling-powder-blue-cleaning-caddy","sparkling-victory-cleaning-gloves","pilates-princess-02","pilates-princess-03","pilates-princess-04","pilates-princess-05","pilates-princess-06","pilates-princess-07","pilates-princess-08","pilates-princess-09","pilates-princess-10","pilates-princess-11","pilates-princess-12","pilates-princess-13","pilates-princess-14","pilates-princess-15","pilates-princess-16","pilates-princess-17","pilates-princess-18","pilates-princess-19","pilates-princess-20","pilates-princess-21","pilates-princess-22","pilates-princess-23","pilates-princess-24","pilates-princess-26","pilates-princess-28","pilates-princess-30","pilates-princess-31","pilates-princess-32","pilates-princess-33","pilates-princess-34","pilates-princess-35","pilates-princess-36","pilates-princess-37","pilates-princess-38","pilates-princess-39","pilates-princess-40","pilates-princess-41","pilates-princess-42","pilates-princess-43","pilates-princess-44","pilates-princess-45","pilates-princess-46","pilates-princess-47","pilates-princess-48","pilates-princess-49","pilates-princess-50","creator-coffee-on-the-go","creator-creative-wolf","creator-pink-pencil-girl","creator-blue-pencil-girl","creator-yellow-pencil-girl","creator-hello-creative-girl","creator-lavender-sitting-girl","creator-green-walking-girl","creator-laptop-girl","creator-camera-girl","creator-playful-puppy","creator-cream-bunny","creator-podcast-microphone","creator-lavender-kitten","creator-sitting-puppy","creator-little-rocket","creator-pink-checklist","creator-pink-goal","creator-lavender-idea","avatar-01-curly-coffee-woman","avatar-02-hijabi-grocery-woman","avatar-03-short-hair-book-woman","avatar-04-plus-size-phone-woman","avatar-05-redhead-plant-woman","avatar-06-senior-market-woman","avatar-07-pregnant-errand-woman","avatar-08-wheelchair-style-woman","avatar-09-afro-headphones-woman","avatar-10-camera-day-out-woman","avatar-11-bike-helmet-woman","avatar-12-long-gray-hair-tea-woman","avatar-13-curvy-dog-mom-woman","avatar-14-gamer-woman","avatar-15-city-commuter-woman","avatar-16-sketchbook-woman","avatar-17-curly-hair-backpack-woman","avatar-18-home-gardener-woman","avatar-19-rainy-day-umbrella-woman","avatar-20-confident-everyday-woman","avatar-founder-laptop","avatar-yoga-mat","avatar-florist-bouquet","avatar-senior-dog-walker"]);
+  const ORDER=['cuban','cleaning','creator','avatars'];
+  const TRANSPARENT_APPROVED=new Set(["cafe-con-leche-and-cuban-toast","cuban-caramel-flan-sticker","cuban-comfort-bowl-beans-rice-plantains","cuban-espresso-and-dominoes","cuban-moka-pot-espresso","cuban-rice-cooker-and-black-beans","cuban-ropa-vieja-feast","golden-cuban-croquetas-with-lime","golden-cuban-sandwich-with-plantain-chips","guava-cream-cheese-pastelitos","hibiscus-apron-with-sunny-bow","tropical-fruit-market-basket","turquoise-cuban-arroz-con-pollo","cheerful-clean-house-sticker","cleaning-ready-sneakers-and-gloves","dusty-to-sparkling-house","morning-route-tumbler-and-keys","powder-blue-cleaning-van-sticker","powder-blue-clipboard-checklist-sticker","powder-blue-planner-checkmark-sticker","professional-cleaning-apron-with-tools","ribbon-tied-house-keys-sticker","smartphone-calendar-checkmark-sticker","sparkling-checkmark-door-hanger-sticker","sparkling-powder-blue-cleaning-caddy","sparkling-victory-cleaning-gloves","creator-coffee-on-the-go","creator-creative-wolf","creator-pink-pencil-girl","creator-blue-pencil-girl","creator-yellow-pencil-girl","creator-hello-creative-girl","creator-lavender-sitting-girl","creator-green-walking-girl","creator-laptop-girl","creator-camera-girl","creator-playful-puppy","creator-cream-bunny","creator-podcast-microphone","creator-lavender-kitten","creator-sitting-puppy","creator-little-rocket","creator-pink-checklist","creator-pink-goal","creator-lavender-idea","avatar-01-curly-coffee-woman","avatar-02-hijabi-grocery-woman","avatar-03-short-hair-book-woman","avatar-04-plus-size-phone-woman","avatar-05-redhead-plant-woman","avatar-06-senior-market-woman","avatar-07-pregnant-errand-woman","avatar-08-wheelchair-style-woman","avatar-09-afro-headphones-woman","avatar-10-camera-day-out-woman","avatar-11-bike-helmet-woman","avatar-12-long-gray-hair-tea-woman","avatar-13-curvy-dog-mom-woman","avatar-14-gamer-woman","avatar-15-city-commuter-woman","avatar-16-sketchbook-woman","avatar-17-curly-hair-backpack-woman","avatar-18-home-gardener-woman","avatar-19-rainy-day-umbrella-woman","avatar-20-confident-everyday-woman","avatar-founder-laptop","avatar-yoga-mat","avatar-florist-bouquet","avatar-senior-dog-walker"]);
   const $=s=>document.querySelector(s);let items=[],lang=((/^\/es(?:\/|$)/.test(location.pathname)?'es':'')||localStorage.getItem('popPeelLang')||localStorage.getItem('popPeelStickerLang')||((navigator.language||'en').startsWith('es')?'es':'en'));if(!COPY[lang])lang='en';let active='all',activePack='',readerPack='',query='',limit=24,galleryRun=0,readerItems=[],readerIndex=0,touchStart=0;window.POP_PEEL_PREVIEWS=window.POP_PEEL_PREVIEWS||{};const loadedChunks=new Set(),pendingChunks=new Map();
   const t=k=>COPY[lang][k];const catText=(key,index=0)=>CATS[key][lang][index];
   function esc(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
   const assetSrc=item=>item ? (window.POP_PEEL_PREVIEWS[item.id]||'') : '';
-  function loadChunk(name){if(loadedChunks.has(name))return Promise.resolve();if(pendingChunks.has(name))return pendingChunks.get(name);const request=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL(name+'.js?v=cart-builder-v7-20261127',new URL('/digital-stickers/assets/data/',location.origin)).href;script.onload=()=>{loadedChunks.add(name);pendingChunks.delete(name);resolve()};script.onerror=()=>{pendingChunks.delete(name);reject(new Error(`Could not load ${name}`))};document.head.appendChild(script)});pendingChunks.set(name,request);return request}
+  function loadChunk(name){if(loadedChunks.has(name))return Promise.resolve();if(pendingChunks.has(name))return pendingChunks.get(name);const request=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL(name+'.js?v=curated-fitness-v8-20261127',new URL('/digital-stickers/assets/data/',location.origin)).href;script.onload=()=>{loadedChunks.add(name);pendingChunks.delete(name);resolve()};script.onerror=()=>{pendingChunks.delete(name);reject(new Error(`Could not load ${name}`))};document.head.appendChild(script)});pendingChunks.set(name,request);return request}
   function ensureCategory(category,all=true){const chunks=[...new Set(group(category).map(i=>i.chunk))];return Promise.all((all?chunks:chunks.slice(0,1)).map(loadChunk))}
   function ensureItems(list){const chunks=[...new Set(list.filter(Boolean).map(i=>i.chunk))];return Promise.all(chunks.map(loadChunk))}
   function ensureAll(){return Promise.all(ORDER.map(category=>ensureCategory(category,true)))}
@@ -246,115 +246,6 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
       "powder-blue-cleaning-van-sticker",
       "sparkling-powder-blue-cleaning-caddy",
       "professional-cleaning-apron-with-tools"
-    ]
-  },
-  "pilates-essentials": {
-    "members": [
-      "pilates-princess-02",
-      "pilates-princess-03",
-      "pilates-princess-04",
-      "pilates-princess-05",
-      "pilates-princess-06",
-      "pilates-princess-07",
-      "pilates-princess-08",
-      "pilates-princess-09",
-      "pilates-princess-10",
-      "pilates-princess-11",
-      "pilates-princess-12",
-      "pilates-princess-13",
-      "pilates-princess-14",
-      "pilates-princess-15",
-      "pilates-princess-16",
-      "pilates-princess-17",
-      "pilates-princess-18",
-      "pilates-princess-19",
-      "pilates-princess-20"
-    ],
-    "en": [
-      "Pilates Essentials",
-      "Small rituals, big energy",
-      "Fitness accessories & daily routines"
-    ],
-    "es": [
-      "Pilates Essentials",
-      "Pequeños rituales, gran energía",
-      "Accesorios fitness y rutinas"
-    ],
-    "bg": "#f2cbd5",
-    "accent": "#a34c68",
-    "ids": [
-      "pilates-princess-02",
-      "pilates-princess-05",
-      "pilates-princess-11"
-    ]
-  },
-  "pilates-moves": {
-    "members": [
-      "pilates-princess-31",
-      "pilates-princess-32",
-      "pilates-princess-33",
-      "pilates-princess-34",
-      "pilates-princess-35",
-      "pilates-princess-36",
-      "pilates-princess-37",
-      "pilates-princess-38",
-      "pilates-princess-39",
-      "pilates-princess-40"
-    ],
-    "en": [
-      "Pilates Moves",
-      "Move at your own pace",
-      "Pilates exercises & poses"
-    ],
-    "es": [
-      "Pilates Moves",
-      "Muévete a tu ritmo",
-      "Ejercicios y posiciones de Pilates"
-    ],
-    "bg": "#ead5ea",
-    "accent": "#8a507c",
-    "ids": [
-      "pilates-princess-31",
-      "pilates-princess-34",
-      "pilates-princess-38"
-    ]
-  },
-  "pretty-planner": {
-    "members": [
-      "pilates-princess-21",
-      "pilates-princess-22",
-      "pilates-princess-23",
-      "pilates-princess-24",
-      "pilates-princess-26",
-      "pilates-princess-28",
-      "pilates-princess-30",
-      "pilates-princess-41",
-      "pilates-princess-42",
-      "pilates-princess-43",
-      "pilates-princess-44",
-      "pilates-princess-45",
-      "pilates-princess-46",
-      "pilates-princess-47",
-      "pilates-princess-48",
-      "pilates-princess-49",
-      "pilates-princess-50"
-    ],
-    "en": [
-      "Pretty Planner",
-      "Make plans feel like you",
-      "Decorative accents & planner elements"
-    ],
-    "es": [
-      "Pretty Planner",
-      "Organiza a tu estilo",
-      "Elementos decorativos y de agenda"
-    ],
-    "bg": "#f3d5cb",
-    "accent": "#985b49",
-    "ids": [
-      "pilates-princess-21",
-      "pilates-princess-45",
-      "pilates-princess-49"
     ]
   },
   "creative-girls": {
@@ -508,7 +399,7 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
   function closeBag(){if($('#cartDialog').open)$('#cartDialog').close();document.body.style.overflow=''}
   $('#cartOpen').addEventListener('click',openBag);$('#builderBag').addEventListener('click',openBag);$('#cartClose').addEventListener('click',closeBag);$('#continueShopping').addEventListener('click',closeBag);$('#cartDialog').addEventListener('cancel',e=>{e.preventDefault();closeBag()});$('#cartDialog').addEventListener('click',e=>{if(e.target===$('#cartDialog'))closeBag()});$('#readerAdd').addEventListener('click',()=>{const item=readerItems[readerIndex];if(item)toggleSticker(item.id)});
   applyLanguage();
-  fetch('/digital-stickers/manifest.json?v=cart-builder-v7-20261127',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Manifest unavailable');return r.json()}).then(async data=>{items=data.filter(i=>i.originalTransparencyVerified===true&&ORDER.includes(i.category)&&TRANSPARENT_APPROVED.has(i.id));normalizeBag();await Promise.all(ORDER.map(category=>ensureCategory(category,false)));await ensureItems([...PACK_ORDER.flatMap(category=>packItems(category)),...heroItems()]);renderHero();applyLanguage();const hash=location.hash.slice(1).split('/');if(ORDER.includes(hash[0])||PACK_ORDER.includes(hash[0])){openBook(hash[0],hash[1])}}).catch(()=>{applyLanguage();$('#gallery').innerHTML=`<p class="empty">${lang==='es'?'No se pudo cargar la biblioteca. Actualiza la página para volver a intentarlo.':'The preview library could not load. Refresh the page to try again.'}</p>`});
+  fetch('/digital-stickers/manifest.json?v=curated-fitness-v8-20261127',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Manifest unavailable');return r.json()}).then(async data=>{items=data.filter(i=>i.originalTransparencyVerified===true&&ORDER.includes(i.category)&&TRANSPARENT_APPROVED.has(i.id));normalizeBag();await Promise.all(ORDER.map(category=>ensureCategory(category,false)));await ensureItems([...PACK_ORDER.flatMap(category=>packItems(category)),...heroItems()]);renderHero();applyLanguage();const hash=location.hash.slice(1).split('/');if(ORDER.includes(hash[0])||PACK_ORDER.includes(hash[0])){openBook(hash[0],hash[1])}}).catch(()=>{applyLanguage();$('#gallery').innerHTML=`<p class="empty">${lang==='es'?'No se pudo cargar la biblioteca. Actualiza la página para volver a intentarlo.':'The preview library could not load. Refresh the page to try again.'}</p>`});
   </script>
 </body>
 </html>
