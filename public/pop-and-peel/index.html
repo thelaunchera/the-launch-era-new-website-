@@ -104,6 +104,9 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
 #stripeCheckout{width:100%;margin-bottom:8px;background:#29221e;color:#fff}#stripeCheckout:disabled{opacity:.45;cursor:not-allowed}#continueShopping{background:#fff;color:#29221e}
 
 .builder-sizes button{min-height:83px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.builder-sizes button .size-name{font-size:9px;line-height:1.1;min-height:20px;display:grid;place-items:center;text-align:center}.builder-sizes button strong{font-size:13px;letter-spacing:-.02em}.builder-price{font-size:20px;font-weight:900;white-space:nowrap}.builder-progress{flex-wrap:wrap}.bag-price{font-size:18px;font-weight:900;margin-bottom:8px}.bag-price:empty{display:none}@media(max-width:760px){.builder-sizes button{min-height:83px}.builder-sizes button .size-name{font-size:8px}.builder-sizes button strong{font-size:12px}.builder-price{font-size:18px}}
+/* Hero headline: preserve display font, separate glyphs and lines. */
+.hero h1{letter-spacing:.005em;line-height:1.16;font-size:clamp(38px,5.6vw,68px);word-spacing:.035em}
+@media(max-width:760px){.hero h1{font-size:clamp(29px,8.4vw,44px);letter-spacing:.012em;line-height:1.18;word-spacing:.035em}.hero-copy h1{margin-bottom:12px}}
 </style>
 </head>
 <body>
