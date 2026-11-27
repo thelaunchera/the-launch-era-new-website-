@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Pop &amp; Peel Studio">
+  <path d="M18 8h92c6 0 10 4 10 10v65l-37 37H18c-6 0-10-4-10-10V18C8 12 12 8 18 8Z" fill="#ff5fa2" stroke="#111" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M120 83v27c0 6-4 10-10 10H83Z" fill="#ffd83d" stroke="#111" stroke-width="8" stroke-linejoin="round"/>
+  <path d="m49 31 7 17 18 2-14 11 5 18-16-9-16 9 5-18-14-11 18-2Z" fill="#3ddc84" stroke="#111" stroke-width="6" stroke-linejoin="round"/>
+</svg>
