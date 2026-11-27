@@ -6,9 +6,9 @@ function makePreview(b64){
  function to64(b){let r=[];for(let i=0;i<b.length;i+=3){let x=(b[i]<<16)|((b[i+1]||0)<<8)|(b[i+2]||0);r.push(A[x>>18],A[(x>>12)&63],i+1<b.length?A[(x>>6)&63]:'=',i+2<b.length?A[x&63]:'=')}return r.join('')}
  const a=un64(b64),u=(p)=>((a[p]<<24)|(a[p+1]<<16)|(a[p+2]<<8)|a[p+3])>>>0;
  if(a[0]!==137||a[1]!==80||a[2]!==78||a[3]!==71)throw Error('Not a PNG');
- const w=u(16),h=u(20),depth=a[24],type=a[25],channels=type===6?4:type===4?2:0;
+ const w=u(16),h=u(20),depth=a[24],type=a[25],channels=type===6?4:type===4?2:type===3?1:0;
  if(depth!==8||!channels||a[28]!==0||w*h>16000000)throw Error('Unsupported or non-transparent PNG '+depth+'/'+type);
- let idat=[],size=0;for(let p=8;p+12<=a.length;){let n=u(p),name=String.fromCharCode(...a.subarray(p+4,p+8));if(name==='IDAT'){let s=a.subarray(p+8,p+8+n);idat.push(s);size+=n}p+=12+n}
+ let idat=[],size=0,plte=null,trns=null;for(let p=8;p+12<=a.length;){let n=u(p),name=String.fromCharCode(...a.subarray(p+4,p+8));if(name==='IDAT'){let s=a.subarray(p+8,p+8+n);idat.push(s);size+=n}else if(name==='PLTE')plte=a.subarray(p+8,p+8+n);else if(name==='tRNS')trns=a.subarray(p+8,p+8+n);p+=12+n}
  let z=new Uint8Array(size),off=0;for(const s of idat){z.set(s,off);off+=s.length}
  const stride=w*channels,raw=new Uint8Array((stride+1)*h);let pos=16,out=0;
  function bits(n){let v=0;for(let i=0;i<n;i++){if(pos>=z.length*8)throw Error('truncated deflate');v|=((z[pos>>3]>>(pos&7))&1)<<i;pos++}return v}
@@ -19,11 +19,11 @@ function makePreview(b64){
  if(out!==raw.length)throw Error('PNG decode length mismatch');
  const pixels=new Uint8Array(stride*h);let minX=w,minY=h,maxX=-1,maxY=-1,transparent=0;
  function paeth(a,b,c){let p=a+b-c,pa=Math.abs(p-a),pb=Math.abs(p-b),pc=Math.abs(p-c);return pa<=pb&&pa<=pc?a:pb<=pc?b:c}
- for(let y=0;y<h;y++){let p=y*(stride+1),f=raw[p],q=y*stride;for(let x=0;x<stride;x++){let left=x>=channels?pixels[q+x-channels]:0,up=y?pixels[q+x-stride]:0,ul=y&&x>=channels?pixels[q+x-stride-channels]:0;pixels[q+x]=(raw[p+x+1]+(f===0?0:f===1?left:f===2?up:f===3?(left+up)>>1:paeth(left,up,ul)))&255}for(let x=0;x<w;x++){let alpha=pixels[q+x*channels+channels-1];if(alpha===0)transparent++;if(alpha>=24){minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y)}}}
+ for(let y=0;y<h;y++){let p=y*(stride+1),f=raw[p],q=y*stride;for(let x=0;x<stride;x++){let left=x>=channels?pixels[q+x-channels]:0,up=y?pixels[q+x-stride]:0,ul=y&&x>=channels?pixels[q+x-stride-channels]:0;pixels[q+x]=(raw[p+x+1]+(f===0?0:f===1?left:f===2?up:f===3?(left+up)>>1:paeth(left,up,ul)))&255}for(let x=0;x<w;x++){let alpha=type===3?(trns?.[pixels[q+x]]??255):pixels[q+x*channels+channels-1];if(alpha===0)transparent++;if(alpha>=24){minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y)}}}
  if(transparent/(w*h)<.10||maxX<minX)throw Error('No meaningful transparency');
  const N=320,bg=[255,250,244],rgb=new Uint8Array(N*N*3);for(let i=0;i<rgb.length;i++)rgb[i]=bg[i%3];
  const bw=maxX-minX+1,bh=maxY-minY+1,scale=Math.min(286/bw,272/bh),dw=Math.max(1,Math.round(bw*scale)),dh=Math.max(1,Math.round(bh*scale)),dx=Math.floor((N-dw)/2),dy=7+Math.floor((280-dh)/2);
- for(let y=0;y<dh;y++)for(let x=0;x<dw;x++){let sx=Math.min(maxX,minX+Math.floor((x+.5)*bw/dw)),sy=Math.min(maxY,minY+Math.floor((y+.5)*bh/dh)),p=(sy*w+sx)*channels,alpha=pixels[p+channels-1]/255,q=((dy+y)*N+dx+x)*3;for(let k=0;k<3;k++)rgb[q+k]=Math.round((channels===4?pixels[p+k]:pixels[p])*alpha+bg[k]*(1-alpha))}
+ for(let y=0;y<dh;y++)for(let x=0;x<dw;x++){let sx=Math.min(maxX,minX+Math.floor((x+.5)*bw/dw)),sy=Math.min(maxY,minY+Math.floor((y+.5)*bh/dh)),p=(sy*w+sx)*channels,alpha=(type===3?(trns?.[pixels[p]]??255):pixels[p+channels-1])/255,q=((dy+y)*N+dx+x)*3;for(let k=0;k<3;k++)rgb[q+k]=Math.round((type===3?plte[pixels[p]*3+k]:channels===4?pixels[p+k]:pixels[p])*alpha+bg[k]*(1-alpha))}
  // Quiet but baked-in watermark, away from the artwork.
  const letters={P:['11110','10001','10001','11110','10000','10000','10000'],O:['01110','10001','10001','10001','10001','10001','01110'],E:['11111','10000','10000','11110','10000','10000','11111'],L:['10000','10000','10000','10000','10000','10000','11111'],R:['11110','10001','10001','11110','10100','10010','10001'],V:['10001','10001','10001','10001','10001','01010','00100'],I:['11111','00100','00100','00100','00100','00100','11111'],W:['10001','10001','10001','10101','10101','10101','01010'],'&':['01100','10010','10100','01000','10101','10010','01101']};
  let label='POP & PEEL PREVIEW',ox=N-label.length*6-10;for(let i=0;i<label.length;i++){let g=letters[label[i]];if(!g)continue;for(let y=0;y<7;y++)for(let x=0;x<5;x++)if(g[y][x]==='1'){let q=((305+y)*N+ox+i*6+x)*3;rgb[q]=95;rgb[q+1]=77;rgb[q+2]=70}}
