@@ -263,6 +263,60 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
 /* Discourage direct copying of storefront preview art; purchased downloads are unaffected. */
 :is(.tile-art,.reader-page,.thumbs,.book-cover-button,.pp-category-card,.bag-image,#starterArt,#heroArt) img{ -webkit-touch-callout:none; -webkit-user-drag:none; user-select:none; -webkit-user-select:none; }
 :is(.tile-art,.reader-page,.thumbs,.book-cover-button,.pp-category-card,.bag-image,#starterArt,#heroArt){-webkit-touch-callout:none;}
+
+/* Desktop storefront scale: use wide screens as a real canvas, not a stretched mobile layout. */
+.hero-sticker-card{position:absolute;width:46%;max-width:390px;aspect-ratio:1;overflow:hidden;border:10px solid #fffaf4;border-radius:30px;background:#fffaf4;box-shadow:0 18px 42px #5b334229}
+.hero-sticker-card img{display:block;width:300%!important;max-width:none!important;height:auto!important;aspect-ratio:1456/480!important;object-fit:contain!important;object-position:left center!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;mix-blend-mode:normal!important;translate:none!important;rotate:none!important}
+.hero-sticker-card:nth-child(1){left:0;top:16%;transform:rotate(-7deg)}
+.hero-sticker-card:nth-child(2){left:27%;top:2%;z-index:2;transform:rotate(2deg)}
+.hero-sticker-card:nth-child(2) img{transform:translateX(-33.333%)!important}
+.hero-sticker-card:nth-child(3){right:0;top:20%;transform:rotate(7deg)}
+.hero-sticker-card:nth-child(3) img{transform:translateX(-66.666%)!important}
+#heroArt .hero-static-row{display:block;position:relative;min-height:clamp(330px,31vw,500px);padding:0;border:0;background:transparent;overflow:visible}
+#heroArt .hero-gallery{max-width:820px;padding:24px 0;gap:15px}
+#heroArt .hero-gallery-footer{justify-content:space-between;font-size:11px;letter-spacing:.12em}
+#heroArt .hero-gallery-footer span{display:inline-flex;padding:7px 11px;border-radius:999px;background:#fffaf4;color:#79425c;font-size:11px;letter-spacing:.04em}
+
+@media(min-width:1200px){
+  header{padding-inline:clamp(42px,4vw,84px)}
+  header .brand img{width:clamp(205px,14vw,240px)}
+  .nav{gap:28px}.nav a{font-size:16px}
+  main{max-width:1760px;padding-inline:clamp(32px,3.4vw,66px)}
+  .hero{min-height:clamp(540px,39vw,690px);grid-template-columns:minmax(520px,.92fr) minmax(620px,1.08fr);border-radius:36px;margin-top:30px}
+  .hero-copy{padding:clamp(58px,5vw,88px) clamp(48px,4.5vw,82px)}
+  .hero h1{font-size:clamp(70px,5.6vw,108px);max-width:760px;line-height:.98}
+  .hero p{font-size:clamp(19px,1.3vw,24px);max-width:620px;line-height:1.5}
+  .hero-copy .hero-start-price{font-size:16px;margin-bottom:20px}
+  .hero .actions{margin-top:30px;gap:14px}.hero .actions .button{min-height:54px;padding:14px 25px;font-size:16px}
+  .hero-art{min-height:100%;padding:38px clamp(38px,4vw,74px)}
+  #heroArt .hero-gallery{height:100%;align-content:center}
+  #heroArt .hero-static-row{min-height:clamp(390px,29vw,535px)}
+  .shop-benefits{font-size:14px;padding:18px 8px 25px;margin-bottom:48px}
+  .section-head{margin-bottom:24px}.section-head h2{font-size:clamp(45px,3.6vw,64px)}.section-head p{font-size:16px;max-width:510px}
+  .custom-builder{padding:26px 28px;gap:16px;border-radius:24px}.custom-builder b{font-size:22px}.custom-builder p{font-size:15px}.builder-progress{font-size:16px}
+  .pp-discovery{margin-top:30px}.pp-discovery-head strong{font-size:22px}
+  .pp-category-track{grid-auto-columns:118px;gap:13px;min-height:138px}.pp-category-card{height:128px;border-radius:18px;padding:8px}.pp-category-card img{width:76px;height:76px}.pp-category-card span{font-size:12px}
+  .search{font-size:18px;padding:15px 18px}.filter{font-size:14px;padding:10px 16px}.browse-switch button{font-size:14px}
+  .collection-shelf{margin-bottom:34px}.shelf-head{margin-bottom:14px}.shelf-head h3{font-size:31px}.shelf-head small{font-size:14px}.shelf-view{font-size:14px}
+  .shelf-track{grid-auto-columns:clamp(225px,14vw,275px);gap:16px}.shopping-tile .tile-view b{font-size:13px}.shopping-tile .sticker-add{font-size:14px;min-height:44px;margin:0 11px 12px}
+  .books{gap:22px}.book-info{padding:18px}.book-info h3{font-size:24px}.book-info p{font-size:15px}.book-browse,.book-preview{font-size:14px;min-height:47px}
+  .starter-pack,.access{padding:clamp(38px,3.2vw,58px);border-radius:30px}.starter-copy h2,.access h2{font-size:clamp(42px,3.2vw,56px)}.starter-copy p,.access p{font-size:16px}
+  .pp-footer-inner,.pp-footer-bottom{max-width:1640px}
+}
+
+@media(min-width:1700px){
+  .announce{font-size:13px;padding-block:10px}
+  .hero-sticker-card{max-width:440px;border-width:12px;border-radius:34px}
+  #heroArt .hero-static-row{min-height:560px}
+  .favorite-heart{width:46px;height:46px;font-size:27px}
+}
+
+@media(max-width:760px){
+  #heroArt .hero-static-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;min-height:0;padding:5px;background:#fffaf4;border:1px solid #f1e4d9;border-radius:16px;overflow:hidden}
+  .hero-sticker-card,.hero-sticker-card:nth-child(1),.hero-sticker-card:nth-child(2),.hero-sticker-card:nth-child(3){position:relative;inset:auto;width:100%;max-width:none;border:0;border-radius:10px;box-shadow:none;transform:none;overflow:hidden}
+  #heroArt .hero-gallery{padding:4px 0;gap:8px}
+  #heroArt .hero-gallery-footer span{font-size:8px;padding:5px 8px}
+}
 </style>
 <link rel="preload" as="image" href="/pop-and-peel/assets/hero-creative-strip.svg" fetchpriority="high">
 </head>
@@ -284,7 +338,7 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
         <p class="hero-start-price" id="heroStartPrice" hidden></p>
         <div class="actions"><a class="button" href="#all" data-i18n="explore">Shop stickers</a><a class="button green" href="#books" data-i18n="how">Shop ready-made packs</a></div>
       </div>
-      <div class="hero-art" id="heroArt" aria-hidden="true"><div class="hero-gallery"><span class="hero-gallery-note" data-footer-en="PICK · MIX · MAKE IT YOURS" data-footer-es="ELIGE · MEZCLA · CREA">PICK · MIX · MAKE IT YOURS</span><div class="hero-character-row hero-static-row"><img class="hero-decorative-strip" src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" fetchpriority="high" decoding="async"></div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO</span></div></div>
+      <div class="hero-art" id="heroArt" aria-hidden="true"><div class="hero-gallery"><span class="hero-gallery-note" data-footer-en="PICK · MIX · MAKE IT YOURS" data-footer-es="ELIGE · MEZCLA · CREA">PICK · MIX · MAKE IT YOURS</span><div class="hero-character-row hero-static-row"><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" fetchpriority="high" decoding="async"></span><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" decoding="async"></span><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" decoding="async"></span></div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO <span id="heroDesignCount"></span></span></div></div>
     </section>
 
     <div class="shop-benefits"><span data-i18n="benefit1">Digital downloads</span><span data-i18n="benefit2">Transparent PNGs</span><span data-i18n="benefit3">Digital format · no shipping</span></div>
@@ -378,7 +432,7 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
   function group(key){return items.filter(i=>i.category===key)}
   const HERO_IDS=["creator-pink-pencil-girl","creator-camera-girl","creator-coffee-on-the-go"];
   function heroItems(){return HERO_IDS.map(id=>items.find(i=>i.id===id)).filter(Boolean)}
-  function renderHero(){const note=$('#heroArt .hero-gallery-note');if(note)note.textContent=tr('PICK · MIX · MAKE IT YOURS','ELIGE · MEZCLA · CREA');const p=$('#heroStartPrice');if(p){p.hidden=!items.some(i=>!i.previewOnly)||!Number.isSafeInteger(LAUNCH_PRICES[1])||LAUNCH_PRICES[1]<=0;p.textContent=tr('Individual stickers from ','Stickers individuales desde ')+usd(LAUNCH_PRICES[1])}}
+  function renderHero(){const note=$('#heroArt .hero-gallery-note');if(note)note.textContent=tr('PICK · MIX · MAKE IT YOURS','ELIGE · MEZCLA · CREA');const count=$('#heroDesignCount');if(count)count.textContent=items.length?items.length+' '+tr('designs','diseños'):'';const p=$('#heroStartPrice');if(p){p.hidden=!items.some(i=>!i.previewOnly)||!Number.isSafeInteger(LAUNCH_PRICES[1])||LAUNCH_PRICES[1]<=0;p.textContent=tr('Individual stickers from ','Stickers individuales desde ')+usd(LAUNCH_PRICES[1])}}
   const PACKS={
   "cuban": {
     "members": [
