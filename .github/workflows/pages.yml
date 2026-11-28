@@ -220,6 +220,8 @@ jobs:
           grep -q 'Website' .output/public/website-for-your-business/index.html
           test -s .output/public/pop-and-peel/index.html
           test -s .output/public/pop-and-peel/assets/logo.svg
+          python -c "import fitz; from pathlib import Path; p=Path('.output/public/pop-and-peel/assets/logo.svg'); d=fitz.open('svg',p.read_bytes()); d[0].get_pixmap(alpha=True).save(str(p.with_name('checkout-logo.png')))"
+          test -s .output/public/pop-and-peel/assets/checkout-logo.png
           test -s .output/public/pop-and-peel/assets/favicon.svg
           cp .output/public/pop-and-peel/index.html .output/public/index.html
           mkdir -p .output/public/es
