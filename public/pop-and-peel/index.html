@@ -366,6 +366,30 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
   .hero .actions .button{min-height:58px}
   .pp-footer a{font-size:15px}
 }
+
+/* Approved Mix & Match overlay: retain artwork, catalog behavior and locale strings. */
+.hero{margin-bottom:0;padding-bottom:clamp(50px,4.8vw,86px)}
+.pp-mix-overlay{position:relative;z-index:3;margin:calc(-1 * clamp(42px,4vw,72px)) clamp(16px,3.8vw,68px) 0;padding:clamp(24px,3vw,50px);background:#fffdf9;border:1px solid #e6bcd0;border-radius:clamp(20px,2.2vw,32px);box-shadow:0 12px 30px #493b4210;align-items:center;gap:clamp(16px,3vw,48px)}
+.pp-mix-overlay>div,.pp-mix-overlay>p{min-width:0}
+.pp-mix-overlay .eyebrow{display:block;margin:0 0 10px}
+.pp-mix-overlay h2{margin:0;line-height:1.12;overflow-wrap:break-word}
+.pp-mix-overlay p{margin:0;line-height:1.5;max-width:600px}
+.pp-mix-overlay + .shop-benefits{margin-top:clamp(14px,2vw,30px)}
+#heroDesignCount{white-space:nowrap}
+@media(min-width:761px){
+  .pp-mix-overlay{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+  .pp-mix-overlay h2{font-size:clamp(32px,3.2vw,58px)}
+  .pp-mix-overlay p{font-size:clamp(15px,1.2vw,19px)}
+}
+@media(max-width:760px){
+  .hero{padding-bottom:42px}
+  .pp-mix-overlay{display:block;margin:-34px 14px 0;padding:16px 17px 20px;border-radius:20px}
+  .pp-mix-overlay h2{font-size:clamp(26px,7.2vw,38px)}
+  .pp-mix-overlay p{font-size:14px;margin-top:10px;line-height:1.5}
+  .pp-mix-overlay .eyebrow{margin-bottom:10px}
+  .pp-mix-overlay + .shop-benefits{margin-top:14px}
+}
+@media(max-width:350px){.pp-mix-overlay{margin-inline:10px;padding-inline:13px}.pp-mix-overlay h2{font-size:25px}}
 </style>
 <link rel="preload" as="image" href="/pop-and-peel/assets/hero-creative-strip.svg" fetchpriority="high">
 </head>
@@ -387,8 +411,10 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
         <p class="hero-start-price" id="heroStartPrice" hidden></p>
         <div class="actions"><a class="button" href="#all" data-i18n="explore">Shop stickers</a><a class="button green" href="#books" data-i18n="how">Shop ready-made packs</a></div>
       </div>
-      <div class="hero-art" id="heroArt" aria-hidden="true"><div class="hero-gallery"><span class="hero-gallery-note" data-footer-en="PICK · MIX · MAKE IT YOURS" data-footer-es="ELIGE · MEZCLA · CREA">PICK · MIX · MAKE IT YOURS</span><div class="hero-character-row hero-static-row"><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" fetchpriority="high" decoding="async"></span><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" decoding="async"></span><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" decoding="async"></span></div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO <span id="heroDesignCount"></span></span></div></div>
+      <div class="hero-art" id="heroArt" aria-hidden="true"><div class="hero-gallery"><span class="hero-gallery-note" data-footer-en="PICK · MIX · MAKE IT YOURS" data-footer-es="ELIGE · MEZCLA · CREA">PICK · MIX · MAKE IT YOURS</span><div class="hero-character-row hero-static-row"><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" fetchpriority="high" decoding="async"></span><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" decoding="async"></span><span class="hero-sticker-card"><img src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" loading="eager" decoding="async"></span></div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO <span id="heroDesignCount">1000+ designs</span></span></div></div>
     </section>
+
+    <div class="section-head pp-mix-overlay"><div><span class="eyebrow" data-i18n="allTag">MIX &amp; MATCH</span><h2 data-i18n="allTitle">Shop individual stickers</h2></div><p data-i18n="allText">Choose any number of stickers from any collection. Quantity discounts apply automatically.</p></div>
 
     <div class="shop-benefits"><span data-i18n="benefit1">Digital downloads</span><span data-i18n="benefit2">Transparent PNGs</span><span data-i18n="benefit3">Digital format · no shipping</span></div>
 
@@ -396,7 +422,6 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
 
 
     <section class="catalog" id="all">
-      <div class="section-head"><div><span class="eyebrow" data-i18n="allTag">MIX &amp; MATCH</span><h2 data-i18n="allTitle">Shop individual stickers</h2></div><p data-i18n="allText">Choose any number of stickers from any collection. Quantity discounts apply automatically.</p></div>
       <div id="customBuilder" class="custom-builder"><div><b id="builderTitle"></b><p id="builderText"></p></div><div id="builderSizes" class="builder-sizes" role="group"></div><div class="builder-meter" aria-hidden="true"><span id="builderMeter"></span></div><div class="builder-progress"><span id="builderProgress"></span><strong id="builderPrice" class="builder-price"></strong><button type="button" id="builderBag" class="button"></button></div></div>
       <div class="pp-discovery"><div class="pp-discovery-head"><strong id="discoverTitle">Discover your style</strong><button id="discoverAll" type="button" class="button">All designs</button></div><div id="categoryCards" class="pp-category-track"></div></div><div class="catalog-tools"><label class="sr" for="search" data-i18n="searchLabel">Search stickers</label>
       <div class="pp-search-wrap"><input class="search" id="search" type="search" autocomplete="off" data-i18n-placeholder="searchPlaceholder"><button id="clearSearch" type="button" aria-label="Clear search" hidden>×</button></div>
@@ -481,7 +506,7 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
   function group(key){return items.filter(i=>i.category===key)}
   const HERO_IDS=["creator-pink-pencil-girl","creator-camera-girl","creator-coffee-on-the-go"];
   function heroItems(){return HERO_IDS.map(id=>items.find(i=>i.id===id)).filter(Boolean)}
-  function renderHero(){const note=$('#heroArt .hero-gallery-note');if(note)note.textContent=tr('PICK · MIX · MAKE IT YOURS','ELIGE · MEZCLA · CREA');const count=$('#heroDesignCount');if(count)count.textContent=items.length?items.length+' '+tr('designs','diseños'):'';const p=$('#heroStartPrice');if(p){p.hidden=!items.some(i=>!i.previewOnly)||!Number.isSafeInteger(LAUNCH_PRICES[1])||LAUNCH_PRICES[1]<=0;p.textContent=tr('Individual stickers from ','Stickers individuales desde ')+usd(LAUNCH_PRICES[1])}}
+  function renderHero(){const note=$('#heroArt .hero-gallery-note');if(note)note.textContent=tr('PICK · MIX · MAKE IT YOURS','ELIGE · MEZCLA · CREA');/* Fixed hero marketing badge; do not derive from catalog count. */const p=$('#heroStartPrice');if(p){p.hidden=!items.some(i=>!i.previewOnly)||!Number.isSafeInteger(LAUNCH_PRICES[1])||LAUNCH_PRICES[1]<=0;p.textContent=tr('Individual stickers from ','Stickers individuales desde ')+usd(LAUNCH_PRICES[1])}}
   const PACKS={
   "cuban": {
     "members": [
