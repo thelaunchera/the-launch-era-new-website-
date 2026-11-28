@@ -3,3 +3,39 @@
 
 /* Vintage finishing and touch-reactive celebration */
 .pp-card-face{box-shadow:0 20px 42px #50332826,0 2px 5px #5033281c,inset 0 0 0 1px #d3bca140;background:linear-gradient(145deg,#fffdf8,#f6eee1)}.pp-card-note{background:linear-gradient(180deg,#fffdf5,#f9f1e5);margin:9px 0 0;border:1px solid #e4d6c5;border-radius:2px;position:relative}.pp-card-note:before{content:'';display:block;width:26px;height:1px;background:#b38b65;margin:0 auto 10px}.pp-card-controls{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:15px auto 0}.pp-card-controls[hidden]{display:none!important}.pp-card-controls .pp-card-again{margin:0}.pp-card-celebrate{background:#f9e6e0;color:#733a52;border:1px solid #c69ca9;border-radius:99px;padding:10px 17px;min-height:44px;font:800 13px Nunito,system-ui,sans-serif;cursor:pointer}.pp-card-petals{z-index:5}.pp-card-petals .pp-piece{position:absolute;top:var(--y,0%);left:var(--x,50%);width:var(--size,12px);height:var(--size,12px);background:none;opacity:0;animation:ppBurst var(--time,3s) cubic-bezier(.14,.74,.35,1) both;will-change:transform,opacity;pointer-events:none}.pp-piece svg{display:block;width:100%;height:100%;filter:drop-shadow(0 1px 1px #5f39432a)}@keyframes ppBurst{0%{opacity:0;transform:translate3d(0,0,0) rotate(0) scale(.35)}12%{opacity:.96}32%{transform:translate3d(var(--mid-x),var(--rise),0) rotate(var(--spin-half)) scale(1)}75%{opacity:.84}100%{opacity:0;transform:translate3d(var(--dx),var(--dy),0) rotate(var(--spin)) scale(.8)}}@media(prefers-reduced-motion:reduce){.pp-card-celebrate{display:none!important}}
+
+/* Atelier: compact real stationery, with a separate inside rather than an appended form. */
+.pp-card-experience{padding:clamp(14px,3vw,28px);min-height:0;background-blend-mode:normal;--paper-shadow:#533a3424}
+.pp-card-scene{min-height:0;align-content:center;transition:min-height .65s cubic-bezier(.22,.75,.25,1)}
+.pp-card-scene[data-state=closed]{min-height:235px}
+.pp-card-scene[data-state=closed] .pp-card-face{position:absolute;inset:auto;visibility:hidden;opacity:0}
+.pp-card-scene[data-state=opening]{min-height:clamp(300px,52vw,450px)}
+.pp-card-scene[data-state=opening] .pp-card-face{position:absolute;inset:auto}
+.pp-card-face{width:min(100%,300px);padding:0;border-radius:3px;background:#fff8ed;box-shadow:0 17px 32px var(--paper-shadow),0 2px 5px #50332822;overflow:hidden}
+.pp-card-art{aspect-ratio:5/7;width:100%;background:#fbf1de}
+.pp-card-art[hidden],.pp-card-note[hidden]{display:none!important}
+.pp-card-note{display:flex;flex-direction:column;justify-content:center;align-items:center;aspect-ratio:5/7;max-height:none;margin:0;border:0;border-radius:0;padding:clamp(20px,5vw,40px);box-sizing:border-box;background:linear-gradient(90deg,#e7d5bc26,transparent 12%),#fff8ed;box-shadow:inset 0 0 0 10px #fff8ed,inset 0 0 0 11px #c8a888;overflow:auto;font:400 clamp(16px,3.8vw,19px)/1.55 Georgia,serif;white-space:pre-wrap}
+.pp-card-note:before{width:34px;background:#b8916d;margin:0 auto 18px;flex:none}.pp-card-note strong{font:italic 1.2em Georgia,serif;color:#7a3e51;margin-bottom:12px}.pp-card-note p{margin:0 0 14px;max-width:100%;overflow-wrap:anywhere}.pp-card-note em{font-size:.9em;color:#966f65}
+.pp-card-note:after{content:'✦';color:#b28b62;font-size:13px;margin-top:13px}
+.pp-card-face[data-side=inside]{animation:ppPaperTurn .4s cubic-bezier(.2,.75,.3,1) both}
+.pp-card-face[data-side=cover]{animation:ppPaperTurn .4s cubic-bezier(.2,.75,.3,1) both}
+@keyframes ppPaperTurn{0%{opacity:.4;transform:perspective(900px) rotateY(-9deg) translateX(-5px)}100%{opacity:1;transform:none}}
+.pp-envelope-wrap{width:min(100%,305px);gap:14px}
+.pp-card-envelope{aspect-ratio:1.62;transform:rotate(-2deg);transition:transform .55s cubic-bezier(.22,.75,.25,1)}
+.pp-card-envelope:focus-visible{outline:2px solid #805269;outline-offset:7px}
+.pp-card-envelope:not(:disabled):hover{transform:rotate(0) translateY(-3px)}
+.pp-env-back{border-radius:4px;background:repeating-linear-gradient(0deg,#fff1 0 1px,transparent 1px 4px),linear-gradient(145deg,#fff4,#3c1d3018),var(--env);box-shadow:0 20px 28px #553b4325,0 2px 3px #553b4330}
+.pp-env-front{border-radius:4px;background:linear-gradient(132deg,#fff5 0%,transparent 55%,#59344822),var(--env)}
+.pp-env-flap{border-radius:4px;clip-path:polygon(0 0,100% 0,100% 3%,55% 57%,50% 61%,45% 57%,0 3%);background:repeating-linear-gradient(90deg,#fff1 0 1px,transparent 1px 4px),linear-gradient(170deg,#fff4,#59344818),var(--env)}
+.pp-env-flap:before{content:'';position:absolute;inset:5px 8px 0;clip-path:polygon(0 0,100% 0,50% 57%);background:repeating-linear-gradient(135deg,#f5ddc32b 0 4px,transparent 4px 8px);opacity:.7}
+.pp-env-front:after{background:linear-gradient(32deg,transparent 49.5%,#fff5 50%,transparent 50.5%),linear-gradient(-32deg,transparent 49.5%,#422b3322 50%,transparent 50.5%)}
+.pp-env-seal{width:47px;height:47px;border:0;background:radial-gradient(ellipse at 30% 20%,#c97c84,#a45369 52%,#72344d 100%);box-shadow:0 2px 3px #4f233846,inset 0 0 0 2px #d9a5a5,inset 0 0 0 5px #a6556b,inset 0 0 0 6px #e5b8a76e;transform:translate(-50%,-50%) rotate(-8deg);font-size:0}
+.pp-env-seal svg{width:24px;height:24px;display:block;color:#e9c4a8}
+.pp-env-name{font:italic clamp(17px,4.5vw,23px)/1.2 Georgia,serif;color:#4f293a;bottom:12%;letter-spacing:.015em}
+.pp-envelope-caption{font:600 12px/1.4 Nunito,system-ui,sans-serif;letter-spacing:.03em;color:#715b59}
+.pp-card-controls{gap:7px;margin-top:14px}.pp-card-controls button{min-height:44px;white-space:normal;font-size:12px;font-weight:800;padding:9px 14px}
+.pp-card-turn{background:#744053;color:#fff9ee;border:1px solid #744053;border-radius:99px;cursor:pointer;min-height:44px;font:800 13px Nunito,system-ui,sans-serif}
+.pp-card-turn[hidden]{display:none!important}
+.pp-card-watermark{opacity:.28;gap:44px;letter-spacing:1.6px}
+@media(max-width:480px){.pp-card-experience{padding:16px 12px;min-height:0}.pp-card-scene[data-state=closed]{min-height:225px}.pp-card-face{width:min(100%,270px,54dvh)}.pp-envelope-wrap{width:min(100%,285px)}.pp-card-note{padding:24px 17px}.pp-card-controls{gap:6px}.pp-card-controls button{padding:9px 12px}}
+@media(prefers-reduced-motion:reduce){.pp-card-face[data-side]{animation:none!important}.pp-card-scene{transition:none!important}}
