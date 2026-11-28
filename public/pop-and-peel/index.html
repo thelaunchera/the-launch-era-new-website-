@@ -494,8 +494,34 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
 #heroArt .hero-spark{position:absolute;color:#ad6488;font-size:clamp(16px,2.4vw,34px);line-height:1;z-index:1}
 #heroArt .hero-spark-one{left:24%;top:11%}#heroArt .hero-spark-two{right:2%;top:42%}#heroArt .hero-spark-three{left:25%;bottom:1%}
 #heroArt .hero-gallery-footer{margin-top:0}
-@media(max-width:760px){.hero .hero-copy h1{-webkit-text-stroke:5px #fffdf9}#heroArt{padding:5px 18px 17px}#heroArt .hero-gallery{gap:7px;max-width:440px}#heroArt .hero-static-row{aspect-ratio:1.45}#heroArt .hero-sticker-card{border-width:4px}#heroArt .hero-mini-sticker{border-width:2px}#heroArt .hero-mini-flowers{bottom:-2%}#heroArt .hero-mini-cat{bottom:0}#heroArt .hero-mini-coffee{bottom:0}}
-@media(min-width:761px) and (max-width:1050px){#heroArt .hero-static-row{aspect-ratio:1.12}.hero .hero-copy h1{-webkit-text-stroke:6px #fffdf9}}
+
+/* Keep the outline separated between lines and reserve a distinct row for each sticker size. */
+.hero .hero-copy h1{letter-spacing:.005em;line-height:1.14;word-spacing:.045em}
+@media(min-width:761px) and (max-width:1200px){
+ .hero .hero-copy h1{font-size:clamp(36px,4.9vw,61px);letter-spacing:.015em;word-spacing:.06em;line-height:1.2;-webkit-text-stroke:5px #fffdf9;margin-bottom:16px}
+ #heroArt .hero-static-row{aspect-ratio:1.12}
+}
+@media(max-width:760px){
+ .hero .hero-copy h1{-webkit-text-stroke:4px #fffdf9;letter-spacing:.01em;line-height:1.17;word-spacing:.04em}
+ #heroArt{padding:5px 16px 17px}
+ #heroArt .hero-gallery{gap:9px;max-width:440px}
+ #heroArt .hero-static-row{aspect-ratio:1.13;min-height:0}
+ #heroArt .hero-sticker-card{border-width:3px}
+ #heroArt .hero-sticker-card:nth-child(1){width:27%;left:4%;right:auto;top:33%;transform:rotate(-7deg);z-index:3}
+ #heroArt .hero-sticker-card:nth-child(2){width:31%;left:34.5%;right:auto;top:30%;transform:rotate(2deg);z-index:4}
+ #heroArt .hero-sticker-card:nth-child(3){width:27%;left:auto;right:4%;top:33%;transform:rotate(7deg);z-index:3}
+ #heroArt .hero-mini-sticker{width:18%;border-width:2px;z-index:2}
+ #heroArt .hero-mini-microphone{left:3%;right:auto;top:4%;bottom:auto;transform:rotate(-8deg)}
+ #heroArt .hero-mini-bow{left:28%;right:auto;top:1%;bottom:auto;transform:rotate(-5deg)}
+ #heroArt .hero-mini-butterfly{left:auto;right:28%;top:1%;bottom:auto;transform:rotate(7deg)}
+ #heroArt .hero-mini-flan{left:auto;right:3%;top:4%;bottom:auto;transform:rotate(8deg)}
+ #heroArt .hero-mini-coffee{left:12%;right:auto;top:auto;bottom:4%;width:19%;transform:rotate(-7deg)}
+ #heroArt .hero-mini-flowers{left:40.5%;right:auto;top:auto;bottom:1%;width:19%;transform:rotate(3deg)}
+ #heroArt .hero-mini-cat{left:auto;right:12%;top:auto;bottom:4%;width:19%;transform:rotate(7deg)}
+ #heroArt .hero-spark-one{left:2%;top:68%}
+ #heroArt .hero-spark-two{right:2%;top:68%}
+ #heroArt .hero-spark-three{left:50%;top:23%;bottom:auto;font-size:12px}
+}
 </style>
 <link rel="preload" as="image" href="/pop-and-peel/assets/hero-creative-strip.svg" fetchpriority="high">
 </head>
