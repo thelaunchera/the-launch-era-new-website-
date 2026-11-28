@@ -35,7 +35,7 @@ const root=new URL('../',import.meta.url);
 const s=Object.fromEntries(Object.entries(paths).map(([key,path])=>[key,readFileSync(fileURLToPath(new URL(path,root)),'utf8')]));
 const results=check(s);
 for(const [key,source] of Object.entries(s)){
- const snippets=paths[key].endsWith('.js')?[source]:[...source.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script\\s*>/gi)].filter(m=>! /\\bsrc\\s*=/.test(m[1])&&! /\\btype\\s*=\\s*['"](?:application\\/ld\\+json|application\\/json|module)['"]/i.test(m[1])).map(m=>m[2]);
+ const snippets=paths[key].endsWith('.js')?[source]:[...source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)].filter(m=>! /\bsrc\s*=/.test(m[1])&&! /\btype\s*=\s*['"](?:application\/ld\+json|application\/json|module)['"]/i.test(m[1])).map(m=>m[2]);
  for(const [i,code] of snippets.entries()){try{new Script(code,{filename:paths[key]+':script-'+i});results.push({name:key+' script '+i+' parses',ok:true})}catch(e){results.push({name:key+' script '+i+' parses: '+e.message,ok:false})}}
 }
 for(const {name,ok} of results)console.log((ok?'PASS ':'FAIL ')+name);
