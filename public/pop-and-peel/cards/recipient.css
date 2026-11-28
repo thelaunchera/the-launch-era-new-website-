@@ -39,3 +39,34 @@
 .pp-card-watermark{opacity:.28;gap:44px;letter-spacing:1.6px}
 @media(max-width:480px){.pp-card-experience{padding:16px 12px;min-height:0}.pp-card-scene[data-state=closed]{min-height:225px}.pp-card-face{width:min(100%,270px,54dvh)}.pp-envelope-wrap{width:min(100%,285px)}.pp-card-note{padding:24px 17px}.pp-card-controls{gap:6px}.pp-card-controls button{padding:9px 12px}}
 @media(prefers-reduced-motion:reduce){.pp-card-face[data-side]{animation:none!important}.pp-card-scene{transition:none!important}}
+
+/* Atelier embossed botanical stationery — shared preview, recipient and offline HTML. */
+.pp-card-experience{background-color:#f1e8de}
+.pp-envelope-wrap{width:min(100%,340px);gap:15px}
+.pp-card-envelope{aspect-ratio:1.58;transform:rotate(-1.2deg)}
+.pp-env-back{border-radius:5px;background:repeating-linear-gradient(0deg,#fff1 0 1px,transparent 1px 3px),linear-gradient(145deg,#fff5,#43223514),var(--env);box-shadow:0 14px 25px #533a3424,0 2px 4px #553b4330}
+.pp-env-front{background:linear-gradient(145deg,#fff6 0%,#fff1 45%,#4b213310),var(--env);border-radius:5px}
+.pp-env-front:after{background:linear-gradient(32deg,transparent 49.7%,#fff5 50%,transparent 50.5%),linear-gradient(-32deg,transparent 49.7%,#422b3320 50%,transparent 50.5%)}
+.pp-env-flap{clip-path:polygon(0 0,100% 0,100% 2%,57% 53%,50% 60%,43% 53%,0 2%);background:linear-gradient(165deg,#fff7,#5934480f),var(--env);filter:drop-shadow(0 1px 1px #4b28343b)}
+.pp-env-flap:before{inset:0;clip-path:none;background-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22112%22%20height%3D%2284%22%20viewBox%3D%220%200%20112%2084%22%3E%3Cg%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cg%20id%3D%22v%22%3E%3Cpath%20d%3D%22M-6%2077Q20%2047%2046%2045T105%203M28%2050Q34%2028%2018%2013M48%2044Q68%2037%2074%2018M75%2028Q97%2037%20110%2029M18%2062Q34%2068%2041%2079M48%2044Q51%2062%2066%2069%22%2F%3E%3Cpath%20d%3D%22M18%2061Q3%2058%208%2047Q22%2049%2018%2061ZM31%2040Q18%2040%2019%2027Q32%2029%2031%2040ZM57%2039Q54%2023%2067%2025Q70%2036%2057%2039ZM82%2022Q77%209%2091%207Q95%2019%2082%2022ZM91%2034Q100%2023%20108%2030Q103%2040%2091%2034ZM38%2067Q49%2061%2055%2075Q43%2080%2038%2067ZM57%2061Q71%2058%2077%2070Q63%2075%2057%2061Z%22%2F%3E%3Cpath%20d%3D%22M18%2013c-10-9-17%203-8%208-12%202-9%2015%202%2010-2%2010%2012%2012%2014%200%2010%207%2017-5%206-10%2010-8%200-17-8-9-1-8-7-9-6%201ZM74%2018c-7-8-12%201-7%206-10%200-10%2010-1%2010-2%2010%209%2011%2012%202%208%204%2014-4%206-8%207-7-1-13-6-7-1-6-5-8-4-3Z%22%2F%3E%3Ccircle%20cx%3D%2221%22%20cy%3D%2222%22%20r%3D%223%22%2F%3E%3Ccircle%20cx%3D%2275%22%20cy%3D%2228%22%20r%3D%222.5%22%2F%3E%3C%2Fg%3E%3Cg%20stroke%3D%22%23704255%22%20stroke-opacity%3D%22.23%22%20stroke-width%3D%221.5%22%3E%3Cuse%20href%3D%22%23v%22%20transform%3D%22translate(.8%201)%22%2F%3E%3C%2Fg%3E%3Cg%20stroke%3D%22%23fff1e6%22%20stroke-opacity%3D%22.64%22%20stroke-width%3D%221.15%22%3E%3Cuse%20href%3D%22%23v%22%20transform%3D%22translate(-.25%20-.45)%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E');background-size:112px 84px;background-repeat:repeat;opacity:.85}
+.pp-env-seal{width:42px;height:42px;top:57%;background:radial-gradient(ellipse at 30% 20%,#e7b5b5,#c27e8d 54%,#a05e74 100%);box-shadow:0 3px 4px #4f23383b,inset 0 0 0 2px #efc5be,inset 0 0 0 5px #c98491,inset 0 0 0 6px #f2d3c36e}
+.pp-env-seal svg{width:21px;height:21px;color:#f8e0cb}
+.pp-env-name{bottom:11%;font-size:clamp(17px,4.2vw,23px)}
+.pp-envelope-caption{font-size:12px;letter-spacing:.01em}
+.pp-card-scene[data-state=closed]{min-height:0;padding:12px 4px 4px}
+.pp-card-scene[data-state=opening]{min-height:clamp(300px,52vw,450px)}
+@media(max-width:480px){.pp-envelope-wrap{width:min(100%,292px)}.pp-card-scene[data-state=closed]{min-height:0}.pp-card-envelope{aspect-ratio:1.58}.pp-env-flap:before{background-size:92px 69px}}
+
+/* Native dialog must size to its content, not inherit the full-height shopping drawer. */
+#recipientDialog{position:fixed;inset:0;width:min(calc(100% - 24px),560px);max-width:calc(100% - 24px);height:fit-content!important;min-height:0!important;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);margin:auto!important;overflow-y:auto;overscroll-behavior:contain;border-radius:20px;background:#fffaf1;box-shadow:0 18px 70px #271a2233}
+#recipientDialog .recipient-shell{padding:14px;display:block;height:auto;min-height:0}
+#recipientDialog .recipient-top{position:static;display:flex;gap:10px;margin:0 0 8px;padding:0 0 8px;background:transparent}
+#recipientDialog .recipient-top strong{font-size:13px;color:#5f4952}
+#recipientDialog .recipient-top .pill{background:#fffdf8;color:#704052;border:1px solid #d9c4cb;box-shadow:none;min-height:44px;font-size:12px;padding:8px 12px}
+#recipientDialog .recipient-top .pill:focus-visible{outline:2px solid #944a70;outline-offset:2px}
+#recipientTitle:focus{outline:none}
+#recipientDialog .stage{min-height:0!important;height:auto!important;padding:16px 12px;border-radius:14px}
+#recipientDialog .pp-card-scene[data-state=closed]{min-height:0!important;padding:16px 3px 8px}
+#recipientDialog .pp-card-scene[data-state=opening]{min-height:clamp(250px,48dvh,380px)}
+#recipientDialog .recipient-shell .muted{font-size:11px;margin:9px 0 0;color:#786a61}
+@media(max-width:480px){#recipientDialog{width:calc(100% - 24px)}#recipientDialog .recipient-shell{padding:12px}#recipientDialog .stage{padding:13px 8px}#recipientDialog .pp-card-face{width:min(100%,260px,48dvh)}}
