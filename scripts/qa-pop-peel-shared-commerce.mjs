@@ -12,7 +12,8 @@ const paths={
   "receive": "public/pop-and-peel/cards/receive/index.html",
   "access": "public/pop-and-peel/planners/planner-access.js",
   "renderer": "public/pop-and-peel/cards/renderer.js",
-  "studio": "public/pop-peel-studio/index.html"
+  "studio": "public/pop-peel-studio/index.html",
+  "mini": "public/pop-and-peel/planners/mini/index.html"
 };
 function check(s){
  const out=[];const test=(name,ok)=>out.push({name,ok:!!ok});
@@ -28,6 +29,8 @@ function check(s){
  test("paid planner path passes token to entitlement endpoint",s.access.includes("purchase_token:")&&s.access.includes("pop-peel-planner-app"));
  test("paid planner path removes fragment",s.access.includes("history.replaceState")&&s.access.includes("location.hash"));
  test("card renderer provides PNG, PDF, HTML",/window\.PopPeelCards\s*=\s*\{[^}]*\bpng\b[^}]*\bpdf\b[^}]*\bhtml\b/.test(s.renderer));
+ test("mini planner has consent-aware freebie gate",s.mini.includes("mini-planner")&&s.mini.includes("signupConsent")&&s.mini.includes("planner_ready"));
+ test("mini planner has local access and no required marketing consent",s.mini.includes("pop-peel-mini-access-v1")&&!/id="signupConsent"[^>]*required/.test(s.mini));
  for(const [page,source] of Object.entries(s))test(page+" has no unresolved merge markers",!/^<{7} |^={7}$|^>{7} /m.test(source));
  return out;
 }
