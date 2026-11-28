@@ -203,8 +203,8 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
   function stickerCode(id){let a=2166136261,b=0x9e3779b9;for(let j=0;j<id.length;j++){const c=id.charCodeAt(j);a=Math.imul(a^c,16777619);b=Math.imul(b^c,2246822519);b^=b>>>13}return 'PP-'+(a>>>0).toString(16).padStart(8,'0').toUpperCase()+(b>>>0).toString(16).padStart(8,'0').slice(0,4).toUpperCase()}
   function esc(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
   const PREVIEW_BASE='https://ulmjngflopipcradglno.supabase.co/functions/v1/pop-peel-preview/';
-  const assetSrc=item=>item?PREVIEW_BASE+encodeURIComponent(item.id)+'?size=thumb&v=2':'';
-  async function readerAsset(item){return item?PREVIEW_BASE+encodeURIComponent(item.id)+'?size=hd&v=2':''}
+  const assetSrc=item=>item?PREVIEW_BASE+encodeURIComponent(item.id)+'?size=thumb&v=3':'';
+  async function readerAsset(item){return item?PREVIEW_BASE+encodeURIComponent(item.id)+'?size=hd&v=3':''}
   function loadChunk(name){if(!name)return Promise.resolve();if(loadedChunks.has(name))return Promise.resolve();if(pendingChunks.has(name))return pendingChunks.get(name);const request=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL(name+'.js?v=pick-mix-v9-20261127',new URL('/digital-stickers/assets/data/',location.origin)).href;script.onload=()=>{loadedChunks.add(name);pendingChunks.delete(name);resolve()};script.onerror=()=>{pendingChunks.delete(name);reject(new Error(`Could not load ${name}`))};document.head.appendChild(script)});pendingChunks.set(name,request);return request}
   function ensureCategory(category,all=true){return Promise.resolve()}
   function ensureItems(list){return Promise.resolve()}
@@ -213,7 +213,7 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
   function group(key){return items.filter(i=>i.category===key)}
   const HERO_IDS=["creator-pink-pencil-girl","creator-camera-girl","creator-coffee-on-the-go"];
   function heroItems(){return HERO_IDS.map(id=>items.find(i=>i.id===id)).filter(Boolean)}
-  function renderHero(){if(!items.length)return;$('#heroArt').innerHTML=`<div class="hero-gallery"><span class="hero-gallery-note">${lang==='es'?'ELIGE · MEZCLA · CREA':'PICK · MIX · MAKE IT YOURS'}</span><div class="hero-character-row">${heroItems().map(i=>`<img src="${PREVIEW_BASE+encodeURIComponent(i.id)}?size=hd&v=2" alt="${esc(i.title)}" decoding="async" fetchpriority="high">`).join('')}</div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO</span></div>`}
+  function renderHero(){if(!items.length)return;$('#heroArt').innerHTML=`<div class="hero-gallery"><span class="hero-gallery-note">${lang==='es'?'ELIGE · MEZCLA · CREA':'PICK · MIX · MAKE IT YOURS'}</span><div class="hero-character-row">${heroItems().map(i=>`<img src="${PREVIEW_BASE+encodeURIComponent(i.id)}?size=hd&v=3" alt="${esc(i.title)}" decoding="async" fetchpriority="high">`).join('')}</div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO</span></div>`}
   const PACKS={
   "cuban": {
     "members": [
