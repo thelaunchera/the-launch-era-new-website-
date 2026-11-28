@@ -125,6 +125,7 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
 .hero-gallery{width:100%;gap:12px}.hero-character-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:9px;background:#fffaf4;border:1px solid #f1e4d9;border-radius:20px;align-items:center}.hero-character-row img,.hero-character-row img:nth-child(2){width:100%;height:auto;aspect-ratio:1;object-fit:contain;object-position:center;transform:none!important;rotate:0!important;translate:0!important;mix-blend-mode:normal;border-radius:12px;box-shadow:none;padding:0;background:#faf7f3;image-rendering:auto}.hero-gallery-footer{justify-content:flex-start;padding-top:11px;min-height:0}.book-browse{justify-content:center;text-align:center;appearance:none;-webkit-appearance:none;color:#fff;-webkit-text-fill-color:#fff}.book-browse span{display:none}.book-preview,#packPager .button{appearance:none;-webkit-appearance:none;color:#29221e;-webkit-text-fill-color:#29221e}#packPager .button:disabled{opacity:.45}.collection-art img{object-fit:contain;image-rendering:auto;mix-blend-mode:normal}.hero-gallery-footer span{display:none}@media(max-width:760px){.hero-gallery{gap:8px}.hero-character-row{gap:4px;padding:5px;border-radius:16px}.hero-character-row img,.hero-character-row img:nth-child(2){border-radius:9px}.hero-gallery-footer{padding-top:8px}.book-browse,.book-preview,#packPager .button{min-height:40px}}
 
 #previewRetryNote[hidden]{display:none!important}.shopping-tile .tile-view b{font-variant-numeric:tabular-nums;letter-spacing:.035em;font-weight:800;min-height:0}.tile-art img{image-rendering:auto}
+.hero-character-row:has(.hero-decorative-strip){grid-template-columns:minmax(0,1fr)}.hero-character-row .hero-decorative-strip{width:100%;height:auto;aspect-ratio:1456/480;object-fit:contain;background:transparent;border-radius:0}
 </style>
 </head>
 <body>
@@ -220,7 +221,7 @@ html,body{max-width:100%;overflow-x:clip}main,.gallery,.books{min-width:0;max-wi
   function group(key){return items.filter(i=>i.category===key)}
   const HERO_IDS=["creator-pink-pencil-girl","creator-camera-girl","creator-coffee-on-the-go"];
   function heroItems(){return HERO_IDS.map(id=>items.find(i=>i.id===id)).filter(Boolean)}
-  function renderHero(){if(!items.length)return;$('#heroArt').innerHTML=`<div class="hero-gallery"><span class="hero-gallery-note">${lang==='es'?'ELIGE · MEZCLA · CREA':'PICK · MIX · MAKE IT YOURS'}</span><div class="hero-character-row">${heroItems().map(i=>`<img src="${PREVIEW_BASE+encodeURIComponent(i.id)}?size=hd&v=3" alt="${esc(i.title)}" decoding="async" fetchpriority="high">`).join('')}</div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO</span></div>`}
+  function renderHero(){if(!items.length)return;$('#heroArt').innerHTML=`<div class="hero-gallery"><span class="hero-gallery-note">${lang==='es'?'ELIGE · MEZCLA · CREA':'PICK · MIX · MAKE IT YOURS'}</span><div class="hero-character-row"><img class="hero-decorative-strip" src="/pop-and-peel/assets/hero-creative-strip.svg" alt="" width="1456" height="480" decoding="async" fetchpriority="high"></div><span class="hero-gallery-footer">POP &amp; PEEL STUDIO</span></div>`}
   const PACKS={
   "cuban": {
     "members": [
