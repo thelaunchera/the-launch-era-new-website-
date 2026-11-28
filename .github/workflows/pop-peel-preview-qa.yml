@@ -1,0 +1,55 @@
+name: Prepare Pop & Peel protected previews
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/pop-peel-preview-qa.yml'
+permissions:
+  contents: read
+concurrency:
+  group: pop-peel-preview-qa
+  cancel-in-progress: false
+jobs:
+  previews:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate and cache pending thumbnails
+        shell: bash
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const source=fs.readFileSync('public/pop-and-peel/index.html','utf8');
+          const api=source.match(/const CATALOG_API='([^']+)'/)[1];
+          const key=source.match(/CATALOG_KEY='([^']+)'/)[1];
+          const edge='https://ulmjngflopipcradglno.supabase.co/functions/v1/pop-peel-preview/';
+          const all=[];
+          for(let offset=0;;offset+=500){
+            const res=await fetch(api+'shop_catalog?select=public_id,preview_qa&published=eq.true&preview_qa=eq.pending&order=public_id.asc&limit=500&offset='+offset,{headers:{apikey:key},signal:AbortSignal.timeout(20000)});
+            if(!res.ok)throw Error('Catalog read failed '+res.status);
+            const rows=await res.json();all.push(...rows);if(rows.length<500)break;
+          }
+          let index=0,ok=0,rejected=0,unresolved=0;
+          async function worker(){
+            while(index<all.length){
+              const item=all[index++];
+              if(!/^[a-z0-9][a-z0-9_-]{0,160}$/.test(item.public_id)){unresolved++;continue}
+              let done=false;
+              for(let attempt=0;attempt<2&&!done;attempt++){
+                try{
+                  const res=await fetch(edge+encodeURIComponent(item.public_id)+'?size=thumb&check=1',{signal:AbortSignal.timeout(25000)});
+                  if(res.ok){const data=await res.json();if(data.ready===true){ok++;done=true;break}}
+                  if(res.status===422||res.status===404){rejected++;done=true;break}
+                }catch{}
+                if(!done)await new Promise(r=>setTimeout(r,1500));
+              }
+              if(!done)unresolved++;
+              if((ok+rejected+unresolved)%25===0)console.log({ok,rejected,unresolved,total:all.length});
+            }
+          }
+          await Promise.all(Array.from({length:3},worker));
+          console.log('Preview checks:',{total:all.length,ok,rejected,unresolved});
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,'### Protected previews\n- Requested: '+all.length+'\n- Confirmed: '+ok+'\n- Rejected or missing: '+rejected+'\n- Retry needed: '+unresolved+'\n');
+          JS
