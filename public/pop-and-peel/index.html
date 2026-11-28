@@ -317,6 +317,55 @@ html.pp-menu-open .pp-quick-bag{visibility:hidden}
   #heroArt .hero-gallery{padding:4px 0;gap:8px}
   #heroArt .hero-gallery-footer span{font-size:8px;padding:5px 8px}
 }
+
+/* Wide-screen refinement: fluid columns, artwork sized by its actual available width. */
+@media(min-width:761px){
+  .hero{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);align-items:center}
+  .hero-copy,#heroArt{min-width:0}
+  #heroArt{width:100%;min-height:0;align-self:center;padding:clamp(20px,2.6vw,50px)}
+  #heroArt .hero-gallery{width:100%;max-width:900px;height:auto;padding:0;gap:16px}
+  #heroArt .hero-static-row{width:100%;aspect-ratio:1.44;min-height:0;max-height:none}
+  #heroArt .hero-gallery-note{font-size:12px}
+  #heroArt .hero-sticker-card{width:47%;max-width:none;border-width:clamp(6px,.65vw,12px);border-radius:clamp(18px,1.7vw,32px)}
+  #heroArt .hero-sticker-card img{width:303.333333%!important;max-height:none!important}
+  #heroArt .hero-sticker-card:nth-child(2) img{transform:translateX(-33.516484%)!important}
+  #heroArt .hero-sticker-card:nth-child(3) img{transform:translateX(-67.032967%)!important}
+  #heroDesignCount:empty{display:none!important}
+}
+@media(min-width:761px) and (max-width:1199px){
+  main{max-width:100%;padding-inline:clamp(22px,3vw,38px)}
+  .hero-copy{padding:clamp(28px,4vw,48px)}
+  .hero h1{font-size:clamp(40px,5.6vw,67px);line-height:1.04}
+  .hero p{font-size:17px}
+  .shelf-track{grid-auto-columns:clamp(178px,19vw,225px)}
+}
+@media(min-width:1200px){
+  main{width:100%;max-width:2040px;padding-inline:clamp(38px,3.4vw,84px)}
+  .hero{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);min-height:clamp(500px,37vw,760px)}
+  .hero-copy{padding:clamp(42px,4.1vw,82px)}
+  .hero h1{font-size:clamp(62px,5.2vw,108px);line-height:1.02}
+  .hero p{font-size:clamp(18px,1.2vw,24px)}
+  .hero .actions{gap:12px}
+  .hero .actions .button{font-size:clamp(14px,1.1vw,17px);padding-inline:clamp(17px,1.5vw,27px)}
+  .hero .eyebrow{font-size:13px}
+  #gallery:not(.shelves){grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:18px}
+  .shelf-track{grid-auto-columns:clamp(225px,15vw,300px);gap:18px}
+  .shopping-tile .tile-view b{font-size:14px}
+  .shopping-tile .tile-view .pp-sticker-meta b{font-size:14px}
+  .pp-sticker-meta>span{font-size:13px}
+  .shopping-tile .sticker-add{min-height:46px;font-size:15px}
+  .pp-category-track{grid-auto-columns:clamp(118px,8.4vw,150px)}
+  .pp-category-card{height:clamp(128px,9vw,158px)}
+  .pp-category-card img{width:clamp(76px,5.8vw,100px);height:clamp(76px,5.8vw,100px)}
+  .pp-category-card span{font-size:13px}
+  .books{grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:22px}
+  .pp-footer-inner,.pp-footer-bottom{max-width:1872px}
+}
+@media(min-width:1700px){
+  #gallery:not(.shelves){grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+  .hero .actions .button{min-height:58px}
+  .pp-footer a{font-size:15px}
+}
 </style>
 <link rel="preload" as="image" href="/pop-and-peel/assets/hero-creative-strip.svg" fetchpriority="high">
 </head>
