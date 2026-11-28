@@ -316,6 +316,14 @@ jobs:
                   raise RuntimeError(f"Editorial photo not referenced on landing: {name}")
           PY
 
+      - name: Keep retired Pop & Peel preview bundles out of the public artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Originals and legacy assets remain in their source locations; the public shop uses protected server previews.
+          rm -rf -- .output/public/digital-stickers/assets/data
+          test ! -e .output/public/digital-stickers/assets/data
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
