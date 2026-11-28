@@ -1,0 +1,294 @@
+[
+  {
+    "slug": "avatars",
+    "en": "Illustrated character stickers",
+    "es": "Stickers de personajes ilustrados",
+    "bodyEn": "Everyday characters for a visual diary, habit tracker or digital scrapbook. Use a character to mark a moment rather than writing a long note.",
+    "bodyEs": "Personajes cotidianos para un diario visual, registro de hábitos o álbum digital. Usa un personaje para representar un momento sin escribir una nota larga.",
+    "samples": [
+      {
+        "id": "avatar-01-curly-coffee-woman",
+        "num": 1
+      },
+      {
+        "id": "avatar-02-hijabi-grocery-woman",
+        "num": 2
+      },
+      {
+        "id": "avatar-03-short-hair-book-woman",
+        "num": 3
+      },
+      {
+        "id": "avatar-04-plus-size-phone-woman",
+        "num": 4
+      }
+    ]
+  },
+  {
+    "slug": "creator",
+    "en": "Creative character stickers",
+    "es": "Stickers de personajes creativos",
+    "bodyEn": "Add a playful touch to project boards, creative notes and idea lists. Pair illustrated characters with your own headings to separate ideas from tasks.",
+    "bodyEs": "Añade un detalle divertido a tus tableros de proyectos, notas creativas y listas de ideas. Combina personajes con tus propios títulos para separar ideas y tareas.",
+    "samples": [
+      {
+        "id": "creator-blue-pencil-girl",
+        "num": 28
+      },
+      {
+        "id": "creator-camera-girl",
+        "num": 29
+      },
+      {
+        "id": "creator-coffee-on-the-go",
+        "num": 30
+      },
+      {
+        "id": "creator-cream-bunny",
+        "num": 31
+      }
+    ]
+  },
+  {
+    "slug": "pets",
+    "en": "Pet and animal stickers",
+    "es": "Stickers de mascotas y animales",
+    "bodyEn": "Decorate a pet journal, memory page or daily routine with companion-animal illustrations. Mix them with your own notes about walks, feeding and little moments together.",
+    "bodyEs": "Decora un diario de mascotas, una página de recuerdos o tu rutina con ilustraciones de animales. Combínalas con tus notas sobre paseos, alimentación y momentos juntos.",
+    "samples": [
+      {
+        "id": "pet-cat-cardboard-box",
+        "num": 325
+      },
+      {
+        "id": "pet-cat-dog-friendship",
+        "num": 326
+      },
+      {
+        "id": "pet-cat-loaf-sunbeam",
+        "num": 327
+      },
+      {
+        "id": "pet-happy-dog-bandana",
+        "num": 333
+      }
+    ]
+  },
+  {
+    "slug": "cuban",
+    "en": "Cuban food and culture stickers",
+    "es": "Stickers de comida y cultura cubana",
+    "bodyEn": "Bring cafecito and Cuban food-inspired illustrations into recipe journals, family memories and personal creative projects. Use them as decorative accents on a page about home.",
+    "bodyEs": "Lleva ilustraciones inspiradas en el cafecito y la cocina cubana a recetarios, recuerdos familiares y proyectos personales. Úsalas para decorar una página sobre el hogar.",
+    "samples": [
+      {
+        "id": "cafe-con-leche-and-cuban-toast",
+        "num": 25
+      },
+      {
+        "id": "cuban-comfort-bowl-beans-rice-plantains",
+        "num": 48
+      },
+      {
+        "id": "cuban-espresso-and-dominoes",
+        "num": 49
+      },
+      {
+        "id": "cuban-moka-pot-espresso",
+        "num": 50
+      }
+    ]
+  },
+  {
+    "slug": "cleaning",
+    "en": "Cleaning and organization stickers",
+    "es": "Stickers de limpieza y organización",
+    "bodyEn": "Give a visual rhythm to home-care checklists and cleaning-business planners. Place decorative illustrations beside your own routine, supply list or appointment notes.",
+    "bodyEs": "Dale un ritmo visual a las listas de limpieza y agendas de negocios de limpieza. Coloca ilustraciones junto a tus propias rutinas, listas de suministros o citas.",
+    "samples": [
+      {
+        "id": "cheerful-clean-house-sticker",
+        "num": 26
+      },
+      {
+        "id": "cleaning-ready-sneakers-and-gloves",
+        "num": 27
+      },
+      {
+        "id": "dusty-to-sparkling-house",
+        "num": 53
+      },
+      {
+        "id": "morning-route-tumbler-and-keys",
+        "num": 324
+      }
+    ]
+  },
+  {
+    "slug": "bows",
+    "en": "Bow and ribbon stickers",
+    "es": "Stickers de lazos y cintas",
+    "bodyEn": "Frame a favorite memory, accent a journal heading or decorate a digital gift note with ribbon-inspired illustrations. Combine small accents with open space for an uncluttered layout.",
+    "bodyEs": "Enmarca un recuerdo, resalta un título o decora una nota de regalo digital con ilustraciones de cintas. Combina detalles pequeños con espacio libre para un diseño limpio.",
+    "samples": [
+      {
+        "id": "lab-recovered-1d93c8421adbfd139d21706c0582e2e2f01467a3beb99434be9866f83323883e",
+        "num": 88
+      },
+      {
+        "id": "lab-recovered-219501730fb8888f8665a3fe39ec6c0e297e082e8346be9672b05ec711d5d587",
+        "num": 93
+      },
+      {
+        "id": "lab-recovered-2b4f4f0537bb5bf0408b4a5d33a0a10f9dd2fb252a5ac6550b02ecf839f06718",
+        "num": 99
+      },
+      {
+        "id": "lab-recovered-4680cd6c40016c90a3478b1ef2036f46de7115d63b0925915d1d7a758f1221b2",
+        "num": 132
+      }
+    ]
+  },
+  {
+    "slug": "winter",
+    "en": "Winter and cozy stickers",
+    "es": "Stickers de invierno y momentos acogedores",
+    "bodyEn": "Create seasonal journal pages, cozy evening plans and winter mood boards. Choose a few illustrations to complement a warm-toned layout or a personal holiday memory page.",
+    "bodyEs": "Crea páginas de diario de temporada, planes para noches acogedoras y tableros de invierno. Elige ilustraciones para complementar una composición cálida o tus recuerdos festivos.",
+    "samples": [
+      {
+        "id": "lab-recovered-00fd17cedd1be84f76dfd5204f15b69c1879932d413892364d0e53d3d5b480f9",
+        "num": 58
+      },
+      {
+        "id": "lab-recovered-0cd1b382bcf92c95aa225a60d7007438a9934d7a7ea892d12cbc8b5f2770e812",
+        "num": 72
+      },
+      {
+        "id": "lab-recovered-12d8c98acace743409f76be2d667128cf69f20ecae95da61fd0102280ea68d0e",
+        "num": 79
+      },
+      {
+        "id": "lab-recovered-3151988a648e92b9d98cdb6dd786942c225eab19619aa7fac6f31d2471c896ec",
+        "num": 107
+      }
+    ]
+  },
+  {
+    "slug": "fitness",
+    "en": "Fitness and wellness stickers",
+    "es": "Stickers de fitness y bienestar",
+    "bodyEn": "Personalize a workout diary, movement calendar or wellness journal. Use decorative graphics alongside your own goals and routine notes, without treating them as exercise instructions.",
+    "bodyEs": "Personaliza un diario de ejercicio, calendario de movimiento o agenda de bienestar. Usa gráficos decorativos junto a tus metas y rutinas, sin tomarlos como instrucciones de ejercicio.",
+    "samples": [
+      {
+        "id": "lab-recovered-0766b27e142a9069a434f70d194bfbace809c0e150986c8dd6099e3f15b33278",
+        "num": 65
+      },
+      {
+        "id": "lab-recovered-08366dc9966f5808d99094dc2886ad179aec75b14e65da4585ba7370845913ae",
+        "num": 68
+      },
+      {
+        "id": "lab-recovered-094df8eddca1c26c52cced97628e64609b0661281e968173ed6b19abe43471f3",
+        "num": 69
+      },
+      {
+        "id": "lab-recovered-2415260abb99bb7544328a978174a633fb891bc16886fa84a8ded446fbfe7eba",
+        "num": 94
+      }
+    ]
+  },
+  {
+    "slug": "tech",
+    "en": "Technology and interface stickers",
+    "es": "Stickers de tecnología e interfaces",
+    "bodyEn": "Explore interface-inspired graphics for digital project boards, technology journals and design mood boards. Add visual accents to notes about your tools or creative workflow.",
+    "bodyEs": "Explora gráficos inspirados en interfaces para tableros digitales, diarios de tecnología e inspiración de diseño. Añade detalles visuales a tus notas sobre herramientas y procesos creativos.",
+    "samples": [
+      {
+        "id": "lab-recovered-0140fee30f4d10bed74be1f901df593b6e4b5b2d261188201349952ab65839ea",
+        "num": 59
+      },
+      {
+        "id": "lab-recovered-032caaa5bf9195bd164c385d2365120a607e5f2d6d886728e8d00f5380537097",
+        "num": 60
+      },
+      {
+        "id": "lab-recovered-162934cb1a129cfa61d6364eafc572b7cb82f38cf5997793a016b098dcab53f4",
+        "num": 82
+      },
+      {
+        "id": "lab-recovered-1ba60cbc8063486fdf332c7583fbb827a1552f83ad1b8380ac0a5b037461b17b",
+        "num": 87
+      }
+    ]
+  },
+  {
+    "slug": "bookshop",
+    "en": "Book and reading stickers",
+    "es": "Stickers de libros y lectura",
+    "bodyEn": "Make reading logs, book-club notes and literary memory pages feel more personal. Pair decorative illustrations with your own book titles, reading dates and favorite observations.",
+    "bodyEs": "Personaliza registros de lectura, notas de clubes de libros y recuerdos literarios. Combina ilustraciones decorativas con tus propios títulos, fechas de lectura y observaciones.",
+    "samples": [
+      {
+        "id": "studio-05c48771-5353-40b5-b072-0e0cf9cdf10b",
+        "num": 405
+      },
+      {
+        "id": "studio-11f5c50d-c3be-4bac-9f65-355fe40eed62",
+        "num": 419
+      },
+      {
+        "id": "studio-314c0766-a1e3-4c7b-8fef-3b42196cfce3",
+        "num": 463
+      },
+      {
+        "id": "studio-a8b02ec0-b591-4904-953a-64560f4cc7f7",
+        "num": 629
+      }
+    ]
+  },
+  {
+    "slug": "coffee-gym",
+    "en": "Coffee and everyday life stickers",
+    "es": "Stickers de café y vida cotidiana",
+    "bodyEn": "Bring small everyday rituals into a digital planner. Use illustrations to decorate morning notes, a weekly schedule or a scrapbook of ordinary moments.",
+    "bodyEs": "Lleva pequeños rituales cotidianos a tu agenda digital. Usa ilustraciones para decorar notas matutinas, tu calendario semanal o un álbum de momentos sencillos.",
+    "samples": [
+      {
+        "id": "studio-2f532f7a-3eee-4f5c-8a3a-5d3fe3feb6eb",
+        "num": 460
+      },
+      {
+        "id": "studio-445ea023-17fa-42b0-ab7d-5b1881a78e16",
+        "num": 481
+      },
+      {
+        "id": "studio-46dcedf1-b0fa-447f-8004-26ae63717409",
+        "num": 485
+      }
+    ]
+  },
+  {
+    "slug": "food-drinks",
+    "en": "Food and drink stickers",
+    "es": "Stickers de comida y bebidas",
+    "bodyEn": "Decorate a recipe notebook, meal-planning page or food journal with illustrated accents. Keep your actual ingredients and cooking instructions separate and easy to read.",
+    "bodyEs": "Decora un recetario, planificador de comidas o diario gastronómico con detalles ilustrados. Mantén tus ingredientes e instrucciones de cocina separados y fáciles de leer.",
+    "samples": [
+      {
+        "id": "lab-recovered-07f39778bbb64281f2fdd02a4a7c3865258b283e699ffee1dd1ee7c7e115b205",
+        "num": 67
+      },
+      {
+        "id": "lab-recovered-133801696dd796712705c63254b3a45a151c68a4bf6e06f10bfe9a077bf787b9",
+        "num": 80
+      },
+      {
+        "id": "lab-recovered-38087ceb67365606ee53db0560c9cdd3628a079eca500b410b8fc8c86b45dc52",
+        "num": 112
+      }
+    ]
+  }
+]
