@@ -224,6 +224,7 @@ jobs:
           cp .output/public/pop-and-peel/index.html .output/public/index.html
           mkdir -p .output/public/es
           cp .output/public/pop-and-peel/index.html .output/public/es/index.html
+          node scripts/prepare-pop-peel-seo.mjs .output/public
           echo "Pop & Peel Studio: root, Spanish root and existing direct routes prepared."
 
       - name: Create GitHub Pages route fallbacks
